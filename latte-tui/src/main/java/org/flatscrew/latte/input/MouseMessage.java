@@ -2,6 +2,10 @@ package org.flatscrew.latte.input;
 
 import org.flatscrew.latte.Message;
 
+/**
+ * Mouse input event data.
+ * Bubble Tea: seeks to replicate charmbracelet/bubbletea/mouse.go MouseMsg/MouseEvent behavior.
+ */
 public class MouseMessage implements Message {
     private final int x;
     private final int y;
@@ -117,7 +121,7 @@ public class MouseMessage implements Message {
 
     public static MouseMessage parseSGRMouseEvent(int button, int col, int row, boolean release) {
         MouseEvent event = parseMouseButton(button, true);
-        if (release) {
+        if (release && event.action != MouseAction.MouseActionMotion && !isWheelButton(event.button)) {
             event.action = MouseAction.MouseActionRelease;
             event.button = MouseButton.MouseButtonNone;
         }
