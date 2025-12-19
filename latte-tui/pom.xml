@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.williamagh</groupId>
         <artifactId>latte-parent</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </parent>
 
     <artifactId>latte-tui</artifactId>
@@ -15,6 +15,8 @@
     <url>https://github.com/WilliamAGH/latte-v2</url>
 
     <properties>
+        <!-- Override parent: this module SHOULD be deployed -->
+        <maven.deploy.skip>false</maven.deploy.skip>
         <jline.version>3.26.1</jline.version>
         <icu4j.version>76.1</icu4j.version>
         <commons-text.version>1.13.0</commons-text.version>
@@ -69,6 +71,31 @@
 
     <build>
         <plugins>
+            <!-- Flatten POM for publishing (removes parent reference) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <flattenMode>ossrh</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

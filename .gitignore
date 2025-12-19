@@ -58,3 +58,6 @@ bin/
 # Maven settings (contains secrets)
 settings.xml
 **/settings.xml
+
+# Flatten plugin generated files
+.flattened-pom.xml
