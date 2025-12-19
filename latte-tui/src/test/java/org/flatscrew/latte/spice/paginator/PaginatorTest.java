@@ -37,15 +37,6 @@ class PaginatorTest {
         assertThat(paginator.totalPages()).isEqualTo(totalPages);
     }
 
-    private static Stream<Arguments> totalPagesCases() {
-        return Stream.of(
-                Arguments.of("Less than one page", 5, 1, 5),
-                Arguments.of("Exactly one page", 10, 1, 10),
-                Arguments.of("More than one page", 15, 1, 15),
-                Arguments.of("negative value for page", -10, 1, 1)
-        );
-    }
-
     @ParameterizedTest(name = "{0}")
     @MethodSource("prevPageCases")
     void test_PrevPage(String name, int totalPages, int page, int expected) {

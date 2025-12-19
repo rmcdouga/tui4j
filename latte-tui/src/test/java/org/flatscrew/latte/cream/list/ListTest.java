@@ -53,7 +53,7 @@ class ListTest {
     void test_ListItems() {
         // given
         List list = new List()
-                .items(new String[]{"Foo", "Bar", "Baz"});
+                .items("Foo", "Bar", "Baz");
 
         // when
         String rendered = list.render();
@@ -567,7 +567,7 @@ class ListTest {
                 "S",
                 new List().items("neovim", "vscode"),
                 "HI",
-                new List().items(new String[]{"vim", "doom emacs"}),
+                new List().items("vim", "doom emacs"),
                 "Parent 2",
                 new List().item("I like fuzzy socks")
         );
