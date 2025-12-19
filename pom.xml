@@ -6,7 +6,7 @@
 
     <groupId>io.github.williamagh</groupId>
     <artifactId>latte-parent</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Latte TUI</name>
     <description>Terminal User Interface framework for Java - a port of Go's Bubble Tea</description>
@@ -26,6 +26,18 @@
             <modules>
                 <module>latte-tui</module>
             </modules>
+        </profile>
+        <profile>
+            <id>snapshot</id>
+            <modules>
+                <module>latte-tui</module>
+            </modules>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+            </distributionManagement>
         </profile>
         <profile>
             <id>default</id>
