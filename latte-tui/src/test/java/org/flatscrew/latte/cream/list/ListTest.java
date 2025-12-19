@@ -1,7 +1,9 @@
 package org.flatscrew.latte.cream.list;
 
 import org.assertj.core.api.Assertions;
+import org.flatscrew.latte.cream.Renderer;
 import org.flatscrew.latte.cream.Style;
+import org.flatscrew.latte.cream.color.ColorProfile;
 import org.flatscrew.latte.cream.color.NoColor;
 import org.flatscrew.latte.cream.tree.Tree;
 import org.flatscrew.latte.cream.tree.TreeEnumerator;
@@ -29,6 +31,8 @@ class ListTest {
     void setUp() {
         // Set up no-color terminal info for consistent output
         TerminalInfo.provide(() -> new TerminalInfo(false, new NoColor()));
+        // Explicitly set ASCII color profile to avoid pollution from other tests
+        Renderer.defaultRenderer().setColorProfile(ColorProfile.Ascii);
     }
 
     @Test

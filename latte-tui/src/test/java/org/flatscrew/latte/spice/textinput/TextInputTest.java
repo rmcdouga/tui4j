@@ -1,6 +1,8 @@
 package org.flatscrew.latte.spice.textinput;
 
 
+import org.flatscrew.latte.cream.Renderer;
+import org.flatscrew.latte.cream.color.ColorProfile;
 import org.flatscrew.latte.cream.color.NoColor;
 import org.flatscrew.latte.term.TerminalInfo;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,8 @@ class TextInputTest {
     void setUp() {
         // Set up no-color terminal info for consistent output
         TerminalInfo.provide(() -> new TerminalInfo(false, new NoColor()));
+        // Explicitly set ASCII color profile to avoid pollution from other tests
+        Renderer.defaultRenderer().setColorProfile(ColorProfile.Ascii);
     }
 
     @Test
