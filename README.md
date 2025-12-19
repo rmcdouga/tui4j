@@ -8,7 +8,7 @@ Latte is a Java port of Go's [Bubble Tea](https://github.com/charmbracelet/bubbl
 
 Canonical repo: https://github.com/WilliamAGH/latte-v2
 
-This is a maintained fork of [flatscrew/latte](https://github.com/flatscrew/latte) with bug fixes and improvements. Made by [William Callahan](https://williamcallahan.com).
+This is a maintained fork of the marvelous OG [flatscrew/latte](https://github.com/flatscrew/latte) with bug fixes and improvements welcome and encouraged! Forked version here maintained by [William Callahan](https://williamcallahan.com).
 
 ![Demo](latte-tui-examples/demo-tape.gif "Demo")
 
