@@ -7,7 +7,6 @@ import org.flatscrew.latte.Program;
 import org.flatscrew.latte.UpdateResult;
 import org.flatscrew.latte.cream.Style;
 import org.flatscrew.latte.cream.color.AdaptiveColor;
-import org.flatscrew.latte.cream.color.ColorProfile;
 import org.flatscrew.latte.message.QuitMessage;
 
 public class TermInfoExample implements Model {
@@ -15,8 +14,6 @@ public class TermInfoExample implements Model {
     private final Style testStyle = Style.newStyle().foreground(
             new AdaptiveColor("#FF0000", "#00FF00")
     );
-
-    private ColorProfile colorProfile;
 
     @Override
     public Command init() {

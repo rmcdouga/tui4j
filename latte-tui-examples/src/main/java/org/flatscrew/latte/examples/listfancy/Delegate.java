@@ -7,8 +7,6 @@ import org.flatscrew.latte.spice.key.Binding;
 import org.flatscrew.latte.spice.list.DefaultDataSource;
 import org.flatscrew.latte.spice.list.DefaultDelegate;
 
-import java.util.LinkedList;
-
 public class Delegate {
 
     public static class DelegateKeyMap implements KeyMap {

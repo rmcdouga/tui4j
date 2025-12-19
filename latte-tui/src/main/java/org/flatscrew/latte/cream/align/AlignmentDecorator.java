@@ -2,7 +2,6 @@ package org.flatscrew.latte.cream.align;
 
 import org.flatscrew.latte.ansi.TextWidth;
 import org.flatscrew.latte.cream.Position;
-import org.flatscrew.latte.cream.Renderer;
 import org.flatscrew.latte.cream.TextLines;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;

@@ -18,7 +18,6 @@ public class ExamplesRunner implements Model {
 
     private final List<Model> exampleModels;
     private int cursor;
-    private Model selectedModel;
 
     public ExamplesRunner(List<Model> exampleModels) {
         this.exampleModels = exampleModels;

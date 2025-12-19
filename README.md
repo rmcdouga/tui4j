@@ -5,13 +5,13 @@
 
 > Artwork by [m.art.i](https://www.instagram.com/m.art.i)
 
-Latte tends to be a Java port of Golang's [Bubble Tea](https://github.com/charmbracelet/bubbletea),
-[The Elm Architecture](https://guide.elm-lang.org/architecture/) driven TUI framework.
+Latte aims to be a Java port of Golang's [Bubble Tea](https://github.com/charmbracelet/bubbletea),
+[The Elm Architecture](https://guide.elm-lang.org/architecture/)–driven TUI framework.
 
 ![Demo](latte-tui-examples/demo-tape.gif "Demo")
 
 ## Examples
-See all the [examples](latte-tui-examples) ported so far and some new as well ;)
+See all the [examples](latte-tui-examples) ported so far and some new ones as well ;)
 
 ![Conway](latte-tui-examples/conway-tape.gif)
 
@@ -22,10 +22,10 @@ Check out [this page](STATUS.md) to see porting status.
 ## Tutorial
 For this tutorial, we're making a coffee ordering application (by the way, the non-annotated source code for this program is available [on GitHub](https://github.com/flatscrew/latte/tree/main/latte-tui-examples/src/main/java/org/flatscrew/latte/examples/demo)).
 
-Everything starts with a **model** - an implementation of `org.flatscrew.latte.Model` interface, that describes the application state and three simple methods on that model:
+Everything starts with a **model** – an implementation of the `org.flatscrew.latte.Model` interface that describes the application state and three simple methods on that model:
 
-- **init**, a method that returns an initial command for the applicatin to run,
-- **update**, a method that handles incoming events and updates theh model accordingly,
+- **init**, a method that returns an initial command for the application to run,
+- **update**, a method that handles incoming events and updates the model accordingly,
 - **view**, that renders the UI based on the data in the model.
   
 ```mermaid
@@ -43,7 +43,7 @@ graph TD
 
   
 ### The Model
-So let's start by deifning our model which will store our application's state. It can be any time imlementing `org.flatscrew.latte.Model` interface.
+So let's start by defining our model which will store our application's state. It can be any type implementing the `org.flatscrew.latte.Model` interface.
 
 ```java
 import org.flatscrew.latte.Model;
@@ -57,13 +57,13 @@ public class Demo implements Model {
 ```
 
 ### Initialization
-Next, we'll define our application's initial state. In this case, we're defining a variable pointing to model instance, we could just as easily define a method to return our initial model, too.
+Next, we'll define our application's initial state. In this case, we're defining a variable pointing to a model instance; we could just as easily define a method to return our initial model, too.
 
 ```java
 Demo demoModel = new Demo();
 ```
 
-Next, we implement the `init` method. It can return a `Command` that could perform some initial I/O. For now, we don't need to do any I/O, so for the command, we'll just return `null`, which traslates to "no command".
+Next, we implement the `init` method. It can return a `Command` that could perform some initial I/O. For now, we don't need to do any I/O, so for the command, we'll just return `null`, which translates to "no command".
 
 ```java
 @Override
@@ -73,13 +73,13 @@ public Command init() {
 ```
 
 ### The update method
-Next up is the update method. It is called when "things happen". Its job is to look at what has happened and return an updated model in response. It can also return a `Command` to make more things happem, but for now don't worry about that part.
+Next up is the update method. It is called when "things happen". Its job is to look at what has happened and return an updated model in response. It can also return a `Command` to make more things happen, but for now don't worry about that part.
 
-In our case, whwn a user presses the down arrow, `update`'s job is to notice that the down arrow was pressed and move the cursor accordingly (or not).
+In our case, when a user presses the down arrow, `update`'s job is to notice that the down arrow was pressed and move the cursor accordingly (or not).
 
-The "somethning happened" comes ni the form of a `Message`, which can be any type that implements `org.flatscrew.latte.Message` interface. Messages are the result of some I/O that took place, such as keypress, timer tick, or a response from a server.
+The "something happened" comes in the form of a `Message`, which can be any type that implements the `org.flatscrew.latte.Message` interface. Messages are the result of some I/O that took place, such as a keypress, timer tick, or a response from a server.
 
-We usually figure out which type of `Message` we received with a regular if but you can obviously come up with more sophisticated switch.
+We usually figure out which type of `Message` we received with a regular if, but you can obviously come up with a more sophisticated switch.
 
 For now, we'll just deal with `KeyPressMessage` messages, which are automatically sent to the update function when keys are pressed.
 
@@ -88,7 +88,7 @@ For now, we'll just deal with `KeyPressMessage` messages, which are automaticall
 public UpdateResult<? extends Model> update(Message msg) {
     // is this a key press?
     if (msg instanceof KeyPressMessage keyPressMessage) {
-        // cool, what whas the actual key pressed?
+        // cool, what was the actual key pressed?
         return switch (keyPressMessage.key()) {
             // the "up" and "k" keys move the cursor up
             case 'k', 'K', 65 -> new UpdateResult<>(this.moveUp(), null);
@@ -139,12 +139,13 @@ private Model makeChoice() {
     return this;
 }
 ```
-You may have noticed that `q` above returns `QuitMessage` command with the model. That's a special message which intructs the Latte runtime to quit, exiting the program.
+
+You may have noticed that `q` above returns a `QuitMessage` command with the model. That's a special message which instructs the Latte runtime to quit, exiting the program.
 
 ### The view method
 At last, it's time to render our UI. Of all the methods, the view is the simplest. We look at the model in its current state and use it to return a `String`. That String is our UI!
 
-Because the view describes the entire UI of rour application, you don't have to worry about redrawing logic and stuff like that. Latte takes care of it for you.
+Because the view describes the entire UI of your application, you don't have to worry about redrawing logic and stuff like that. Latte takes care of it for you.
 
 ```java
 @Override
@@ -166,7 +167,7 @@ public String view() {
 ```
 
 ### All together now
-The last setp is to simply run our program. We pass oir initial model as an argument for new instance of `org.flatscrew.latte.Program` and call `run` method.
+The last step is to simply run our program. We pass our initial model as an argument for a new instance of `org.flatscrew.latte.Program` and call the `run` method.
 
 ```java
 public static void main(String[] args) {

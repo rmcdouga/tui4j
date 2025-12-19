@@ -3,7 +3,6 @@ package org.flatscrew.latte.spice.spinner;
 import org.flatscrew.latte.Message;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public final class TickMessage implements Message {
     private final LocalDateTime time;

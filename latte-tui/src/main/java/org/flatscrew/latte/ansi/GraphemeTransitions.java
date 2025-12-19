@@ -25,7 +25,6 @@ public class GraphemeTransitions {
     private static final int PR_CONTROL = 3;
     private static final int PR_EXTEND = 4;
     private static final int PR_ZWJ = 5;
-    private static final int PR_RI = 6;
     private static final int PR_PREPEND = 7;
     private static final int PR_SPACING_MARK = 8;
     private static final int PR_L = 9;

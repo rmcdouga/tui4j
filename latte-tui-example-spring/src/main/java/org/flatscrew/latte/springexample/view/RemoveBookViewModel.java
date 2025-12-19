@@ -83,7 +83,10 @@ public class RemoveBookViewModel implements Model, KeyMap {
 
     private Command removeBook() {
         return () -> {
-            bookRepository.deleteById(book.getId());
+            Long bookId = book.getId();
+            if (bookId != null) {
+                bookRepository.deleteById(bookId);
+            }
             return new BookRemovedMessage();
         };
     }

@@ -526,7 +526,6 @@ public class TextInput implements Model {
 
         // TODO handle paste!
         List<Command> commands = new LinkedList<>();
-        Command command = null;
 
         UpdateResult<Cursor> cursorUpdateResult = cursor.update(msg);
         this.cursor = cursorUpdateResult.model();

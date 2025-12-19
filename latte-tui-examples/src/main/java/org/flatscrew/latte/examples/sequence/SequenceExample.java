@@ -30,7 +30,7 @@ public class SequenceExample implements Model {
 
     @Override
     public UpdateResult<? extends Model> update(Message msg) {
-        if (msg instanceof KeyPressMessage key) {
+        if (msg instanceof KeyPressMessage) {
             return UpdateResult.from(this, QuitMessage::new);
         }
         return UpdateResult.from(this);

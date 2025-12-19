@@ -32,7 +32,7 @@ public class CounterExample implements Model {
                 case "k", "K", "up" -> new UpdateResult<>(this, () -> CounterMsg.INCREMENT);
                 case "j", "J", "down" -> new UpdateResult<>(this, () -> CounterMsg.DECREMENT);
                 case "d", "D" -> new UpdateResult<>(this, () -> CounterMsg.INCREMENT_LATER);
-                case "Q" -> new UpdateResult<>(this, QuitMessage::new);
+                case "q", "Q" -> new UpdateResult<>(this, QuitMessage::new);
                 default -> new UpdateResult<>(this, null);
             };
         } else if (msg == CounterMsg.INCREMENT) {
