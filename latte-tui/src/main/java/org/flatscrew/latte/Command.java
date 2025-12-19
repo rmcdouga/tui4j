@@ -3,9 +3,17 @@ package org.flatscrew.latte;
 import org.flatscrew.latte.message.BatchMessage;
 import org.flatscrew.latte.message.CheckWindowSizeMessage;
 import org.flatscrew.latte.message.ClearScreenMessage;
+import org.flatscrew.latte.message.CopyToClipboardMessage;
+import org.flatscrew.latte.message.DisableMouseMessage;
+import org.flatscrew.latte.message.EnableMouseAllMotionMessage;
+import org.flatscrew.latte.message.EnableMouseCellMotionMessage;
+import org.flatscrew.latte.message.OpenUrlMessage;
 import org.flatscrew.latte.message.PrintLineMessage;
 import org.flatscrew.latte.message.QuitMessage;
+import org.flatscrew.latte.message.ResetMouseCursorMessage;
 import org.flatscrew.latte.message.SequenceMessage;
+import org.flatscrew.latte.message.SetMouseCursorPointerMessage;
+import org.flatscrew.latte.message.SetMouseCursorTextMessage;
 import org.flatscrew.latte.message.SetWindowTitleMessage;
 
 import java.time.Duration;
@@ -81,5 +89,37 @@ public interface Command {
 
     static Command quit() {
         return QuitMessage::new;
+    }
+
+    static Command setMouseCursorText() {
+        return SetMouseCursorTextMessage::new;
+    }
+
+    static Command setMouseCursorPointer() {
+        return SetMouseCursorPointerMessage::new;
+    }
+
+    static Command resetMouseCursor() {
+        return ResetMouseCursorMessage::new;
+    }
+
+    static Command enableMouseCellMotion() {
+        return EnableMouseCellMotionMessage::new;
+    }
+
+    static Command enableMouseAllMotion() {
+        return EnableMouseAllMotionMessage::new;
+    }
+
+    static Command disableMouse() {
+        return DisableMouseMessage::new;
+    }
+
+    static Command copyToClipboard(String text) {
+        return () -> new CopyToClipboardMessage(text);
+    }
+
+    static Command openUrl(String url) {
+        return () -> new OpenUrlMessage(url);
     }
 }
