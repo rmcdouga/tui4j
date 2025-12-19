@@ -10,8 +10,8 @@
     </parent>
 
     <artifactId>latte-tui</artifactId>
-    <name>Latte TUI Core</name>
-    <description>Terminal User Interface framework for Java - a port of Go's Bubble Tea</description>
+    <name>Latte TUI</name>
+    <description>Terminal User Interface framework for Java - a port of Go's Bubble Tea -- this is a maintained successor fork of flatscrew/latte</description>
     <url>https://github.com/WilliamAGH/latte-v2</url>
 
     <properties>
