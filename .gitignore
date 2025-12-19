@@ -54,3 +54,7 @@ bin/
 .classpath
 .project
 .settings/
+
+# Maven settings (contains secrets)
+settings.xml
+**/settings.xml
