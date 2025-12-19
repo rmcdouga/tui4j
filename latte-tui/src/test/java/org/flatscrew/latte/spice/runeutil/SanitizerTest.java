@@ -50,7 +50,10 @@ public class SanitizerTest {
                 new Object[]{"array[0]", "array[0]"},
                 new Object[]{"map{key}", "map{key}"},
                 new Object[]{"`code`", "`code`"},
-                new Object[]{"hello(world)[test]{data}`code`!", "hello(world)[test]{data}`code`!"}
+                new Object[]{"hello(world)[test]{data}`code`!", "hello(world)[test]{data}`code`!"},
+                new Object[]{"test_underscore_123", "test_underscore_123"},
+                new Object[]{"snake_case_name", "snake_case_name"},
+                new Object[]{"API_KEY=sk-proj_abc123", "API_KEY=sk-proj_abc123"}
         );
     }
 }

@@ -74,7 +74,8 @@ public class Sanitizer {
                 type == UCharacter.CURRENCY_SYMBOL ||
                 type == UCharacter.START_PUNCTUATION ||
                 type == UCharacter.END_PUNCTUATION ||
-                type == UCharacter.MODIFIER_SYMBOL;
+                type == UCharacter.MODIFIER_SYMBOL ||
+                type == UCharacter.CONNECTOR_PUNCTUATION;
     }
 
 }
