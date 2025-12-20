@@ -443,9 +443,6 @@ class TreeTest {
         assertThat(data.length()).isEqualTo(1);
     }
 
-    // TODO
-    // void test_TreeTable()
-
     @Test
     void test_AddItemWithAndWithoutRoot() {
         // given
