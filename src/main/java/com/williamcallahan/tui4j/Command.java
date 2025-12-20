@@ -79,8 +79,22 @@ public interface Command {
         return () -> new PrintLineMessage(template.formatted(arguments));
     }
 
-    static Command setWidowTitle(String title) {
+    /**
+     * Sets the terminal window title.
+     *
+     * @param title the title to set
+     * @return the command
+     */
+    static Command setWindowTitle(String title) {
         return () -> new SetWindowTitleMessage(title);
+    }
+
+    /**
+     * @deprecated Use {@link #setWindowTitle(String)} instead (typo fix).
+     */
+    @Deprecated(forRemoval = true)
+    static Command setWidowTitle(String title) {
+        return setWindowTitle(title);
     }
 
     static Command clearScreen() {
