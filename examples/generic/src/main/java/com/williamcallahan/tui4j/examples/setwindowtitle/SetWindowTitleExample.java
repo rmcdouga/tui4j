@@ -8,7 +8,7 @@ import com.williamcallahan.tui4j.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
 
-import static com.williamcallahan.tui4j.Command.setWidowTitle;
+import static com.williamcallahan.tui4j.Command.setWindowTitle;
 
 /**
  * Example program for set window title.
@@ -18,7 +18,7 @@ public class SetWindowTitleExample implements Model {
 
     @Override
     public Command init() {
-        return setWidowTitle("tui4j Example");
+        return setWindowTitle("tui4j Example");
     }
 
     @Override

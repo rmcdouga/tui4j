@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -36,11 +37,17 @@ public interface Command {
     Message execute();
 
     static Command batch(Collection<Command> commands) {
-        return () -> new BatchMessage(commands.toArray(new Command[0]));
+        Command[] filteredCommands = commands.stream()
+                .filter(Objects::nonNull)
+                .toArray(Command[]::new);
+        return () -> new BatchMessage(filteredCommands);
     }
 
     static Command batch(Command... commands) {
-        return () -> new BatchMessage(commands);
+        Command[] filteredCommands = Arrays.stream(commands)
+                .filter(Objects::nonNull)
+                .toArray(Command[]::new);
+        return () -> new BatchMessage(filteredCommands);
     }
 
     static Command sequence(Command... commands) {
@@ -79,8 +86,22 @@ public interface Command {
         return () -> new PrintLineMessage(template.formatted(arguments));
     }
 
-    static Command setWidowTitle(String title) {
+    /**
+     * Sets the terminal window title.
+     *
+     * @param title the title to set
+     * @return the command
+     */
+    static Command setWindowTitle(String title) {
         return () -> new SetWindowTitleMessage(title);
+    }
+
+    /**
+     * @deprecated Use {@link #setWindowTitle(String)} instead (typo fix).
+     */
+    @Deprecated(forRemoval = true)
+    static Command setWidowTitle(String title) {
+        return setWindowTitle(title);
     }
 
     static Command clearScreen() {
