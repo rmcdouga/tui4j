@@ -111,8 +111,8 @@ public class TimerExample implements Model {
                     Binding.withHelp("s", "start")
             );
             this.stop = new Binding(
-                    Binding.withKeys("s"),
-                    Binding.withHelp("s", "stop")
+                    Binding.withKeys("x"),
+                    Binding.withHelp("x", "stop")
             );
             this.reset = new Binding(
                     Binding.withKeys("r"),
