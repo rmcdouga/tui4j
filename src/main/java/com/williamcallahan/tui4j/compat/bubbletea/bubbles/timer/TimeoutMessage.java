@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Emitted once when a timer reaches (or passes) its timeout.

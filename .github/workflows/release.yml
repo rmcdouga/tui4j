@@ -21,7 +21,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.2.1"
+
+      - name: Generate Gradle wrapper
+        run: gradle wrapper
 
       - name: Extract version from tag
         id: version
@@ -29,10 +36,10 @@ jobs:
           # Remove 'v' prefix if present (v0.2.3 -> 0.2.3)
           VERSION="${GITHUB_REF_NAME#v}"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "📦 Release version: $VERSION"
+          echo "Release version: $VERSION"
 
       - name: Build and test
         run: ./gradlew build examplesClasses -Pversion=${{ steps.version.outputs.VERSION }}
 
       - name: Deploy to Maven Central
-        run: ./gradlew publish -Pversion=${{ steps.version.outputs.VERSION }}
+        run: ./gradlew publishAllPublicationsToCentralPortal -Pversion=${{ steps.version.outputs.VERSION }}

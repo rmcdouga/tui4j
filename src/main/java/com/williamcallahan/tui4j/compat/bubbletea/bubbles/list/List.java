@@ -1,9 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
-import com.williamcallahan.tui4j.Command;
-import com.williamcallahan.tui4j.Message;
-import com.williamcallahan.tui4j.Model;
-import com.williamcallahan.tui4j.UpdateResult;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.ansi.Truncate;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Size;
@@ -34,7 +34,7 @@ import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.williamcallahan.tui4j.Command.batch;
+import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
 import static com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItemStyles.ELLIPSIS;
 
 /**

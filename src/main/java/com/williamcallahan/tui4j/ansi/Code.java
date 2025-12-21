@@ -10,6 +10,8 @@ import java.util.Base64;
 public enum Code {
     EnableFocusReporting("\u001b[?1004h"),
     DisableFocusReporting("\u001b[?1004l"),
+    EnableMouseNormalTracking("\u001b[?1000h"),
+    DisableMouseNormalTracking("\u001b[?1000l"),
     EnableMouseCellMotion("\u001b[?1002h"),
     DisableMouseCellMotion("\u001b[?1002l"),
     EnableMouseAllMotion("\u001b[?1003h"),

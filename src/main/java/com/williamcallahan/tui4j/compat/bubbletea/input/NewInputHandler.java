@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.input;
 
-import com.williamcallahan.tui4j.Message;
-import com.williamcallahan.tui4j.ProgramException;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.ExtendedSequences;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;

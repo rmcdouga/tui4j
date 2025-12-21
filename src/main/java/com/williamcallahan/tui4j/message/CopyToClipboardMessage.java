@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.message;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Requests copying text to the clipboard.

@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 

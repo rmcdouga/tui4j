@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Disables mouse tracking (motion modes and SGR extended mouse mode).

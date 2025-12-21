@@ -1,9 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer;
 
-import com.williamcallahan.tui4j.Command;
-import com.williamcallahan.tui4j.Message;
-import com.williamcallahan.tui4j.Model;
-import com.williamcallahan.tui4j.UpdateResult;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
