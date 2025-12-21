@@ -15,6 +15,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+.gradle-user-home/
+.gradle/
 
 # Compiled files
 *.class
