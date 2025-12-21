@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.input;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Mouse input event data.

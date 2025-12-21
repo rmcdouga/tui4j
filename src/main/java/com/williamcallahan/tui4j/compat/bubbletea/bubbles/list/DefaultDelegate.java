@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
-import com.williamcallahan.tui4j.Command;
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.ansi.Truncate;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Runes;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;

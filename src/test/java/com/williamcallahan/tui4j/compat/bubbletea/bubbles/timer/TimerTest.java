@@ -1,8 +1,8 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer;
 
-import com.williamcallahan.tui4j.Command;
-import com.williamcallahan.tui4j.Message;
-import com.williamcallahan.tui4j.UpdateResult;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.message.BatchMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,7 +39,7 @@ class TimerTest {
         Timer timer = new Timer(Duration.ofSeconds(1), Duration.ofMillis(250));
         TickMessage tickMessage = new TickMessage(timer.id(), false, 0);
 
-        UpdateResult<? extends com.williamcallahan.tui4j.Model> result = timer.update(tickMessage);
+        UpdateResult<? extends com.williamcallahan.tui4j.compat.bubbletea.Model> result = timer.update(tickMessage);
 
         assertThat(timer.timeout()).isEqualTo(Duration.ofMillis(750));
         // When not timed out, only a tick command is returned (not a batch)
@@ -51,7 +51,7 @@ class TimerTest {
         Timer timer = new Timer(Duration.ofMillis(10), Duration.ofMillis(10));
         TickMessage tickMessage = new TickMessage(timer.id(), false, 0);
 
-        UpdateResult<? extends com.williamcallahan.tui4j.Model> result = timer.update(tickMessage);
+        UpdateResult<? extends com.williamcallahan.tui4j.compat.bubbletea.Model> result = timer.update(tickMessage);
         BatchMessage batchMessage = (BatchMessage) result.command().execute();
         Command timeoutCommand = batchMessage.commands()[1];
 
@@ -65,7 +65,7 @@ class TimerTest {
         timer.update(new StartStopMessage(timer.id(), false));
 
         Duration before = timer.timeout();
-        UpdateResult<? extends com.williamcallahan.tui4j.Model> result = timer.update(new TickMessage(timer.id(), false, 0));
+        UpdateResult<? extends com.williamcallahan.tui4j.compat.bubbletea.Model> result = timer.update(new TickMessage(timer.id(), false, 0));
 
         assertThat(timer.timeout()).isEqualTo(before);
         assertThat(result.command()).isNull();

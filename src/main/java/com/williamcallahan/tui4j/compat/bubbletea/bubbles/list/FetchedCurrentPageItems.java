@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Port of Bubbles fetched current page items.

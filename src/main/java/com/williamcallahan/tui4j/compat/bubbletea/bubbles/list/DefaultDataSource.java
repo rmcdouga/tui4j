@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
-import com.williamcallahan.tui4j.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.fuzzy.FuzzyFilter;
 
 import java.util.ArrayList;

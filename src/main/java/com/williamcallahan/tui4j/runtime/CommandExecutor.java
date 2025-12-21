@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.runtime;
 
-import com.williamcallahan.tui4j.Command;
-import com.williamcallahan.tui4j.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;

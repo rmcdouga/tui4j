@@ -1,10 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.textinput;
 
 import com.ibm.icu.lang.UCharacter;
-import com.williamcallahan.tui4j.Command;
-import com.williamcallahan.tui4j.Message;
-import com.williamcallahan.tui4j.Model;
-import com.williamcallahan.tui4j.UpdateResult;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static java.lang.Math.clamp;
-import static com.williamcallahan.tui4j.Command.batch;
+import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
 
 /**
  * Port of Bubbles text input.
