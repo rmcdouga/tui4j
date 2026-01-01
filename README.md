@@ -106,4 +106,4 @@ This project began as a fork of the original Latte by [Lukasz Grabski](https://g
 
 ## License
 
-[MIT License](LICENSE) - see the LICENSE file for details.
+[MIT License](LICENSE.md)
