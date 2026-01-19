@@ -6,6 +6,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 
 import java.time.Duration;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -184,14 +185,14 @@ public class Stopwatch implements Model {
                 if (ms == (long) ms) {
                     sb.append((long) ms).append("ms");
                 } else {
-                    sb.append(String.format("%.3gms", ms).replaceAll("\\.?0+ms$", "ms"));
+                    sb.append(String.format(Locale.ROOT, "%.3gms", ms).replaceAll("\\.?0+ms$", "ms"));
                 }
             } else if (nanos >= NANOS_PER_MICRO) {
                 double us = nanos / (double) NANOS_PER_MICRO;
                 if (us == (long) us) {
                     sb.append((long) us).append("µs");
                 } else {
-                    sb.append(String.format("%.3gµs", us).replaceAll("\\.?0+µs$", "µs"));
+                    sb.append(String.format(Locale.ROOT, "%.3gµs", us).replaceAll("\\.?0+µs$", "µs"));
                 }
             } else {
                 sb.append(nanos).append("ns");
@@ -204,7 +205,7 @@ public class Stopwatch implements Model {
             if (seconds == (long) seconds) {
                 sb.append((long) seconds).append("s");
             } else {
-                String formatted = String.format("%.9f", seconds).replaceAll("0+$", "").replaceAll("\\.$", "");
+                String formatted = String.format(Locale.ROOT, "%.9f", seconds).replaceAll("0+$", "").replaceAll("\\.$", "");
                 sb.append(formatted).append("s");
             }
         }
