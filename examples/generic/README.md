@@ -16,6 +16,30 @@ The `cursor` example shows how to spawn an artificial cursor in TUI4J applicatio
 <img width="750" src="../../assets/cursor-tape.gif" alt="Animation showing TUI4J cursor blinking and moving in a terminal" />
 </a>
 
+### Composable Views
+
+The `composable-views` example demonstrates composing multiple independent models (timer and spinner) into a parent model with focus switching between child models.
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/composableviews/ComposableViewsExample.java">
+  Code
+</a>
+
+### Debounce
+
+The `debounce` example shows how to debounce commands in TUI4J, delaying action execution until input pauses.
+
+<a href="./debounce/src/main/java/com/williamcallahan/tui4j/examples/debounce/DebounceExample.java">
+  Code
+</a>
+
+### File Picker
+
+The `file-picker` example demonstrates how to use the FilePicker bubble to browse directories and select files with keyboard navigation.
+
+<a href="./file-picker/src/main/java/com/williamcallahan/tui4j/examples/filepicker/FilePickerExample.java">
+  Code
+</a>
+
 ### Full Screen
 
 The `fullscreen` example shows how to make a TUI4J application fullscreen.
@@ -63,6 +87,14 @@ The `textinput` example demonstrates a simple TUI4J application using a textinpu
 
 <a href="./src/main/java/com/williamcallahan/tui4j/examples/textinput/TextInputExample.java">
   <img width="750" src="../../assets/textinput-tape.gif" alt="Animation showing TUI4J text input field with typing and cursor" />
+</a>
+
+### Textarea
+
+The `textarea` example demonstrates a multi-line text input area with cursor navigation, line wrapping, and placeholder text.
+
+<a href="./textarea/src/main/java/com/williamcallahan/tui4j/examples/textarea/TextareaExample.java">
+  Code
 </a>
 
 ### Multiple Text Inputs
@@ -116,5 +148,68 @@ A fully functional Tetris clone written with TUI4J :)
 Fireworks simulation :) Ported from https://github.com/Wayoung7/firework-rs/
 
  <a href="./src/main/java/com/williamcallahan/tui4j/examples/fireworks/Fireworks.java">
-  <img width="750" src="../../assets/fireworks-tape.gif" alt="Animation showing TUI4J fireworks simulation with colorful particle effects" />
+   <img width="750" src="../../assets/fireworks-tape.gif" alt="Animation showing TUI4J fireworks simulation with colorful particle effects" />
+ </a>
+
+### Progress
+
+The `progress` examples demonstrate the Progress bubble with various configurations:
+
+- **progress-static** - Static progress bars with different characters, widths, and formats
+- **progress-animated** - Animated progress with spring physics and keyboard controls
+- **progress-download** - File download manager simulation
+- **package-manager** - Package installation workflow simulation
+
+See [progress-readme.md](./progress-readme.md) for detailed usage instructions.
+
+#### Progress Static
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/staticbar/ProgressStaticExample.java">
+  <img width="750" src="../../assets/progress-static-tape.gif" alt="Animation showing various static progress bar configurations" />
+</a>
+
+#### Progress Animated
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/animated/ProgressAnimatedExample.java">
+  <img width="750" src="../../assets/progress-animated-tape.gif" alt="Animation showing animated progress bar with spring physics" />
+</a>
+
+#### Progress Download
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/download/ProgressDownloadExample.java">
+  <img width="750" src="../../assets/progress-download-tape.gif" alt="Animation showing file download manager with multiple progress bars" />
+</a>
+
+#### Package Manager
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/progress/packagemanager/PackageManagerExample.java">
+  <img width="750" src="../../assets/package-manager-tape.gif" alt="Animation showing package installation simulation with progress tracking" />
+</a>
+
+### Table
+
+The `table` example demonstrates the table bubble component with data display, row selection, and keyboard navigation.
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/table/TableExample.java">
+  <img width="750" src="../../assets/table-tape.gif" alt="Animation showing TUI4J table component with Pokemon data and row selection" />
+</a>
+
+### Table Resize
+
+The `table-resize` example shows the table component with dynamic resizing based on window size.
+
+### Timer
+
+The `timer` example demonstrates a countdown timer with start/stop/reset controls and help display. Ported from Bubble Tea's timer example.
+
+<a href="./src/main/java/com/williamcallahan/tui4j/examples/timer/TimerExample.java">
+  Code
+</a>
+
+### Tabs
+
+The `tabs` example demonstrates a tabbed interface with multiple tabs and content panels using Lipgloss styling.
+
+<a href="./tabs/src/main/java/com/williamcallahan/tui4j/examples/tabs/TabsExample.java">
+  Code
 </a>

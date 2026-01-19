@@ -8,7 +8,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.examples.altscreentoggle.AltScreenToggleExample;
 import com.williamcallahan.tui4j.examples.counter.CounterExample;
 import com.williamcallahan.tui4j.examples.demo.Demo;
+import com.williamcallahan.tui4j.examples.exec.ExecExample;
 import com.williamcallahan.tui4j.examples.fullscreen.FullscreenExample;
+import com.williamcallahan.tui4j.examples.split.SplitEditorsExample;
+import com.williamcallahan.tui4j.examples.tuidemoncombo.DaemonComboExample;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
 
@@ -96,7 +99,10 @@ public class ExamplesRunner implements Model {
                 new CounterExample(),
                 new Demo(),
                 new AltScreenToggleExample(),
-                new FullscreenExample(5)
+                new FullscreenExample(5),
+                new ExecExample(),
+                new SplitEditorsExample(),
+                new DaemonComboExample()
         ))).run();
     }
 }

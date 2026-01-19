@@ -47,6 +47,8 @@ When porting or comparing behavior, consult these Charm repositories:
 - **Bubble Tea**: https://github.com/charmbracelet/bubbletea — core TUI framework, message loop, Program
 - **Bubbles**: https://github.com/charmbracelet/bubbles — reusable components (spinner, list, textinput, viewport, etc.)
 - **Lip Gloss**: https://github.com/charmbracelet/lipgloss — styling, colors, borders, layout joining
+- **Harmonica**: https://github.com/charmbracelet/harmonica — spring-based physics animation
+- **x**: https://github.com/charmbracelet/x — experimental packages (ansi, cellbuf, colors, editor)
 
 ### Package Mapping
 | Go (Charm)              | Java (TUI4J)                                                |
@@ -55,10 +57,16 @@ When porting or comparing behavior, consult these Charm repositories:
 | bubbletea (input)       | com.williamcallahan.tui4j.compat.bubbletea.input.*          |
 | bubbletea (renderer)    | com.williamcallahan.tui4j.compat.bubbletea.render.*         |
 | bubbles/*               | com.williamcallahan.tui4j.compat.bubbletea.bubbles.*        |
-| lipgloss                | com.williamcallahan.tui4j.compat.bubbletea.lipgloss          |
+| lipgloss                | com.williamcallahan.tui4j.compat.bubbletea.lipgloss         |
+| harmonica               | com.williamcallahan.tui4j.compat.bubbletea.harmonica        |
+| x/ansi                  | com.williamcallahan.tui4j.compat.x.ansi                     |
+| x/ansi/parser           | com.williamcallahan.tui4j.compat.x.ansi.parser              |
+| x/cellbuf               | ⚪ Not yet ported                                            |
+| x/colors                | ⚪ Not yet ported                                            |
+| x/editor                | ⚪ Not yet ported                                            |
 
 ### Native tui4j Extensions (Non‑Port)
-- `com.williamcallahan.tui4j.ansi` — ANSI helpers, width/truncation, clipboard.
+- `com.williamcallahan.tui4j.ansi` — Re-exports from compat.x.ansi; ANSI helpers, width/truncation.
 - `com.williamcallahan.tui4j.input` — tui4j mouse selection/click utilities.
 - `com.williamcallahan.tui4j.message` — tui4j‑specific messages (clipboard, cursor, errors).
 - `com.williamcallahan.tui4j.runtime` — command execution helpers.

@@ -20,13 +20,18 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.ClearScreenMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.EnterAltScreen;
 import com.williamcallahan.tui4j.message.ErrorMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.ExitAltScreen;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ExecCompletedMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ExecProcessMessage;
 import com.williamcallahan.tui4j.message.OpenUrlMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.ResumeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.SequenceMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.SuspendMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.render.Renderer;
 import com.williamcallahan.tui4j.compat.bubbletea.render.StandardRenderer;
 import com.williamcallahan.tui4j.runtime.CommandExecutor;
+import com.williamcallahan.tui4j.runtime.UrlOpener;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import com.williamcallahan.tui4j.term.jline.JLineTerminalInfoProvider;
 import org.jline.terminal.Size;
@@ -36,8 +41,7 @@ import org.jline.utils.InfoCmp;
 import org.jline.utils.Signals;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
@@ -45,12 +49,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Runs the TUI event loop and manages terminal IO.
- * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java
+ * <p>
+ * Port of Bubble Tea's `Program` (tea.go).
+ * Manages the lifecycle of a TUI application, including terminal initialization,
+ * event polling, and rendering loops.
  */
 public class Program {
 
@@ -75,6 +83,7 @@ public class Program {
     private boolean hoverTextCursorEnabled;
     private boolean hoverTextCursorActive;
     private boolean mouseClicksEnabled;
+    private volatile boolean isSuspended = false;
 
     private final MouseSelectionAutoScroller mouseSelectionAutoScroller;
 
@@ -178,12 +187,17 @@ public class Program {
         this.mouseClicksEnabled = true;
         return this;
     }
+    /**
+     * Blocks the calling thread, enters raw mode, and starts the event loop.
+     * Takes control of the terminal until the model returns a {@link QuitMessage}.
+     */
     public void run() {
         if (!isRunning.compareAndSet(false, true)) {
             throw new IllegalStateException("Program is already running!");
         }
 
         handleTerminationSignals();
+        handleSuspendSignals();
         handleTerminalResize();
         mouseSelectionAutoScroller.start();
 
@@ -211,48 +225,7 @@ public class Program {
             finalModel = eventLoop();
             renderFinalView = true;
         } finally {
-            // stop reading keyboard input
-            inputHandler.stop();
-
-            if (renderFinalView) {
-                // render final model view before closing
-                renderer.write(finalModel.view());
-            }
-            renderer.showCursor();
-            renderer.stop();
-
-            mouseSelectionAutoScroller.stop();
-
-            if (manageMouseSelectionCursor && mouseSelectionCursorActive) {
-                renderer.resetMouseCursor();
-            }
-            if (hoverTextCursorEnabled && hoverTextCursorActive) {
-                renderer.resetMouseCursor();
-            }
-
-            // disabling mouse support
-            disableMouse();
-
-            if (renderer.reportFocus()) {
-                renderer.disableReportFocus();
-            }
-
-            if (renderer.altScreen()) {
-                renderer.exitAltScreen();
-            }
-
-            terminal.puts(InfoCmp.Capability.carriage_return);
-            terminal.puts(InfoCmp.Capability.cursor_down);
-            terminal.flush();
-
-            // Finally clean up
-            isRunning.set(false);
-            commandExecutor.shutdown();
-            try {
-                terminal.close();
-            } catch (IOException e) {
-                throw new ProgramException(e);
-            }
+            cleanup(renderFinalView, finalModel);
         }
 
         if (lastError != null) {
@@ -260,9 +233,63 @@ public class Program {
         }
     }
 
+    private void cleanup(boolean renderFinalView, Model finalModel) {
+        // stop reading keyboard input
+        inputHandler.stop();
+
+        if (renderFinalView) {
+            // render final model view before closing
+            renderer.write(finalModel.view());
+        }
+        renderer.showCursor();
+        renderer.stop();
+
+        mouseSelectionAutoScroller.stop();
+
+        if (manageMouseSelectionCursor && mouseSelectionCursorActive) {
+            renderer.resetMouseCursor();
+        }
+        if (hoverTextCursorEnabled && hoverTextCursorActive) {
+            renderer.resetMouseCursor();
+        }
+
+        // disabling mouse support
+        disableMouse();
+
+        if (renderer.reportFocus()) {
+            renderer.disableReportFocus();
+        }
+
+        if (renderer.altScreen()) {
+            renderer.exitAltScreen();
+        }
+
+        terminal.puts(InfoCmp.Capability.carriage_return);
+        terminal.puts(InfoCmp.Capability.cursor_down);
+        terminal.flush();
+
+        // Finally clean up
+        isRunning.set(false);
+        commandExecutor.shutdown();
+        try {
+            terminal.close();
+        } catch (IOException e) {
+            // Chain with any existing error to preserve context
+            if (lastError != null) {
+                e.addSuppressed(lastError);
+            }
+            throw new ProgramException(e);
+        }
+    }
+
     private void handleTerminationSignals() {
         Signals.register("INT", () -> commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError));
         Signals.register("TERM", () -> commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError));
+    }
+
+    private void handleSuspendSignals() {
+        Signals.register("TSTP", () -> commandExecutor.executeIfPresent(SuspendMessage::new, this::send, this::sendError));
+        Signals.register("CONT", () -> commandExecutor.executeIfPresent(ResumeMessage::new, this::send, this::sendError));
     }
 
     private void handleTerminalResize() {
@@ -281,41 +308,15 @@ public class Program {
             }
 
             if (msg != null) {
-                if (msg instanceof ClearScreenMessage) {
-                    renderer.clearScreen();
+                if (handleSystemMessage(msg)) {
                     continue;
-                } else if (msg instanceof QuitMessage) {
+                }
+                
+                if (msg instanceof QuitMessage) {
                     return currentModel;
-                } else if (msg instanceof EnterAltScreen) {
-                    renderer.enterAltScreen();
-                    continue;
-                } else if (msg instanceof ExitAltScreen) {
-                    renderer.exitAltScreen();
-                    continue;
-                } else if (msg instanceof BatchMessage batchMessage) {
-                    Arrays.stream(batchMessage.commands())
-                            .forEach(command -> commandExecutor.executeIfPresent(command, this::send, this::sendError));
-                    continue;
-                } else if (msg instanceof SequenceMessage sequenceMessage) {
-                    Arrays.stream(sequenceMessage.commands())
-                            .reduce(
-                                    CompletableFuture.completedFuture(null),
-                                    (CompletableFuture<Void> future, Command command) ->
-                                            future.thenCompose(__ ->
-                                                    commandExecutor.executeIfPresent(command, this::send, this::sendError)
-                                            ),
-                                    (f1, f2) -> f2
-                            ).join();
-                    continue;
                 } else if (msg instanceof ErrorMessage errorMessage) {
                     this.lastError = errorMessage.error();
                     return currentModel;
-                } else if (msg instanceof CheckWindowSizeMessage) {
-                    commandExecutor.executeIfPresent(this::checkSize, this::send, this::sendError);
-                    continue;
-                } else if (msg instanceof OpenUrlMessage openUrlMessage) {
-                    openUrl(openUrlMessage.url());
-                    continue;
                 }
 
                 if (msg instanceof MouseMessage mouseMessage) {
@@ -339,6 +340,76 @@ public class Program {
 
         }
         return currentModel;
+    }
+
+    private boolean handleSystemMessage(Message msg) {
+        return switch (msg) {
+            case ClearScreenMessage ignored -> {
+                renderer.clearScreen();
+                yield true;
+            }
+            case EnterAltScreen ignored -> {
+                renderer.enterAltScreen();
+                yield true;
+            }
+            case ExitAltScreen ignored -> {
+                renderer.exitAltScreen();
+                yield true;
+            }
+            case BatchMessage batchMessage -> {
+                handleBatch(batchMessage);
+                yield true;
+            }
+            case SequenceMessage sequenceMessage -> {
+                handleSequence(sequenceMessage);
+                yield true;
+            }
+            case CheckWindowSizeMessage ignored -> {
+                commandExecutor.executeIfPresent(this::checkSize, this::send, this::sendError);
+                yield true;
+            }
+            case OpenUrlMessage openUrlMessage -> {
+                handleOpenUrl(openUrlMessage);
+                yield true;
+            }
+            case ExecProcessMessage execProcessMessage -> {
+                executeProcess(execProcessMessage);
+                yield true;
+            }
+            case SuspendMessage ignored -> {
+                suspend();
+                yield true;
+            }
+            case ResumeMessage ignored -> {
+                resume();
+                yield true;
+            }
+            default -> false;
+        };
+    }
+
+    private void handleBatch(BatchMessage batchMessage) {
+        Arrays.stream(batchMessage.commands())
+                .forEach(command -> commandExecutor.executeIfPresent(command, this::send, this::sendError));
+    }
+
+    private void handleSequence(SequenceMessage sequenceMessage) {
+        Arrays.stream(sequenceMessage.commands())
+                .reduce(
+                        CompletableFuture.completedFuture(null),
+                        (CompletableFuture<Void> future, Command command) ->
+                                future.thenCompose(__ ->
+                                        commandExecutor.executeIfPresent(command, this::send, this::sendError)
+                                ),
+                        (f1, f2) -> f2
+                ).join();
+    }
+
+    private void handleOpenUrl(OpenUrlMessage openUrlMessage) {
+        boolean success = UrlOpener.open(openUrlMessage.url());
+        if (!success) {
+            logger.log(Level.WARNING, "Failed to open URL: " + openUrlMessage.url());
+        }
     }
 
     private void handleMouseSelectionTracking(MouseMessage mouseMessage) {
@@ -455,6 +526,10 @@ public class Program {
         }
     }
 
+    public boolean isRunning() {
+        return isRunning.get();
+    }
+
     public void waitForInit() {
         try {
             initLatch.await();
@@ -470,33 +545,75 @@ public class Program {
         renderer.disableMouseAllMotion();
     }
 
-    private void openUrl(String url) {
-        if (url == null || url.isBlank()) {
-            return;
-        }
-        String trimmedUrl = url.trim();
-        if (trimmedUrl.startsWith("-")) {
-            logger.fine("Refusing to open URL starting with '-': " + trimmedUrl);
-            return;
-        }
-        URI uri;
+    private void executeProcess(ExecProcessMessage execProcessMessage) {
+        // Run synchronously to block the event loop, matching Bubble Tea's behavior
+        Process process = execProcessMessage.process();
+        BiConsumer<Integer, byte[]> outputHandler = execProcessMessage.outputHandler();
+        BiConsumer<Integer, byte[]> errorHandler = execProcessMessage.errorHandler();
+
+        suspend();
+
         try {
-            uri = new URI(trimmedUrl);
-        } catch (URISyntaxException e) {
-            logger.log(Level.FINE, "Invalid URL: " + trimmedUrl, e);
-            return;
-        }
-        try {
-            String os = System.getProperty("os.name", "").toLowerCase();
-            if (os.contains("mac")) {
-                new ProcessBuilder("open", uri.toString()).start();
-            } else if (os.contains("nix") || os.contains("nux") || os.contains("linux")) {
-                new ProcessBuilder("xdg-open", uri.toString()).start();
-            } else if (os.contains("win")) {
-                new ProcessBuilder("rundll32", "url.dll,FileProtocolHandler", uri.toString()).start();
+            // Drain stdout/stderr concurrently to prevent deadlock from filled buffers
+            CompletableFuture<byte[]> stdoutFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return ExecProcessMessage.readStream(process.getInputStream());
+                    } catch (IOException e) {
+                        throw new UncheckedIOException("Failed to read stdout", e);
+                    }
+                });
+            CompletableFuture<byte[]> stderrFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return ExecProcessMessage.readStream(process.getErrorStream());
+                    } catch (IOException e) {
+                        throw new UncheckedIOException("Failed to read stderr", e);
+                    }
+                });
+
+            int exitCode = process.waitFor();
+
+            if (outputHandler != null) {
+                byte[] output = stdoutFuture.get();
+                outputHandler.accept(exitCode, output);
             }
-        } catch (Exception e) {
-            logger.log(Level.FINE, "Failed to open URL: " + uri, e);
+            if (errorHandler != null) {
+                byte[] error = stderrFuture.get();
+                errorHandler.accept(exitCode, error);
+            }
+
+            send(new ExecCompletedMessage(exitCode, null));
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            send(new ExecCompletedMessage(-1, e));
+        } catch (java.util.concurrent.ExecutionException e) {
+            Throwable cause = e.getCause() != null ? e.getCause() : e;
+            logger.log(Level.WARNING, "Error reading process streams", cause);
+            send(new ExecCompletedMessage(-1, cause));
+        } finally {
+            resume(); // Restore terminal and renderer
         }
+    }
+
+    private void suspend() {
+        if (isSuspended) {
+            return;
+        }
+        isSuspended = true;
+        renderer.showCursor();
+        renderer.pause();
+        terminal.pause();
+    }
+
+    private void resume() {
+        if (!isSuspended) {
+            return;
+        }
+        terminal.resume();
+        renderer.resume();
+        renderer.hideCursor();
+        renderer.write(currentModel.view());
+        isSuspended = false;
     }
 }
