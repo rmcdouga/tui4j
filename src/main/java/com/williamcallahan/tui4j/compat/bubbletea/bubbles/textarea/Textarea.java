@@ -854,22 +854,20 @@ public class Textarea implements Model {
 
         if (lines.size() > 1) {
             int numExtraLines = lines.size() - 1;
+            int originalRow = row;
 
             List<char[]> newValue = new ArrayList<>(value.size() + numExtraLines);
-            newValue.addAll(value.subList(0, row + 1));
+            newValue.addAll(value.subList(0, originalRow + 1));
 
             for (int i = 1; i < lines.size(); i++) {
                 row++;
                 newValue.add(lines.get(i));
             }
 
-            newValue.addAll(value.subList(row, value.size()));
+            newValue.addAll(value.subList(originalRow + 1, value.size()));
             value = newValue;
 
-            for (int i = 1; i < lines.size(); i++) {
-                row++;
-                col = lines.get(i).length;
-            }
+            col = lines.get(lines.size() - 1).length;
         }
 
         char[] finalLine = new char[value.get(row).length + tail.length];

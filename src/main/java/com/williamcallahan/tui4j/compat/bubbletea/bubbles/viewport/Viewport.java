@@ -200,12 +200,35 @@ public class Viewport implements Model {
 
             List<String> cutLines = new ArrayList<>();
             for (String line : result) {
-                cutLines.add(truncate(line, w));
+                cutLines.add(cutLine(line, xOffset, xOffset + w));
             }
             return cutLines;
         }
 
         return new ArrayList<>();
+    }
+
+    /** Cuts a string by cell width, similar to Go's ansi.Cut for horizontal scrolling. */
+    private String cutLine(String str, int startCol, int endCol) {
+        if (str == null || str.isEmpty() || startCol >= endCol) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        int currentCol = 0;
+        for (int cp : str.codePoints().toArray()) {
+            String glyph = new String(Character.toChars(cp));
+            int glyphWidth = TextWidth.measureCellWidth(glyph);
+            if (currentCol + glyphWidth <= startCol) {
+                currentCol += glyphWidth;
+                continue;
+            }
+            if (currentCol >= endCol) {
+                break;
+            }
+            result.append(glyph);
+            currentCol += glyphWidth;
+        }
+        return result.toString();
     }
 
     private String truncate(String str, int maxWidth) {
