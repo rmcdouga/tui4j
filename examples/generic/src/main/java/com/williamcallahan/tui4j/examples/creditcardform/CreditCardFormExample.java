@@ -13,14 +13,20 @@ import com.williamcallahan.tui4j.compat.bubbletea.bubbles.textinput.TextInput;
 
 import static com.williamcallahan.tui4j.compat.bubbletea.Command.quit;
 
+/**
+ * Credit card form example demonstrating multiple text inputs and focus switching.
+ */
 public class CreditCardFormExample implements Model {
 
     private static final int CCN = 0;
     private static final int EXP = 1;
     private static final int CVV = 2;
 
-    private final Style inputStyle = Style.newStyle().foreground(Color.color("#FF06B7"));
-    private final Style continueStyle = Style.newStyle().foreground(Color.color("#767676"));
+    private static final String COLOR_INPUT = "#FF06B7";
+    private static final String COLOR_CONTINUE = "#767676";
+
+    private final Style inputStyle = Style.newStyle().foreground(Color.color(COLOR_INPUT));
+    private final Style continueStyle = Style.newStyle().foreground(Color.color(COLOR_CONTINUE));
 
     private final TextInput[] inputs;
     private int focused;
@@ -81,13 +87,6 @@ public class CreditCardFormExample implements Model {
                 case "tab", "ctrl+n":
                     nextInput();
                     break;
-                default:
-                    Command[] cmds = new Command[inputs.length];
-                    for (int i = 0; i < inputs.length; i++) {
-                        UpdateResult<? extends Model> result = inputs[i].update(msg);
-                        cmds[i] = result.command();
-                    }
-                    return UpdateResult.from(this, Command.batch(cmds));
             }
         }
 
