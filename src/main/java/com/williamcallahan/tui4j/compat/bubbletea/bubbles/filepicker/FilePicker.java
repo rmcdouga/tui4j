@@ -32,8 +32,6 @@ import java.util.logging.Logger;
 public class FilePicker implements Model {
 
     private static final int MARGIN_BOTTOM = 5;
-    private static final int FILE_SIZE_WIDTH = 7;
-    private static final int PADDING_LEFT = 2;
     private static final String DEFAULT_CURSOR = ">";
     private static final String EMPTY_MSG = "Bummer. No Files Found.";
     private static final Logger logger = Logger.getLogger(FilePicker.class.getName());
@@ -61,8 +59,6 @@ public class FilePicker implements Model {
     private Styles styles;
     private String cursorChar;
     private static final AtomicInteger nextId = new AtomicInteger(1);
-    private boolean widthSet;
-    private int terminalWidth;
     private List<String> readErrors;
 
     public FilePicker() {
@@ -86,8 +82,6 @@ public class FilePicker implements Model {
         this.keyMap = new KeyMap();
         this.styles = Styles.defaultStyles();
         this.files = new ArrayList<>();
-        this.widthSet = false;
-        this.terminalWidth = 0;
         this.readErrors = new ArrayList<>();
     }
 
@@ -168,8 +162,6 @@ public class FilePicker implements Model {
     }
 
     public void setTerminalSize(int width, int height) {
-        this.terminalWidth = width;
-        this.widthSet = true;
         if (this.autoHeight) {
             this.height = height - MARGIN_BOTTOM;
         }
@@ -254,15 +246,18 @@ public class FilePicker implements Model {
             }
             return true;
         } else if (Binding.matches(keyMsg, keyMap.pageDown())) {
+            if (this.files.isEmpty()) {
+                return true;
+            }
             this.selected += this.height;
             if (this.selected >= this.files.size()) {
-                this.selected = this.files.size() - 1;
+                this.selected = Math.max(0, this.files.size() - 1);
             }
             this.min += this.height;
             this.max += this.height;
 
             if (this.max >= this.files.size()) {
-                this.max = this.files.size() - 1;
+                this.max = Math.max(0, this.files.size() - 1);
                 this.min = Math.max(0, this.max - this.height);
             }
             return true;
@@ -610,8 +605,6 @@ public class FilePicker implements Model {
 
     private record ReadDirMessage(int id, List<DirEntry> entries, List<String> errors) implements Message {
     }
-
-// removed private ErrorMessage record
 
     private static class Stack {
         private final List<Integer> items = new ArrayList<>();

@@ -27,4 +27,4 @@ After suspending with `ctrl+z`, you can resume the application by running `fg` i
 
 ## Reference
 
-Original Bubble Tea example: https://github.com/charmbracelet/bubbletea/tree/master/examples/suspend
+[Original Bubble Tea example](https://github.com/charmbracelet/bubbletea/tree/master/examples/suspend)

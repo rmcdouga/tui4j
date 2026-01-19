@@ -120,10 +120,7 @@ public class Stopwatch implements Model {
      * Returns a command to resume the stopwatch tick loop.
      */
     public Command start() {
-        return Command.sequence(
-                () -> new StartStopMsg(id, true),
-                tick()
-        );
+        return () -> new StartStopMsg(id, true);
     }
 
     /**
@@ -144,10 +141,7 @@ public class Stopwatch implements Model {
      * Returns a command to switch between running and stopped states.
      */
     public Command toggle() {
-        return Command.sequence(
-                () -> new StartStopMsg(id, !running),
-                tick()
-        );
+        return () -> new StartStopMsg(id, !running);
     }
 
     private static int nextId() {

@@ -81,6 +81,9 @@ public class Table {
     }
 
     public Table data(Data data) {
+        if (data == null) {
+            throw new IllegalArgumentException("data cannot be null");
+        }
         this.data = data;
         return this;
     }
@@ -319,7 +322,7 @@ public class Table {
             s.append(cellStyle
                     .height(headerHeight - cellStyle.getVerticalMargins())
                     .width(cellWidth)
-                    .render(truncateCell(header, HEADER_ROW, i)));
+                    .render(header));
             if (i < headers.size() - 1 && borderColumn) {
                 s.append(borderStyle.render(border.left()));
             }
@@ -561,10 +564,12 @@ public class Table {
             if (totalContentWidth < availableWidth) {
                 int extraWidth = availableWidth - totalContentWidth;
                 int numExpandable = widths.length;
-                for (int i = 0; i < widths.length; i++) {
-                    int add = extraWidth / numExpandable;
-                    widths[i] += add;
-                    extraWidth -= add;
+                if (numExpandable > 0) {
+                    for (int i = 0; i < widths.length; i++) {
+                        int add = extraWidth / numExpandable;
+                        widths[i] += add;
+                        extraWidth -= add;
+                    }
                 }
             } else if (totalContentWidth > availableWidth) {
                 int overflow = totalContentWidth - availableWidth;

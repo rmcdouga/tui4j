@@ -69,11 +69,22 @@ public final class Whitespace {
         int[] codePoints = chars.codePoints().toArray();
         int j = 0;
         StringBuilder builder = new StringBuilder();
+        int zeroWidthCount = 0;
         for (int i = 0; i < width;) {
             int cp = codePoints[j];
             String glyph = new String(Character.toChars(cp));
             builder.append(glyph);
-            i += TextWidth.measureCellWidth(glyph);
+            int w = TextWidth.measureCellWidth(glyph);
+            if (w == 0) {
+                // Prevent infinite loop on zero-width characters
+                zeroWidthCount++;
+                if (zeroWidthCount >= codePoints.length) {
+                    break;
+                }
+            } else {
+                zeroWidthCount = 0;
+                i += w;
+            }
             j = (j + 1) % codePoints.length;
         }
 

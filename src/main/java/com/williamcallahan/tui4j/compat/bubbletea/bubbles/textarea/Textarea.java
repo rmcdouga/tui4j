@@ -901,7 +901,8 @@ public class Textarea implements Model {
             col = 0;
         } else {
             int trailingSpace = 2;
-            col = min(li.startColumn() + li.width() + trailingSpace, value.get(row).length - 1);
+            int rowLen = value.get(row).length;
+            col = rowLen == 0 ? 0 : max(0, min(li.startColumn() + li.width() + trailingSpace, rowLen - 1));
         }
 
         LineInfo nli = lineInfo();
@@ -931,7 +932,7 @@ public class Textarea implements Model {
             col = value.get(row).length;
         } else {
             int trailingSpace = 2;
-            col = li.startColumn() - trailingSpace;
+            col = max(0, li.startColumn() - trailingSpace);
         }
 
         LineInfo nli = lineInfo();

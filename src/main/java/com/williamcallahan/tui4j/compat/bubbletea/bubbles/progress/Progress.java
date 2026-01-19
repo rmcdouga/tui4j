@@ -271,9 +271,11 @@ public class Progress implements Model {
         if (s == null || s.isEmpty()) {
             return 0;
         }
+        // Strip ANSI escape sequences before measuring width
+        String stripped = ANSI_PATTERN.matcher(s).replaceAll("");
         int width = 0;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+        for (int i = 0; i < stripped.length(); i++) {
+            char c = stripped.charAt(i);
             if (c < 0x1100) {
                 width++;
             } else {
@@ -282,6 +284,10 @@ public class Progress implements Model {
         }
         return width;
     }
+
+    // Pattern to match ANSI escape sequences (CSI, OSC, etc.)
+    private static final java.util.regex.Pattern ANSI_PATTERN =
+            java.util.regex.Pattern.compile("\u001B(?:\\[[0-9;]*[a-zA-Z]|\\][^\u0007]*\u0007)");
 
     private void barView(StringBuilder b, double percent, int textWidth) {
         int tw = Math.max(0, width - textWidth);
