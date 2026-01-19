@@ -1,5 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.progress;
 
+import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
@@ -8,8 +9,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGB;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -270,27 +269,23 @@ public class Progress implements Model {
         return b.toString();
     }
 
+    /**
+     * Returns the display width of a string in terminal cells.
+     * <p>
+     * Delegates to {@link TextWidth#measureCellWidth(String)} which uses
+     * grapheme clustering for accurate width calculation of:
+     * <ul>
+     *   <li>ANSI escape codes (ignored, not counted)</li>
+     *   <li>CJK characters (counted as 2 cells based on Unicode blocks)</li>
+     *   <li>Emojis and ZWJ sequences (counted as 2 cells)</li>
+     *   <li>Combining marks (counted as 0 cells)</li>
+     * </ul>
+     * This replaces the previous simple heuristic (chars &gt;= 0x1100 = 2 cells)
+     * with proper Unicode-aware width calculation.
+     */
     private static int textWidth(String s) {
-        if (s == null || s.isEmpty()) {
-            return 0;
-        }
-        // Strip ANSI escape sequences before measuring width
-        String stripped = ANSI_PATTERN.matcher(s).replaceAll("");
-        int width = 0;
-        for (int i = 0; i < stripped.length(); i++) {
-            char c = stripped.charAt(i);
-            if (c < 0x1100) {
-                width++;
-            } else {
-                width += 2;
-            }
-        }
-        return width;
+        return TextWidth.measureCellWidth(s);
     }
-
-    // Pattern to match ANSI escape sequences (CSI, OSC, etc.)
-    private static final java.util.regex.Pattern ANSI_PATTERN =
-            java.util.regex.Pattern.compile("\u001B(?:\\[[0-9;]*[a-zA-Z]|\\][^\u0007]*\u0007)");
 
     private void barView(StringBuilder b, double percent, int textWidth) {
         int tw = Math.max(0, width - textWidth);

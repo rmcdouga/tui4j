@@ -10,6 +10,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.message.ErrorMessage;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -266,6 +267,9 @@ public class FilePicker implements Model {
             }
             return true;
         } else if (Binding.matches(keyMsg, keyMap.pageUp())) {
+            if (this.files.isEmpty()) {
+                return true;
+            }
             this.selected -= this.height;
             if (this.selected < 0) {
                 this.selected = 0;
@@ -490,11 +494,21 @@ public class FilePicker implements Model {
             }
 
             DirEntry f = this.files.get(this.selected);
-            if (!f.isDir()) {
-                return false;
+            boolean isDir = f.isDir();
+
+            // Handle symlinks - resolve to check if target is a directory
+            if (f.isSymlink()) {
+                try {
+                    Path linkPath = Paths.get(this.currentDirectory, f.name());
+                    Path symlinkTarget = Files.readSymbolicLink(linkPath);
+                    Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
+                    isDir = Files.isDirectory(resolved);
+                } catch (IOException e) {
+                    throw new UncheckedIOException("Failed to resolve symlink: " + f.name(), e);
+                }
             }
 
-            return true;
+            return isDir;
         }
         return false;
     }

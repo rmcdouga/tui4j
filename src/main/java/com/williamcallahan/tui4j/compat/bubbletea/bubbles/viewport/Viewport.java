@@ -8,6 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.x.ansi.Cut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -200,89 +201,17 @@ public class Viewport implements Model {
                 return new ArrayList<>(result);
             }
 
+            // Cut.cut() provides ANSI-aware horizontal scrolling, preserving all escape
+            // sequences while extracting the visible portion [xOffset, xOffset+w).
+            // Equivalent to the previous inline cutLine() implementation.
             List<String> cutLines = new ArrayList<>();
             for (String line : result) {
-                cutLines.add(cutLine(line, xOffset, xOffset + w));
+                cutLines.add(Cut.cut(line, xOffset, xOffset + w));
             }
             return cutLines;
         }
 
         return new ArrayList<>();
-    }
-
-    /** Cuts a string by cell width, similar to Go's ansi.Cut for horizontal scrolling. */
-    private String cutLine(String str, int startCol, int endCol) {
-        if (str == null || str.isEmpty() || startCol >= endCol) {
-            return "";
-        }
-        StringBuilder result = new StringBuilder();
-        int currentCol = 0;
-        int i = 0;
-        while (i < str.length()) {
-            char c = str.charAt(i);
-            // Detect ANSI escape sequence
-            if (c == '\u001B' && i + 1 < str.length()) {
-                int seqEnd = parseAnsiSequence(str, i);
-                if (seqEnd > i) {
-                    // Only include ANSI sequences that are within or after the visible region
-                    if (currentCol >= startCol || currentCol < endCol) {
-                        result.append(str, i, seqEnd);
-                    }
-                    i = seqEnd;
-                    continue;
-                }
-            }
-            // Handle regular character
-            int cp = str.codePointAt(i);
-            String glyph = new String(Character.toChars(cp));
-            int glyphWidth = TextWidth.measureCellWidth(glyph);
-            if (currentCol + glyphWidth <= startCol) {
-                currentCol += glyphWidth;
-                i += Character.charCount(cp);
-                continue;
-            }
-            if (currentCol >= endCol) {
-                break;
-            }
-            result.append(glyph);
-            currentCol += glyphWidth;
-            i += Character.charCount(cp);
-        }
-        return result.toString();
-    }
-
-    /** Parses an ANSI escape sequence starting at pos, returns index after sequence or pos if not found. */
-    private int parseAnsiSequence(String str, int pos) {
-        if (pos >= str.length() || str.charAt(pos) != '\u001B') {
-            return pos;
-        }
-        if (pos + 1 >= str.length()) {
-            return pos;
-        }
-        char next = str.charAt(pos + 1);
-        if (next == '[') {
-            // CSI sequence: ESC [ ... final byte in 0x40-0x7E
-            for (int i = pos + 2; i < str.length(); i++) {
-                char ch = str.charAt(i);
-                if (ch >= 0x40 && ch <= 0x7E) {
-                    return i + 1;
-                }
-            }
-        } else if (next == ']') {
-            // OSC sequence: ESC ] ... terminated by BEL or ST (ESC \)
-            for (int i = pos + 2; i < str.length(); i++) {
-                if (str.charAt(i) == '\u0007') {
-                    return i + 1;
-                }
-                if (str.charAt(i) == '\u001B' && i + 1 < str.length() && str.charAt(i + 1) == '\\') {
-                    return i + 2;
-                }
-            }
-        } else if (next >= 0x40 && next <= 0x5F) {
-            // Fe escape sequence (2 bytes total)
-            return pos + 2;
-        }
-        return pos;
     }
 
     private String truncate(String str, int maxWidth) {
