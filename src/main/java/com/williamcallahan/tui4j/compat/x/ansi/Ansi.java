@@ -197,17 +197,18 @@ public final class Ansi {
      * It does NOT validate the full sequence - that is done by the UTF-8 decoder
      * (e.g., {@code new String(bytes, StandardCharsets.UTF_8)}).
      * <p>
-     * Valid UTF-8 start byte ranges:
+     * Byte ranges and return values:
      * <ul>
-     *   <li>0x00-0x7F: 1-byte (ASCII)</li>
-     *   <li>0xC0-0xDF: 2-byte sequence start</li>
-     *   <li>0xE0-0xEF: 3-byte sequence start</li>
-     *   <li>0xF0-0xF4: 4-byte sequence start (valid per UTF-8 spec)</li>
+     *   <li>0x00-0x7F: returns 1 (ASCII)</li>
+     *   <li>0x80-0xDF: returns 2 (includes invalid continuation bytes 0x80-0xBF
+     *       and valid 2-byte starts 0xC0-0xDF; invalid bytes fail downstream)</li>
+     *   <li>0xE0-0xEF: returns 3 (3-byte sequence start)</li>
+     *   <li>0xF0-0xF4: returns 4 (4-byte sequence start)</li>
+     *   <li>0xF5-0xFF: returns 1 (invalid in UTF-8)</li>
      * </ul>
-     * Invalid ranges (0x80-0xBF continuation bytes, 0xF5-0xFF) return 1.
      *
      * @param firstByte the first byte of a UTF-8 sequence
-     * @return the expected byte length (1-4), or 1 for invalid bytes
+     * @return the expected byte length (1-4)
      */
     public static int utf8ByteLength(byte firstByte) {
         int unsigned = firstByte & BYTE_MASK;

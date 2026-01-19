@@ -10,7 +10,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.message.ErrorMessage;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -504,7 +503,8 @@ public class FilePicker implements Model {
                     Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
                     isDir = Files.isDirectory(resolved);
                 } catch (IOException e) {
-                    throw new UncheckedIOException("Failed to resolve symlink: " + f.name(), e);
+                    logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
+                    return false;
                 }
             }
 

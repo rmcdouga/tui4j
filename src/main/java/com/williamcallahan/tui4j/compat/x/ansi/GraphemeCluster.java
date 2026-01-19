@@ -118,6 +118,34 @@ public final class GraphemeCluster {
             return 0;
         }
 
+        if (method == Method.WC_WIDTH) {
+            return calculateWcWidth(cluster);
+        }
+
+        return calculateGraphemeWidth(cluster);
+    }
+
+    /**
+     * WC_WIDTH: Traditional wcwidth behavior - sums per-code-point widths.
+     */
+    private static int calculateWcWidth(String cluster) {
+        int width = 0;
+        for (int i = 0; i < cluster.length(); ) {
+            int codePoint = cluster.codePointAt(i);
+
+            if (!isZeroWidth(codePoint) && Character.getType(codePoint) != Character.CONTROL) {
+                width += isWideCharacter(codePoint) ? 2 : 1;
+            }
+
+            i += Character.charCount(codePoint);
+        }
+        return width;
+    }
+
+    /**
+     * GRAPHEME_WIDTH: Treats the cluster as a single unit for width calculation.
+     */
+    private static int calculateGraphemeWidth(String cluster) {
         int codePoint = cluster.codePointAt(0);
 
         // Check for zero-width characters
