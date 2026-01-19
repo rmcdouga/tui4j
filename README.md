@@ -88,11 +88,21 @@ See all the [examples](examples) including lists, text inputs, spinners, and mor
 
 **Using TUI4J in your project?** We'd love to feature it! [Open an issue](https://github.com/WilliamAGH/tui4j/issues/new?title=Add%20project%20to%20Built%20with%20TUI4J&labels=showcase) or submit a PR.
 
-## Compatibility with Bubble Tea
+## Compatibility with Charmbracelet
 
-TUI4J includes a compatibility layer for Bubble Tea, which is a trademark of Charmbracelet, Inc. The original Go implementation is licensed under MIT.
+TUI4J ports the [charmbracelet](https://github.com/charmbracelet) ecosystem to Java:
 
-TUI4J seeks to replicate [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea) behavior as closely as possible, with a general 1:1 mapping for compatibility. When TUI4J adds functionality without a Bubble Tea equivalent, those APIs are treated as additive extensions.
+| Go Library | Description | Java Package |
+|------------|-------------|--------------|
+| [bubbletea](https://github.com/charmbracelet/bubbletea) | Core TUI framework | `compat.bubbletea.*` |
+| [bubbles](https://github.com/charmbracelet/bubbles) | UI components (viewport, textarea, table, progress, etc.) | `compat.bubbletea.bubbles.*` |
+| [lipgloss](https://github.com/charmbracelet/lipgloss) | Styling, colors, borders, layout | `compat.bubbletea.lipgloss.*` |
+| [x/ansi](https://github.com/charmbracelet/x) | ANSI parsing, text width | `compat.x.ansi.*` |
+| [harmonica](https://github.com/charmbracelet/harmonica) | Spring physics animation | `compat.bubbletea.harmonica.*` |
+
+TUI4J seeks to replicate upstream behavior as closely as possible, with a general 1:1 mapping for compatibility. When TUI4J adds functionality without a charmbracelet equivalent, those APIs are treated as additive extensions.
+
+Bubble Tea is a trademark of Charmbracelet, Inc. The original Go implementations are licensed under MIT.
 
 Check [STATUS.md](STATUS.md) for current porting status.
 
