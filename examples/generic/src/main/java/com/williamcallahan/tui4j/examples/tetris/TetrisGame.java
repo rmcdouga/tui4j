@@ -5,16 +5,16 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.StandardBorder;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.HorizontalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.VerticalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.placement.PlacementDecorator;
-import com.williamcallahan.tui4j.message.CheckWindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.lipgloss.Position;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator;
+import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
+import com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator;
+import com.williamcallahan.tui4j.compat.bubbletea.CheckWindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
 
 /**
  * Example program for tetris game.

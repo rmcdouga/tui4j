@@ -5,18 +5,18 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.viewport.Viewport;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport;
+import com.williamcallahan.tui4j.ansi.TextWidth;
+import com.williamcallahan.tui4j.compat.lipgloss.Borders;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class PagerExample implements Model {
 
@@ -34,17 +34,14 @@ public class PagerExample implements Model {
         this.viewport = Viewport.create(0, 0);
 
         Style border = Style.newStyle()
-                .borderStyle(Style.RoundedBorder())
+                .border(Borders.roundedBorder())
                 .paddingTop(0)
                 .paddingBottom(0)
                 .paddingLeft(1)
                 .paddingRight(1);
 
-        this.titleStyle = border.clone()
-                .borderRight("├");
-
-        this.infoStyle = titleStyle.clone()
-                .borderLeft("┤");
+        this.titleStyle = border.copy();
+        this.infoStyle = border.copy();
     }
 
     @Override
@@ -106,8 +103,7 @@ public class PagerExample implements Model {
     }
 
     private int stringWidth(String s) {
-        com.williamcallahan.tui4j.ansi.TextWidth tw = new com.williamcallahan.tui4j.ansi.TextWidth();
-        return tw.measure(s);
+        return TextWidth.measureCellWidth(s);
     }
 
     private String joinHorizontal(String... parts) {
@@ -127,8 +123,8 @@ public class PagerExample implements Model {
             content = DEFAULT_CONTENT;
         }
         new Program(new PagerExample(content))
-                .withAltScreen(true)
-                .withMouseCellMotion(true)
+                .withAltScreen()
+                .withMouseCellMotion()
                 .run();
     }
 

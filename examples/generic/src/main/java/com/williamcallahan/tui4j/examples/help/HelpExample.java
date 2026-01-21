@@ -5,10 +5,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.help.Help;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.help.KeyMap;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbles.help.Help;
+import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
+import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
 public class HelpExample implements Model {
 

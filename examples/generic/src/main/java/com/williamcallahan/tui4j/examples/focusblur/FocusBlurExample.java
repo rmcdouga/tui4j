@@ -5,10 +5,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.message.BlurMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.FocusMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 
 /**
  * Example program for focus blur.

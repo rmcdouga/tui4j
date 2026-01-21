@@ -1,8 +1,8 @@
 package com.williamcallahan.tui4j.springexample.view;
 
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.help.KeyMap;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultDelegate;
+import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
+import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbles.list.DefaultDelegate;
 import org.springframework.stereotype.Component;
 
 /**

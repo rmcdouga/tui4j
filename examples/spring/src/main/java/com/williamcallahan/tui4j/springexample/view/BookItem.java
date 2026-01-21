@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.springexample.view;
 
 import lombok.RequiredArgsConstructor;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItem;
+import com.williamcallahan.tui4j.compat.bubbles.list.DefaultItem;
 import com.williamcallahan.tui4j.springexample.model.Author;
 import com.williamcallahan.tui4j.springexample.model.Book;
 

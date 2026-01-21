@@ -5,15 +5,15 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.FilteredItem;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.Item;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ItemDelegate;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.List;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.Styles;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem;
+import com.williamcallahan.tui4j.compat.bubbles.list.Item;
+import com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate;
+import com.williamcallahan.tui4j.compat.bubbles.list.List;
+import com.williamcallahan.tui4j.compat.bubbles.list.Styles;
 
 /**
  * Example program for list simple.

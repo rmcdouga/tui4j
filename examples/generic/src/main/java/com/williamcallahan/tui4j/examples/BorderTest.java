@@ -1,9 +1,9 @@
 package com.williamcallahan.tui4j.examples;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.StandardBorder;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 
 /**

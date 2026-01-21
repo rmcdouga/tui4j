@@ -5,13 +5,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Dimensions;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItem;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.Item;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.List;
+import com.williamcallahan.tui4j.compat.lipgloss.Dimensions;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbles.list.DefaultItem;
+import com.williamcallahan.tui4j.compat.bubbles.list.Item;
+import com.williamcallahan.tui4j.compat.bubbles.list.List;
 
 import java.time.Duration;
 

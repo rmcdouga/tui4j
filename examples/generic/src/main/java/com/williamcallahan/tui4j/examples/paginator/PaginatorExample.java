@@ -5,13 +5,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Bounds;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Paginator;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Type;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbles.paginator.Bounds;
+import com.williamcallahan.tui4j.compat.bubbles.paginator.Paginator;
+import com.williamcallahan.tui4j.compat.bubbles.paginator.Type;
 
 import java.util.Arrays;
 

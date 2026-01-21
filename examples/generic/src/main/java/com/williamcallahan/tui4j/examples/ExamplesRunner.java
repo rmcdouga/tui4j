@@ -12,8 +12,8 @@ import com.williamcallahan.tui4j.examples.exec.ExecExample;
 import com.williamcallahan.tui4j.examples.fullscreen.FullscreenExample;
 import com.williamcallahan.tui4j.examples.split.SplitEditorsExample;
 import com.williamcallahan.tui4j.examples.tuidemoncombo.DaemonComboExample;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 
 import java.util.List;
 

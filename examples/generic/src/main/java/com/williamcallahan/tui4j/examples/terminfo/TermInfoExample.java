@@ -5,9 +5,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 
 /**
  * Example program for term info.

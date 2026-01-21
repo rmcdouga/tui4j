@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.examples.listfancy;
 
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItem;
+import com.williamcallahan.tui4j.compat.bubbles.list.DefaultItem;
 
 /**
  * Example program for fancy item.

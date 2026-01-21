@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.examples.listfancy;
 
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
 /**
  * Example program for keys.

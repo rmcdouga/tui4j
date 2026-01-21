@@ -5,13 +5,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.HorizontalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.Spinner;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.SpinnerType;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer.Timer;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.Position;
+import com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
+import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
+import com.williamcallahan.tui4j.compat.bubbles.timer.Timer;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -94,13 +94,13 @@ public class ComposableViewsExample implements Model {
             }
         }
 
-        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer.TickMessage) {
+        if (msg instanceof com.williamcallahan.tui4j.compat.bubbles.timer.TickMessage) {
             UpdateResult<Timer> result = timer.update(msg);
             timer = result.model();
             if (result.command() != null) {
                 commands.add(result.command());
             }
-        } else if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.TickMessage) {
+        } else if (msg instanceof com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage) {
             UpdateResult<Spinner> result = spinner.update(msg);
             spinner = result.model();
             if (result.command() != null) {

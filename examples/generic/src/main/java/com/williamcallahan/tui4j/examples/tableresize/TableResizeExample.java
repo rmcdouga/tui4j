@@ -4,15 +4,15 @@ import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.StandardBorder;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.table.StyleFunc;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.table.Table;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.table.StyleFunc;
+import com.williamcallahan.tui4j.compat.lipgloss.table.Table;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
 
 public class TableResizeExample implements Model {
 

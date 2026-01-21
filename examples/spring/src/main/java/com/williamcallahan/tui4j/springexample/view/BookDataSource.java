@@ -1,9 +1,9 @@
 package com.williamcallahan.tui4j.springexample.view;
 
 import lombok.RequiredArgsConstructor;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.FetchedItems;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.FilteredItem;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ListDataSource;
+import com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems;
+import com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem;
+import com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource;
 import com.williamcallahan.tui4j.springexample.model.Book;
 import com.williamcallahan.tui4j.springexample.repository.BookRepository;
 import org.springframework.data.domain.Page;

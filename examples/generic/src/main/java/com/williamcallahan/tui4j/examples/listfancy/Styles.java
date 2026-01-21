@@ -1,8 +1,8 @@
 package com.williamcallahan.tui4j.examples.listfancy;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 
 import java.util.function.Function;
 

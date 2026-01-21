@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.examples.tetris;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 
 import java.util.ArrayList;
 import java.util.List;

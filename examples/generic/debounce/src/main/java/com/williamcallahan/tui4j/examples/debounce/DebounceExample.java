@@ -5,9 +5,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.Spinner;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.SpinnerType;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
+import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color;
 
 import java.time.Duration;
 
@@ -16,35 +18,34 @@ public class DebounceExample implements Model {
     private static final Duration DEBOUNCE_DURATION = Duration.ofSeconds(1);
 
     private int tag;
-    private boolean quitting;
     private Spinner spinner;
 
     public DebounceExample() {
         this.tag = 0;
-        this.quitting = false;
-        this.spinner = new Spinner(SpinnerType.DOTS);
-        this.spinner.setStyle(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle()
-                .foregroundColor(240));
+        this.spinner = new Spinner(SpinnerType.DOT);
+        this.spinner.setStyle(Style.newStyle().foreground(new ANSI256Color(240)));
     }
 
     @Override
     public Command init() {
-        return Command.none();
+        return null;
     }
 
     @Override
     public UpdateResult<? extends Model> update(Message msg) {
-        if (msg instanceof KeyPressMessage keyPressMessage) {
+        if (msg instanceof KeyPressMessage) {
             tag++;
-        return UpdateResult.from(this,
-                Command.batch(
-                        Command.tick(DEBOUNCE_DURATION, __ -> new ExitMsg(tag)),
-                        Command.ofMsg(spinner::tick)));
+            return UpdateResult.from(
+                    this,
+                    Command.batch(
+                            Command.tick(DEBOUNCE_DURATION, __ -> new ExitMsg(tag)),
+                            spinner::tick
+                    )
+            );
         }
 
         if (msg instanceof ExitMsg exitMsg) {
             if (exitMsg.tag() == tag) {
-                quitting = true;
                 return UpdateResult.from(this, Command.quit());
             }
         }
