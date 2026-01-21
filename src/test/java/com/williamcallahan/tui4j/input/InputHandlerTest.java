@@ -13,11 +13,14 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.message.UnknownSequenceMessage;
 import org.jline.terminal.Terminal;
 import org.jline.utils.NonBlockingReader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -41,6 +44,11 @@ class InputHandlerTest {
 
     @Mock
     private NonBlockingReader reader;
+
+    @BeforeEach
+    void setup() {
+        when(terminal.writer()).thenReturn(new PrintWriter(new StringWriter()));
+    }
 
     @Test
     void test_ShouldPublishKeyPressMessage_WhenPressingRegularKey() throws Throwable {
