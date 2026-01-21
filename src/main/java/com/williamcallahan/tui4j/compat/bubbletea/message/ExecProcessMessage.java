@@ -37,14 +37,7 @@ public class ExecProcessMessage implements Message {
     }
 
     public static byte[] readStream(InputStream inputStream) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            return content.toString().getBytes();
-        }
+        return inputStream.readAllBytes();
     }
 }
 
