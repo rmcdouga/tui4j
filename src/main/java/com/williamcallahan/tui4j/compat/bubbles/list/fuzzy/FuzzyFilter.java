@@ -8,16 +8,35 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Port of Bubbles fuzzy filter.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * Fuzzy matching filter for list items.
+ * <p>
+ * Port of charmbracelet/bubbles list/list.go DefaultFilter function.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/list/list.go">bubbles/list/list.go</a>
  */
 public class FuzzyFilter {
 
+    private FuzzyFilter() {}
+
+    /**
+     * Filters and ranks targets by fuzzy matching against a search term.
+     * Results are sorted by match quality.
+     *
+     * @param term the search term
+     * @param targets the strings to match against
+     * @return ranked results for matching items
+     */
     public static Rank[] defaultFilter(String term, String[] targets) {
         return filter(term, targets, true);
-
     }
 
+    /**
+     * Filters targets by fuzzy matching without sorting.
+     *
+     * @param term the search term
+     * @param targets the strings to match against
+     * @return ranked results in original order
+     */
     public static Rank[] unsortedFilter(String term, String[] targets) {
         return filter(term, targets, false);
     }

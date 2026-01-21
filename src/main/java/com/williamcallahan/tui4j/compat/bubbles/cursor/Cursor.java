@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Port of the cursor blink initialization message.
@@ -50,7 +51,7 @@ public class Cursor implements Model {
     private Style style;
     private Style textStyle;
     private String charUnderCursor;
-    private int blinkTag;
+    private final AtomicInteger blinkTag = new AtomicInteger(0);
     private boolean focus;
     private boolean blink;
     private CursorMode mode;
@@ -101,7 +102,7 @@ public class Cursor implements Model {
             if (mode != CursorMode.Blink || !focus) {
                 return UpdateResult.from(this);
             }
-            if (blinkMessage.id() != id || blinkMessage.tag() != blinkTag) {
+            if (blinkMessage.id() != id || blinkMessage.tag() != blinkTag.get()) {
                 return UpdateResult.from(this);
             }
             if (mode == CursorMode.Blink) {
@@ -125,8 +126,7 @@ public class Cursor implements Model {
             return null;
         }
 
-        blinkTag++;
-        final int currentTag = blinkTag;
+        final int currentTag = blinkTag.incrementAndGet();
 
         return () -> {
             try (ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor()) {

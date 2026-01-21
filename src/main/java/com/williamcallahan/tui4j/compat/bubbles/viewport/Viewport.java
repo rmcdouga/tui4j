@@ -35,6 +35,13 @@ public class Viewport implements Model {
     private int horizontalStep;
     private int yPosition;
     private Style style;
+    /**
+     * @deprecated High performance rendering is deprecated in upstream Bubble Tea.
+     *             This field is retained for API compatibility but has no effect.
+     * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
+     */
+    @Deprecated(since = "0.3.0")
+    @SuppressWarnings("DeprecatedIsStillUsed")
     private boolean highPerformanceRendering;
     private boolean initialized;
     private List<String> lines;
@@ -157,29 +164,6 @@ public class Viewport implements Model {
         }
 
         return new ArrayList<>();
-    }
-
-    private String truncate(String str, int maxWidth) {
-        if (str == null) {
-            return "";
-        }
-        int currentWidth = TextWidth.measureCellWidth(str);
-        if (currentWidth <= maxWidth) {
-            return str;
-        }
-
-        int width = 0;
-        int lastValidPos = 0;
-        for (int i = 0; i < str.length(); i++) {
-            String charStr = str.substring(i, i + 1);
-            int charWidth = TextWidth.measureCellWidth(charStr);
-            if (width + charWidth > maxWidth) {
-                break;
-            }
-            width += charWidth;
-            lastValidPos = i + 1;
-        }
-        return str.substring(0, lastValidPos);
     }
 
     public void pageDown() {
@@ -383,10 +367,22 @@ public class Viewport implements Model {
         this.style = style;
     }
 
+    /**
+     * @deprecated High performance rendering is deprecated in upstream Bubble Tea.
+     *             This method is retained for API compatibility but has no effect.
+     * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
+     */
+    @Deprecated(since = "0.3.0")
     public boolean isHighPerformanceRendering() {
         return highPerformanceRendering;
     }
 
+    /**
+     * @deprecated High performance rendering is deprecated in upstream Bubble Tea.
+     *             This method is retained for API compatibility but has no effect.
+     * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
+     */
+    @Deprecated(since = "0.3.0")
     public void setHighPerformanceRendering(boolean highPerformanceRendering) {
         this.highPerformanceRendering = highPerformanceRendering;
     }

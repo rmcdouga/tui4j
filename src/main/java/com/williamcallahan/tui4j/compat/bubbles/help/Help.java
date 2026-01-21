@@ -9,8 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Port of Bubbles help.
- * Bubble Tea: bubbletea/examples/help/main.go
+ * Component for rendering keyboard shortcut help text.
+ * <p>
+ * Port of charmbracelet/bubbles help/help.go.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/help/help.go">bubbles/help/help.go</a>
  */
 public class Help {
 
@@ -22,6 +25,7 @@ public class Help {
     private String ellipsis;
     private Styles styles;
 
+    /** Creates a new help component with default settings. */
     public Help() {
         this.shortSeparator = " • ";
         this.fullSeparator = "    ";
@@ -30,10 +34,21 @@ public class Help {
         this.styles = new Styles();
     }
 
+    /**
+     * Sets the maximum width for the help text.
+     *
+     * @param width the width in characters
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Renders the help text for the given key map.
+     *
+     * @param keyMap the key map to render
+     * @return the rendered help string
+     */
     public String render(KeyMap keyMap) {
         if (showAll) {
             return fullHelpView(keyMap.fullHelp());
@@ -163,14 +178,29 @@ public class Help {
         return new Result(true, "");
     }
 
+    /**
+     * Sets the separator used between items in full help view.
+     *
+     * @param fullSeparator the separator string
+     */
     public void setFullSeparator(String fullSeparator) {
         this.fullSeparator = fullSeparator;
     }
 
+    /**
+     * Sets whether to show full or short help.
+     *
+     * @param showAll true for full help, false for short help
+     */
     public void setShowAll(boolean showAll) {
         this.showAll = showAll;
     }
 
+    /**
+     * Returns whether full help is being shown.
+     *
+     * @return true if full help is shown
+     */
     public boolean showAll() {
         return showAll;
     }

@@ -67,6 +67,9 @@ public class Table implements Model, KeyMap {
 
     public Table rows(Row... rows) {
         this.rows = List.of(rows);
+        if (cursor > this.rows.size() - 1) {
+            cursor = Math.max(0, this.rows.size() - 1);
+        }
         updateViewport();
         return this;
     }
@@ -137,9 +140,46 @@ public class Table implements Model, KeyMap {
     @Override
     public String view() {
         StringBuilder sb = new StringBuilder();
-        sb.append(headersView()).append("\n");
-        sb.append(contentView());
+        String headerLine = headersView();
+        
+        int headerLineCount = 0;
+        if (!headerLine.isEmpty()) {
+            sb.append(headerLine).append("\n");
+            headerLineCount = headerLine.split("\n", -1).length;
+        }
+        
+        String content = contentView();
+        sb.append(content);
+        
+        int contentLines = content.isEmpty() ? 0 : content.split("\n", -1).length;
+        int totalRendered = headerLineCount + contentLines;
+        
+        // Pad to fill exactly height lines
+        int tableWidth = calculateTableWidth();
+        String paddingLine = " ".repeat(Math.max(0, tableWidth));
+        
+        // For empty table, output just newlines to fill height
+        if (headerLine.isEmpty() && content.isEmpty()) {
+            sb.append("\n".repeat(height));
+        } else {
+            // Add padding lines to reach height total lines
+            for (int i = totalRendered; i < height; i++) {
+                sb.append("\n").append(paddingLine);
+            }
+        }
+        
         return sb.toString();
+    }
+    
+    private int calculateTableWidth() {
+        int width = 0;
+        for (Column col : columns) {
+            if (col.width() > 0) {
+                // Column width + padding (1 left + 1 right from default style)
+                width += col.width() + 2;
+            }
+        }
+        return width;
     }
 
     private String headersView() {
@@ -233,14 +273,18 @@ public class Table implements Model, KeyMap {
     }
 
     private void updateViewport() {
-        int viewportHeight = height - headersView().split("\n").length;
+        int headerLineCount = headersView().split("\n").length;
+        if (headersView().isEmpty()) {
+            headerLineCount = 0;
+        }
+        int viewportHeight = Math.max(0, height - headerLineCount);
 
         if (cursor >= 0) {
-            start = clamp(cursor - viewportHeight, 0, cursor);
+            start = clamp(cursor - viewportHeight + 1, 0, cursor);
         } else {
             start = 0;
         }
-        end = clamp(cursor + viewportHeight + 1, cursor, rows.size());
+        end = Math.min(start + viewportHeight, rows.size());
     }
 
     private int clamp(int value, int low, int high) {
@@ -279,7 +323,7 @@ public class Table implements Model, KeyMap {
     public void setRows(List<Row> rows) {
         this.rows = rows;
         if (cursor > rows.size() - 1) {
-            cursor = rows.size() - 1;
+            cursor = Math.max(0, rows.size() - 1);
         }
         updateViewport();
     }

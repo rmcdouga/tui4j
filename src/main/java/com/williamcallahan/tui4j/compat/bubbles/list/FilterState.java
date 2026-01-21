@@ -1,12 +1,18 @@
 package com.williamcallahan.tui4j.compat.bubbles.list;
 
 /**
- * Port of Bubbles filter state.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * Represents the current filtering state of a list component.
+ * <p>
+ * Port of charmbracelet/bubbles list/list.go FilterState type.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/list/list.go">bubbles/list/list.go</a>
  */
 public enum FilterState {
-    Unfiltered("unfiltered"), // no filter set
-    Filtering("filtering"), // user is actively setting a filter
+    /** No filter is currently set. */
+    Unfiltered("unfiltered"),
+    /** User is actively typing a filter term. */
+    Filtering("filtering"),
+    /** A filter has been applied and results are shown. */
     FilterApplied("filter applied");
 
     private final String stateName;

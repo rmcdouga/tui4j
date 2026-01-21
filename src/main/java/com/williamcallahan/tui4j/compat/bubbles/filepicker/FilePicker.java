@@ -17,17 +17,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * File selection bubble.
+ * File selection bubble for navigating the filesystem and selecting files or directories.
  * <p>
- * Port of `bubbles/filepicker`.
- * Allows navigating the filesystem and selecting files or directories.
+ * Port of charmbracelet/bubbles filepicker/filepicker.go.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
  */
 public class FilePicker implements Model {
 
@@ -49,7 +48,6 @@ public class FilePicker implements Model {
     private boolean fileAllowed;
     private boolean autoHeight;
     private int height;
-    private int cursor;
     private int selected;
     private int min;
     private int max;
@@ -61,6 +59,7 @@ public class FilePicker implements Model {
     private static final AtomicInteger nextId = new AtomicInteger(1);
     private List<String> readErrors;
 
+    /** Creates a new file picker with default settings. */
     public FilePicker() {
         this.id = generateId();
         this.currentDirectory = ".";
@@ -155,6 +154,11 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Sets the visible height in rows.
+     *
+     * @param height the height in rows
+     */
     public void setHeight(int height) {
         this.height = height;
         if (this.max > this.height - 1) {
@@ -162,6 +166,12 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Updates the picker dimensions based on terminal size.
+     *
+     * @param width the terminal width
+     * @param height the terminal height
+     */
     public void setTerminalSize(int width, int height) {
         if (this.autoHeight) {
             this.height = height - MARGIN_BOTTOM;
@@ -445,10 +455,21 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Returns the path of the selected file or directory.
+     *
+     * @return the selected path, or null if nothing selected
+     */
     public String selectedPath() {
         return this.path;
     }
 
+    /**
+     * Checks if the given message represents a file selection.
+     *
+     * @param msg the message to check
+     * @return true if a file was selected
+     */
     public boolean didSelectFile(Message msg) {
         if (msg instanceof KeyMsg keyMsg) {
             if (!Binding.matches(keyMsg, keyMap.select())) {
@@ -483,6 +504,12 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Checks if the given message represents entering a directory.
+     *
+     * @param msg the message to check
+     * @return true if a directory was opened
+     */
     public boolean didSelectDirectory(Message msg) {
         if (msg instanceof KeyMsg keyMsg) {
             if (!Binding.matches(keyMsg, keyMap.open())) {
@@ -514,6 +541,11 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Returns the current directory path.
+     *
+     * @return the current directory
+     */
     public String currentDirectory() {
         return this.currentDirectory;
     }
@@ -521,6 +553,8 @@ public class FilePicker implements Model {
     /**
      * Returns any errors encountered while reading the current directory.
      * Errors are cleared when a new directory is read.
+     *
+     * @return list of error messages
      */
     public List<String> readErrors() {
         return List.copyOf(this.readErrors);
@@ -528,87 +562,189 @@ public class FilePicker implements Model {
 
     /**
      * Returns true if there were errors reading the current directory.
+     *
+     * @return true if there are read errors
      */
     public boolean hasReadErrors() {
         return !this.readErrors.isEmpty();
     }
 
+    /**
+     * Sets the current directory.
+     *
+     * @param directory the directory path
+     */
     public void setCurrentDirectory(String directory) {
         this.currentDirectory = directory;
     }
 
+    /**
+     * Returns the list of allowed file extensions.
+     *
+     * @return list of allowed extensions
+     */
     public List<String> allowedTypes() {
         return new ArrayList<>(this.allowedTypes);
     }
 
+    /**
+     * Sets the allowed file extensions for selection.
+     *
+     * @param types the allowed extensions (e.g., ".txt", ".java")
+     */
     public void setAllowedTypes(String... types) {
         this.allowedTypes = new ArrayList<>(Arrays.asList(types));
     }
 
+    /**
+     * Returns whether hidden files are shown.
+     *
+     * @return true if hidden files are shown
+     */
     public boolean showHidden() {
         return this.showHidden;
     }
 
+    /**
+     * Sets whether to show hidden files.
+     *
+     * @param showHidden true to show hidden files
+     */
     public void setShowHidden(boolean showHidden) {
         this.showHidden = showHidden;
     }
 
+    /**
+     * Returns whether directories can be selected.
+     *
+     * @return true if directories can be selected
+     */
     public boolean dirAllowed() {
         return this.dirAllowed;
     }
 
+    /**
+     * Sets whether directories can be selected.
+     *
+     * @param dirAllowed true to allow directory selection
+     */
     public void setDirAllowed(boolean dirAllowed) {
         this.dirAllowed = dirAllowed;
     }
 
+    /**
+     * Returns whether files can be selected.
+     *
+     * @return true if files can be selected
+     */
     public boolean fileAllowed() {
         return this.fileAllowed;
     }
 
+    /**
+     * Sets whether files can be selected.
+     *
+     * @param fileAllowed true to allow file selection
+     */
     public void setFileAllowed(boolean fileAllowed) {
         this.fileAllowed = fileAllowed;
     }
 
+    /**
+     * Returns whether file permissions are displayed.
+     *
+     * @return true if permissions are shown
+     */
     public boolean showPermissions() {
         return this.showPermissions;
     }
 
+    /**
+     * Sets whether to show file permissions.
+     *
+     * @param showPermissions true to show permissions
+     */
     public void setShowPermissions(boolean showPermissions) {
         this.showPermissions = showPermissions;
     }
 
+    /**
+     * Returns whether file sizes are displayed.
+     *
+     * @return true if sizes are shown
+     */
     public boolean showSize() {
         return this.showSize;
     }
 
+    /**
+     * Sets whether to show file sizes.
+     *
+     * @param showSize true to show sizes
+     */
     public void setShowSize(boolean showSize) {
         this.showSize = showSize;
     }
 
+    /**
+     * Returns the visible height in rows.
+     *
+     * @return the height
+     */
     public int height() {
         return this.height;
     }
 
+    /**
+     * Returns the current styles.
+     *
+     * @return the styles
+     */
     public Styles styles() {
         return this.styles;
     }
 
+    /**
+     * Sets the styles for rendering.
+     *
+     * @param styles the styles to use
+     */
     public void setStyles(Styles styles) {
         this.styles = styles;
     }
 
+    /**
+     * Returns the current key bindings.
+     *
+     * @return the key map
+     */
     public KeyMap keyMap() {
         return this.keyMap;
     }
 
+    /**
+     * Sets the key bindings.
+     *
+     * @param keyMap the key map to use
+     */
     public void setKeyMap(KeyMap keyMap) {
         this.keyMap = keyMap;
     }
 
+    /**
+     * Returns the cursor character.
+     *
+     * @return the cursor character
+     */
     public String cursorChar() {
         return this.cursorChar;
     }
 
+    /**
+     * Sets the cursor character.
+     *
+     * @param cursorChar the cursor character to use
+     */
     public void setCursorChar(String cursorChar) {
         this.cursorChar = cursorChar;
     }
