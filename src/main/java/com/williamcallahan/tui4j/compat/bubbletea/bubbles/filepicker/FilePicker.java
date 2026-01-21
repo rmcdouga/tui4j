@@ -93,6 +93,7 @@ public class FilePicker implements Model {
      * Returns a command to populate the file list from the current directory.
      * Respects showHidden rules.
      */
+    @Override
     public Command init() {
         return readDir(this.currentDirectory, this.showHidden);
     }
