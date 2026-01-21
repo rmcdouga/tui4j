@@ -11,9 +11,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class SetWindowTitleMsg implements Message {
-
-    private final SetWindowTitleMessage message;
+public class SetWindowTitleMsg extends SetWindowTitleMessage {
 
     /**
      * Creates a set window title message.
@@ -23,17 +21,6 @@ public class SetWindowTitleMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public SetWindowTitleMsg(String title) {
-        this.message = new SetWindowTitleMessage(title);
-    }
-
-    /**
-     * Returns the window title to set.
-     *
-     * @return window title
-     * @deprecated Use {@link SetWindowTitleMessage#title()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String title() {
-        return message.title();
+        super(title);
     }
 }

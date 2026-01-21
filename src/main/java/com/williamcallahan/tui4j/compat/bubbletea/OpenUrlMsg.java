@@ -10,9 +10,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class OpenUrlMsg implements Message {
-
-    private final OpenUrlMessage message;
+public class OpenUrlMsg extends OpenUrlMessage {
 
     /**
      * Creates an open URL message.
@@ -22,17 +20,6 @@ public class OpenUrlMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public OpenUrlMsg(String url) {
-        this.message = new OpenUrlMessage(url);
-    }
-
-    /**
-     * Returns the URL to open.
-     *
-     * @return URL string
-     * @deprecated Use {@link OpenUrlMessage#url()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String url() {
-        return message.url();
+        super(url);
     }
 }
