@@ -1,5 +1,6 @@
 package com.williamcallahan.tui4j.examples.pager;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
@@ -44,6 +45,11 @@ public class PagerExample implements Model {
 
         this.infoStyle = titleStyle.clone()
                 .borderLeft("┤");
+    }
+
+    @Override
+    public Command init() {
+        return null;
     }
 
     @Override
