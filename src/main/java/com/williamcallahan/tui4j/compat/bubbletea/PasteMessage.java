@@ -31,10 +31,14 @@ public class PasteMessage implements Message {
         return content;
     }
 
+    @SuppressWarnings("removal")
     @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
+        }
+        if (other instanceof PasteMsg pasteMsg) {
+            return Objects.equals(content, pasteMsg.content());
         }
         if (!(other instanceof PasteMessage pasteMessage)) {
             return false;

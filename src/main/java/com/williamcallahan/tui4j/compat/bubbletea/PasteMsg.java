@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
+import java.util.Objects;
+
 /**
  * Message for bracketed paste events.
  * <p>
@@ -11,7 +13,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class PasteMsg extends PasteMessage {
+public class PasteMsg implements Message {
+
+    private final PasteMessage message;
 
     /**
      * Creates a paste message with the specified content.
@@ -21,6 +25,43 @@ public class PasteMsg extends PasteMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public PasteMsg(String content) {
-        super(content);
+        this.message = new PasteMessage(content);
+    }
+
+    /**
+     * Returns the pasted content.
+     *
+     * @return the content
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String content() {
+        return message.content();
+    }
+
+    @Override
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other instanceof PasteMessage pasteMessage) {
+            return Objects.equals(content(), pasteMessage.content());
+        }
+        if (!(other instanceof PasteMsg pasteMsg)) {
+            return false;
+        }
+        return Objects.equals(content(), pasteMsg.content());
+    }
+
+    @Override
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int hashCode() {
+        return Objects.hash(content());
+    }
+
+    @Override
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String toString() {
+        return "PasteMessage[content=" + content() + "]";
     }
 }

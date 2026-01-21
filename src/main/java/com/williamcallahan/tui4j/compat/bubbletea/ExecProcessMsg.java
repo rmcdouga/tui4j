@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.function.BiConsumer;
 
 /**
@@ -13,7 +15,9 @@ import java.util.function.BiConsumer;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class ExecProcessMsg extends ExecProcessMessage {
+public class ExecProcessMsg implements Message {
+
+    private final ExecProcessMessage message;
 
     /**
      * Creates a new exec process message.
@@ -25,6 +29,30 @@ public class ExecProcessMsg extends ExecProcessMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public ExecProcessMsg(Process process, BiConsumer<Integer, byte[]> outputHandler, BiConsumer<Integer, byte[]> errorHandler) {
-        super(process, outputHandler, errorHandler);
+        this.message = new ExecProcessMessage(process, outputHandler, errorHandler);
+    }
+
+    /** @deprecated Use {@link ExecProcessMessage#process()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Process process() {
+        return message.process();
+    }
+
+    /** @deprecated Use {@link ExecProcessMessage#outputHandler()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public BiConsumer<Integer, byte[]> outputHandler() {
+        return message.outputHandler();
+    }
+
+    /** @deprecated Use {@link ExecProcessMessage#errorHandler()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public BiConsumer<Integer, byte[]> errorHandler() {
+        return message.errorHandler();
+    }
+
+    /** @deprecated Use {@link ExecProcessMessage#readStream(InputStream)} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public static byte[] readStream(InputStream inputStream) throws IOException {
+        return ExecProcessMessage.readStream(inputStream);
     }
 }

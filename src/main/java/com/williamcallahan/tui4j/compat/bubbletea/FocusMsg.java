@@ -11,7 +11,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/focus.go">bubbletea/focus.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class FocusMsg extends FocusMessage {
+public class FocusMsg implements Message {
 
     /**
      * Creates a new focus message.

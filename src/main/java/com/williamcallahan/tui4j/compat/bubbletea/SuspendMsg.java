@@ -11,5 +11,5 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class SuspendMsg extends SuspendMessage {
+public class SuspendMsg implements Message {
 }

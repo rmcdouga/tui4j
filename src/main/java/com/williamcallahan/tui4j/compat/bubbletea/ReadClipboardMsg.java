@@ -14,5 +14,26 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class ReadClipboardMsg extends ReadClipboardMessage {
+public class ReadClipboardMsg implements Message {
+
+    @Override
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        return other instanceof ReadClipboardMsg || other instanceof ReadClipboardMessage;
+    }
+
+    @Override
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int hashCode() {
+        return ReadClipboardMessage.class.hashCode();
+    }
+
+    @Override
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String toString() {
+        return "ReadClipboardMessage[]";
+    }
 }

@@ -13,12 +13,13 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  */
 public class ReadClipboardMessage implements Message {
 
+    @SuppressWarnings("removal")
     @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
         }
-        return other instanceof ReadClipboardMessage;
+        return other instanceof ReadClipboardMessage || other instanceof ReadClipboardMsg;
     }
 
     @Override
