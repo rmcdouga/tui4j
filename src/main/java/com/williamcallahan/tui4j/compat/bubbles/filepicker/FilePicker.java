@@ -6,7 +6,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.ErrorMsg;
 
 import java.io.IOException;
@@ -181,8 +181,8 @@ public class FilePicker implements Model {
 
     @Override
     public UpdateResult<FilePicker> update(Message msg) {
-        if (msg instanceof KeyMsg keyMsg) {
-            return handleKeyPress(keyMsg);
+        if (msg instanceof KeyPressMessage keyPressMessage) {
+            return handleKeyPress(keyPressMessage);
         } else if (msg instanceof ReadDirMessage readDirMsg) {
             if (readDirMsg.id() != this.id) {
                 return UpdateResult.from(this);
@@ -203,10 +203,10 @@ public class FilePicker implements Model {
         return UpdateResult.from(this);
     }
 
-    private UpdateResult<FilePicker> handleKeyPress(KeyMsg keyMsg) {
-        if (handleNavigation(keyMsg)) {
+    private UpdateResult<FilePicker> handleKeyPress(KeyPressMessage keyPressMessage) {
+        if (handleNavigation(keyPressMessage)) {
             return UpdateResult.from(this);
-        } else if (Binding.matches(keyMsg, keyMap.back())) {
+        } else if (Binding.matches(keyPressMessage, keyMap.back())) {
             this.currentDirectory = Path.of(this.currentDirectory).getParent() != null
                     ? Path.of(this.currentDirectory).getParent().toString()
                     : ".";
@@ -220,24 +220,24 @@ public class FilePicker implements Model {
                 this.max = this.height - 1;
             }
             return UpdateResult.from(this, readDir(this.currentDirectory, this.showHidden));
-        } else if (Binding.matches(keyMsg, keyMap.open())) {
-            return handleOpen(keyMsg);
+        } else if (Binding.matches(keyPressMessage, keyMap.open())) {
+            return handleOpen(keyPressMessage);
         }
         return UpdateResult.from(this);
     }
 
-    private boolean handleNavigation(KeyMsg keyMsg) {
-        if (Binding.matches(keyMsg, keyMap.goToTop())) {
+    private boolean handleNavigation(KeyPressMessage keyPressMessage) {
+        if (Binding.matches(keyPressMessage, keyMap.goToTop())) {
             this.selected = 0;
             this.min = 0;
             this.max = this.height - 1;
             return true;
-        } else if (Binding.matches(keyMsg, keyMap.goToLast())) {
+        } else if (Binding.matches(keyPressMessage, keyMap.goToLast())) {
             this.selected = Math.max(0, this.files.size() - 1);
             this.min = Math.max(0, this.files.size() - this.height);
             this.max = Math.max(0, this.files.size() - 1);
             return true;
-        } else if (Binding.matches(keyMsg, keyMap.down())) {
+        } else if (Binding.matches(keyPressMessage, keyMap.down())) {
             if (this.files.isEmpty()) {
                 return true;
             }
@@ -250,7 +250,7 @@ public class FilePicker implements Model {
                 this.max++;
             }
             return true;
-        } else if (Binding.matches(keyMsg, keyMap.up())) {
+        } else if (Binding.matches(keyPressMessage, keyMap.up())) {
             this.selected--;
             if (this.selected < 0) {
                 this.selected = 0;
@@ -260,7 +260,7 @@ public class FilePicker implements Model {
                 this.max--;
             }
             return true;
-        } else if (Binding.matches(keyMsg, keyMap.pageDown())) {
+        } else if (Binding.matches(keyPressMessage, keyMap.pageDown())) {
             if (this.files.isEmpty()) {
                 return true;
             }
@@ -276,7 +276,7 @@ public class FilePicker implements Model {
                 this.min = Math.max(0, this.max - this.height + 1);
             }
             return true;
-        } else if (Binding.matches(keyMsg, keyMap.pageUp())) {
+        } else if (Binding.matches(keyPressMessage, keyMap.pageUp())) {
             if (this.files.isEmpty()) {
                 return true;
             }
@@ -296,7 +296,7 @@ public class FilePicker implements Model {
         return false;
     }
 
-    private UpdateResult<FilePicker> handleOpen(KeyMsg keyMsg) {
+    private UpdateResult<FilePicker> handleOpen(KeyPressMessage keyPressMessage) {
         if (this.files.isEmpty()) {
             return UpdateResult.from(this);
         }
@@ -317,7 +317,7 @@ public class FilePicker implements Model {
         }
 
         if ((!isDir && this.fileAllowed) || (isDir && this.dirAllowed)) {
-            if (Binding.matches(keyMsg, keyMap.select())) {
+            if (Binding.matches(keyPressMessage, keyMap.select())) {
                 this.path = Paths.get(this.currentDirectory, f.name()).toString();
             }
         }
@@ -471,8 +471,8 @@ public class FilePicker implements Model {
      * @return true if a file was selected
      */
     public boolean didSelectFile(Message msg) {
-        if (msg instanceof KeyMsg keyMsg) {
-            if (!Binding.matches(keyMsg, keyMap.select())) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
+            if (!Binding.matches(keyPressMessage, keyMap.select())) {
                 return false;
             }
 
@@ -511,8 +511,8 @@ public class FilePicker implements Model {
      * @return true if a directory was opened
      */
     public boolean didSelectDirectory(Message msg) {
-        if (msg instanceof KeyMsg keyMsg) {
-            if (!Binding.matches(keyMsg, keyMap.open())) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
+            if (!Binding.matches(keyPressMessage, keyMap.open())) {
                 return false;
             }
 

@@ -9,8 +9,8 @@ import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
-import com.williamcallahan.tui4j.compat.bubbletea.PasteMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.PasteMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.ReadClipboardMessage;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
@@ -485,15 +485,15 @@ public class TextInput implements Model {
         }
 
         // Handle suggestion acceptance - check before other key processing
-        if (msg instanceof KeyMsg keyMsg && canAcceptSuggestion()) {
-            if (Binding.matches(keyMsg, keys.acceptSuggestion())) {
+        if (msg instanceof KeyPressMessage keyPressMsg && canAcceptSuggestion()) {
+            if (Binding.matches(keyPressMsg, keys.acceptSuggestion())) {
                 acceptSuggestion();
             }
         }
 
         int oldPos = pos;
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.deleteWordBackward())) {
                 deleteWordBackward();
             } else if (Binding.matches(keyPressMessage, keys.deleteCharacterBackward())) {
@@ -534,9 +534,9 @@ public class TextInput implements Model {
             }
 
             updateSuggestions();
-        } else if (msg instanceof PasteMsg pasteMsg) {
+        } else if (msg instanceof PasteMessage pasteMessage) {
             // Handle bracketed paste content
-            insertRunesFromUserInput(pasteMsg.content().toCharArray());
+            insertRunesFromUserInput(pasteMessage.content().toCharArray());
             updateSuggestions();
         }
 
@@ -557,7 +557,7 @@ public class TextInput implements Model {
 
     /**
      * Requests clipboard contents from the terminal.
-     * The clipboard contents are delivered as a {@link PasteMsg} in a subsequent update.
+     * The clipboard contents are delivered as a {@link PasteMessage} in a subsequent update.
      * <p>
      * Bubble Tea: bubbles/textinput/textinput.go Paste
      *

@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.x.ansi.Cut;
 
 import java.util.ArrayList;
@@ -245,7 +245,7 @@ public class Viewport implements Model {
             setInitialValues();
         }
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keyMap.pageDown())) {
                 pageDown();
             } else if (Binding.matches(keyPressMessage, keyMap.pageUp())) {

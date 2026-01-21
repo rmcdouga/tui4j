@@ -1,24 +1,33 @@
 package com.williamcallahan.tui4j.compat.bubbles.filepicker;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
- * Compatibility shim for {@link DidSelectDirectoryMsg}.
+ * Message sent when a directory is selected in the file picker.
+ * <p>
  * Bubbles: bubbles/filepicker/filepicker.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
  */
-public class DidSelectDirectoryMessage extends DidSelectDirectoryMsg implements MessageShim {
+public class DidSelectDirectoryMessage implements Message {
+
+    private final String path;
+
     /**
      * Creates a directory selection message.
      *
      * @param path selected directory path
      */
     public DidSelectDirectoryMessage(String path) {
-        super(path);
+        this.path = path;
     }
 
-    @Override
-    public Message toMessage() {
-        return this;
+    /**
+     * Returns the selected directory path.
+     *
+     * @return directory path
+     */
+    public String path() {
+        return path;
     }
 }

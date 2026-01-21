@@ -9,7 +9,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +114,7 @@ public class Table implements Model, KeyMap {
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.lineUp())) {
                 moveUp(1);
             } else if (Binding.matches(keyPressMessage, keys.lineDown())) {
@@ -172,14 +172,18 @@ public class Table implements Model, KeyMap {
     }
     
     private int calculateTableWidth() {
-        int width = 0;
-        for (Column col : columns) {
-            if (col.width() > 0) {
-                // Column width + padding (1 left + 1 right from default style)
-                width += col.width() + 2;
+        // Calculate width from actual rendered header (accounts for styling)
+        String header = headersView();
+        if (!header.isEmpty()) {
+            String[] lines = header.split("\n");
+            int maxWidth = 0;
+            for (String line : lines) {
+                int lineWidth = TextWidth.measureCellWidth(line);
+                maxWidth = Math.max(maxWidth, lineWidth);
             }
+            return maxWidth;
         }
-        return width;
+        return 0;
     }
 
     private String headersView() {

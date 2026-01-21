@@ -9,8 +9,8 @@ import com.williamcallahan.tui4j.compat.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
-import com.williamcallahan.tui4j.compat.bubbletea.QuitMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbles.help.Help;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.bubbles.paginator.Paginator;
@@ -529,9 +529,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     public UpdateResult<List> update(Message msg) {
         java.util.List<Command> commands = new LinkedList<>();
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.forceQuit())) {
-                return UpdateResult.from(this, QuitMsg::new);
+                return UpdateResult.from(this, QuitMessage::new);
             }
         } else if (msg instanceof FetchedCurrentPageItems fetchedCurrentPageItems) {
             stopSpinner();
@@ -574,11 +574,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     private Command handleBrowsing(Message msg) {
         java.util.List<Command> commands = new LinkedList<>();
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.clearFilter())) {
                 commands.add(resetFiltering());
             } else if (Binding.matches(keyPressMessage, keys.quit())) {
-                return QuitMsg::new;
+                return QuitMessage::new;
             } else if (Binding.matches(keyPressMessage, keys.cursorUp())) {
                 commands.add(cursorUp());
             } else if (Binding.matches(keyPressMessage, keys.cursorDown())) {
@@ -717,7 +717,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     private Command handleFiltering(Message msg) {
         java.util.List<Command> commands = new LinkedList<>();
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.cancelWhileFiltering())) {
                 resetFiltering();
 

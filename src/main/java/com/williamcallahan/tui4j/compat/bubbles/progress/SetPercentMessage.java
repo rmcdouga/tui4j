@@ -4,7 +4,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
- * Compatibility shim for {@link SetPercentMsg}.
+ * Message sent to set the progress bar percentage.
+ * <p>
+ * Bubbles: bubbles/progress/progress.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
  */
 public class SetPercentMessage implements MessageShim {
     private final double percent;

@@ -4,7 +4,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
- * Compatibility shim for {@link StartStopMsg}.
+ * Message sent to start or stop the stopwatch.
+ * <p>
+ * Bubbles: bubbles/stopwatch/stopwatch.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/stopwatch/stopwatch.go">bubbles/stopwatch/stopwatch.go</a>
  */
 public class StartStopMessage implements MessageShim {
     private final int id;

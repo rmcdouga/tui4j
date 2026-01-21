@@ -5,8 +5,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.BlurMsg;
-import com.williamcallahan.tui4j.compat.bubbletea.FocusMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
 
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
@@ -93,9 +93,9 @@ public class Cursor implements Model {
                 return UpdateResult.from(this);
             }
             return UpdateResult.from(this, blinkCommand());
-        } else if (msg instanceof FocusMsg) {
+        } else if (msg instanceof FocusMessage) {
             return UpdateResult.from(this, focus());
-        } else if (msg instanceof BlurMsg) {
+        } else if (msg instanceof BlurMessage) {
             blur();
             return UpdateResult.from(this);
         } else if (msg instanceof BlinkMessage blinkMessage) {

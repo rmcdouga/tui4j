@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbles.paginator;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
 /**
@@ -91,7 +91,7 @@ public class Paginator {
     }
 
     public Paginator update(Message msg) {
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keyMap.nextPage())) {
                 nextPage();
             } else if (Binding.matches(keyPressMessage, keyMap.prevPage())) {

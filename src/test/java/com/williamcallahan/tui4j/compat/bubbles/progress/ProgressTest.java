@@ -112,13 +112,13 @@ class ProgressTest {
     }
 
     @Test
-    void testUpdateWithFrameMsg() {
+    void testUpdateWithFrameMessage() {
         Progress progress = new Progress();
         progress.setPercent(0.5);
         int currentTag = progress.tag();
 
-        FrameMsg frameMsg = new FrameMsg(progress.id(), currentTag);
-        UpdateResult<Progress> result = progress.update(frameMsg);
+        FrameMessage frameMessage = new FrameMessage(progress.id(), currentTag);
+        UpdateResult<Progress> result = progress.update(frameMessage);
 
         assertThat(result.model()).isEqualTo(progress);
         assertThat(result.command()).isNotNull();
@@ -130,8 +130,8 @@ class ProgressTest {
         progress.setPercent(0.5);
         double beforePercentShown = progress.percentShown();
 
-        FrameMsg frameMsg = new FrameMsg(-1, progress.tag());
-        UpdateResult<Progress> result = progress.update(frameMsg);
+        FrameMessage frameMessage = new FrameMessage(-1, progress.tag());
+        progress.update(frameMessage);
 
         assertThat(progress.percentShown()).isEqualTo(beforePercentShown);
     }
@@ -142,8 +142,8 @@ class ProgressTest {
         progress.setPercent(0.5);
         double beforePercentShown = progress.percentShown();
 
-        FrameMsg frameMsg = new FrameMsg(progress.id(), -1);
-        UpdateResult<Progress> result = progress.update(frameMsg);
+        FrameMessage frameMessage = new FrameMessage(progress.id(), -1);
+        progress.update(frameMessage);
 
         assertThat(progress.percentShown()).isEqualTo(beforePercentShown);
     }
@@ -164,8 +164,8 @@ class ProgressTest {
         progress.setPercent(1.0);
 
         for (int i = 0; i < 60; i++) {
-            FrameMsg frameMsg = new FrameMsg(progress.id(), progress.tag());
-            progress.update(frameMsg);
+            FrameMessage frameMessage = new FrameMessage(progress.id(), progress.tag());
+            progress.update(frameMessage);
         }
 
         String view = progress.view();
@@ -195,8 +195,8 @@ class ProgressTest {
         progress.setPercent(0.5);
 
         while (progress.isAnimating()) {
-            FrameMsg frameMsg = new FrameMsg(progress.id(), progress.tag());
-            progress.update(frameMsg);
+            FrameMessage frameMessage = new FrameMessage(progress.id(), progress.tag());
+            progress.update(frameMessage);
         }
 
         assertThat(progress.isAnimating()).isFalse();

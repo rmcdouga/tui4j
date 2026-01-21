@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbles.key;
 
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 
 /**
  * Port of the Bubble Tea key binding helper used by Bubbles components.
@@ -83,7 +83,7 @@ public class Binding {
      * @param keyPressMessage key press message
      * @return true when a key matches
      */
-    public boolean matches(KeyMsg keyPressMessage) {
+    public boolean matches(KeyPressMessage keyPressMessage) {
         if (keys == null) {
             return false;
         }
@@ -123,7 +123,7 @@ public class Binding {
      * @param bindings bindings to check
      * @return true when a key matches
      */
-    public static boolean matches(KeyMsg keyPressMessage, Binding... bindings) {
+    public static boolean matches(KeyPressMessage keyPressMessage, Binding... bindings) {
         for (Binding binding : bindings) {
             if (!binding.isEnabled()) {
                 continue;

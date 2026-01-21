@@ -357,6 +357,7 @@ public class ViewportTest {
         assertEquals(newStyle, viewport.getStyle());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testHighPerformanceRendering() {
         Viewport viewport = Viewport.create(80, 5);

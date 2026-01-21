@@ -139,7 +139,7 @@ public class Stopwatch implements Model {
     }
 
     private Command tick() {
-        return Command.tick(interval, __ -> new TickMsg(id, tag));
+        return Command.tick(interval, __ -> new TickMessage(id, tag));
     }
 
     private UpdateResult<Stopwatch> handleStartStop(int messageId, boolean shouldRun) {

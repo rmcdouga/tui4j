@@ -6,8 +6,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 /**
  * Message sent on each animation frame of a progress bar.
  * <p>
- * Port of charmbracelet/bubbles progress/progress.go FrameMsg type.
- * Preferred alias for {@link FrameMsg}.
+ * Bubbles: bubbles/progress/progress.go
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
  */

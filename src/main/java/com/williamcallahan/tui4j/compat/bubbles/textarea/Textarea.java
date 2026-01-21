@@ -9,9 +9,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.BlurMsg;
-import com.williamcallahan.tui4j.compat.bubbletea.FocusMsg;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
@@ -486,7 +486,7 @@ public class Textarea implements Model {
             value.set(row, new char[0]);
         }
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             handleKeyPress(keyPressMessage);
         }
 
@@ -504,7 +504,7 @@ public class Textarea implements Model {
         return UpdateResult.from(this, batch(commands.toArray(new Command[0])));
     }
 
-    private void handleKeyPress(KeyMsg keyPressMessage) {
+    private void handleKeyPress(KeyPressMessage keyPressMessage) {
         if (handleEditing(keyPressMessage)) {
             return;
         }
@@ -517,7 +517,7 @@ public class Textarea implements Model {
         insertRunesFromUserInput(keyPressMessage.runes());
     }
 
-    private boolean handleEditing(KeyMsg keyPressMessage) {
+    private boolean handleEditing(KeyPressMessage keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.deleteAfterCursor())) {
             handleDeleteAfterCursor();
             return true;
@@ -546,7 +546,7 @@ public class Textarea implements Model {
         return false;
     }
 
-    private boolean handleNavigation(KeyMsg keyPressMessage) {
+    private boolean handleNavigation(KeyPressMessage keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.lineEnd())) {
             cursorEnd();
             return true;
@@ -581,7 +581,7 @@ public class Textarea implements Model {
         return false;
     }
 
-    private boolean handleTransform(KeyMsg keyPressMessage) {
+    private boolean handleTransform(KeyPressMessage keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.lowercaseWordForward())) {
             lowercaseRight();
             return true;
