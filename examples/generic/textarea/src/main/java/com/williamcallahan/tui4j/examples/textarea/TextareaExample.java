@@ -22,7 +22,7 @@ public class TextareaExample implements Model {
 
     @Override
     public Command init() {
-        return Textarea::blink;
+        return null;
     }
 
     @Override
