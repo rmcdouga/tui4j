@@ -1,4 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.render;
+import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;

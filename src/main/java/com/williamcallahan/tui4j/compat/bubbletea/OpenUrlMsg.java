@@ -1,4 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
+import com.williamcallahan.tui4j.message.OpenUrlMessage;
 
 /**
  * Requests opening a URL with the system handler.

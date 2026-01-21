@@ -1,4 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
+import com.williamcallahan.tui4j.message.OpenUrlMessage;
+import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

@@ -1,14 +1,12 @@
 package com.williamcallahan.tui4j.message;
 
 /**
- * Requests copying text to the clipboard.
+ * Message to copy text to the clipboard.
  * <p>
- * Re-export of {@link com.williamcallahan.tui4j.compat.bubbletea.CopyToClipboardMessage}
- * for convenient access from the tui4j.message package.
- * <p>
- * tui4j extension; no Bubble Tea equivalent.
+ * tui4j extension; no direct Bubble Tea equivalent.
  */
-public class CopyToClipboardMessage extends com.williamcallahan.tui4j.compat.bubbletea.CopyToClipboardMessage {
+public class CopyToClipboardMessage implements com.williamcallahan.tui4j.compat.bubbletea.Message {
+    private final String text;
 
     /**
      * Creates a clipboard request message.
@@ -16,6 +14,15 @@ public class CopyToClipboardMessage extends com.williamcallahan.tui4j.compat.bub
      * @param text text to copy
      */
     public CopyToClipboardMessage(String text) {
-        super(text);
+        this.text = text;
+    }
+
+    /**
+     * Returns the clipboard text.
+     *
+     * @return text to copy
+     */
+    public String text() {
+        return text;
     }
 }
