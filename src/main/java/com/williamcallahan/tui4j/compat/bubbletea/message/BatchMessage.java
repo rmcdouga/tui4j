@@ -1,13 +1,19 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
- * Executes commands concurrently with no ordering guarantees.
+ * Legacy package shim for {@link com.williamcallahan.tui4j.compat.bubbletea.BatchMessage}.
  * Bubble Tea: bubbletea/commands.go
- *
- * @param commands commands to execute
  */
-public record BatchMessage(Command... commands) implements Message {
+public class BatchMessage extends com.williamcallahan.tui4j.compat.bubbletea.BatchMessage {
+
+    /**
+     * Creates a batch message from commands.
+     *
+     * @param commands commands to batch
+     */
+    public BatchMessage(Command... commands) {
+        super(commands);
+    }
 }

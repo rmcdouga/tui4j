@@ -1,10 +1,8 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
+public class ExitAltScreen extends com.williamcallahan.tui4j.compat.bubbletea.ExitAltScreen {
 
-/**
- * Requests exiting the alternate screen buffer.
- * Bubble Tea: bubbletea/screen.go
- */
-public record ExitAltScreen() implements Message {
+    public ExitAltScreen() {
+        super();
+    }
 }

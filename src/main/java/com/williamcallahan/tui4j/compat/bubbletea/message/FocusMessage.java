@@ -1,10 +1,8 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
+public class FocusMessage extends com.williamcallahan.tui4j.compat.bubbletea.FocusMessage {
 
-/**
- * Focus event when the terminal gains focus.
- * Bubble Tea: bubbletea/focus.go
- */
-public class FocusMessage implements Message {
+    public FocusMessage() {
+        super();
+    }
 }

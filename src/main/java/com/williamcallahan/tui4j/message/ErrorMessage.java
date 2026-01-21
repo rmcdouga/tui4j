@@ -1,6 +1,8 @@
 package com.williamcallahan.tui4j.message;
 
+import com.williamcallahan.tui4j.compat.bubbletea.ErrorMsg;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
  * Reports an error from command execution.
@@ -9,5 +11,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  *
  * @param error error payload
  */
-public record ErrorMessage(Throwable error) implements Message {
+public record ErrorMessage(Throwable error) implements MessageShim {
+
+    @Override
+    public Message toMessage() {
+        return new ErrorMsg(error);
+    }
 }

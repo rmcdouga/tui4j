@@ -1,0 +1,10 @@
+package com.williamcallahan.tui4j.compat.bubbletea;
+
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
+/**
+ * Enables "cell motion" mouse tracking (report motion while a button is pressed).
+ * Bubble Tea: bubbletea/screen.go
+ */
+public record EnableMouseCellMotionMsg() implements Message {
+}

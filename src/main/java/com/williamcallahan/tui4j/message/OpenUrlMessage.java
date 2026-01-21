@@ -1,6 +1,8 @@
 package com.williamcallahan.tui4j.message;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
+import com.williamcallahan.tui4j.compat.bubbletea.OpenUrlMsg;
 
 /**
  * Requests opening a URL with the system handler.
@@ -9,5 +11,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  *
  * @param url URL to open
  */
-public record OpenUrlMessage(String url) implements Message {
+public record OpenUrlMessage(String url) implements MessageShim {
+
+    @Override
+    public Message toMessage() {
+        return new OpenUrlMsg(url);
+    }
 }

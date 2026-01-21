@@ -1,10 +1,15 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
- * Disables mouse tracking (motion modes and SGR extended mouse mode).
+ * Legacy package shim for {@link com.williamcallahan.tui4j.compat.bubbletea.DisableMouseMessage}.
  * Bubble Tea: bubbletea/screen.go
  */
-public record DisableMouseMessage() implements Message {
+public class DisableMouseMessage extends com.williamcallahan.tui4j.compat.bubbletea.DisableMouseMessage {
+
+    /**
+     * Creates a disable mouse message.
+     */
+    public DisableMouseMessage() {
+        super();
+    }
 }

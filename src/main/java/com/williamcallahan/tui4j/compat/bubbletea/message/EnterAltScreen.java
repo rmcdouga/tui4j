@@ -1,10 +1,15 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
- * Requests entering the alternate screen buffer.
+ * Legacy package shim for {@link com.williamcallahan.tui4j.compat.bubbletea.EnterAltScreen}.
  * Bubble Tea: bubbletea/screen.go
  */
-public record EnterAltScreen() implements Message {
+public class EnterAltScreen extends com.williamcallahan.tui4j.compat.bubbletea.EnterAltScreen {
+
+    /**
+     * Creates an enter alternate screen message.
+     */
+    public EnterAltScreen() {
+        super();
+    }
 }

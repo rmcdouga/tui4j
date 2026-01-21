@@ -1,16 +1,15 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
- * Blur event when the terminal loses focus.
+ * Legacy package shim for {@link com.williamcallahan.tui4j.compat.bubbletea.BlurMessage}.
  * Bubble Tea: bubbletea/focus.go
  */
-public class BlurMessage implements Message {
+public class BlurMessage extends com.williamcallahan.tui4j.compat.bubbletea.BlurMessage {
 
     /**
      * Creates a blur message.
      */
     public BlurMessage() {
+        super();
     }
 }

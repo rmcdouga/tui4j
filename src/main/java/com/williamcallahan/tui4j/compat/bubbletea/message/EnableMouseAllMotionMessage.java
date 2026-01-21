@@ -1,10 +1,15 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
- * Enables "all motion" mouse tracking (report motion without a pressed button).
+ * Legacy package shim for {@link com.williamcallahan.tui4j.compat.bubbletea.EnableMouseAllMotionMessage}.
  * Bubble Tea: bubbletea/screen.go
  */
-public record EnableMouseAllMotionMessage() implements Message {
+public class EnableMouseAllMotionMessage extends com.williamcallahan.tui4j.compat.bubbletea.EnableMouseAllMotionMessage {
+
+    /**
+     * Creates an enable mouse all-motion message.
+     */
+    public EnableMouseAllMotionMessage() {
+        super();
+    }
 }

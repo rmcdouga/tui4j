@@ -1,12 +1,8 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
+public class PrintLineMessage extends com.williamcallahan.tui4j.compat.bubbletea.PrintLineMessage {
 
-/**
- * Requests printing a line above the program output.
- * Bubble Tea: bubbletea/standard_renderer.go
- *
- * @param messageBody line content
- */
-public record PrintLineMessage(String messageBody) implements Message {
+    public PrintLineMessage(String messageBody) {
+        super(messageBody);
+    }
 }

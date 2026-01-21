@@ -1,6 +1,8 @@
 package com.williamcallahan.tui4j.message;
 
+import com.williamcallahan.tui4j.compat.bubbletea.CopyToClipboardMsg;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
  * Requests copying text to the clipboard.
@@ -9,5 +11,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  *
  * @param text text to copy
  */
-public record CopyToClipboardMessage(String text) implements Message {
+public record CopyToClipboardMessage(String text) implements MessageShim {
+
+    @Override
+    public Message toMessage() {
+        return new CopyToClipboardMsg(text);
+    }
 }
