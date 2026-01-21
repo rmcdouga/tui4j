@@ -10,7 +10,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class UnknownInputByteMsg extends UnknownInputByteMessage {
+public class UnknownInputByteMsg implements Message {
+
+    private final UnknownInputByteMessage message;
 
     /**
      * Creates an unknown input byte message.
@@ -20,6 +22,14 @@ public class UnknownInputByteMsg extends UnknownInputByteMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public UnknownInputByteMsg(byte b) {
-        super(b);
+        this.message = new UnknownInputByteMessage(b);
+    }
+
+    public byte value() {
+        return message.value();
+    }
+
+    public byte b() {
+        return message.b();
     }
 }

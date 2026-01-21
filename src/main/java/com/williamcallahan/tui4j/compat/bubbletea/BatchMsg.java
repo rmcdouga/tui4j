@@ -30,7 +30,9 @@ public class BatchMsg implements Message {
      * Returns the batched commands.
      *
      * @return commands
+     * @deprecated Use {@link BatchMessage#commands()} instead.
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Command[] commands() {
         return message.commands();
     }
