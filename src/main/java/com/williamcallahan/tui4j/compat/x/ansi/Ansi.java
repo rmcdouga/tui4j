@@ -200,11 +200,10 @@ public final class Ansi {
      * Byte ranges and return values:
      * <ul>
      *   <li>0x00-0x7F: returns 1 (ASCII)</li>
-     *   <li>0x80-0xDF: returns 2 (includes invalid continuation bytes 0x80-0xBF
-     *       and valid 2-byte starts 0xC0-0xDF; invalid bytes fail downstream)</li>
+     *   <li>0xC0-0xDF: returns 2 (2-byte sequence start)</li>
      *   <li>0xE0-0xEF: returns 3 (3-byte sequence start)</li>
-     *   <li>0xF0-0xF4: returns 4 (4-byte sequence start)</li>
-     *   <li>0xF5-0xFF: returns 1 (invalid in UTF-8)</li>
+     *   <li>0xF0-0xF7: returns 4 (4-byte sequence start)</li>
+     *   <li>otherwise: returns -1 (invalid start byte)</li>
      * </ul>
      *
      * @param firstByte the first byte of a UTF-8 sequence
@@ -212,23 +211,18 @@ public final class Ansi {
      */
     public static int utf8ByteLength(byte firstByte) {
         int unsigned = firstByte & BYTE_MASK;
-        if (unsigned < UTF8_1BYTE_MAX) {
-            // ASCII: 0x00-0x7F
-            return 1;
-        } else if (unsigned < UTF8_2BYTE_MAX) {
-            // 0x80-0xDF: includes invalid continuation bytes (0x80-0xBF)
-            // and valid 2-byte starts (0xC0-0xDF). Return 2 for both;
-            // invalid bytes will fail UTF-8 decoding downstream.
-            return 2;
-        } else if (unsigned < UTF8_3BYTE_MAX) {
-            // 0xE0-0xEF: valid 3-byte sequence start
-            return 3;
-        } else if (unsigned < UTF8_4BYTE_MAX) {
-            // 0xF0-0xF4: valid 4-byte sequence start
-            return 4;
-        } else {
-            // 0xF5-0xFF: invalid in UTF-8, treat as single byte
+        if (unsigned <= 0x7F) {
             return 1;
         }
+        if (unsigned >= 0xC0 && unsigned <= 0xDF) {
+            return 2;
+        }
+        if (unsigned >= 0xE0 && unsigned <= 0xEF) {
+            return 3;
+        }
+        if (unsigned >= 0xF0 && unsigned <= 0xF7) {
+            return 4;
+        }
+        return -1;
     }
 }

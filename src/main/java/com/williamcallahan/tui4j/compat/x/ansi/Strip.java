@@ -4,6 +4,7 @@ import com.williamcallahan.tui4j.compat.x.ansi.parser.Action;
 import com.williamcallahan.tui4j.compat.x.ansi.parser.State;
 import com.williamcallahan.tui4j.compat.x.ansi.parser.TransitionTable;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public final class Strip {
         State pstate = State.GROUND;
         byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
 
-        StringBuilder buf = new StringBuilder();
+        ByteArrayOutputStream out = new ByteArrayOutputStream(bytes.length);
         int ri = 0; // rune index within UTF-8 sequence
         int rw = 0; // rune width (bytes remaining)
 
@@ -40,7 +41,7 @@ public final class Strip {
 
             if (pstate == State.UTF8) {
                 // Collecting UTF-8 bytes
-                buf.append((char) (b & Ansi.BYTE_MASK));
+                out.write(b);
                 ri++;
                 if (ri < rw) {
                     continue;
@@ -60,14 +61,14 @@ public final class Strip {
                     if (state == State.UTF8) {
                         // Starting UTF-8 sequence
                         rw = Ansi.utf8ByteLength(b);
-                        buf.append((char) (b & Ansi.BYTE_MASK));
+                        out.write(b);
                         ri++;
                     }
                     break;
                 case PRINT:
                 case EXECUTE:
                     // Include printable and execute characters
-                    buf.append((char) (b & Ansi.BYTE_MASK));
+                    out.write(b);
                     break;
                 default:
                     // Skip ANSI sequences
@@ -79,6 +80,6 @@ public final class Strip {
             }
         }
 
-        return buf.toString();
+        return out.toString(StandardCharsets.UTF_8);
     }
 }

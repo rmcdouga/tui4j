@@ -69,10 +69,17 @@ public final class Cut {
             return "";
         }
 
-        if (left == 0) {
-            return Truncate.truncate(method, s, right, "");
+        if (method == Method.WC_WIDTH) {
+            if (left == 0) {
+                return Truncate.truncateWc(s, right, "");
+            }
+            return Truncate.truncateWc(Truncate.truncateWc(s, right, ""), left, "");
         }
 
-        return Truncate.truncateLeft(method, Truncate.truncate(method, s, right, ""), left, "");
+        if (left == 0) {
+            return Truncate.truncate(s, right, "");
+        }
+
+        return Truncate.truncateLeft(Truncate.truncate(s, right, ""), left, "");
     }
 }

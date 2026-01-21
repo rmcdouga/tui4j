@@ -62,11 +62,11 @@ public final class Truncate {
         if (s.isEmpty()) {
             return s;
         }
-        if (StringWidth.stringWidth(method, s) <= length) {
+        if (StringWidth.stringWidth(s) <= length) {
             return s;
         }
 
-        int tailWidth = StringWidth.stringWidth(method, tail);
+        int tailWidth = StringWidth.stringWidth(tail);
         int targetLength = length - tailWidth;
         if (targetLength < 0) {
             return "";

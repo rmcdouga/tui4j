@@ -69,6 +69,13 @@ public class CutTest {
     }
 
     @Test
+    public void testCutWcMatchesUpstreamBehavior() {
+        // WC width uses truncateWc for both operations in upstream x/ansi.
+        // This is intentionally different from TruncateLeftWc.
+        assertEquals("a", Cut.cutWc("abcdef", 1, 3));
+    }
+
+    @Test
     public void testCutInvalidBounds() {
         // Invalid bounds should return empty string (slice semantics)
         assertEquals("", Cut.cut("hello", 5, 3)); // right <= left

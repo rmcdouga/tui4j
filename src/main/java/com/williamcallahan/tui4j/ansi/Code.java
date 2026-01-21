@@ -29,6 +29,11 @@ public enum Code {
     /** Disable SGR mouse reporting. */
     DisableMouseSgrExt("\u001b[?1006l"),
 
+    /** Enable bracketed paste mode. */
+    EnableBracketedPaste("\u001b[?2004h"),
+    /** Disable bracketed paste mode. */
+    DisableBracketedPaste("\u001b[?2004l"),
+
     /** Set mouse cursor to text. */
     SetMouseTextCursor("\u001b]22;text\u001b\\"),
     /** Set mouse cursor to pointer. */
