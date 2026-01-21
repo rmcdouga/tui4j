@@ -71,7 +71,10 @@ public class PreventQuitExample implements Model {
             }
 
             if (Binding.matches(keyPressMessage, keymap.quit())) {
-                quitting = true;
+                if (hasChanges) {
+                    quitting = true;
+                    return UpdateResult.from(this);
+                }
                 return UpdateResult.from(this, QuitMessage::new);
             }
 
