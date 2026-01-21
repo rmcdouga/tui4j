@@ -11,13 +11,4 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class CheckWindowSizeMsg extends CheckWindowSizeMessage {
-
-    /**
-     * Creates a window size check message.
-     *
-     * @deprecated Use {@link CheckWindowSizeMessage#CheckWindowSizeMessage()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public CheckWindowSizeMsg() {
-    }
 }

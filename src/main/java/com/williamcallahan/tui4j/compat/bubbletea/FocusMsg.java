@@ -19,5 +19,7 @@ public class FocusMsg extends FocusMessage {
      * @deprecated Use {@link FocusMessage#FocusMessage()} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    public FocusMsg() {}
+    public FocusMsg() {
+        super();
+    }
 }
