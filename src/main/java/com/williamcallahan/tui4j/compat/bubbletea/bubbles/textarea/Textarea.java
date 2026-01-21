@@ -831,11 +831,9 @@ public class Textarea implements Model {
             lines.add(Arrays.copyOfRange(paste, lstart, paste.length));
         }
 
-        if (MAX_LINES > 0 && value.size() + lines.size() - 1 > MAX_LINES) {
-            int allowedHeight = max(0, MAX_LINES - value.size() + 1);
-            while (lines.size() > allowedHeight) {
-                lines.remove(lines.size() - 1);
-            }
+        int allowedHeight = max(0, MAX_LINES - value.size() + 1);
+        while (lines.size() > allowedHeight) {
+            lines.remove(lines.size() - 1);
         }
 
         if (lines.isEmpty()) {
