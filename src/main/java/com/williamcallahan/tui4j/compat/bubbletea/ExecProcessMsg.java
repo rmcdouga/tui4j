@@ -32,25 +32,47 @@ public class ExecProcessMsg implements Message {
         this.message = new ExecProcessMessage(process, outputHandler, errorHandler);
     }
 
-    /** @deprecated Use {@link ExecProcessMessage#process()} instead. */
+    /**
+     * Returns the process to execute.
+     *
+     * @return the process
+     * @deprecated Use {@link ExecProcessMessage#process()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public Process process() {
         return message.process();
     }
 
-    /** @deprecated Use {@link ExecProcessMessage#outputHandler()} instead. */
+    /**
+     * Returns the stdout handler.
+     *
+     * @return the stdout handler
+     * @deprecated Use {@link ExecProcessMessage#outputHandler()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public BiConsumer<Integer, byte[]> outputHandler() {
         return message.outputHandler();
     }
 
-    /** @deprecated Use {@link ExecProcessMessage#errorHandler()} instead. */
+    /**
+     * Returns the stderr handler.
+     *
+     * @return the stderr handler
+     * @deprecated Use {@link ExecProcessMessage#errorHandler()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public BiConsumer<Integer, byte[]> errorHandler() {
         return message.errorHandler();
     }
 
-    /** @deprecated Use {@link ExecProcessMessage#readStream(InputStream)} instead. */
+    /**
+     * Reads the input stream into a byte array.
+     *
+     * @param inputStream the input stream to read
+     * @return the bytes read
+     * @throws IOException if an I/O error occurs
+     * @deprecated Use {@link ExecProcessMessage#readStream(InputStream)} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public static byte[] readStream(InputStream inputStream) throws IOException {
         return ExecProcessMessage.readStream(inputStream);

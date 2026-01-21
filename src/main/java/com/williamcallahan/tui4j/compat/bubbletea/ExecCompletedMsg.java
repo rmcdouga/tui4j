@@ -27,25 +27,45 @@ public class ExecCompletedMsg implements Message {
         this.message = new ExecCompletedMessage(exitCode, error);
     }
 
-    /** @deprecated Use {@link ExecCompletedMessage#exitCode()} instead. */
+    /**
+     * Returns the process exit code.
+     *
+     * @return the exit code
+     * @deprecated Use {@link ExecCompletedMessage#exitCode()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public int exitCode() {
         return message.exitCode();
     }
 
-    /** @deprecated Use {@link ExecCompletedMessage#error()} instead. */
+    /**
+     * Returns the execution error, if any.
+     *
+     * @return the error, or null if successful
+     * @deprecated Use {@link ExecCompletedMessage#error()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public Throwable error() {
         return message.error();
     }
 
-    /** @deprecated Use {@link ExecCompletedMessage#success()} instead. */
+    /**
+     * Returns whether the execution was successful (exit code 0 and no error).
+     *
+     * @return true if successful, false otherwise
+     * @deprecated Use {@link ExecCompletedMessage#success()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean success() {
         return message.success();
     }
 
-    /** @deprecated Use {@link ExecCompletedMessage#errorMessage()} instead. */
+    /**
+     * Returns a string representation of the error message, if any.
+     *
+     * @return the error message, or null if successful
+     * @deprecated Use {@link ExecCompletedMessage#errorMessage()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public String errorMessage() {
         return message.errorMessage();
