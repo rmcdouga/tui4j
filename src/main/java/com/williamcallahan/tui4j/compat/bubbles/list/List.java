@@ -86,18 +86,48 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     private java.util.List<FilteredItem> currentPageItems;
     private ItemDelegate itemDelegate;
 
+    /**
+     * Creates a new list with the given items and dimensions.
+     *
+     * @param items list items
+     * @param width width of the list
+     * @param height height of the list
+     */
     public List(Item[] items, int width, int height) {
         this(items, new DefaultDelegate(), width, height);
     }
 
+    /**
+     * Creates a new list with the given items, delegate and dimensions.
+     *
+     * @param items list items
+     * @param delegate item delegate
+     * @param width width of the list
+     * @param height height of the list
+     */
     public List(Item[] items, ItemDelegate delegate, int width, int height) {
         setup(new DefaultDataSource(this, items), delegate, width, height);
     }
 
+    /**
+     * Creates a new list with the given data source, delegate and dimensions.
+     *
+     * @param dataSource data source
+     * @param delegate item delegate
+     * @param width width of the list
+     * @param height height of the list
+     */
     public List(ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
         setup(dataSource, delegate, width, height);
     }
 
+    /**
+     * Creates a new list with the given data source and dimensions.
+     *
+     * @param dataSource data source
+     * @param width width of the list
+     * @param height height of the list
+     */
     public List(ListDataSource dataSource, int width, int height) {
         this(dataSource, new DefaultDelegate(), width, height);
     }
@@ -149,10 +179,21 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns the data source.
+     *
+     * @return data source
+     */
     public ListDataSource dataSource() {
         return dataSource;
     }
 
+    /**
+     * Refreshes the list.
+     *
+     * @param postRefresh tasks to run after refresh
+     * @return refresh command
+     */
     public Command refresh(Runnable... postRefresh) {
         return fetchCurrentPageItems(
                 Stream.concat(

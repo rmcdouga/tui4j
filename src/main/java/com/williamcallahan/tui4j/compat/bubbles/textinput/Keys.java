@@ -48,6 +48,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for moving character forward.
+     *
      * @return key binding for moving character forward
      */
     public Binding characterForward() {
@@ -55,6 +57,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for moving character backward.
+     *
      * @return key binding for moving character backward
      */
     public Binding characterBackward() {
@@ -62,6 +66,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for moving word forward.
+     *
      * @return key binding for moving word forward
      */
     public Binding wordForward() {
@@ -69,6 +75,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for moving word backward.
+     *
      * @return key binding for moving word backward
      */
     public Binding wordBackward() {
@@ -76,6 +84,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for deleting word backward.
+     *
      * @return key binding for deleting word backward
      */
     public Binding deleteWordBackward() {
@@ -83,6 +93,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for deleting word forward.
+     *
      * @return key binding for deleting word forward
      */
     public Binding deleteWordForward() {
@@ -90,6 +102,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for deleting after cursor.
+     *
      * @return key binding for deleting after cursor
      */
     public Binding deleteAfterCursor() {
@@ -97,6 +111,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for deleting before cursor.
+     *
      * @return key binding for deleting before cursor
      */
     public Binding deleteBeforeCursor() {
@@ -104,6 +120,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for deleting character backward.
+     *
      * @return key binding for deleting character backward
      */
     public Binding deleteCharacterBackward() {
@@ -111,6 +129,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for deleting character forward.
+     *
      * @return key binding for deleting character forward
      */
     public Binding deleteCharacterForward() {
@@ -118,6 +138,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for moving to line start.
+     *
      * @return key binding for moving to line start
      */
     public Binding lineStart() {
@@ -125,6 +147,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for moving to line end.
+     *
      * @return key binding for moving to line end
      */
     public Binding lineEnd() {
@@ -132,6 +156,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for paste.
+     *
      * @return key binding for paste
      */
     public Binding paste() {
@@ -139,6 +165,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for accepting suggestion.
+     *
      * @return key binding for accepting suggestion
      */
     public Binding acceptSuggestion() {
@@ -146,6 +174,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for next suggestion.
+     *
      * @return key binding for next suggestion
      */
     public Binding nextSuggestion() {
@@ -153,6 +183,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for previous suggestion.
+     *
      * @return key binding for previous suggestion
      */
     public Binding prevSuggestion() {

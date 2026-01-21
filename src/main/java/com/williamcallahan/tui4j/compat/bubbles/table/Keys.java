@@ -41,6 +41,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for line up.
+     *
      * @return key binding for line up
      */
     public Binding lineUp() {
@@ -59,6 +61,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for line down.
+     *
      * @return key binding for line down
      */
     public Binding lineDown() {
@@ -77,6 +81,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for page up.
+     *
      * @return key binding for page up
      */
     public Binding pageUp() {
@@ -95,6 +101,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for page down.
+     *
      * @return key binding for page down
      */
     public Binding pageDown() {
@@ -113,6 +121,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for half page up.
+     *
      * @return key binding for half page up
      */
     public Binding halfPageUp() {
@@ -131,6 +141,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for half page down.
+     *
      * @return key binding for half page down
      */
     public Binding halfPageDown() {
@@ -149,6 +161,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for go to top.
+     *
      * @return key binding for go to top
      */
     public Binding gotoTop() {
@@ -167,6 +181,8 @@ public class Keys {
     }
 
     /**
+     * Returns the key binding for go to bottom.
+     *
      * @return key binding for go to bottom
      */
     public Binding gotoBottom() {
@@ -185,6 +201,8 @@ public class Keys {
     }
 
     /**
+     * Returns array of key bindings for short help.
+     *
      * @return array of key bindings for short help
      */
     public Binding[] shortHelp() {
@@ -192,6 +210,8 @@ public class Keys {
     }
 
     /**
+     * Returns array of key bindings for full help.
+     *
      * @return array of key bindings for full help
      */
     public Binding[][] fullHelp() {
