@@ -32,19 +32,6 @@ public class MouseMsg extends MouseMessage {
     }
 
     /**
-     * Returns a string representation of the mouse message.
-     *
-     * @return string representation
-     * @deprecated Use {@link MouseMessage#toString()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    @Override
-    public String toString() {
-        return String.format("MouseMsg(width=%d, height=%d, shift=%b, alt=%b, ctrl=%b, action=%s, button=%s)",
-                column(), row(), isShift(), isAlt(), isCtrl(), getAction(), getButton());
-    }
-
-    /**
      * Parses an X10 mouse event.
      *
      * @param col column position (1-based)
