@@ -1,23 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.BatchMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.CheckWindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ClearScreenMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.CopyToClipboardMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.DisableMouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.EnableMouseAllMotionMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.EnableMouseCellMotionMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ExecProcessMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.OpenUrlMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.PrintLineMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ResetMouseCursorMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorPointerMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorTextMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.SetWindowTitleMessage;
-
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -27,8 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -88,7 +68,12 @@ public interface Command {
      *
      * @param commands commands to execute
      * @return sequential command
+     * @deprecated Deprecated in upstream Bubble Tea. Use {@link #sequence(Command...)} instead.
+     *             This method will not be removed for API compatibility, but new code should
+     *             use {@code sequence()} which properly returns messages from each command.
+     * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
      */
+    @Deprecated(since = "0.3.0")
     static Command sequentially(Command... commands) {
         return () -> {
             if (commands == null) {
@@ -306,6 +291,18 @@ public interface Command {
      */
     static Command copyToClipboard(String text) {
         return () -> new CopyToClipboardMessage(text);
+    }
+
+    /**
+     * Requests clipboard contents from the terminal.
+     * The clipboard contents are delivered as a {@link PasteMessage}.
+     * <p>
+     * Bubble Tea: bubbletea/commands.go Paste
+     *
+     * @return paste command
+     */
+    static Command paste() {
+        return ReadClipboardMessage::new;
     }
 
     /**

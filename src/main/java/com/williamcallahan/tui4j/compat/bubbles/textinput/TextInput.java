@@ -10,6 +10,8 @@ import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.PasteMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.ReadClipboardMessage;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
@@ -481,7 +483,13 @@ public class TextInput implements Model {
         if (!focus) {
             return UpdateResult.from(this);
         }
-        // TODO suggestions check
+
+        // Handle suggestion acceptance - check before other key processing
+        if (msg instanceof KeyMsg keyMsg && canAcceptSuggestion()) {
+            if (Binding.matches(keyMsg, keys.acceptSuggestion())) {
+                acceptSuggestion();
+            }
+        }
 
         int oldPos = pos;
 
@@ -520,15 +528,18 @@ public class TextInput implements Model {
                 nextSuggestion();
             } else if (Binding.matches(keyPressMessage, keys.prevSuggestion())) {
                 previousSuggestion();
-            } else {
-                // also handles paste
+            } else if (!Binding.matches(keyPressMessage, keys.acceptSuggestion())) {
+                // Handle regular character input (skip if acceptSuggestion was matched above)
                 insertRunesFromUserInput(keyPressMessage.runes());
             }
 
             updateSuggestions();
+        } else if (msg instanceof PasteMsg pasteMsg) {
+            // Handle bracketed paste content
+            insertRunesFromUserInput(pasteMsg.content().toCharArray());
+            updateSuggestions();
         }
 
-        // TODO handle paste!
         List<Command> commands = new LinkedList<>();
 
         UpdateResult<Cursor> cursorUpdateResult = cursor.update(msg);
@@ -544,9 +555,16 @@ public class TextInput implements Model {
         return UpdateResult.from(this, batch(commands.toArray(new Command[0])));
     }
 
+    /**
+     * Requests clipboard contents from the terminal.
+     * The clipboard contents are delivered as a {@link PasteMsg} in a subsequent update.
+     * <p>
+     * Bubble Tea: bubbles/textinput/textinput.go Paste
+     *
+     * @return message to request clipboard contents
+     */
     public Message paste() {
-        // TODO implement clipboard paste!
-        return null;
+        return new ReadClipboardMessage();
     }
 
     @Override
@@ -665,6 +683,22 @@ public class TextInput implements Model {
 
     private boolean canAcceptSuggestion() {
         return matchedSuggestions.length > 0;
+    }
+
+    /**
+     * Accepts the current suggestion, replacing the input value with it.
+     * Does nothing if there are no matched suggestions.
+     */
+    public void acceptSuggestion() {
+        if (!canAcceptSuggestion()) {
+            return;
+        }
+        if (currentSuggestionIndex >= matchedSuggestions.length) {
+            return;
+        }
+        char[] suggestion = matchedSuggestions[currentSuggestionIndex];
+        setValueInternal(suggestion);
+        setCursor(suggestion.length);
     }
 
     public void nextSuggestion() {

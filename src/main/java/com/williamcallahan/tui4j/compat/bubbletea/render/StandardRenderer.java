@@ -5,7 +5,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
 import com.williamcallahan.tui4j.ansi.Code;
 import com.williamcallahan.tui4j.ansi.Truncate;
 import com.williamcallahan.tui4j.compat.bubbletea.*;
-import java.io.IOException;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
@@ -316,6 +315,12 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
+    // Bubble Tea: bubbletea/commands.go Paste command
+    public void requestClipboard() {
+        writeToTerminal(Code.requestClipboard());
+    }
+
+    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go clearScreen
     // behavior.
     public void clearScreen() {
@@ -480,6 +485,8 @@ public class StandardRenderer implements Renderer {
             resetMouseCursor();
         } else if (internalMsg instanceof CopyToClipboardMsg copyToClipboardMessage) {
             copyToClipboard(copyToClipboardMessage.text());
+        } else if (internalMsg instanceof ReadClipboardMsg) {
+            requestClipboard();
         } else if (internalMsg instanceof WindowSizeMsg windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();

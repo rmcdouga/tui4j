@@ -43,7 +43,7 @@ public record Border(
         String bottomLeft,
         String bottomRight,
 
-        // TODO those are used only by Table component in lipgloss...
+        // Middle junction characters - used by lipgloss Table component for row/column separators
         String middleLeft,
         String middleRight,
         String middle,

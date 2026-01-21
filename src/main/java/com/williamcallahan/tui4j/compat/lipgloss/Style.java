@@ -7,8 +7,6 @@ import com.williamcallahan.tui4j.compat.lipgloss.border.Border;
 import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
 import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
 import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
-import com.williamcallahan.tui4j.compat.lipgloss.MarginDecorator;
-import com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator;
 import org.jline.utils.AttributedCharSequence.ForceMode;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
@@ -649,6 +647,16 @@ public class Style implements Cloneable {
         return super.clone();
     }
 
+    /**
+     * Returns a copy of this style.
+     *
+     * <p>Note: This method was deprecated in upstream Lip Gloss because Go's value-type semantics
+     * make simple assignment sufficient for copying. In Java, this method remains necessary for
+     * obtaining an independent mutable copy since objects are reference types.
+     *
+     * @return a shallow copy of this style
+     * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/style.go">lipgloss/style.go</a>
+     */
     public Style copy() {
         try {
             return (Style) clone();

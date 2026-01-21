@@ -1,8 +1,11 @@
 package com.williamcallahan.tui4j.ansi;
 
 /**
- * Transition rules for grapheme cluster parsing.
- * tui4j: src/main/java/com/williamcallahan/tui4j/ansi/GraphemeTransitions.java
+ * Transition rules for grapheme cluster boundary detection per Unicode UAX#29.
+ * <p>
+ * Port of charmbracelet/x ansi/width.go grapheme state machine.
+ *
+ * @see <a href="https://github.com/charmbracelet/x/blob/main/ansi/width.go">x/ansi/width.go</a>
  */
 public class GraphemeTransitions {
     // Grapheme cluster parser states
@@ -155,6 +158,15 @@ public class GraphemeTransitions {
         return new TransitionResult(-1, -1, -1);
     }
 
+    private GraphemeTransitions() {}
+
+    /**
+     * Transitions the grapheme state machine given the current state and codepoint.
+     *
+     * @param state the current state
+     * @param r the codepoint to process
+     * @return array of [newState, property, boundary] where boundary is 1 if a break occurs
+     */
     public static int[] transitionGraphemeState(int state, int r) {
         // Determine the property of the next character
         int prop = propertyGraphemes(r);

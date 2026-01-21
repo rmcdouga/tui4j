@@ -14,8 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * TerminalInfoProvider backed by JLine.
- * tui4j: src/main/java/com/williamcallahan/tui4j/term/jline/JLineTerminalInfoProvider.java
+ * TerminalInfoProvider implementation backed by JLine.
+ * <p>
+ * Native tui4j class that queries terminal capabilities using JLine.
  */
 public class JLineTerminalInfoProvider implements TerminalInfoProvider {
 
@@ -41,6 +42,11 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
     private boolean tty;
     private TerminalColor backgroundColor;
 
+    /**
+     * Creates a provider by querying the given JLine terminal.
+     *
+     * @param terminal the JLine terminal to query
+     */
     public JLineTerminalInfoProvider(Terminal terminal) {
         readFromTerminal(terminal);
     }

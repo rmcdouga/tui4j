@@ -19,7 +19,7 @@
 - [ ] <ansi/c0.go> -> <src/main/java/com/williamcallahan/tui4j/compat/x/ansi/Ansi.java>
 - [ ] <ansi/c1.go> -> <src/main/java/com/williamcallahan/tui4j/compat/x/ansi/Ansi.java>
 - [ ] <ansi/charset.go> -> <unmapped>
-- [ ] <ansi/clipboard.go> -> <unmapped>
+- [ ] <ansi/clipboard.go> -> <src/main/java/com/williamcallahan/tui4j/ansi/Code.java> (partial: copyToClipboard, requestClipboard)
 - [ ] <ansi/clipboard_test.go> -> <unmapped>
 - [ ] <ansi/color.go> -> <unmapped>
 - [ ] <ansi/color_test.go> -> <unmapped>
@@ -63,7 +63,7 @@
 - [ ] <ansi/parser_test.go> -> <unmapped>
 - [ ] <ansi/passthrough.go> -> <unmapped>
 - [ ] <ansi/passthrough_test.go> -> <unmapped>
-- [ ] <ansi/paste.go> -> <unmapped>
+- [ ] <ansi/paste.go> -> <src/main/java/com/williamcallahan/tui4j/ansi/Code.java> (partial: requestClipboard only)
 - [ ] <ansi/progress.go> -> <unmapped>
 - [ ] <ansi/progress_test.go> -> <unmapped>
 - [ ] <ansi/reset.go> -> <unmapped>

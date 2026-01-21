@@ -1,8 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
 /**
- * Legacy package shim for {@link com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage}.
- * Bubble Tea: bubbletea/exec.go
+ * Re-export of {@link com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage} for package convenience.
+ * <p>
+ * Port of charmbracelet/bubbletea exec.go execCompletedMsg type.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
  */
 public class ExecCompletedMessage extends com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage {
 

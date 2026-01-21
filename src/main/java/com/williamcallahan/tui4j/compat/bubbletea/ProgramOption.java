@@ -61,6 +61,16 @@ public interface ProgramOption {
         return program -> program.setWithoutRenderer(true);
     }
 
+    /**
+     * Removes redundant ANSI sequences to produce potentially smaller output.
+     *
+     * @return program option
+     * @deprecated This incurs a noticeable performance hit. A future release will
+     *             optimize ANSI automatically without the performance penalty.
+     *             This option is accepted for API compatibility but has no effect.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    @SuppressWarnings("removal")
     static ProgramOption withAnsiCompressor() {
         return program -> program.setAnsiCompressor(true);
     }

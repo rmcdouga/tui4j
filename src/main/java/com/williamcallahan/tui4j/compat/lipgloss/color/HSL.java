@@ -1,23 +1,36 @@
 package com.williamcallahan.tui4j.compat.lipgloss.color;
 
 /**
- * Port of Lip Gloss hsl.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * HSL (Hue, Saturation, Lightness) color representation.
+ * <p>
+ * Port of charmbracelet/lipgloss color.go HSL utilities.
  *
- * @param h hue in degrees
+ * @param h hue in degrees (0-360)
  * @param s saturation (0-1)
  * @param l lightness (0-1)
+ * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/color.go">lipgloss/color.go</a>
  */
 public record HSL(float h, float s, float l) {
 
+    /**
+     * Returns true if this color is considered dark.
+     *
+     * @return true if lightness is below 0.5
+     */
     public boolean isDark() {
         return l < 0.5;
     }
 
-    public float distance(HSL hsluv2) {
-        double dH = (h - hsluv2.h) / 100.0;
-        double dS = s - hsluv2.s;
-        double dL = l - hsluv2.l;
+    /**
+     * Calculates the distance to another HSL color.
+     *
+     * @param other the other HSL color
+     * @return the Euclidean distance
+     */
+    public float distance(HSL other) {
+        double dH = (h - other.h) / 100.0;
+        double dS = s - other.s;
+        double dL = l - other.l;
         return (float)Math.sqrt(dH * dH + dS * dS + dL * dL);
     }
 }
