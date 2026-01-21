@@ -396,8 +396,10 @@ public class Textarea implements Model {
     private Cursor cursor;
     private int charLimit;
     private int maxHeight;
-    private int maxWidth;
-    private int promptWidth;
+    @SuppressWarnings("unused") // @deprecated
+	private int maxWidth;
+    @SuppressWarnings("unused") // @deprecated
+	private int promptWidth;
     private int width;
     private int height;
     private List<char[]> value;

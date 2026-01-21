@@ -47,10 +47,7 @@ public class Table {
     private int[] widths;
     private int[] heights;
 
-    private final Renderer renderer;
-
     public Table(Renderer renderer) {
-        this.renderer = renderer;
         this.border = createDefaultBorder();
         this.borderStyle = Style.newStyle();
         this.data = new StringData();

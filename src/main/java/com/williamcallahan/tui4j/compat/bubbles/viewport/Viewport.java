@@ -41,7 +41,6 @@ public class Viewport implements Model {
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
     @Deprecated(since = "0.3.0")
-    @SuppressWarnings("DeprecatedIsStillUsed")
     private boolean highPerformanceRendering;
     private boolean initialized;
     private List<String> lines;
