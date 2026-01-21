@@ -1,9 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link UnknownInputByteMsg}.
+ * Message sent when an unknown input byte is received.
+ * <p>
+ * tui4j extension; no Bubble Tea equivalent.
  */
-public class UnknownInputByteMessage implements MessageShim {
+public class UnknownInputByteMessage implements Message {
 
     private final byte value;
 
@@ -17,10 +19,5 @@ public class UnknownInputByteMessage implements MessageShim {
 
     public byte b() {
         return value;
-    }
-
-    @Override
-    public Message toMessage() {
-        return new UnknownInputByteMsg(value);
     }
 }

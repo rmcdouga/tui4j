@@ -50,7 +50,7 @@ class ExecTest {
 
         @Override
         public UpdateResult<TestExecModel> update(Message msg) {
-            if (msg instanceof ExecCompletedMsg completed) {
+            if (msg instanceof ExecCompletedMessage completed) {
                 if (!completed.success()) {
                     Throwable err = completed.error();
                     if (err == null) {

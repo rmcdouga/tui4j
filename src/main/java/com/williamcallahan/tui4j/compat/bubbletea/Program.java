@@ -288,7 +288,7 @@ public class Program {
 
     /**
      * Blocks the calling thread, enters raw mode, and starts the event loop.
-     * Takes control of the terminal until the model returns a {@link QuitMsg}.
+     * Takes control of the terminal until the model returns a {@link QuitMessage}.
      */
     public void run() {
         if (!isRunning.compareAndSet(false, true)) {
@@ -407,13 +407,13 @@ public class Program {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(QuitMsg::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError);
         });
         Signals.register("TERM", () -> {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(QuitMsg::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError);
         });
     }
 
@@ -738,14 +738,14 @@ public class Program {
                 errorHandler.accept(exitCode, error);
             }
 
-            send(new ExecCompletedMsg(exitCode, null));
+            send(new ExecCompletedMessage(exitCode, null));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            send(new ExecCompletedMsg(-1, e));
+            send(new ExecCompletedMessage(-1, e));
         } catch (java.util.concurrent.ExecutionException e) {
             Throwable cause = e.getCause() != null ? e.getCause() : e;
             logger.log(Level.WARNING, "Error reading process streams", cause);
-            send(new ExecCompletedMsg(-1, cause));
+            send(new ExecCompletedMessage(-1, cause));
         } finally {
             resume(); // Restore terminal and renderer
         }

@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
  * Message sent when an unrecognized escape sequence is received.
  * <p>
@@ -12,8 +10,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class UnknownSequenceMsg implements Message {
-    private final String sequence;
+public class UnknownSequenceMsg extends UnknownSequenceMessage {
 
     /**
      * Creates an unknown sequence message.
@@ -23,15 +20,6 @@ public class UnknownSequenceMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public UnknownSequenceMsg(String sequence) {
-        this.sequence = sequence;
+        super(sequence);
     }
-
-    /**
-     * Returns the unrecognized sequence.
-     *
-     * @return the sequence
-     * @deprecated Use {@link UnknownSequenceMessage#sequence()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String sequence() { return sequence; }
 }

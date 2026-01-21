@@ -1,10 +1,12 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link OpenUrlMsg}.
- * Bubble Tea: bubbletea/commands.go (tui4j extension; no direct equivalent).
+ * Requests opening a URL with the system handler.
+ * <p>
+ * tui4j extension; no Bubble Tea equivalent.
  */
-public class OpenUrlMessage implements MessageShim {
+public class OpenUrlMessage implements Message {
+
     private final String url;
 
     /**
@@ -23,10 +25,5 @@ public class OpenUrlMessage implements MessageShim {
      */
     public String url() {
         return url;
-    }
-
-    @Override
-    public Message toMessage() {
-        return new OpenUrlMsg(url);
     }
 }

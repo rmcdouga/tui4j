@@ -1,10 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Clipboard request message shim.
- * Bubble Tea: bubbletea/commands.go (tui4j extension; no direct equivalent).
+ * Message to copy text to the clipboard.
+ * <p>
+ * tui4j extension; no direct Bubble Tea equivalent.
  */
-public class CopyToClipboardMessage implements MessageShim {
+public class CopyToClipboardMessage implements Message {
     private final String text;
 
     /**
@@ -23,10 +24,5 @@ public class CopyToClipboardMessage implements MessageShim {
      */
     public String text() {
         return text;
-    }
-
-    @Override
-    public Message toMessage() {
-        return new CopyToClipboardMsg(text);
     }
 }

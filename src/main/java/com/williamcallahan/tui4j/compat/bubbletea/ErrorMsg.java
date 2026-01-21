@@ -11,9 +11,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class ErrorMsg implements Message {
-
-    private final Throwable reason;
+public class ErrorMsg extends ErrorMessage {
 
     /**
      * Creates an error message from a throwable.
@@ -23,7 +21,7 @@ public class ErrorMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public ErrorMsg(Throwable reason) {
-        this.reason = reason;
+        super(reason);
     }
 
     /**
@@ -34,17 +32,6 @@ public class ErrorMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public ErrorMsg(String reason) {
-        this.reason = new RuntimeException(reason);
-    }
-
-    /**
-     * Returns the underlying error.
-     *
-     * @return error cause
-     * @deprecated Use {@link ErrorMessage#error()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public Throwable error() {
-        return reason;
+        super(reason);
     }
 }

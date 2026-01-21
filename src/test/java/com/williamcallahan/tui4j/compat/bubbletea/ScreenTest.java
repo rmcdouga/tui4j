@@ -93,11 +93,11 @@ class ScreenTest {
         @Override
         public void handleMessage(Message msg) {
             Message internal = msg instanceof MessageShim shim ? shim.toMessage() : msg;
-            if (internal instanceof EnableMouseCellMotionMsg) {
+            if (internal instanceof EnableMouseCellMotionMessage) {
                 enableMouseCellMotionCalled = true;
-            } else if (internal instanceof EnableMouseAllMotionMsg) {
+            } else if (internal instanceof EnableMouseAllMotionMessage) {
                 enableMouseAllMotionCalled = true;
-            } else if (internal instanceof DisableMouseMsg) {
+            } else if (internal instanceof DisableMouseMessage) {
                 disableMouseCalled = true;
             }
         }

@@ -11,5 +11,5 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public record ExitAltScreenMsg() implements Message {
+public class ExitAltScreenMsg extends ExitAltScreenMessage {
 }

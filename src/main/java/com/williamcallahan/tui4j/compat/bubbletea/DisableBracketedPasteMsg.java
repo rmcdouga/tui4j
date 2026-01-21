@@ -11,14 +11,5 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class DisableBracketedPasteMsg implements Message {
-
-    /**
-     * Creates a disable bracketed paste message.
-     *
-     * @deprecated Use {@link DisableBracketedPasteMessage#DisableBracketedPasteMessage()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public DisableBracketedPasteMsg() {
-    }
+public class DisableBracketedPasteMsg extends DisableBracketedPasteMessage {
 }

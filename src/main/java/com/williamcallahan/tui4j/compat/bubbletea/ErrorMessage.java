@@ -1,10 +1,15 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link ErrorMsg}.
+ * Reports an error from command execution.
+ * <p>
  * Bubble Tea: bubbletea/tea.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
  */
-public class ErrorMessage extends ErrorMsg {
+public class ErrorMessage implements Message {
+
+    private final Throwable reason;
 
     /**
      * Creates an error message from a throwable.
@@ -12,7 +17,7 @@ public class ErrorMessage extends ErrorMsg {
      * @param reason error cause
      */
     public ErrorMessage(Throwable reason) {
-        super(reason);
+        this.reason = reason;
     }
 
     /**
@@ -21,6 +26,15 @@ public class ErrorMessage extends ErrorMsg {
      * @param reason error message
      */
     public ErrorMessage(String reason) {
-        super(reason);
+        this.reason = new RuntimeException(reason);
+    }
+
+    /**
+     * Returns the underlying error.
+     *
+     * @return error cause
+     */
+    public Throwable error() {
+        return reason;
     }
 }

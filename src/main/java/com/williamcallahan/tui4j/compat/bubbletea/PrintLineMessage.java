@@ -1,9 +1,13 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link PrintLineMsg}.
+ * Message to print a line to the terminal.
+ * <p>
+ * Bubble Tea: bubbletea/tea.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
  */
-public class PrintLineMessage implements MessageShim {
+public class PrintLineMessage implements Message {
 
     private final String messageBody;
 
@@ -13,10 +17,5 @@ public class PrintLineMessage implements MessageShim {
 
     public String messageBody() {
         return messageBody;
-    }
-
-    @Override
-    public Message toMessage() {
-        return new PrintLineMsg(messageBody);
     }
 }

@@ -457,7 +457,7 @@ public class StandardRenderer implements Renderer {
         lastRenderedLines = new String[] {};
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "removal"})
     @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go handleMessages
     // behavior.

@@ -1,19 +1,17 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link DisableMouseMsg}.
+ * Disables mouse tracking (motion modes and SGR extended mouse mode).
+ * <p>
  * Bubble Tea: bubbletea/screen.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
-public class DisableMouseMessage implements MessageShim {
+public class DisableMouseMessage implements Message {
 
     /**
      * Creates a disable mouse message.
      */
     public DisableMouseMessage() {
-    }
-
-    @Override
-    public Message toMessage() {
-        return new DisableMouseMsg();
     }
 }

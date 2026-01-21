@@ -5,15 +5,25 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * <p>
  * tui4j extension; no Bubble Tea equivalent.
  */
-@SuppressWarnings("deprecation")
-public class UnknownSequenceMessage extends UnknownSequenceMsg implements MessageShim {
+public class UnknownSequenceMessage implements Message {
 
+    private final String sequence;
+
+    /**
+     * Creates an unknown sequence message.
+     *
+     * @param sequence the unrecognized escape sequence
+     */
     public UnknownSequenceMessage(String sequence) {
-        super(sequence);
+        this.sequence = sequence;
     }
 
-    @Override
-    public Message toMessage() {
-        return this;
+    /**
+     * Returns the unrecognized sequence.
+     *
+     * @return the sequence
+     */
+    public String sequence() {
+        return sequence;
     }
 }
