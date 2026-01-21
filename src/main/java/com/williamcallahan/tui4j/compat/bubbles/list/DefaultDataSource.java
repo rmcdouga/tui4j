@@ -111,14 +111,22 @@ public class DefaultDataSource implements ListDataSource {
         }
 
         int offset = page * perPage;
-        int toIndex = Math.min(offset + perPage, filteredItems.size());
         long matchedItems = filteredItems.size();
         long totalItems = items.size();
         int totalPages = (int) Math.ceil((double) matchedItems / perPage);
 
-        if (offset >= matchedItems/* && offset - perPage >= 0*/) {
+        if (matchedItems == 0) {
+            return new FetchedItems(java.util.List.of(), 0, totalItems, 0);
+        }
+
+        if (offset >= matchedItems && offset - perPage >= 0) {
             offset = offset - perPage;
         }
+        if (offset < 0) {
+            offset = 0;
+        }
+
+        int toIndex = Math.min(offset + perPage, filteredItems.size());
         return new FetchedItems(filteredItems.subList(offset, toIndex), matchedItems, totalItems, totalPages);
     }
 
