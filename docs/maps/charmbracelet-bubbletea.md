@@ -1,0 +1,131 @@
+# Bubble Tea Compatibility Map
+
+- **Source Repo**: [https://github.com/charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea)
+- **Copyright**: Copyright (c) 2020-2025 Charmbracelet, Inc
+- **Canonical Map Path**: `src/main/java/com/williamcallahan/tui4j/compat/bubbletea`
+- **Examples Source Set (Gradle)**: `examplesBubbletea`
+- **Examples Root (repo)**: `examples/generic/**` (legacy on-disk location; compiled via `examplesBubbletea`)
+
+## Message Naming Policy (tui4j)
+- Use `*Message` names in docs and examples.
+- Legacy aliases exist for upstream naming; prefer `*Message` in user code.
+
+### Message Mapping (Bubble Tea → tui4j, `*Message` only)
+- `BatchMsg` → `BatchMessage`
+- `sequenceMsg` → `SequenceMessage`
+- `KeyMsg` → `KeyPressMessage`
+- `MouseMsg` → `MouseMessage`
+- `FocusMsg` → `FocusMessage`
+- `BlurMsg` → `BlurMessage`
+- `QuitMsg` → `QuitMessage`
+- `ExecProcessMsg` → `ExecProcessMessage`
+- `ExecCompletedMsg` → `ExecCompletedMessage`
+- `WindowSizeMsg` → `WindowSizeMessage`
+- `setWindowTitleMsg` → `SetWindowTitleMessage`
+- `clearScreenMsg` → `ClearScreenMessage`
+- `enterAltScreenMsg` → `EnterAltScreenMessage` (legacy alias: `EnterAltScreen`)
+- `exitAltScreenMsg` → `ExitAltScreenMessage` (legacy alias: `ExitAltScreen`)
+- `enableMouseCellMotionMsg` → `EnableMouseCellMotionMessage`
+- `enableMouseAllMotionMsg` → `EnableMouseAllMotionMessage`
+- `disableMouseMsg` → `DisableMouseMessage`
+- `unknownInputByteMsg` → `UnknownInputByteMessage`
+- `unknownCSISequenceMsg` → `UnknownSequenceMessage`
+- `hideCursorMsg` → `<unmapped>`
+- `showCursorMsg` → `<unmapped>`
+- `enableBracketedPasteMsg` → `<unmapped>`
+- `disableBracketedPasteMsg` → `<unmapped>`
+- `enableReportFocusMsg` → `<unmapped>`
+- `disableReportFocusMsg` → `<unmapped>`
+
+## Source Files Mapping
+
+### Root
+- [ ] <commands.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Command.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/BatchMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/BatchMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SequenceMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SequenceMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SetWindowTitleMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SetWindowTitleMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/BatchMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/SequenceMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/SetWindowTitleMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/OpenUrlMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/OpenUrlMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/CopyToClipboardMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/CopyToClipboardMsg.java>
+- [ ] <commands_test.go> -> <unmapped>
+- [ ] <exec.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExecProcessMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExecProcessMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExecCompletedMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExecCompletedMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/ExecProcessMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/ExecCompletedMessage.java>
+- [ ] <exec_test.go> -> <unmapped>
+- [ ] <focus.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/FocusMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/FocusMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/BlurMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/BlurMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/FocusMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/BlurMessage.java>
+- [ ] <inputreader_other.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/InputHandler.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/NewInputHandler.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/OldLaggyInputHandler.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/NoopInputHandler.java>
+- [ ] <inputreader_windows.go> -> <unmapped>
+- [ ] <key.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/key/Key.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/key/KeyType.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/key/KeyNames.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/key/KeyAliases.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/KeyPressMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/KeyMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/PasteMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/PasteMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/UnknownInputByteMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/UnknownInputByteMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/UnknownSequenceMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/UnknownSequenceMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/KeyPressMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/UnknownInputByteMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/UnknownSequenceMessage.java>
+- [ ] <key_other.go> -> <unmapped>
+- [ ] <key_sequences.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/key/Sequences.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/key/ExtendedSequences.java>
+- [ ] <key_test.go> -> <unmapped>
+- [ ] <key_windows.go> -> <unmapped>
+- [ ] <logging.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Logging.java>
+- [ ] <logging_test.go> -> <unmapped>
+- [ ] <mouse.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/MouseMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/MouseMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/MouseButton.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/input/MouseAction.java>
+- [ ] <mouse_test.go> -> <unmapped>
+- [ ] <nil_renderer.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/NilRenderer.java>
+- [ ] <nil_renderer_test.go> -> <unmapped>
+- [ ] <options.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ProgramOption.java>
+- [ ] <options_test.go> -> <unmapped>
+- [ ] <renderer.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/Renderer.java>
+- [ ] <screen.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/WindowSizeMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/WindowSizeMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ClearScreenMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ClearScreenMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnterAltScreenMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnterAltScreenMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnterAltScreen.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExitAltScreenMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExitAltScreenMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ExitAltScreen.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnableMouseCellMotionMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnableMouseCellMotionMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnableMouseAllMotionMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/EnableMouseAllMotionMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/DisableMouseMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/DisableMouseMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/CheckWindowSizeMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/CheckWindowSizeMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ResetMouseCursorMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ResetMouseCursorMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SetMouseCursorPointerMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SetMouseCursorPointerMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SetMouseCursorTextMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SetMouseCursorTextMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/ClearScreenMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/EnterAltScreen.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/EnterAltScreenMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/ExitAltScreen.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/ExitAltScreenMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/EnableMouseCellMotionMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/EnableMouseAllMotionMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/DisableMouseMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/WindowSizeMessage.java>
+- [ ] <screen_test.go> -> <unmapped>
+- [ ] <signals_unix.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java>
+- [ ] <signals_windows.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java>
+- [ ] <standard_renderer.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/StandardRenderer.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/PrintLineMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/PrintLineMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/PrintLineMessage.java>
+- [ ] <tea.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Model.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Message.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/MessageShim.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/UpdateResult.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/QuitMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/QuitMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SuspendMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/SuspendMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ResumeMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ResumeMsg.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ProgramException.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/QuitMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/SuspendMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/message/ResumeMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ErrorMessage.java; src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ErrorMsg.java>
+- [ ] <tea_init.go> -> <unmapped>
+- [ ] <tea_test.go> -> <unmapped>
+- [ ] <tty.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java>
+- [ ] <tty_unix.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java>
+- [ ] <tty_windows.go> -> <src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Program.java>
+### Tutorials
+- [ ] <tutorials/basics/main.go> -> <unmapped>
+- [ ] <tutorials/commands/main.go> -> <unmapped>
+### Examples
+- [ ] <examples/altscreen-toggle/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/altscreentoggle/AltScreenToggleExample.java>
+- [ ] <examples/autocomplete/main.go> -> <examples/generic/autocomplete/src/main/java/com/williamcallahan/tui4j/examples/autocomplete/AutocompleteExample.java>
+- [ ] <examples/cellbuffer/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/cellbuffer/CellExample.java>
+- [ ] <examples/chat/main.go> -> <examples/generic/chat/src/main/java/com/williamcallahan/tui4j/examples/chat/ChatExample.java>
+- [ ] <examples/composable-views/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/composableviews/ComposableViewsExample.java>
+- [ ] <examples/credit-card-form/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/creditcardform/CreditCardFormExample.java>
+- [ ] <examples/debounce/main.go> -> <examples/generic/debounce/src/main/java/com/williamcallahan/tui4j/examples/debounce/DebounceExample.java>
+- [ ] <examples/exec/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/exec/ExecExample.java>
+- [ ] <examples/eyes/main.go> -> <unmapped>
+- [ ] <examples/file-picker/main.go> -> <examples/generic/file-picker/src/main/java/com/williamcallahan/tui4j/examples/filepicker/FilePickerExample.java>
+- [ ] <examples/focus-blur/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/focusblur/FocusBlurExample.java>
+- [ ] <examples/fullscreen/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/fullscreen/FullscreenExample.java>
+- [ ] <examples/glamour/main.go> -> <unmapped>
+- [ ] <examples/help/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/help/HelpExample.java>
+- [ ] <examples/http/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/http/HttpExample.java>
+- [ ] <examples/list-default/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listdefault/ListDefaultExample.java>
+- [ ] <examples/list-fancy/delegate.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listfancy/Delegate.java>
+- [ ] <examples/list-fancy/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listfancy/ListFancyExample.java>
+- [ ] <examples/list-fancy/randomitems.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listfancy/RandomItemGenerator.java>
+- [ ] <examples/list-simple/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listsimple/ListSimpleExample.java>
+- [ ] <examples/mouse/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/mouse/MouseExample.java>
+- [ ] <examples/package-manager/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/packagemanager/PackageManagerExample.java>
+- [ ] <examples/package-manager/packages.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/packagemanager/PackageManagerExample.java>
+- [ ] <examples/pager/main.go> -> <examples/generic/pager/src/main/java/com/williamcallahan/tui4j/examples/pager/PagerExample.java>
+- [ ] <examples/paginator/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/paginator/PaginatorExample.java>
+- [ ] <examples/pipe/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/pipe/PipeExample.java>
+- [ ] <examples/prevent-quit/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/preventquit/PreventQuitExample.java>
+- [ ] <examples/progress-animated/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/animated/ProgressAnimatedExample.java>
+- [ ] <examples/progress-download/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/download/ProgressDownloadExample.java>
+- [ ] <examples/progress-download/tui.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/download/ProgressDownloadExample.java>
+- [ ] <examples/progress-static/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/progress/staticbar/ProgressStaticExample.java>
+- [ ] <examples/realtime/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/realtime/RealtimeExample.java>
+- [ ] <examples/result/main.go> -> <unmapped>
+- [ ] <examples/send-msg/main.go> -> <examples/generic/send-msg/src/main/java/com/williamcallahan/tui4j/examples/sendmsg/SendMsgExample.java>
+- [ ] <examples/sequence/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/sequence/SequenceExample.java>
+- [ ] <examples/set-window-title/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/setwindowtitle/SetWindowTitleExample.java>
+- [ ] <examples/simple/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/simple/SimpleExample.java>
+- [ ] <examples/simple/main_test.go> -> <unmapped>
+- [ ] <examples/spinner/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/spinner/SpinnerExample.java>
+- [ ] <examples/spinners/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/spinners/SpinnersExample.java>
+- [ ] <examples/split-editors/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/split/SplitEditorsExample.java>
+- [ ] <examples/stopwatch/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/stopwatch/StopwatchExample.java>
+- [ ] <examples/suspend/main.go> -> <examples/generic/suspend/src/main/java/com/williamcallahan/tui4j/examples/suspend/SuspendExample.java>
+- [ ] <examples/table-resize/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/tableresize/TableResizeExample.java>
+- [ ] <examples/table/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/table/TableExample.java>
+- [ ] <examples/tabs/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/tabs/TabsExample.java>
+- [ ] <examples/textarea/main.go> -> <examples/generic/textarea/src/main/java/com/williamcallahan/tui4j/examples/textarea/TextareaExample.java>
+- [ ] <examples/textinput/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/textinput/TextInputExample.java>
+- [ ] <examples/textinputs/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/textinputs/TextInputsExample.java>
+- [ ] <examples/timer/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/timer/TimerExample.java>
+- [ ] <examples/tui-daemon-combo/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/tuidemoncombo/DaemonComboExample.java>
+- [ ] <examples/views/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/views/ViewsExample.java>
+- [ ] <examples/window-size/main.go> -> <examples/generic/src/main/java/com/williamcallahan/tui4j/examples/windowsize/WindowSizeExample.java>
