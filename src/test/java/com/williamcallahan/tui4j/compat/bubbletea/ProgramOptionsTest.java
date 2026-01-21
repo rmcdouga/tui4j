@@ -91,11 +91,11 @@ class ProgramOptionsTest {
 
             assertThat(getBoolean(program, "useInputTTY")).isTrue();
         } catch (ProgramException e) {
-            // If TTY is not available (e.g. in CI/test env), Program throws exception when initializing terminal.
-            // This proves that useInputTTY was set to true, because otherwise openInputTTY() wouldn't be called.
-            if (!(e.getCause() instanceof java.io.FileNotFoundException)) {
-                throw e;
-            }
+            // In CI environments without TTY, Program.openInputTTY() fails with FileNotFoundException.
+            // This exception proves withInputTTY() was applied - if it weren't, openInputTTY() wouldn't be called.
+            assertThat(e.getCause())
+                    .as("Expected FileNotFoundException when TTY unavailable")
+                    .isInstanceOf(java.io.FileNotFoundException.class);
         }
     }
 
