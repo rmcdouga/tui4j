@@ -1,7 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbles.progress;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
  * Message sent on each animation frame of a progress bar.
@@ -10,7 +9,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
  */
-public class FrameMessage implements MessageShim {
+public class FrameMessage implements Message {
     private final int id;
     private final int tag;
 
@@ -41,10 +40,5 @@ public class FrameMessage implements MessageShim {
      */
     public int tag() {
         return tag;
-    }
-
-    @Override
-    public Message toMessage() {
-        return new FrameMsg(id, tag);
     }
 }

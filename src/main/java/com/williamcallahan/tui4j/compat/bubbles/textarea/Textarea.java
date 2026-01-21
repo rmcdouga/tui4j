@@ -6,11 +6,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
@@ -21,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -1269,8 +1265,6 @@ public class Textarea implements Model {
                 }
             } else {
                 char[] lastLine = lines.get(lines.size() - 1);
-                char lastChar = lastLine.length > 0 ? lastLine[lastLine.length - 1] : ' ';
-                int lastCharWidth = TextWidth.measureCellWidth(String.valueOf(lastChar));
                 int currentLineWidth = TextWidth.measureCellWidth(new String(lastLine));
                 int wordWidth = TextWidth.measureCellWidth(new String(wordArr));
 

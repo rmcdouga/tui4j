@@ -1,7 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbles.filepicker;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
  * Message sent when a file is selected in the file picker.
@@ -10,19 +9,25 @@ import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
  */
-@SuppressWarnings("deprecation")
-public class DidSelectFileMessage extends DidSelectFileMsg implements MessageShim {
+public class DidSelectFileMessage implements Message {
+
+    private final String path;
+
     /**
      * Creates a file selection message.
      *
      * @param path selected file path
      */
     public DidSelectFileMessage(String path) {
-        super(path);
+        this.path = path;
     }
 
-    @Override
-    public Message toMessage() {
-        return this;
+    /**
+     * Returns the selected file path.
+     *
+     * @return file path
+     */
+    public String path() {
+        return path;
     }
 }

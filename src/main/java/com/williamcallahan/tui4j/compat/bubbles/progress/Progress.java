@@ -43,7 +43,6 @@ public class Progress implements Model {
     private double percentShown;
     private double targetPercent;
     private double velocity;
-    private boolean springCustomized;
 
     private boolean useRamp;
     private RGB rampColorA;
@@ -153,7 +152,6 @@ public class Progress implements Model {
 
     public void setSpringOptions(double frequency, double damping) {
         this.spring = new Spring(frequency, damping);
-        this.springCustomized = true;
     }
 
     public void setColorProfile(ColorProfile colorProfile) {
@@ -234,14 +232,8 @@ public class Progress implements Model {
 
     @Override
     public UpdateResult<Progress> update(Message msg) {
-        if (msg instanceof SetPercentMsg setMsg) {
-            return UpdateResult.from(this, setPercent(setMsg.percent()));
-        }
         if (msg instanceof SetPercentMessage setMessage) {
             return UpdateResult.from(this, setPercent(setMessage.percent()));
-        }
-        if (msg instanceof FrameMsg frameMsg) {
-            return handleFrame(frameMsg.id(), frameMsg.tag());
         }
         if (msg instanceof FrameMessage frameMessage) {
             return handleFrame(frameMessage.id(), frameMessage.tag());
@@ -384,7 +376,7 @@ public class Progress implements Model {
     }
 
     private Command nextFrame() {
-        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMsg(id, tag));
+        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMessage(id, tag));
     }
 
     private UpdateResult<Progress> handleFrame(int frameId, int frameTag) {

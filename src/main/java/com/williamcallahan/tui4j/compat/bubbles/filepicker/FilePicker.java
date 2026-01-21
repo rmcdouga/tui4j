@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ErrorMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.ErrorMessage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -128,7 +128,7 @@ public class FilePicker implements Model {
                 }
                 return new ReadDirMessage(this.id, entries, errors);
             } catch (IOException e) {
-                return new ErrorMsg(e);
+                return new ErrorMessage(e);
             }
         };
     }
@@ -195,7 +195,7 @@ public class FilePicker implements Model {
             this.min = Math.min(this.min, this.selected);
             this.max = Math.min(lastIndex, Math.max(0, this.min + this.height - 1));
             return UpdateResult.from(this);
-        } else if (msg instanceof ErrorMsg errorMsg) {
+        } else if (msg instanceof ErrorMessage errorMsg) {
             logger.log(Level.WARNING, "File picker failed to read directory", errorMsg.error());
             return UpdateResult.from(this);
         }

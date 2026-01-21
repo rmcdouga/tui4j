@@ -72,25 +72,26 @@ public class Stopwatch implements Model {
         return start();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public UpdateResult<Stopwatch> update(Message msg) {
-        if (msg instanceof StartStopMsg startStopMsg) {
-            return handleStartStop(startStopMsg.id(), startStopMsg.running());
-        }
         if (msg instanceof StartStopMessage startStopMessage) {
             return handleStartStop(startStopMessage.id(), startStopMessage.running());
         }
-        if (msg instanceof ResetMsg resetMsg) {
-            return handleReset(resetMsg.id());
+        if (msg instanceof StartStopMsg startStopMsg) {
+            return handleStartStop(startStopMsg.id(), startStopMsg.running());
         }
         if (msg instanceof ResetMessage resetMessage) {
             return handleReset(resetMessage.id());
         }
-        if (msg instanceof TickMsg tickMsg) {
-            return handleTick(tickMsg.id(), tickMsg.tag());
+        if (msg instanceof ResetMsg resetMsg) {
+            return handleReset(resetMsg.id());
         }
         if (msg instanceof TickMessage tickMessage) {
             return handleTick(tickMessage.id(), tickMessage.tag());
+        }
+        if (msg instanceof TickMsg tickMsg) {
+            return handleTick(tickMsg.id(), tickMsg.tag());
         }
 
         return UpdateResult.from(this);
@@ -110,28 +111,28 @@ public class Stopwatch implements Model {
      * Returns a command to resume the stopwatch tick loop.
      */
     public Command start() {
-        return () -> new StartStopMsg(id, true);
+        return () -> new StartStopMessage(id, true);
     }
 
     /**
      * Returns a command to halt the tick loop.
      */
     public Command stop() {
-        return () -> new StartStopMsg(id, false);
+        return () -> new StartStopMessage(id, false);
     }
 
     /**
      * Returns a command to reset the elapsed time to zero.
      */
     public Command reset() {
-        return () -> new ResetMsg(id);
+        return () -> new ResetMessage(id);
     }
 
     /**
      * Returns a command to switch between running and stopped states.
      */
     public Command toggle() {
-        return () -> new StartStopMsg(id, !running);
+        return () -> new StartStopMessage(id, !running);
     }
 
     private static int nextId() {
