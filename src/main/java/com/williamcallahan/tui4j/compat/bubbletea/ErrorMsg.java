@@ -41,9 +41,7 @@ public class ErrorMsg implements Message {
      * Returns the underlying error.
      *
      * @return error cause
-     * @deprecated Use {@link ErrorMessage#error()} instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
     public Throwable error() {
         return message.error();
     }
