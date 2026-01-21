@@ -9,8 +9,26 @@ import static com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padRigh
  * Port of Lip Gloss margin decorator.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
  */
-public class MarginDecorator {
+public final class MarginDecorator {
 
+    /**
+     * Utility class.
+     */
+    private MarginDecorator() {
+    }
+
+    /**
+     * Applies margins to the input string.
+     *
+     * @param input input string
+     * @param topMargin top margin
+     * @param rightMargin right margin
+     * @param bottomMargin bottom margin
+     * @param leftMargin left margin
+     * @param attributedStyle attributed style
+     * @param renderer renderer
+     * @return string with margins applied
+     */
     public static String applyMargins(String input,
                                       int topMargin,
                                       int rightMargin,

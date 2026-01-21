@@ -708,6 +708,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Updates the key bindings based on the current state.
+     */
+    /**
+     * Updates key bindings based on the current state.
+     */
     protected void updateKeybindings() {
         if (filterState == FilterState.Filtering || fetchingItems) {
             keys.cursorUp().setEnabled(false);
