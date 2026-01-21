@@ -32,7 +32,7 @@ public class Table {
     private boolean borderRight = true;
     private boolean borderHeader = true;
     private boolean borderColumn = true;
-    private boolean borderRow = true;
+    private boolean borderRow = false;
 
     private Style borderStyle;
     private List<String> headers = new ArrayList<>();
@@ -508,7 +508,6 @@ public class Table {
                 int effectiveWidth;
                 if (style.getWidth() > 0) {
                     effectiveWidth = style.getWidth() + style.getHorizontalBorderSize();
-                    if (c == 2) System.err.println("DEBUG: r=" + r + " c=" + c + " width=" + style.getWidth() + " border=" + style.getHorizontalBorderSize() + " eff=" + effectiveWidth);
                 } else {
                     effectiveWidth = TextWidth.measureCellWidth(cell) + style.getHorizontalFrameSize();
                 }
@@ -520,7 +519,6 @@ public class Table {
                 int effectiveWidth;
                 if (style.getWidth() > 0) {
                     effectiveWidth = style.getWidth() + style.getHorizontalBorderSize();
-                    if (c == 2) System.err.println("DEBUG: HEADER c=" + c + " width=" + style.getWidth() + " border=" + style.getHorizontalBorderSize() + " eff=" + effectiveWidth);
                 } else {
                     effectiveWidth = TextWidth.measureCellWidth(header) + style.getHorizontalFrameSize();
                 }
