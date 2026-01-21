@@ -12,7 +12,6 @@ import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
 import com.williamcallahan.tui4j.compat.bubbletea.QuitMsg;
 import com.williamcallahan.tui4j.compat.bubbles.help.Help;
-import com.williamcallahan.tui4j.compat.bubbles.list.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.bubbles.paginator.Paginator;
 import com.williamcallahan.tui4j.compat.bubbles.paginator.Type;
@@ -165,6 +164,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         this.fetchingItems = true;
         updateKeybindings();
 
+        String filterValue = filterState == FilterState.Unfiltered ? "" : filterInput.value();
         return batch(
                 updateFilter(),
                 startSpinner(),
@@ -172,7 +172,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
                         dataSource.fetchItems(
                                 paginator.page(),
                                 paginator.perPage(),
-                                filterInput.value()),
+                                filterValue),
                         postFetch));
     }
 
@@ -219,9 +219,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     public Command setFilterState(FilterState filterState) {
         this.paginator.setPage(0);
         this.cursor = 0;
+        this.filterState = filterState;
         this.filterInput.cursorEnd();
         this.filterInput.focus();
-        this.filterState = filterState;
 
         return fetchCurrentPageItems();
     }

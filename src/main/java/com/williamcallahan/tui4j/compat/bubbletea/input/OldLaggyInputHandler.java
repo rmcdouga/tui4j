@@ -1,18 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.input;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.ExtendedSequences;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
-import com.williamcallahan.tui4j.compat.bubbletea.message.BlurMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.FocusMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.message.UnknownSequenceMessage;
-import org.jline.terminal.Terminal;
-import org.jline.utils.NonBlockingReader;
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +7,20 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jline.terminal.Terminal;
+import org.jline.utils.NonBlockingReader;
+
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.ExtendedSequences;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage;
 
 /**
  * Port of Bubble Tea old laggy input handler.
@@ -70,14 +71,16 @@ public class OldLaggyInputHandler implements InputHandler {
             NonBlockingReader reader = terminal.reader();
             while (running) {
                 int input = reader.read();
-                if (input == -1) continue;
+                if (input == -1)
+                    continue;
 
                 if (input == '\u001b') { // ESC character
                     // Try to read the next character with a timeout
                     int nextChar = reader.read(READ_TIMEOUT_MS);
                     if (nextChar < 0) {
                         // If no character follows within timeout, it's a standalone ESC
-                        messageConsumer.accept(new KeyPressMessage(new Key(KeyAliases.getKeyType(KeyAliases.KeyAlias.KeyEscape))));
+                        messageConsumer
+                                .accept(new KeyPressMessage(new Key(KeyAliases.getKeyType(KeyAliases.KeyAlias.KeyEscape))));
                         continue;
                     } else {
                         handleControlSequence(reader, (char) nextChar);
@@ -90,7 +93,8 @@ public class OldLaggyInputHandler implements InputHandler {
                 if (key != null) {
                     messageConsumer.accept(new KeyPressMessage(new Key(key.type(), key.runes())));
                 } else {
-                    messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[]{(char) input}, altPressed)));
+                    messageConsumer
+                            .accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[] { (char) input }, altPressed)));
                 }
 
                 if (altPressed) {
@@ -114,7 +118,7 @@ public class OldLaggyInputHandler implements InputHandler {
             if (key != null) {
                 messageConsumer.accept(new KeyPressMessage(key));
             } else {
-                messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[]{firstChar}, true)));
+                messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[] { firstChar }, true)));
             }
             return;
         }
@@ -127,7 +131,7 @@ public class OldLaggyInputHandler implements InputHandler {
                 messageConsumer.accept(new KeyPressMessage(new Key(key.type())));
             } else {
                 altPressed = true;
-                messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[]{firstChar}, altPressed)));
+                messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[] { firstChar }, altPressed)));
             }
             return;
         }
@@ -151,14 +155,16 @@ public class OldLaggyInputHandler implements InputHandler {
         // If not matched, continue reading the rest of the sequence
         while (true) {
             int ch = reader.read(READ_TIMEOUT_MS);
-            if (ch <= 0) break;
+            if (ch <= 0)
+                break;
 
             if (ch == 27) {
                 Key key = ExtendedSequences.getKey(sequence.toString());
                 if (key != null) {
                     messageConsumer.accept(new KeyPressMessage(key));
                 } else {
-                    messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, sequence.toString().toCharArray(), altPressed)));
+                    messageConsumer.accept(
+                            new KeyPressMessage(new Key(KeyType.KeyRunes, sequence.toString().toCharArray(), altPressed)));
                 }
 
                 if (altPressed) {
@@ -178,14 +184,13 @@ public class OldLaggyInputHandler implements InputHandler {
         }
     }
 
-
     private void handleX10MouseEvent(NonBlockingReader reader) throws IOException {
         // Read 3 bytes for button and coordinates
         int button = reader.read();
         int col = reader.read();
         int row = reader.read();
 
-        messageConsumer.accept(MouseMessage.parseX10MouseEvent(button, col, row));
+        messageConsumer.accept(MouseMessage.parseX10MouseEvent(col, row, button));
     }
 
     private void handleSGRMouseEvent(NonBlockingReader reader) throws IOException {

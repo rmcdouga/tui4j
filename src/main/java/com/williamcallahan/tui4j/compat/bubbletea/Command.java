@@ -1,21 +1,21 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.message.BatchMessage;
-import com.williamcallahan.tui4j.message.CheckWindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ClearScreenMessage;
-import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.DisableMouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.EnableMouseAllMotionMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.EnableMouseCellMotionMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ExecProcessMessage;
-import com.williamcallahan.tui4j.message.OpenUrlMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.PrintLineMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.message.ResetMouseCursorMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.SequenceMessage;
-import com.williamcallahan.tui4j.message.SetMouseCursorPointerMessage;
-import com.williamcallahan.tui4j.message.SetMouseCursorTextMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.SetWindowTitleMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.BatchMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.CheckWindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.ClearScreenMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.CopyToClipboardMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.DisableMouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.EnableMouseAllMotionMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.EnableMouseCellMotionMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.ExecProcessMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.OpenUrlMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.PrintLineMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.ResetMouseCursorMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorPointerMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorTextMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.SetWindowTitleMessage;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -35,7 +35,8 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a command that yields a Message.
- * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/Command.java
+ * <p>
+ * Port of github.com/charmbracelet/bubbletea/commands.go.
  */
 public interface Command {
 
@@ -83,10 +84,34 @@ public interface Command {
     }
 
     /**
+     * Runs commands in order and returns the first non-null message.
+     *
+     * @param commands commands to execute
+     * @return sequential command
+     */
+    static Command sequentially(Command... commands) {
+        return () -> {
+            if (commands == null) {
+                return null;
+            }
+            for (Command command : commands) {
+                if (command == null) {
+                    continue;
+                }
+                Message message = command.execute();
+                if (message != null) {
+                    return message;
+                }
+            }
+            return null;
+        };
+    }
+
+    /**
      * Emits a message after a duration.
      *
      * @param duration delay duration
-     * @param fn function to map time to message
+     * @param fn       function to map time to message
      * @return tick command
      */
     static Command tick(Duration duration, Function<LocalDateTime, Message> fn) {
@@ -100,6 +125,43 @@ public interface Command {
                     queue.offer(LocalDateTime.now());
                 }
             }, duration.toMillis());
+
+            try {
+                LocalDateTime time = queue.take();
+                timer.cancel();
+                return fn.apply(time);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    /**
+     * Emits a message aligned to the system clock.
+     *
+     * @param duration tick duration
+     * @param fn function to map time to message
+     * @return every command
+     */
+    static Command every(Duration duration, Function<LocalDateTime, Message> fn) {
+        return () -> {
+            long millis = duration.toMillis();
+            if (millis <= 0) {
+                return fn.apply(LocalDateTime.now());
+            }
+
+            long now = System.currentTimeMillis();
+            long next = ((now / millis) + 1) * millis;
+            long delay = Math.max(0, next - now);
+
+            BlockingQueue<LocalDateTime> queue = new ArrayBlockingQueue<>(1);
+            Timer timer = new Timer(true);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    queue.offer(LocalDateTime.now());
+                }
+            }, delay);
 
             try {
                 LocalDateTime time = queue.take();
@@ -126,7 +188,7 @@ public interface Command {
     /**
      * Emits a formatted line.
      *
-     * @param template format string
+     * @param template  format string
      * @param arguments format arguments
      * @return print line command
      */
@@ -259,12 +321,13 @@ public interface Command {
     /**
      * Executes a process with output handlers.
      *
-     * @param process process to execute
+     * @param process       process to execute
      * @param outputHandler output handler
-     * @param errorHandler error handler
+     * @param errorHandler  error handler
      * @return exec command
      */
-    static Command execProcess(Process process, BiConsumer<Integer, byte[]> outputHandler, BiConsumer<Integer, byte[]> errorHandler) {
+    static Command execProcess(Process process, BiConsumer<Integer, byte[]> outputHandler,
+                               BiConsumer<Integer, byte[]> errorHandler) {
         return () -> new ExecProcessMessage(process, outputHandler, errorHandler);
     }
 
