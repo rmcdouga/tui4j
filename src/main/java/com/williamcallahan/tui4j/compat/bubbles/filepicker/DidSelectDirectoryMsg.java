@@ -28,7 +28,12 @@ public class DidSelectDirectoryMsg implements Message {
         this.message = new DidSelectDirectoryMessage(path);
     }
 
-    /** @deprecated Use {@link DidSelectDirectoryMessage#path()} instead. */
+    /**
+     * Returns the selected directory path.
+     *
+     * @return the selected directory path
+     * @deprecated Use {@link DidSelectDirectoryMessage#path()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public String path() {
         return message.path();

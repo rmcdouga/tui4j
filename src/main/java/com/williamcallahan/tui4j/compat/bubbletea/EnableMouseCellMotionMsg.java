@@ -12,4 +12,10 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class EnableMouseCellMotionMsg implements Message {
+
+    /**
+     * Creates a new enable mouse cell motion message.
+     */
+    public EnableMouseCellMotionMsg() {
+    }
 }

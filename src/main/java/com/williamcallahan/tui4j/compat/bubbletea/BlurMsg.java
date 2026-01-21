@@ -12,4 +12,12 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class BlurMsg implements Message {
+
+    /**
+     * Creates a new blur message.
+     * @deprecated Use {@link BlurMessage} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public BlurMsg() {
+    }
 }

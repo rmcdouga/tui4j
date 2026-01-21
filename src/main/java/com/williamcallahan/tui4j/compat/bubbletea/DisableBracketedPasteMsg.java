@@ -12,4 +12,10 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class DisableBracketedPasteMsg implements Message {
+
+    /**
+     * Creates a new disable bracketed paste message.
+     */
+    public DisableBracketedPasteMsg() {
+    }
 }

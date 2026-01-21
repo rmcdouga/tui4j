@@ -28,7 +28,12 @@ public class DidSelectFileMsg implements Message {
         this.message = new DidSelectFileMessage(path);
     }
 
-    /** @deprecated Use {@link DidSelectFileMessage#path()} instead. */
+    /**
+     * Returns the selected file path.
+     *
+     * @return the selected file path
+     * @deprecated Use {@link DidSelectFileMessage#path()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public String path() {
         return message.path();

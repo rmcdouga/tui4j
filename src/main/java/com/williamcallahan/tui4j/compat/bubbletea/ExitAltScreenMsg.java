@@ -12,4 +12,10 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class ExitAltScreenMsg implements Message {
+
+    /**
+     * Creates a new exit alt screen message.
+     */
+    public ExitAltScreenMsg() {
+    }
 }

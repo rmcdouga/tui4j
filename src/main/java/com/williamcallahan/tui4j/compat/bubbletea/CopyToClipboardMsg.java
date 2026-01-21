@@ -25,7 +25,10 @@ public class CopyToClipboardMsg implements Message {
         this.message = new CopyToClipboardMessage(text);
     }
 
-    /** @deprecated Use {@link CopyToClipboardMessage#text()} instead. */
+    /**
+     * @return the text to copy
+     * @deprecated Use {@link CopyToClipboardMessage#text()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public String text() {
         return message.text();
