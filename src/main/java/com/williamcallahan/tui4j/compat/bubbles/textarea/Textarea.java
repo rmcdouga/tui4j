@@ -730,7 +730,8 @@ public class Textarea implements Model {
             }
         }
 
-        for (int i = 0; i < height; i++) {
+        int remainingLines = max(0, height - displayLine);
+        for (int i = 0; i < remainingLines; i++) {
             String promptStr = getPromptString(displayLine);
             sb.append(style.computedPrompt().render(promptStr));
             displayLine++;
