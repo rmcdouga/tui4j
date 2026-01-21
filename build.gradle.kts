@@ -185,6 +185,58 @@ sourceSets {
         runtimeClasspath += output + compileClasspath + configurations["examplesBubbleteaTestRuntimeClasspath"]
     }
 
+    val examplesBubblesTest by creating {
+        java.srcDir("examples/bubbles/src/test/java")
+        resources.srcDir("examples/bubbles/src/test/resources")
+
+        bubblesExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/test/java"))
+            resources.addIfExists(dir.resolve("src/test/resources"))
+        }
+
+        compileClasspath += main.output + examplesBubbles.output + configurations["examplesBubblesTestCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesBubblesTestRuntimeClasspath"]
+    }
+
+    val examplesLipglossTest by creating {
+        java.srcDir("examples/lipgloss/src/test/java")
+        resources.srcDir("examples/lipgloss/src/test/resources")
+
+        lipglossExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/test/java"))
+            resources.addIfExists(dir.resolve("src/test/resources"))
+        }
+
+        compileClasspath += main.output + examplesLipgloss.output + configurations["examplesLipglossTestCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesLipglossTestRuntimeClasspath"]
+    }
+
+    val examplesHarmonicaTest by creating {
+        java.srcDir("examples/harmonica/src/test/java")
+        resources.srcDir("examples/harmonica/src/test/resources")
+
+        harmonicaExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/test/java"))
+            resources.addIfExists(dir.resolve("src/test/resources"))
+        }
+
+        compileClasspath += main.output + examplesHarmonica.output + configurations["examplesHarmonicaTestCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesHarmonicaTestRuntimeClasspath"]
+    }
+
+    val examplesXTest by creating {
+        java.srcDir("examples/x/src/test/java")
+        resources.srcDir("examples/x/src/test/resources")
+
+        xExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/test/java"))
+            resources.addIfExists(dir.resolve("src/test/resources"))
+        }
+
+        compileClasspath += main.output + examplesX.output + configurations["examplesXTestCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesXTestRuntimeClasspath"]
+    }
+
     val examplesSpringIntegrationTest by creating {
         java.srcDir("examples/spring/src/test/java")
         resources.srcDir("examples/spring/src/test/resources")
@@ -208,7 +260,14 @@ tasks.register("examplesClasses") {
 
 tasks.named<Test>("test") {
     dependsOn("examplesClasses")
-    dependsOn("examplesBubbleteaTest", "examplesSpringIntegrationTest")
+    dependsOn(
+        "examplesBubbleteaTest",
+        "examplesBubblesTest",
+        "examplesLipglossTest",
+        "examplesHarmonicaTest",
+        "examplesXTest",
+        "examplesSpringIntegrationTest"
+    )
 }
 
 tasks.named<JavaCompile>("compileExamplesSpringIntegrationJava") {
@@ -269,6 +328,38 @@ configurations["examplesBubbleteaTestRuntimeOnly"].extendsFrom(
     configurations["examplesBubbleteaRuntimeOnly"],
     configurations["testRuntimeOnly"]
 )
+configurations["examplesBubblesTestImplementation"].extendsFrom(
+    configurations["examplesBubblesImplementation"],
+    configurations["testImplementation"]
+)
+configurations["examplesBubblesTestRuntimeOnly"].extendsFrom(
+    configurations["examplesBubblesRuntimeOnly"],
+    configurations["testRuntimeOnly"]
+)
+configurations["examplesLipglossTestImplementation"].extendsFrom(
+    configurations["examplesLipglossImplementation"],
+    configurations["testImplementation"]
+)
+configurations["examplesLipglossTestRuntimeOnly"].extendsFrom(
+    configurations["examplesLipglossRuntimeOnly"],
+    configurations["testRuntimeOnly"]
+)
+configurations["examplesHarmonicaTestImplementation"].extendsFrom(
+    configurations["examplesHarmonicaImplementation"],
+    configurations["testImplementation"]
+)
+configurations["examplesHarmonicaTestRuntimeOnly"].extendsFrom(
+    configurations["examplesHarmonicaRuntimeOnly"],
+    configurations["testRuntimeOnly"]
+)
+configurations["examplesXTestImplementation"].extendsFrom(
+    configurations["examplesXImplementation"],
+    configurations["testImplementation"]
+)
+configurations["examplesXTestRuntimeOnly"].extendsFrom(
+    configurations["examplesXRuntimeOnly"],
+    configurations["testRuntimeOnly"]
+)
 configurations["examplesSpringIntegrationTestImplementation"].extendsFrom(
     configurations["examplesSpringIntegrationImplementation"],
     configurations["testImplementation"]
@@ -283,6 +374,34 @@ tasks.register<Test>("examplesBubbleteaTest") {
     group = "verification"
     testClassesDirs = sourceSets["examplesBubbleteaTest"].output.classesDirs
     classpath = sourceSets["examplesBubbleteaTest"].runtimeClasspath
+}
+
+tasks.register<Test>("examplesBubblesTest") {
+    description = "Runs tests for Bubbles examples."
+    group = "verification"
+    testClassesDirs = sourceSets["examplesBubblesTest"].output.classesDirs
+    classpath = sourceSets["examplesBubblesTest"].runtimeClasspath
+}
+
+tasks.register<Test>("examplesLipglossTest") {
+    description = "Runs tests for Lipgloss examples."
+    group = "verification"
+    testClassesDirs = sourceSets["examplesLipglossTest"].output.classesDirs
+    classpath = sourceSets["examplesLipglossTest"].runtimeClasspath
+}
+
+tasks.register<Test>("examplesHarmonicaTest") {
+    description = "Runs tests for Harmonica examples."
+    group = "verification"
+    testClassesDirs = sourceSets["examplesHarmonicaTest"].output.classesDirs
+    classpath = sourceSets["examplesHarmonicaTest"].runtimeClasspath
+}
+
+tasks.register<Test>("examplesXTest") {
+    description = "Runs tests for x/ansi examples."
+    group = "verification"
+    testClassesDirs = sourceSets["examplesXTest"].output.classesDirs
+    classpath = sourceSets["examplesXTest"].runtimeClasspath
 }
 
 tasks.register<Test>("examplesSpringIntegrationTest") {
