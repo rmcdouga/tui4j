@@ -501,10 +501,10 @@ public class Style implements Cloneable {
 
         if (maxHeight > 0) {
             String[] maxHeightLines = string.split("\n");
-            int height = Math.min(maxHeight, maxHeightLines.length);
+            int linesToKeep = Math.min(maxHeight, maxHeightLines.length);
             if (maxHeightLines.length > 0) {
-                String[] truncatedLines = new String[height];
-                System.arraycopy(maxHeightLines, 0, truncatedLines, 0, height);
+                String[] truncatedLines = new String[linesToKeep];
+                System.arraycopy(maxHeightLines, 0, truncatedLines, 0, linesToKeep);
                 string = String.join("\n", truncatedLines);
             }
         }
@@ -658,50 +658,51 @@ public class Style implements Cloneable {
     }
 
     public Style inherit(Style style) {
-        this.value = style.value;
-        this.transformFunction = style.transformFunction;
-        this.background = style.background;
-        this.foreground = style.foreground;
-        this.bold = style.bold;
-        this.italic = style.italic;
-        this.underline = style.underline;
-        this.blink = style.blink;
-        this.faint = style.faint;
-        this.reverse = style.reverse;
-        this.inline = style.inline;
-        this.width = style.width;
-        this.height = style.height;
-        this.maxWidth = style.maxWidth;
-        this.maxHeight = style.maxHeight;
-        this.ellipsis = style.ellipsis;
-        this.horizontalAlign = style.horizontalAlign;
-        this.verticalAlign = style.verticalAlign;
-        this.topPadding = style.topPadding;
-        this.rightPadding = style.rightPadding;
-        this.bottomPadding = style.bottomPadding;
-        this.leftPadding = style.leftPadding;
-        this.marginBackgroundColor = style.marginBackgroundColor;
-        this.topMargin = style.topMargin;
-        this.rightMargin = style.rightMargin;
-        this.bottomMargin = style.bottomMargin;
-        this.leftMargin = style.leftMargin;
-        this.borderDecoration = style.borderDecoration;
-        this.borderTop = style.borderTop;
-        this.borderRight = style.borderRight;
-        this.borderBottom = style.borderBottom;
-        this.borderLeft = style.borderLeft;
-        this.borderTopSet = style.borderTopSet;
-        this.borderRightSet = style.borderRightSet;
-        this.borderBottomSet = style.borderBottomSet;
-        this.borderLeftSet = style.borderLeftSet;
-        this.borderTopForeground = style.borderTopForeground;
-        this.borderRightForeground = style.borderRightForeground;
-        this.borderBottomForeground = style.borderBottomForeground;
-        this.borderLeftForeground = style.borderLeftForeground;
-        this.borderTopBackground = style.borderTopBackground;
-        this.borderRightBackground = style.borderRightBackground;
-        this.borderBottomBackground = style.borderBottomBackground;
-        this.borderLeftBackground = style.borderLeftBackground;
+        if (this.value == null) this.value = style.value;
+        if (this.transformFunction == null) this.transformFunction = style.transformFunction;
+        if (this.background instanceof NoColor) this.background = style.background;
+        if (this.foreground instanceof NoColor) this.foreground = style.foreground;
+        if (!this.bold) this.bold = style.bold;
+        if (!this.italic) this.italic = style.italic;
+        if (!this.underline) this.underline = style.underline;
+        if (!this.blink) this.blink = style.blink;
+        if (!this.faint) this.faint = style.faint;
+        if (!this.reverse) this.reverse = style.reverse;
+        if (!this.inline) this.inline = style.inline;
+        if (this.width == 0) this.width = style.width;
+        if (this.height == 0) this.height = style.height;
+        if (this.maxWidth == 0) this.maxWidth = style.maxWidth;
+        if (this.maxHeight == 0) this.maxHeight = style.maxHeight;
+        if (this.ellipsis.isEmpty()) this.ellipsis = style.ellipsis;
+        if (this.horizontalAlign == Position.Left) this.horizontalAlign = style.horizontalAlign;
+        if (this.verticalAlign == Position.Top) this.verticalAlign = style.verticalAlign;
+
+        if (this.borderDecoration == null) this.borderDecoration = style.borderDecoration;
+
+        if (!this.borderTopSet) {
+            this.borderTop = style.borderTop;
+            this.borderTopSet = style.borderTopSet;
+            this.borderTopForeground = style.borderTopForeground;
+            this.borderTopBackground = style.borderTopBackground;
+        }
+        if (!this.borderRightSet) {
+            this.borderRight = style.borderRight;
+            this.borderRightSet = style.borderRightSet;
+            this.borderRightForeground = style.borderRightForeground;
+            this.borderRightBackground = style.borderRightBackground;
+        }
+        if (!this.borderBottomSet) {
+            this.borderBottom = style.borderBottom;
+            this.borderBottomSet = style.borderBottomSet;
+            this.borderBottomForeground = style.borderBottomForeground;
+            this.borderBottomBackground = style.borderBottomBackground;
+        }
+        if (!this.borderLeftSet) {
+            this.borderLeft = style.borderLeft;
+            this.borderLeftSet = style.borderLeftSet;
+            this.borderLeftForeground = style.borderLeftForeground;
+            this.borderLeftBackground = style.borderLeftBackground;
+        }
         return this;
     }
 }
