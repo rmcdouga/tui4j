@@ -28,7 +28,7 @@ public record HSL(float h, float s, float l) {
      * @return the Euclidean distance
      */
     public float distance(HSL other) {
-        double dH = (h - other.h) / 100.0;
+        double dH = (h - other.h) / 180.0;
         double dS = s - other.s;
         double dL = l - other.l;
         return (float)Math.sqrt(dH * dH + dS * dS + dL * dL);
