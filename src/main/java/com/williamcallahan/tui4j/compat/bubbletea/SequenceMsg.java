@@ -11,9 +11,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class SequenceMsg implements Message {
-
-    private final SequenceMessage message;
+public class SequenceMsg extends SequenceMessage {
 
     /**
      * Creates a sequence of commands.
@@ -23,17 +21,6 @@ public class SequenceMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public SequenceMsg(Command... commands) {
-        this.message = new SequenceMessage(commands);
-    }
-
-    /**
-     * Returns the ordered commands.
-     *
-     * @return commands
-     * @deprecated Use {@link SequenceMessage#commands()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public Command[] commands() {
-        return message.commands();
+        super(commands);
     }
 }

@@ -11,9 +11,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/standard_renderer.go">bubbletea/standard_renderer.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class PrintLineMsg implements Message {
-
-    private final PrintLineMessage message;
+public class PrintLineMsg extends PrintLineMessage {
 
     /**
      * Creates a print line message.
@@ -23,17 +21,6 @@ public class PrintLineMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public PrintLineMsg(String messageBody) {
-        this.message = new PrintLineMessage(messageBody);
-    }
-
-    /**
-     * Returns the line content.
-     *
-     * @return line content
-     * @deprecated Use {@link PrintLineMessage#messageBody()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String messageBody() {
-        return message.messageBody();
+        super(messageBody);
     }
 }

@@ -10,5 +10,5 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class ResetMouseCursorMsg implements Message {
+public class ResetMouseCursorMsg extends ResetMouseCursorMessage {
 }
