@@ -501,10 +501,10 @@ public class Style implements Cloneable {
 
         if (maxHeight > 0) {
             String[] maxHeightLines = string.split("\n");
-            int linesToKeep = Math.min(maxHeight, maxHeightLines.length);
+            int displayHeight = Math.min(maxHeight, maxHeightLines.length);
             if (maxHeightLines.length > 0) {
-                String[] truncatedLines = new String[linesToKeep];
-                System.arraycopy(maxHeightLines, 0, truncatedLines, 0, linesToKeep);
+                String[] truncatedLines = new String[displayHeight];
+                System.arraycopy(maxHeightLines, 0, truncatedLines, 0, displayHeight);
                 string = String.join("\n", truncatedLines);
             }
         }
