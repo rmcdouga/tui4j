@@ -66,6 +66,10 @@ public final class MouseHoverTextDetector {
 
             if (state == State.UTF8) {
                 GraphemeCluster.GraphemeResult graphemeResult = GraphemeCluster.getFirstGraphemeCluster(bytes, i, -1);
+                if (graphemeResult == null) {
+                    previousState = State.GROUND;
+                    continue;
+                }
                 byte[] cluster = graphemeResult.cluster();
                 int cellWidth = graphemeResult.width();
                 boolean isText = !isWhitespaceCluster(cluster);

@@ -39,6 +39,11 @@ public class TextWrapper {
 
             if (state == State.UTF8) {
                 GraphemeResult graphemeResult = GraphemeCluster.getFirstGraphemeCluster(b, i, -1);
+                if (graphemeResult == null) {
+                    pstate = State.GROUND;
+                    i++;
+                    continue;
+                }
                 byte[] cluster = graphemeResult.cluster();
                 int width = graphemeResult.width();
                 i += cluster.length;

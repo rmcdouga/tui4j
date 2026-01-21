@@ -311,6 +311,10 @@ public record Border(
             // Handle UTF-8 grapheme clusters
             if (state == State.UTF8) {
                 GraphemeCluster.GraphemeResult graphemeResult = GraphemeCluster.getFirstGraphemeCluster(b, i, -1);
+                if (graphemeResult == null) {
+                    pstate = State.GROUND;
+                    continue;
+                }
                 byte[] cluster = graphemeResult.cluster();
                 int w = graphemeResult.width();
 
