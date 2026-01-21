@@ -4,7 +4,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -15,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.IntSupplier;
 
 /**
- * Converts scroll events into selection updates.
+ * Converts scroll events into selection updates when the mouse
  * is held near the top/bottom edge.
  * <p>
  * tui4j extension; no Bubble Tea equivalent.
@@ -89,10 +88,6 @@ public final class MouseSelectionAutoScroller {
         updateModifiers(message);
     }
 
-    public void onMouseMessage(MouseMsg message) {
-        updateModifiers(message);
-    }
-
     private void tick() {
         if (!enabled || !running.get()) {
             return;
@@ -131,7 +126,7 @@ public final class MouseSelectionAutoScroller {
         ));
     }
 
-    private void updateModifiers(MouseMsg message) {
+    private void updateModifiers(MouseMessage message) {
         if (message == null) {
             return;
         }

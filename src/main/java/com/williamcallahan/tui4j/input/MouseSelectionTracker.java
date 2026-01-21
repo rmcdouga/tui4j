@@ -3,7 +3,6 @@ package com.williamcallahan.tui4j.input;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 /**
  * Tracks mouse selection state.
@@ -56,16 +55,8 @@ public final class MouseSelectionTracker {
         );
     }
 
-    public MouseSelectionUpdate update(MouseMsg message) {
-        return update(toMouseMessage(message));
-    }
-
     public MouseSelectionUpdate onMouseMessage(MouseMessage message) {
         return update(message);
-    }
-
-    public void onMouseMessage(MouseMsg message) {
-        update(message);
     }
 
     public boolean isSelecting() {
@@ -78,20 +69,5 @@ public final class MouseSelectionTracker {
 
     public int lastRow() {
         return lastRow;
-    }
-
-    private static MouseMessage toMouseMessage(MouseMsg message) {
-        if (message instanceof MouseMessage mouseMessage) {
-            return mouseMessage;
-        }
-        return new MouseMessage(
-                message.column(),
-                message.row(),
-                message.isShift(),
-                message.isAlt(),
-                message.isCtrl(),
-                message.getAction(),
-                message.getButton()
-        );
     }
 }
