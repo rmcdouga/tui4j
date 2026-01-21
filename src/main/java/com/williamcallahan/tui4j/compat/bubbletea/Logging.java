@@ -88,10 +88,10 @@ public final class Logging {
         @Override
         public synchronized void setOutput(OutputStream output) {
             if (handler != null) {
-                logger.removeHandler(handler);
+                logger.removeHandler(handler); handler.close();
             }
             StreamHandler streamHandler = new StreamHandler(output, new PrefixedFormatter(prefix));
-            streamHandler.setLevel(Level.ALL);
+            streamHandler.setLevel(Level.ALL); logger.setLevel(Level.ALL);
             logger.addHandler(streamHandler);
             logger.setUseParentHandlers(false);
             handler = streamHandler;
