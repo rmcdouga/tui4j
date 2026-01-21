@@ -25,10 +25,12 @@ public class UnknownInputByteMsg implements Message {
         this.message = new UnknownInputByteMessage(b);
     }
 
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public byte value() {
         return message.value();
     }
 
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public byte b() {
         return message.b();
     }

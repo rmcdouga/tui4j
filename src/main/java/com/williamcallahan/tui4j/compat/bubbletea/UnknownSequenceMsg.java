@@ -30,6 +30,7 @@ public class UnknownSequenceMsg implements Message {
      *
      * @return the sequence
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public String sequence() {
         return message.sequence();
     }

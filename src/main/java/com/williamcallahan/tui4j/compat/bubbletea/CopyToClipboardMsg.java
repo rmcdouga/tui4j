@@ -10,7 +10,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class CopyToClipboardMsg extends CopyToClipboardMessage {
+public class CopyToClipboardMsg implements Message {
+
+    private final CopyToClipboardMessage message;
 
     /**
      * Creates a clipboard request message.
@@ -20,6 +22,12 @@ public class CopyToClipboardMsg extends CopyToClipboardMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public CopyToClipboardMsg(String text) {
-        super(text);
+        this.message = new CopyToClipboardMessage(text);
+    }
+
+    /** @deprecated Use {@link CopyToClipboardMessage#text()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String text() {
+        return message.text();
     }
 }

@@ -1,6 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
+import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
 
 /**
  * Message sent when a key is pressed.
@@ -13,7 +14,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class KeyMsg extends KeyPressMessage {
+public class KeyMsg implements Message {
+
+    private final KeyPressMessage message;
 
     /**
      * Creates a key message.
@@ -23,6 +26,56 @@ public class KeyMsg extends KeyPressMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public KeyMsg(Key key) {
-        super(key);
+        this.message = new KeyPressMessage(key);
+    }
+
+    /**
+     * Returns the key.
+     *
+     * @return the key
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Key getKey() {
+        return message.getKey();
+    }
+
+    /**
+     * Returns the key string representation.
+     *
+     * @return the key string
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String key() {
+        return message.key();
+    }
+
+    /**
+     * Returns the key runes.
+     *
+     * @return the runes
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public char[] runes() {
+        return message.runes();
+    }
+
+    /**
+     * Returns the key type.
+     *
+     * @return the key type
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public KeyType type() {
+        return message.type();
+    }
+
+    /**
+     * Returns whether alt was pressed.
+     *
+     * @return true if alt was pressed
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean alt() {
+        return message.alt();
     }
 }

@@ -29,20 +29,14 @@ public class TickMsg implements Message {
         this.message = new TickMessage(id, tag);
     }
 
-    /**
-     * Returns the stopwatch id.
-     *
-     * @return the id
-     */
+    /** @deprecated Use {@link TickMessage#id()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public int id() {
         return message.id();
     }
 
-    /**
-     * Returns the stopwatch tag.
-     *
-     * @return the tag
-     */
+    /** @deprecated Use {@link TickMessage#tag()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public int tag() {
         return message.tag();
     }

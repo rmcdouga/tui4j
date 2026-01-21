@@ -11,7 +11,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class ExecCompletedMsg extends ExecCompletedMessage {
+public class ExecCompletedMsg implements Message {
+
+    private final ExecCompletedMessage message;
 
     /**
      * Creates an execution completion message.
@@ -22,6 +24,30 @@ public class ExecCompletedMsg extends ExecCompletedMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public ExecCompletedMsg(int exitCode, Throwable error) {
-        super(exitCode, error);
+        this.message = new ExecCompletedMessage(exitCode, error);
+    }
+
+    /** @deprecated Use {@link ExecCompletedMessage#exitCode()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int exitCode() {
+        return message.exitCode();
+    }
+
+    /** @deprecated Use {@link ExecCompletedMessage#error()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Throwable error() {
+        return message.error();
+    }
+
+    /** @deprecated Use {@link ExecCompletedMessage#success()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean success() {
+        return message.success();
+    }
+
+    /** @deprecated Use {@link ExecCompletedMessage#errorMessage()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String errorMessage() {
+        return message.errorMessage();
     }
 }
