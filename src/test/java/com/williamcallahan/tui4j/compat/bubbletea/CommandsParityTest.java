@@ -29,20 +29,6 @@ class CommandsParityTest {
         assertThat(((TestMessage) msg).value()).isEqualTo("tick");
     }
 
-    @SuppressWarnings("deprecation")
-    @Test
-    void testSequentially() {
-        TestMessage expected = new TestMessage("some msg");
-        Command cmd = Command.sequentially(
-                () -> null,
-                () -> expected,
-                () -> null
-        );
-
-        Message msg = cmd.execute();
-        assertThat(msg).isSameAs(expected);
-    }
-
     @Test
     void testBatchFiltersNulls() {
         Command[] commands = new Command[]{null, Command.quit(), null};

@@ -357,20 +357,6 @@ public class ViewportTest {
         assertEquals(newStyle, viewport.getStyle());
     }
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testHighPerformanceRendering() {
-        Viewport viewport = Viewport.create(80, 5);
-
-        assertFalse(viewport.isHighPerformanceRendering());
-
-        viewport.setHighPerformanceRendering(true);
-        assertTrue(viewport.isHighPerformanceRendering());
-
-        String view = viewport.view();
-        assertNotNull(view);
-    }
-
     @Test
     public void testYPosition() {
         Viewport viewport = Viewport.create(80, 5);

@@ -77,8 +77,7 @@ class ProgramOptionsTest {
                 ProgramOption.withInput(new ByteArrayInputStream(new byte[0])),
                 ProgramOption.withOutput(new ByteArrayOutputStream()));
 
-        @SuppressWarnings("unchecked")
-        CompletableFuture<Object> actualCancelSignal = getField(program, "cancelSignal", CompletableFuture.class);
+        CompletableFuture<?> actualCancelSignal = getField(program, "cancelSignal", CompletableFuture.class);
         assertThat(actualCancelSignal).isSameAs(cancelSignal);
     }
 
@@ -129,18 +128,17 @@ class ProgramOptionsTest {
         assertThat(getBoolean(allMotion, "enableMouseCellMotion")).isFalse();
     }
 
-    @SuppressWarnings("unchecked")
     private static <T> T getField(Program program, String name, Class<T> type) {
         try {
             Field field = Program.class.getDeclaredField(name);
             field.setAccessible(true);
-            return (T) field.get(program);
+            return type.cast(field.get(program));
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException("Failed to read field: " + name, e);
         }
     }
 
     private static boolean getBoolean(Program program, String name) {
-        return getField(program, name, boolean.class);
+        return getField(program, name, Boolean.class);
     }
 }
