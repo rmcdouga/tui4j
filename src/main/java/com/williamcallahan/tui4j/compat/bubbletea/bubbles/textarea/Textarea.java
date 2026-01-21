@@ -645,9 +645,7 @@ public class Textarea implements Model {
             System.arraycopy(value.get(row), 0, newLine, 0, max(0, col - 1));
             System.arraycopy(value.get(row), col, newLine, max(0, col - 1), value.get(row).length - col);
             value.set(row, newLine);
-            if (col > 0) {
-                setCursor(col - 1);
-            }
+            setCursor(col - 1);
         }
     }
 
