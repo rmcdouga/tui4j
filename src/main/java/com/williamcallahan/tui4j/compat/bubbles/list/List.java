@@ -429,7 +429,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
      */
     public Command select(int index) {
         this.paginator.setPage(index / paginator.perPage());
-        this.cursor = index & paginator.perPage();
+        this.cursor = index % paginator.perPage();
         return fetchCurrentPageItems();
     }
 
