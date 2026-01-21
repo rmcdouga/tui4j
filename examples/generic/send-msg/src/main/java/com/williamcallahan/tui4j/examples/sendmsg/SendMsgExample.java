@@ -106,7 +106,7 @@ public class SendMsgExample implements Model {
                 try {
                     int delayMs = RANDOM.nextInt(900) + 100;
                     Thread.sleep(delayMs);
-                    if (model.program != null && model.program.isRunning()) {
+                    if (model.program.isRunning()) {
                         model.program.send(new SendMsg(Duration.ofMillis(delayMs), randomFood()));
                     }
                 } catch (InterruptedException e) {
