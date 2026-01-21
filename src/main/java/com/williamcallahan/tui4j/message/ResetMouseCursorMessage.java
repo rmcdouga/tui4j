@@ -9,6 +9,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.ResetMouseCursorMsg;
  * tui4j extension; no Bubble Tea equivalent.
  * tui4j: src/main/java/com/williamcallahan/tui4j/message/ResetMouseCursorMessage.java
  */
+@SuppressWarnings("deprecation")
 public record ResetMouseCursorMessage() implements MessageShim {
 
     @Override

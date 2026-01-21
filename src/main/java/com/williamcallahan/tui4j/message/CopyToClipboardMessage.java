@@ -11,6 +11,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
  *
  * @param text text to copy
  */
+@SuppressWarnings("deprecation")
 public record CopyToClipboardMessage(String text) implements MessageShim {
 
     @Override

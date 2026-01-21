@@ -11,6 +11,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.OpenUrlMsg;
  *
  * @param url URL to open
  */
+@SuppressWarnings("deprecation")
 public record OpenUrlMessage(String url) implements MessageShim {
 
     @Override

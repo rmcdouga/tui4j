@@ -11,6 +11,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
  *
  * @param error error payload
  */
+@SuppressWarnings("deprecation")
 public record ErrorMessage(Throwable error) implements MessageShim {
 
     @Override
