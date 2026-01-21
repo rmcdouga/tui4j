@@ -79,8 +79,6 @@ class StyleTest {
                 .bold(true)
                 .italic(true)
                 .underline(true)
-                .padding(1, 2, 3, 4)
-                .margin(1, 2, 3, 4)
                 .maxWidth(10)
                 .ellipsis("...")
                 .border(StandardBorder.NormalBorder, true)
