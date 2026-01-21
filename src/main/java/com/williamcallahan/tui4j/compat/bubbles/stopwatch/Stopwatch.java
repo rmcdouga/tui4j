@@ -73,7 +73,17 @@ public class Stopwatch implements Model {
     }
 
     @Override
+    @SuppressWarnings({"deprecation", "removal"})
     public UpdateResult<Stopwatch> update(Message msg) {
+        if (msg instanceof StartStopMsg startStopMsg) {
+            return handleStartStop(startStopMsg.id(), startStopMsg.running());
+        }
+        if (msg instanceof ResetMsg resetMsg) {
+            return handleReset(resetMsg.id());
+        }
+        if (msg instanceof TickMsg tickMsg) {
+            return handleTick(tickMsg.id(), tickMsg.tag());
+        }
         if (msg instanceof StartStopMessage startStopMessage) {
             return handleStartStop(startStopMessage.id(), startStopMessage.running());
         }
