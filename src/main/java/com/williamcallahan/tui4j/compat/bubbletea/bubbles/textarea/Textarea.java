@@ -1019,9 +1019,6 @@ public class Textarea implements Model {
         int oldCol = col;
         setCursor(col - 1);
         while (col > 0 && UCharacter.isWhitespace(value.get(row)[col])) {
-            if (col <= 0) {
-                break;
-            }
             setCursor(col - 1);
         }
 
@@ -1029,9 +1026,7 @@ public class Textarea implements Model {
             if (!UCharacter.isWhitespace(value.get(row)[col])) {
                 setCursor(col - 1);
             } else {
-                if (col > 0) {
-                    setCursor(col + 1);
-                }
+                setCursor(col + 1);
                 break;
             }
         }
