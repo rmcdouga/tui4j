@@ -3,16 +3,35 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
- * Reports an unrecognized input sequence.
+ * Message sent when an unrecognized escape sequence is received.
+ * <p>
  * tui4j extension; no Bubble Tea equivalent.
- * tui4j: src/main/java/com/williamcallahan/tui4j/message/UnknownSequenceMsg.java
+ *
+ * @deprecated Use {@link UnknownSequenceMessage} instead.
+ *             The {@code *Msg} suffix classes are being phased out in favor of
+ *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
+@Deprecated(since = "0.3.0", forRemoval = true)
 public class UnknownSequenceMsg implements Message {
     private final String sequence;
 
+    /**
+     * Creates an unknown sequence message.
+     *
+     * @param sequence the unrecognized escape sequence
+     * @deprecated Use {@link UnknownSequenceMessage#UnknownSequenceMessage(String)} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public UnknownSequenceMsg(String sequence) {
         this.sequence = sequence;
     }
 
+    /**
+     * Returns the unrecognized sequence.
+     *
+     * @return the sequence
+     * @deprecated Use {@link UnknownSequenceMessage#sequence()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public String sequence() { return sequence; }
 }

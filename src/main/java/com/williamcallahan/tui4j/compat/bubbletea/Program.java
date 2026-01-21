@@ -7,7 +7,6 @@ import com.williamcallahan.tui4j.input.MouseClickMessage;
 import com.williamcallahan.tui4j.input.MouseClickTracker;
 import com.williamcallahan.tui4j.input.MouseHoverTextDetector;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 import com.williamcallahan.tui4j.input.MouseSelectionAutoScroller;
 import com.williamcallahan.tui4j.input.MouseSelectionTracker;
 import com.williamcallahan.tui4j.input.MouseSelectionUpdate;
@@ -432,14 +431,14 @@ public class Program {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(ResumeMsg::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(ResumeMessage::new, this::send, this::sendError);
         });
     }
 
     private void handleTerminalResize() {
         Signals.register("WINCH",
-                () -> commandExecutor.executeIfPresent(CheckWindowSizeMsg::new, this::send, this::sendError));
-        commandExecutor.executeIfPresent(CheckWindowSizeMsg::new, this::send, this::sendError);
+                () -> commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError));
+        commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError);
     }
 
     private Model eventLoop() {
@@ -464,15 +463,14 @@ public class Program {
                     continue;
                 }
 
-                if (internalMsg instanceof QuitMsg) {
+                if (internalMsg instanceof QuitMessage) {
                     return currentModel;
-                } else if (internalMsg instanceof ErrorMsg errorMessage) {
+                } else if (internalMsg instanceof ErrorMessage errorMessage) {
                     this.lastError = errorMessage.error();
                     return currentModel;
                 }
 
-                if (internalMsg instanceof MouseMsg mouseMsg) {
-                    MouseMessage mouseMessage = toMouseMessage(mouseMsg);
+                if (internalMsg instanceof MouseMessage mouseMessage) {
                     if (mouseSelectionAutoScroller != null) {
                         mouseSelectionAutoScroller.onMouse(mouseMessage);
                     }
@@ -499,43 +497,43 @@ public class Program {
 
     private boolean handleSystemMessage(Message msg) {
         return switch (msg) {
-            case ClearScreenMsg ignored -> {
+            case ClearScreenMessage ignored -> {
                 renderer.clearScreen();
                 yield true;
             }
-            case EnterAltScreenMsg ignored -> {
+            case EnterAltScreenMessage ignored -> {
                 renderer.enterAltScreen();
                 yield true;
             }
-            case ExitAltScreenMsg ignored -> {
+            case ExitAltScreenMessage ignored -> {
                 renderer.exitAltScreen();
                 yield true;
             }
-            case BatchMsg batchMessage -> {
+            case BatchMessage batchMessage -> {
                 handleBatch(batchMessage.commands());
                 yield true;
             }
-            case SequenceMsg sequenceMessage -> {
+            case SequenceMessage sequenceMessage -> {
                 handleSequence(sequenceMessage.commands());
                 yield true;
             }
-            case CheckWindowSizeMsg ignored -> {
+            case CheckWindowSizeMessage ignored -> {
                 commandExecutor.executeIfPresent(this::checkSize, this::send, this::sendError);
                 yield true;
             }
-            case OpenUrlMsg openUrlMessage -> {
+            case OpenUrlMessage openUrlMessage -> {
                 handleOpenUrl(openUrlMessage.url());
                 yield true;
             }
-            case ExecProcessMsg execProcessMessage -> {
+            case ExecProcessMessage execProcessMessage -> {
                 executeProcess(execProcessMessage);
                 yield true;
             }
-            case SuspendMsg ignored -> {
+            case SuspendMessage ignored -> {
                 suspend();
                 yield true;
             }
-            case ResumeMsg ignored -> {
+            case ResumeMessage ignored -> {
                 resume();
                 yield true;
             }
@@ -670,24 +668,9 @@ public class Program {
         return MouseTargets.hitTest(provider.mouseTargets(), mouseMessage.column(), mouseMessage.row());
     }
 
-    private static MouseMessage toMouseMessage(MouseMsg mouseMsg) {
-        if (mouseMsg instanceof MouseMessage mouseMessage) {
-            return mouseMessage;
-        }
-        return new MouseMessage(
-                mouseMsg.column(),
-                mouseMsg.row(),
-                mouseMsg.isShift(),
-                mouseMsg.isAlt(),
-                mouseMsg.isCtrl(),
-                mouseMsg.getAction(),
-                mouseMsg.getButton()
-        );
-    }
-
     private Message checkSize() {
         Size size = terminal.getSize();
-        return new WindowSizeMsg(size.getColumns(), size.getRows());
+        return new WindowSizeMessage(size.getColumns(), size.getRows());
     }
 
     private void sendError(Throwable error) {
@@ -719,7 +702,7 @@ public class Program {
         renderer.disableMouseAllMotion();
     }
 
-    private void executeProcess(ExecProcessMsg execProcessMessage) {
+    private void executeProcess(ExecProcessMessage execProcessMessage) {
         // Run synchronously to block the event loop, matching Bubble Tea's behavior
         Process process = execProcessMessage.process();
         BiConsumer<Integer, byte[]> outputHandler = execProcessMessage.outputHandler();
@@ -731,14 +714,14 @@ public class Program {
             // Drain stdout/stderr concurrently to prevent deadlock from filled buffers
             CompletableFuture<byte[]> stdoutFuture = CompletableFuture.supplyAsync(() -> {
                 try {
-                    return ExecProcessMsg.readStream(process.getInputStream());
+                    return process.getInputStream().readAllBytes();
                 } catch (IOException e) {
                     throw new UncheckedIOException("Failed to read stdout", e);
                 }
             });
             CompletableFuture<byte[]> stderrFuture = CompletableFuture.supplyAsync(() -> {
                 try {
-                    return ExecProcessMsg.readStream(process.getErrorStream());
+                    return process.getErrorStream().readAllBytes();
                 } catch (IOException e) {
                     throw new UncheckedIOException("Failed to read stderr", e);
                 }

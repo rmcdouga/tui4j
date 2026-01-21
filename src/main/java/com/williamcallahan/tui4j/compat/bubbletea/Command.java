@@ -306,6 +306,28 @@ public interface Command {
     }
 
     /**
+     * Enables bracketed paste mode in the terminal.
+     * <p>
+     * Bubble Tea: bubbletea/commands.go EnableBracketedPaste
+     *
+     * @return enable bracketed paste command
+     */
+    static Command enableBracketedPaste() {
+        return EnableBracketedPasteMessage::new;
+    }
+
+    /**
+     * Disables bracketed paste mode in the terminal.
+     * <p>
+     * Bubble Tea: bubbletea/commands.go DisableBracketedPaste
+     *
+     * @return disable bracketed paste command
+     */
+    static Command disableBracketedPaste() {
+        return DisableBracketedPasteMessage::new;
+    }
+
+    /**
      * Opens a URL via the host OS.
      *
      * @param url URL to open

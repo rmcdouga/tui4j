@@ -1,9 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link CheckWindowSizeMsg}.
- * Bubble Tea: bubbletea/screen.go
+ * Message to request the current window size.
+ * <p>
+ * tui4j extension; no Bubble Tea equivalent.
  */
+@SuppressWarnings("deprecation")
 public class CheckWindowSizeMessage extends CheckWindowSizeMsg implements MessageShim {
 
     /**

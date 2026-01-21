@@ -487,6 +487,10 @@ public class StandardRenderer implements Renderer {
             copyToClipboard(copyToClipboardMessage.text());
         } else if (internalMsg instanceof ReadClipboardMsg) {
             requestClipboard();
+        } else if (internalMsg instanceof EnableBracketedPasteMsg) {
+            enableBracketedPaste();
+        } else if (internalMsg instanceof DisableBracketedPasteMsg) {
+            disableBracketedPaste();
         } else if (internalMsg instanceof WindowSizeMsg windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();

@@ -97,7 +97,6 @@ class ProgramOptionsTest {
         Program program = new Program(null,
                 ProgramOption.withAltScreen(),
                 ProgramOption.withoutBracketedPaste(),
-                ProgramOption.withAnsiCompressor(),
                 ProgramOption.withoutCatchPanics(),
                 ProgramOption.withoutSignalHandler(),
                 ProgramOption.withInput(new ByteArrayInputStream(new byte[0])),
@@ -105,7 +104,6 @@ class ProgramOptionsTest {
 
         assertThat(getBoolean(program, "enableAltScreen")).isTrue();
         assertThat(getBoolean(program, "withoutBracketedPaste")).isTrue();
-        assertThat(getBoolean(program, "ansiCompressor")).isTrue();
         assertThat(getBoolean(program, "withoutCatchPanics")).isTrue();
         assertThat(getBoolean(program, "withoutSignalHandler")).isTrue();
     }

@@ -6,6 +6,21 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * the application to distinguish paste from typed input.
  * <p>
  * Bubble Tea: bubbletea/screen.go enableBracketedPasteMsg
+ *
+ * @deprecated Use {@link EnableBracketedPasteMessage} instead.
+ *             The {@code *Msg} suffix classes are being phased out in favor of
+ *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
-public record EnableBracketedPasteMsg() implements Message {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class EnableBracketedPasteMsg implements Message {
+
+    /**
+     * Creates an enable bracketed paste message.
+     *
+     * @deprecated Use {@link EnableBracketedPasteMessage#EnableBracketedPasteMessage()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public EnableBracketedPasteMsg() {
+    }
 }

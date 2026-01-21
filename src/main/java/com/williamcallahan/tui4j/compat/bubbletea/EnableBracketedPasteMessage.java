@@ -6,7 +6,21 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * the application to distinguish paste from typed input.
  * <p>
  * Bubble Tea: bubbletea/screen.go enableBracketedPasteMsg
- * Preferred alias for {@link EnableBracketedPasteMsg}.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
+@SuppressWarnings("deprecation")
 public class EnableBracketedPasteMessage extends EnableBracketedPasteMsg implements MessageShim {
+
+    /**
+     * Creates an enable bracketed paste message.
+     */
+    public EnableBracketedPasteMessage() {
+        super();
+    }
+
+    @Override
+    public Message toMessage() {
+        return this;
+    }
 }

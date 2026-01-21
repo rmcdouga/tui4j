@@ -29,6 +29,7 @@ class CommandsParityTest {
         assertThat(((TestMessage) msg).value()).isEqualTo("tick");
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     void testSequentially() {
         TestMessage expected = new TestMessage("some msg");

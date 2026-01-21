@@ -4,12 +4,19 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Message requesting clipboard contents via OSC 52.
  * When the renderer receives this message, it sends an OSC 52 read request
  * to the terminal. The terminal responds with clipboard contents which are
- * delivered as a {@link PasteMsg}.
+ * delivered as a {@link PasteMessage}.
  * <p>
  * Bubble Tea: bubbletea/commands.go (Paste command)
+ *
+ * @deprecated Use {@link ReadClipboardMessage} instead.
+ *             The {@code *Msg} suffix classes are being phased out in favor of
+ *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */
+@Deprecated(since = "0.3.0", forRemoval = true)
 public class ReadClipboardMsg implements Message {
 
+    @Deprecated(since = "0.3.0", forRemoval = true)
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -18,11 +25,13 @@ public class ReadClipboardMsg implements Message {
         return other instanceof ReadClipboardMsg;
     }
 
+    @Deprecated(since = "0.3.0", forRemoval = true)
     @Override
     public int hashCode() {
         return ReadClipboardMsg.class.hashCode();
     }
 
+    @Deprecated(since = "0.3.0", forRemoval = true)
     @Override
     public String toString() {
         return "ReadClipboardMsg[]";
