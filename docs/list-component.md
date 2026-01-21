@@ -5,7 +5,7 @@ The `List` component displays filterable, paginated lists in the terminal. It su
 ## Quick Start
 
 ```java
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.*;
+import com.williamcallahan.tui4j.compat.bubbles.list.*;
 
 // Define items using a record
 record ProductItem(String title, String description) implements DefaultItem {
@@ -51,7 +51,7 @@ Item                    DefaultItem extends Item
 For large datasets (e.g., database-backed), implement `ListDataSource` instead of passing arrays:
 
 ```java
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.*;
+import com.williamcallahan.tui4j.compat.bubbles.list.*;
 
 public class ProductDataSource implements ListDataSource {
 

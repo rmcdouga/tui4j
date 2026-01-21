@@ -29,8 +29,8 @@ The model stores your application's state. It can be any class implementing `Mod
 
 ```java
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 
 public class Demo implements Model {
     private final static Style SELECTION = Style.newStyle().foreground(Color.color("205"));

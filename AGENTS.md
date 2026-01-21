@@ -56,9 +56,9 @@ When porting or comparing behavior, consult these Charm repositories:
 | bubbletea (core)        | com.williamcallahan.tui4j.compat.bubbletea.*                |
 | bubbletea (input)       | com.williamcallahan.tui4j.compat.bubbletea.input.*          |
 | bubbletea (renderer)    | com.williamcallahan.tui4j.compat.bubbletea.render.*         |
-| bubbles/*               | com.williamcallahan.tui4j.compat.bubbletea.bubbles.*        |
-| lipgloss                | com.williamcallahan.tui4j.compat.bubbletea.lipgloss         |
-| harmonica               | com.williamcallahan.tui4j.compat.bubbletea.harmonica        |
+| bubbles/*               | com.williamcallahan.tui4j.compat.bubbles.*                  |
+| lipgloss                | com.williamcallahan.tui4j.compat.lipgloss.*                 |
+| harmonica               | com.williamcallahan.tui4j.compat.harmonica.*                |
 | x/ansi                  | com.williamcallahan.tui4j.compat.x.ansi                     |
 | x/ansi/parser           | com.williamcallahan.tui4j.compat.x.ansi.parser              |
 | x/cellbuf               | ⚪ Not yet ported                                            |

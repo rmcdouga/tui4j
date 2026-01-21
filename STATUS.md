@@ -9,10 +9,10 @@ TUI4J ports from these charmbracelet repositories:
 | Repository | Description | Java Package |
 |------------|-------------|--------------|
 | [bubbletea](https://github.com/charmbracelet/bubbletea) | Core TUI framework | `com.williamcallahan.tui4j.compat.bubbletea.*` |
-| [bubbles](https://github.com/charmbracelet/bubbles) | Reusable UI components | `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*` |
-| [lipgloss](https://github.com/charmbracelet/lipgloss) | Styling and layout | `com.williamcallahan.tui4j.compat.bubbletea.lipgloss.*` |
+| [bubbles](https://github.com/charmbracelet/bubbles) | Reusable UI components | `com.williamcallahan.tui4j.compat.bubbles.*` |
+| [lipgloss](https://github.com/charmbracelet/lipgloss) | Styling and layout | `com.williamcallahan.tui4j.compat.lipgloss.*` |
 | [x](https://github.com/charmbracelet/x) | Experimental packages | `com.williamcallahan.tui4j.compat.x.*` |
-| [harmonica](https://github.com/charmbracelet/harmonica) | Spring physics animation | `com.williamcallahan.tui4j.compat.bubbletea.harmonica.*` |
+| [harmonica](https://github.com/charmbracelet/harmonica) | Spring physics animation | `com.williamcallahan.tui4j.compat.harmonica.*` |
 
 ## Examples
 

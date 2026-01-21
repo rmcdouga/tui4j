@@ -95,10 +95,10 @@ TUI4J ports the [charmbracelet](https://github.com/charmbracelet) ecosystem to J
 | Go Library | Description | Java Package |
 |------------|-------------|--------------|
 | [bubbletea](https://github.com/charmbracelet/bubbletea) | Core TUI framework | `compat.bubbletea.*` |
-| [bubbles](https://github.com/charmbracelet/bubbles) | UI components (viewport, textarea, table, progress, etc.) | `compat.bubbletea.bubbles.*` |
-| [lipgloss](https://github.com/charmbracelet/lipgloss) | Styling, colors, borders, layout | `compat.bubbletea.lipgloss.*` |
+| [bubbles](https://github.com/charmbracelet/bubbles) | UI components (viewport, textarea, table, progress, etc.) | `compat.bubbles.*` |
+| [lipgloss](https://github.com/charmbracelet/lipgloss) | Styling, colors, borders, layout | `compat.lipgloss.*` |
 | [x/ansi](https://github.com/charmbracelet/x) | ANSI parsing, text width | `compat.x.ansi.*` |
-| [harmonica](https://github.com/charmbracelet/harmonica) | Spring physics animation | `compat.bubbletea.harmonica.*` |
+| [harmonica](https://github.com/charmbracelet/harmonica) | Spring physics animation | `compat.harmonica.*` |
 
 TUI4J seeks to replicate upstream behavior as closely as possible, with a general 1:1 mapping for compatibility. When TUI4J adds functionality without a charmbracelet equivalent, those APIs are treated as additive extensions.
 
