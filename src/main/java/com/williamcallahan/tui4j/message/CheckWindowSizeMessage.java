@@ -1,14 +1,15 @@
 package com.williamcallahan.tui4j.message;
 
-import com.williamcallahan.tui4j.compat.bubbletea.CheckWindowSizeMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
  * Requests a terminal size check.
+ * <p>
+ * Re-export of {@link com.williamcallahan.tui4j.compat.bubbletea.CheckWindowSizeMessage}.
+ * <p>
  * tui4j extension; no Bubble Tea equivalent.
- * tui4j: src/main/java/com/williamcallahan/tui4j/message/CheckWindowSizeMessage.java
  */
-@SuppressWarnings("deprecation")
-public class CheckWindowSizeMessage extends CheckWindowSizeMsg {
+public class CheckWindowSizeMessage implements Message {
 
     /**
      * Creates a window size check message.
