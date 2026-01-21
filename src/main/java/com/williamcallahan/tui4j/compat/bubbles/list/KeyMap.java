@@ -55,6 +55,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for moving cursor up.
+     *
      * @return key binding for moving cursor up
      */
     public Binding cursorUp() {
@@ -62,6 +64,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for moving cursor down.
+     *
      * @return key binding for moving cursor down
      */
     public Binding cursorDown() {
@@ -69,6 +73,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for next page.
+     *
      * @return key binding for next page
      */
     public Binding nextPage() {
@@ -76,6 +82,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for previous page.
+     *
      * @return key binding for previous page
      */
     public Binding prevPage() {
@@ -83,6 +91,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for going to start.
+     *
      * @return key binding for going to start
      */
     public Binding goToStart() {
@@ -90,6 +100,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for going to end.
+     *
      * @return key binding for going to end
      */
     public Binding goToEnd() {
@@ -97,6 +109,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for filtering.
+     *
      * @return key binding for filtering
      */
     public Binding filter() {
@@ -104,6 +118,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for clearing filter.
+     *
      * @return key binding for clearing filter
      */
     public Binding clearFilter() {
@@ -111,6 +127,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for cancelling while filtering.
+     *
      * @return key binding for cancelling while filtering
      */
     public Binding cancelWhileFiltering() {
@@ -118,6 +136,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for accepting while filtering.
+     *
      * @return key binding for accepting while filtering
      */
     public Binding acceptWhileFiltering() {
@@ -125,6 +145,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for showing full help.
+     *
      * @return key binding for showing full help
      */
     public Binding showFullHelp() {
@@ -132,6 +154,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for closing full help.
+     *
      * @return key binding for closing full help
      */
     public Binding closeFullHelp() {
@@ -139,6 +163,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for quitting.
+     *
      * @return key binding for quitting
      */
     public Binding quit() {
@@ -146,6 +172,8 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     }
 
     /**
+     * Returns the key binding for force quitting.
+     *
      * @return key binding for force quitting
      */
     public Binding forceQuit() {

@@ -32,6 +32,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for page down.
+     *
      * @return key binding for page down
      */
     public Binding pageDown() {
@@ -39,6 +41,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for page up.
+     *
      * @return key binding for page up
      */
     public Binding pageUp() {
@@ -46,6 +50,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for half page down.
+     *
      * @return key binding for half page down
      */
     public Binding halfPageDown() {
@@ -53,6 +59,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for half page up.
+     *
      * @return key binding for half page up
      */
     public Binding halfPageUp() {
@@ -60,6 +68,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for line down.
+     *
      * @return key binding for line down
      */
     public Binding down() {
@@ -67,6 +77,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for line up.
+     *
      * @return key binding for line up
      */
     public Binding up() {
@@ -74,6 +86,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for scrolling left.
+     *
      * @return key binding for scrolling left
      */
     public Binding left() {
@@ -81,6 +95,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for scrolling right.
+     *
      * @return key binding for scrolling right
      */
     public Binding right() {

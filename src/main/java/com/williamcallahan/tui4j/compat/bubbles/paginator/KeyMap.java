@@ -41,6 +41,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for next page.
+     *
      * @return key binding for next page
      */
     public Binding nextPage() {
@@ -48,6 +50,8 @@ public class KeyMap {
     }
 
     /**
+     * Returns the key binding for previous page.
+     *
      * @return key binding for previous page
      */
     public Binding prevPage() {
