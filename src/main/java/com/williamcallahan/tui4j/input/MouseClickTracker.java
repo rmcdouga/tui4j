@@ -21,10 +21,31 @@ public final class MouseClickTracker {
     private MouseButton lastClickButton = MouseButton.MouseButtonNone;
     private int lastClickCount = 0;
 
+    /**
+     * Creates a new mouse click tracker.
+     */
+    public MouseClickTracker() {
+    }
+
+    /**
+     * Handles a mouse message and detects clicks.
+     *
+     * @param message mouse message
+     * @param target mouse target
+     * @return mouse click message or null
+     */
     public MouseClickMessage handle(MouseMessage message, MouseTarget target) {
         return handle(message, target, System.currentTimeMillis());
     }
 
+    /**
+     * Handles a mouse message and detects clicks.
+     *
+     * @param message mouse message
+     * @param target mouse target
+     * @param nowMs current time in milliseconds
+     * @return mouse click message or null
+     */
     MouseClickMessage handle(MouseMessage message, MouseTarget target, long nowMs) {
         if (message == null || message.isWheel()) {
             return null;

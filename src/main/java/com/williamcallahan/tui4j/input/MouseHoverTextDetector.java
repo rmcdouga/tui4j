@@ -19,7 +19,18 @@ public final class MouseHoverTextDetector {
     private LineCache[] lineCaches = new LineCache[0];
 
     /**
+     * Creates a new mouse hover text detector.
+     */
+    public MouseHoverTextDetector() {
+    }
+
+    /**
      * Returns true if the given (column,row) is over a non-whitespace cell in the provided view.
+     *
+     * @param view view string
+     * @param column column coordinate
+     * @param row row coordinate
+     * @return true if hovering text
      */
     public boolean isHoveringText(String view, int column, int row) {
         if (view == null || view.isEmpty()) {

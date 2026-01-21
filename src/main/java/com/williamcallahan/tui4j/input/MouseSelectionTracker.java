@@ -15,7 +15,16 @@ public final class MouseSelectionTracker {
     private int lastRow;
 
     /**
+     * Creates a new mouse selection tracker.
+     */
+    public MouseSelectionTracker() {
+    }
+
+    /**
      * Update selection state from the latest mouse event.
+     *
+     * @param message mouse message
+     * @return selection update
      */
     public MouseSelectionUpdate update(MouseMessage message) {
         boolean wasSelecting = selecting;
@@ -55,18 +64,39 @@ public final class MouseSelectionTracker {
         );
     }
 
+    /**
+     * Handle mouse message and update selection state.
+     *
+     * @param message mouse message
+     * @return selection update
+     */
     public MouseSelectionUpdate onMouseMessage(MouseMessage message) {
         return update(message);
     }
 
+    /**
+     * Returns true if currently selecting.
+     *
+     * @return true if selecting
+     */
     public boolean isSelecting() {
         return selecting;
     }
 
+    /**
+     * Returns the last mouse column position.
+     *
+     * @return last column
+     */
     public int lastColumn() {
         return lastColumn;
     }
 
+    /**
+     * Returns the last mouse row position.
+     *
+     * @return last row
+     */
     public int lastRow() {
         return lastRow;
     }

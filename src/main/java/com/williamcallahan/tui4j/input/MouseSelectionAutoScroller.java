@@ -37,6 +37,13 @@ public final class MouseSelectionAutoScroller {
     private volatile boolean alt;
     private volatile boolean ctrl;
 
+    /**
+     * Creates a new auto scroller.
+     *
+     * @param terminalHeight supplier for terminal height
+     * @param selectionTracker selection tracker
+     * @param messageConsumer message consumer
+     */
     public MouseSelectionAutoScroller(
             IntSupplier terminalHeight,
             MouseSelectionTracker selectionTracker,
@@ -52,16 +59,28 @@ public final class MouseSelectionAutoScroller {
         });
     }
 
+    /**
+     * Enables the auto scroller.
+     */
     public void enable() {
         enabled = true;
     }
 
+    /**
+     * Configures the auto scroller.
+     *
+     * @param edgeRows number of rows from edge to trigger scroll
+     * @param intervalMs scroll interval in milliseconds
+     */
     public void configure(int edgeRows, int intervalMs) {
         enabled = true;
         this.edgeRows = Math.max(edgeRows, 1);
         this.intervalMs = Math.max(intervalMs, 10);
     }
 
+    /**
+     * Starts the auto scroller.
+     */
     public void start() {
         if (!enabled) {
             return;
@@ -72,6 +91,9 @@ public final class MouseSelectionAutoScroller {
         scheduler.scheduleAtFixedRate(this::tick, 0, intervalMs, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Stops the auto scroller.
+     */
     public void stop() {
         if (!running.compareAndSet(true, false)) {
             return;
@@ -84,6 +106,11 @@ public final class MouseSelectionAutoScroller {
         }
     }
 
+    /**
+     * Handles mouse message to update scroll state.
+     *
+     * @param message mouse message
+     */
     public void onMouse(MouseMessage message) {
         updateModifiers(message);
     }
