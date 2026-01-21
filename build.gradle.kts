@@ -91,16 +91,19 @@ sourceSets {
         }
     }
 
-    // Strictly organize examples by upstream repo (Charmbracelet):
-    // - Bubble Tea examples (currently stored under examples/generic/** for legacy reasons)
-    // - Spring examples are an integration, not a Charm repo.
+    // Examples organized by upstream Charmbracelet repo:
+    // - examples/bubbletea/ - Bubble Tea framework examples
+    // - examples/bubbles/   - Bubbles component examples
+    // - examples/lipgloss/  - Lipgloss styling examples
+    // - examples/harmonica/ - Harmonica animation examples
+    // - examples/x/         - x/ansi experimental examples
+    // - examples/spring/    - Spring integration (not a Charm repo)
 
-    val bubbleteaExampleProjectDirs = findExampleProjectDirs("examples/generic")
+    val bubbleteaExampleProjectDirs = findExampleProjectDirs("examples/bubbletea")
 
     val examplesBubbletea by creating {
-        // Legacy on-disk location for Bubble Tea ports.
-        java.srcDir("examples/generic/src/main/java")
-        resources.srcDir("examples/generic/src/main/resources")
+        java.srcDir("examples/bubbletea/src/main/java")
+        resources.srcDir("examples/bubbletea/src/main/resources")
 
         bubbleteaExampleProjectDirs.forEach { dir ->
             java.addIfExists(dir.resolve("src/main/java"))
@@ -111,20 +114,51 @@ sourceSets {
         runtimeClasspath += output + compileClasspath + configurations["examplesBubbleteaRuntimeClasspath"]
     }
 
-    // Placeholder source sets for strict repo organization (empty until we port examples).
+    // Source sets for each Charmbracelet repo
+    val bubblesExampleProjectDirs = findExampleProjectDirs("examples/bubbles")
     val examplesBubbles by creating {
+        java.srcDir("examples/bubbles/src/main/java")
+        resources.srcDir("examples/bubbles/src/main/resources")
+        bubblesExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/main/java"))
+            resources.addIfExists(dir.resolve("src/main/resources"))
+        }
         compileClasspath += main.output + configurations["examplesBubblesCompileClasspath"]
         runtimeClasspath += output + compileClasspath + configurations["examplesBubblesRuntimeClasspath"]
     }
+
+    val lipglossExampleProjectDirs = findExampleProjectDirs("examples/lipgloss")
     val examplesLipgloss by creating {
+        java.srcDir("examples/lipgloss/src/main/java")
+        resources.srcDir("examples/lipgloss/src/main/resources")
+        lipglossExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/main/java"))
+            resources.addIfExists(dir.resolve("src/main/resources"))
+        }
         compileClasspath += main.output + configurations["examplesLipglossCompileClasspath"]
         runtimeClasspath += output + compileClasspath + configurations["examplesLipglossRuntimeClasspath"]
     }
+
+    val harmonicaExampleProjectDirs = findExampleProjectDirs("examples/harmonica")
     val examplesHarmonica by creating {
+        java.srcDir("examples/harmonica/src/main/java")
+        resources.srcDir("examples/harmonica/src/main/resources")
+        harmonicaExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/main/java"))
+            resources.addIfExists(dir.resolve("src/main/resources"))
+        }
         compileClasspath += main.output + configurations["examplesHarmonicaCompileClasspath"]
         runtimeClasspath += output + compileClasspath + configurations["examplesHarmonicaRuntimeClasspath"]
     }
+
+    val xExampleProjectDirs = findExampleProjectDirs("examples/x")
     val examplesX by creating {
+        java.srcDir("examples/x/src/main/java")
+        resources.srcDir("examples/x/src/main/resources")
+        xExampleProjectDirs.forEach { dir ->
+            java.addIfExists(dir.resolve("src/main/java"))
+            resources.addIfExists(dir.resolve("src/main/resources"))
+        }
         compileClasspath += main.output + configurations["examplesXCompileClasspath"]
         runtimeClasspath += output + compileClasspath + configurations["examplesXRuntimeClasspath"]
     }
@@ -137,8 +171,8 @@ sourceSets {
     }
 
     val examplesBubbleteaTest by creating {
-        java.srcDir("examples/generic/src/test/java")
-        resources.srcDir("examples/generic/src/test/resources")
+        java.srcDir("examples/bubbletea/src/test/java")
+        resources.srcDir("examples/bubbletea/src/test/resources")
 
         bubbleteaExampleProjectDirs.forEach { dir ->
             java.addIfExists(dir.resolve("src/test/java"))
@@ -323,28 +357,32 @@ tasks.register("copyAllExampleJars") {
     dependsOn("examplesJar")
 
     val jarPath = layout.buildDirectory.get().dir("libs").file("tui4j-examples.jar").asFile
-    val exampleDirs = listOf(
-        file("${projectDir}/examples/generic"),
-        file("${projectDir}/examples/generic/table-resize"),
-        file("${projectDir}/examples/generic/autocomplete"),
-        file("${projectDir}/examples/generic/debounce"),
-        file("${projectDir}/examples/generic/file-picker"),
-        file("${projectDir}/examples/generic/prevent-quit"),
-        file("${projectDir}/examples/generic/progress-static"),
-        file("${projectDir}/examples/generic/progress-animated"),
-        file("${projectDir}/examples/generic/progress-download"),
-        file("${projectDir}/examples/generic/package-manager"),
-        file("${projectDir}/examples/generic/spinners"),
-        file("${projectDir}/examples/generic/tabs"),
-        file("${projectDir}/examples/generic/tui-daemon-combo"),
+
+    // Dynamically find all example subdirectories that have src/main/java
+    val exampleRoots = listOf(
+        file("${projectDir}/examples/bubbletea"),
+        file("${projectDir}/examples/bubbles"),
+        file("${projectDir}/examples/lipgloss"),
+        file("${projectDir}/examples/harmonica"),
+        file("${projectDir}/examples/x"),
         file("${projectDir}/examples/spring")
     )
 
     doLast {
-        exampleDirs.forEach { dir ->
-            project.copy {
-                from(jarPath)
-                into(dir)
+        exampleRoots.forEach { root ->
+            if (root.exists()) {
+                // Copy to root
+                project.copy {
+                    from(jarPath)
+                    into(root)
+                }
+                // Copy to each subdirectory that has src/main/java
+                root.listFiles()?.filter { it.isDirectory && it.resolve("src/main/java").exists() }?.forEach { subdir ->
+                    project.copy {
+                        from(jarPath)
+                        into(subdir)
+                    }
+                }
             }
         }
     }
