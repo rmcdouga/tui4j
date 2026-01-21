@@ -6,7 +6,24 @@ package com.williamcallahan.tui4j.compat.lipgloss.tree;
  */
 public interface Node {
 
+    /**
+     * Returns the value of the node.
+     *
+     * @return the value
+     */
     String value();
+
+    /**
+     * Returns the children of the node.
+     *
+     * @return the children
+     */
     Children children();
+
+    /**
+     * Returns whether the node is hidden.
+     *
+     * @return true if hidden
+     */
     boolean isHidden();
 }
