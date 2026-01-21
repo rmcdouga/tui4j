@@ -43,8 +43,7 @@ public class Renderer {
         try {
             this.output = Output.withEnvironment(environment);
             // Reset cached values so they're re-detected with new environment
-            this.colorProfile = null;
-            this.explicitColorProfile = false;
+            if (!this.explicitColorProfile) { this.colorProfile = null; }
             this.hasDarkBackgroundSet = false;
         } finally {
             renderLock.unlock();
