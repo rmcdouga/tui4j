@@ -7,28 +7,17 @@ import com.williamcallahan.tui4j.input.MouseClickMessage;
 import com.williamcallahan.tui4j.input.MouseClickTracker;
 import com.williamcallahan.tui4j.input.MouseHoverTextDetector;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 import com.williamcallahan.tui4j.input.MouseSelectionAutoScroller;
 import com.williamcallahan.tui4j.input.MouseSelectionTracker;
 import com.williamcallahan.tui4j.input.MouseSelectionUpdate;
 import com.williamcallahan.tui4j.input.MouseTarget;
 import com.williamcallahan.tui4j.input.MouseTargetProvider;
 import com.williamcallahan.tui4j.input.MouseTargets;
+import com.williamcallahan.tui4j.compat.bubbletea.input.NoopInputHandler;
 import com.williamcallahan.tui4j.compat.bubbletea.input.NewInputHandler;
-import com.williamcallahan.tui4j.compat.bubbletea.message.BatchMessage;
-import com.williamcallahan.tui4j.message.CheckWindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ClearScreenMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.EnterAltScreen;
-import com.williamcallahan.tui4j.message.ErrorMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ExitAltScreen;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ExecCompletedMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ExecProcessMessage;
-import com.williamcallahan.tui4j.message.OpenUrlMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ResumeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.SequenceMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.SuspendMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.render.Renderer;
+import com.williamcallahan.tui4j.compat.bubbletea.render.NilRenderer;
 import com.williamcallahan.tui4j.compat.bubbletea.render.StandardRenderer;
 import com.williamcallahan.tui4j.runtime.CommandExecutor;
 import com.williamcallahan.tui4j.runtime.UrlOpener;
@@ -40,9 +29,14 @@ import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
 import org.jline.utils.Signals;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -50,6 +44,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,23 +52,34 @@ import java.util.logging.Logger;
  * Runs the TUI event loop and manages terminal IO.
  * <p>
  * Port of Bubble Tea's `Program` (tea.go).
- * Manages the lifecycle of a TUI application, including terminal initialization,
+ * Manages the lifecycle of a TUI application, including terminal
+ * initialization,
  * event polling, and rendering loops.
  */
 public class Program {
 
+    private static final int DEFAULT_FPS = 60;
+    private static final int MAX_FPS = 120;
     private static final Logger logger = Logger.getLogger(Program.class.getName());
+
+    static {
+        try {
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer().hasDarkBackground();
+        } catch (Throwable ignored) {
+            // Best-effort parity with bubbletea/tea_init.go.
+        }
+    }
 
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final CountDownLatch initLatch = new CountDownLatch(1);
     private final BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<>();
     private final CommandExecutor commandExecutor;
-    private final InputHandler inputHandler;
+    private InputHandler inputHandler;
 
     private Throwable lastError;
     private volatile Model currentModel;
-    private final Renderer renderer;
-    private final Terminal terminal;
+    private Renderer renderer;
+    private Terminal terminal;
     private final MouseSelectionTracker mouseSelectionTracker = new MouseSelectionTracker();
     private final MouseHoverTextDetector mouseHoverTextDetector = new MouseHoverTextDetector();
     private final MouseClickTracker mouseClickTracker = new MouseClickTracker();
@@ -85,48 +91,114 @@ public class Program {
     private boolean mouseClicksEnabled;
     private volatile boolean isSuspended = false;
 
-    private final MouseSelectionAutoScroller mouseSelectionAutoScroller;
+    private MouseSelectionAutoScroller mouseSelectionAutoScroller;
+
+    private int fps = DEFAULT_FPS;
+    private boolean withoutSignalHandler;
+    private boolean withoutCatchPanics;
+    private final AtomicBoolean ignoreSignals = new AtomicBoolean(false);
+    private boolean withoutBracketedPaste;
+    private boolean withoutRenderer;
+    private boolean ansiCompressor;
+    private boolean enableAltScreen;
+    private boolean enableMouseAllMotion;
+    private boolean enableMouseCellMotion;
+    private boolean enableReportFocus;
+    private BiFunction<Model, Message, Message> filter;
+    private CompletableFuture<?> cancelSignal;
+    private InputStream input = System.in;
+    private OutputStream output = System.out;
+    private boolean inputDisabled;
+    private boolean useInputTTY;
+    private InputStream openedInput;
+    private List<String> environment;
+    private boolean selectionAutoScrollEnabled;
+    private int selectionAutoScrollEdgeRows = 1;
+    private int selectionAutoScrollIntervalMs = 50;
 
     public Program(Model initialModel) {
+        this(initialModel, (ProgramOption[]) null);
+    }
+
+    public Program(Model initialModel, ProgramOption... options) {
         this.currentModel = initialModel;
         this.commandExecutor = new CommandExecutor();
+        if (options != null) {
+            for (ProgramOption option : options) {
+                if (option != null) {
+                    option.apply(this);
+                }
+            }
+        }
+        initializeTerminal();
+    }
 
+    private void initializeTerminal() {
         try {
-            this.terminal = TerminalBuilder.builder()
-                    .system(true)
+            InputStream resolvedInput = resolveInputStream();
+            OutputStream resolvedOutput = output == null ? System.out : output;
+            boolean systemTerminal = isSystemTerminal(resolvedInput, resolvedOutput);
+
+            TerminalBuilder builder = TerminalBuilder.builder()
                     .jni(true)
-                    .build();
+                    .system(systemTerminal);
+
+            if (!systemTerminal) {
+                builder.streams(resolvedInput, resolvedOutput);
+            }
+
+            this.terminal = builder.build();
             terminal.enterRawMode();
 
             TerminalInfo.provide(new JLineTerminalInfoProvider(terminal));
 
-            this.renderer = new StandardRenderer(terminal);
-            this.inputHandler = new NewInputHandler(terminal, this::send);
-            this.mouseSelectionAutoScroller = new MouseSelectionAutoScroller(terminal::getHeight, mouseSelectionTracker, this::send);
+            if (withoutRenderer) {
+                this.renderer = new NilRenderer();
+            } else {
+                this.renderer = new StandardRenderer(terminal, normalizeFps(fps));
+            }
+            this.inputHandler = inputDisabled ? new NoopInputHandler() : new NewInputHandler(terminal, this::send);
+            this.mouseSelectionAutoScroller = new MouseSelectionAutoScroller(terminal::getHeight, mouseSelectionTracker,
+                    this::send);
+            applySelectionAutoScrollConfig();
         } catch (IOException e) {
             throw new ProgramException("Failed to initialize terminal", e);
         }
     }
 
     public Program withAltScreen() {
-        renderer.enterAltScreen();
+        enableAltScreen = true;
+        if (renderer != null) {
+            renderer.enterAltScreen();
+        }
         return this;
     }
 
     public Program withReportFocus() {
-        renderer.enableReportFocus();
+        enableReportFocus = true;
+        if (renderer != null) {
+            renderer.enableReportFocus();
+        }
         return this;
     }
 
     public Program withMouseAllMotion() {
-        renderer.enableMouseAllMotion();
-        renderer.enableMouseSGRMode();
+        enableMouseAllMotion = true;
+        enableMouseCellMotion = false;
+        if (renderer != null) {
+            renderer.enableMouseAllMotion();
+            renderer.enableMouseSGRMode();
+        }
         return this;
     }
 
     public Program withMouseCellMotion() {
-        renderer.enableMouseCellMotion();
-        renderer.enableMouseSGRMode();
+        enableMouseCellMotion = true;
+        enableMouseAllMotion = false;
+        if (renderer != null) {
+            renderer.enableMouseCellMotion();
+            renderer.enableMouseSGRMode();
+        }
         return this;
     }
 
@@ -139,15 +211,21 @@ public class Program {
     }
 
     /**
-     * While selecting, automatically scroll when the mouse is at the top/bottom edge.
+     * While selecting, automatically scroll when the mouse is at the top/bottom
+     * edge.
      * <p>
      * tui4j extension; no Bubble Tea equivalent.
      */
     public Program withMouseSelectionAutoScroll() {
-        // Auto-scroll is implemented by emitting wheel events while selecting, so we must also
-        // preserve selection during scroll to avoid breaking the user's selection state.
+        // Auto-scroll is implemented by emitting wheel events while selecting, so we
+        // must also
+        // preserve selection during scroll to avoid breaking the user's selection
+        // state.
         this.extendSelectionOnScroll = true;
-        mouseSelectionAutoScroller.enable();
+        selectionAutoScrollEnabled = true;
+        if (mouseSelectionAutoScroller != null) {
+            mouseSelectionAutoScroller.enable();
+        }
         return this;
     }
 
@@ -158,7 +236,12 @@ public class Program {
      */
     public Program withMouseSelectionAutoScroll(int edgeRows, int intervalMs) {
         this.extendSelectionOnScroll = true;
-        mouseSelectionAutoScroller.configure(edgeRows, intervalMs);
+        selectionAutoScrollEnabled = true;
+        selectionAutoScrollEdgeRows = edgeRows;
+        selectionAutoScrollIntervalMs = intervalMs;
+        if (mouseSelectionAutoScroller != null) {
+            mouseSelectionAutoScroller.configure(edgeRows, intervalMs);
+        }
         return this;
     }
 
@@ -187,9 +270,10 @@ public class Program {
         this.mouseClicksEnabled = true;
         return this;
     }
+
     /**
      * Blocks the calling thread, enters raw mode, and starts the event loop.
-     * Takes control of the terminal until the model returns a {@link QuitMessage}.
+     * Takes control of the terminal until the model returns a {@link QuitMsg}.
      */
     public void run() {
         if (!isRunning.compareAndSet(false, true)) {
@@ -199,14 +283,19 @@ public class Program {
         handleTerminationSignals();
         handleSuspendSignals();
         handleTerminalResize();
-        mouseSelectionAutoScroller.start();
+        if (mouseSelectionAutoScroller != null) {
+            mouseSelectionAutoScroller.start();
+        }
 
         // start reading keyboard input
         inputHandler.start();
 
+        applyStartupOptions();
+
         // starting renderer
         renderer.hideCursor();
         renderer.start();
+        installCancelSignal();
 
         Model finalModel = currentModel;
         boolean renderFinalView = false;
@@ -224,6 +313,11 @@ public class Program {
             // run event loop
             finalModel = eventLoop();
             renderFinalView = true;
+        } catch (Throwable t) {
+            if (withoutCatchPanics) {
+                throw t;
+            }
+            lastError = t;
         } finally {
             cleanup(renderFinalView, finalModel);
         }
@@ -244,7 +338,13 @@ public class Program {
         renderer.showCursor();
         renderer.stop();
 
-        mouseSelectionAutoScroller.stop();
+        if (mouseSelectionAutoScroller != null) {
+            mouseSelectionAutoScroller.stop();
+        }
+
+        if (renderer.bracketedPaste()) {
+            renderer.disableBracketedPaste();
+        }
 
         if (manageMouseSelectionCursor && mouseSelectionCursorActive) {
             renderer.resetMouseCursor();
@@ -279,22 +379,51 @@ public class Program {
                 e.addSuppressed(lastError);
             }
             throw new ProgramException(e);
+        } finally {
+            closeOpenedInput();
         }
     }
 
     private void handleTerminationSignals() {
-        Signals.register("INT", () -> commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError));
-        Signals.register("TERM", () -> commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError));
+        if (withoutSignalHandler) {
+            return;
+        }
+        Signals.register("INT", () -> {
+            if (ignoreSignals.get()) {
+                return;
+            }
+            commandExecutor.executeIfPresent(QuitMsg::new, this::send, this::sendError);
+        });
+        Signals.register("TERM", () -> {
+            if (ignoreSignals.get()) {
+                return;
+            }
+            commandExecutor.executeIfPresent(QuitMsg::new, this::send, this::sendError);
+        });
     }
 
     private void handleSuspendSignals() {
-        Signals.register("TSTP", () -> commandExecutor.executeIfPresent(SuspendMessage::new, this::send, this::sendError));
-        Signals.register("CONT", () -> commandExecutor.executeIfPresent(ResumeMessage::new, this::send, this::sendError));
+        if (withoutSignalHandler) {
+            return;
+        }
+        Signals.register("TSTP", () -> {
+            if (ignoreSignals.get()) {
+                return;
+            }
+            commandExecutor.executeIfPresent(SuspendMsg::new, this::send, this::sendError);
+        });
+        Signals.register("CONT", () -> {
+            if (ignoreSignals.get()) {
+                return;
+            }
+            commandExecutor.executeIfPresent(ResumeMsg::new, this::send, this::sendError);
+        });
     }
 
     private void handleTerminalResize() {
-        Signals.register("WINCH", () -> commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError));
-        commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError);
+        Signals.register("WINCH",
+                () -> commandExecutor.executeIfPresent(CheckWindowSizeMsg::new, this::send, this::sendError));
+        commandExecutor.executeIfPresent(CheckWindowSizeMsg::new, this::send, this::sendError);
     }
 
     private Model eventLoop() {
@@ -308,26 +437,36 @@ public class Program {
             }
 
             if (msg != null) {
-                if (handleSystemMessage(msg)) {
+                if (filter != null) {
+                    msg = filter.apply(currentModel, msg);
+                }
+                if (msg == null) {
                     continue;
                 }
-                
-                if (msg instanceof QuitMessage) {
+                Message internalMsg = normalizeMessage(msg);
+                if (handleSystemMessage(internalMsg)) {
+                    continue;
+                }
+
+                if (internalMsg instanceof QuitMsg) {
                     return currentModel;
-                } else if (msg instanceof ErrorMessage errorMessage) {
+                } else if (internalMsg instanceof ErrorMsg errorMessage) {
                     this.lastError = errorMessage.error();
                     return currentModel;
                 }
 
-                if (msg instanceof MouseMessage mouseMessage) {
-                    mouseSelectionAutoScroller.onMouse(mouseMessage);
+                if (internalMsg instanceof MouseMsg mouseMsg) {
+                    MouseMessage mouseMessage = toMouseMessage(mouseMsg);
+                    if (mouseSelectionAutoScroller != null) {
+                        mouseSelectionAutoScroller.onMouse(mouseMessage);
+                    }
                     handleMouseClickTracking(mouseMessage);
                     handleMouseSelectionTracking(mouseMessage);
                     handleMouseHoverCursor(mouseMessage);
                 }
 
                 // process internal messages for the renderer
-                renderer.handleMessage(msg);
+                renderer.handleMessage(internalMsg);
 
                 UpdateResult<? extends Model> updateResult = currentModel.update(msg);
 
@@ -344,43 +483,43 @@ public class Program {
 
     private boolean handleSystemMessage(Message msg) {
         return switch (msg) {
-            case ClearScreenMessage ignored -> {
+            case ClearScreenMsg ignored -> {
                 renderer.clearScreen();
                 yield true;
             }
-            case EnterAltScreen ignored -> {
+            case EnterAltScreenMsg ignored -> {
                 renderer.enterAltScreen();
                 yield true;
             }
-            case ExitAltScreen ignored -> {
+            case ExitAltScreenMsg ignored -> {
                 renderer.exitAltScreen();
                 yield true;
             }
-            case BatchMessage batchMessage -> {
-                handleBatch(batchMessage);
+            case BatchMsg batchMessage -> {
+                handleBatch(batchMessage.commands());
                 yield true;
             }
-            case SequenceMessage sequenceMessage -> {
-                handleSequence(sequenceMessage);
+            case SequenceMsg sequenceMessage -> {
+                handleSequence(sequenceMessage.commands());
                 yield true;
             }
-            case CheckWindowSizeMessage ignored -> {
+            case CheckWindowSizeMsg ignored -> {
                 commandExecutor.executeIfPresent(this::checkSize, this::send, this::sendError);
                 yield true;
             }
-            case OpenUrlMessage openUrlMessage -> {
-                handleOpenUrl(openUrlMessage);
+            case OpenUrlMsg openUrlMessage -> {
+                handleOpenUrl(openUrlMessage.url());
                 yield true;
             }
-            case ExecProcessMessage execProcessMessage -> {
+            case ExecProcessMsg execProcessMessage -> {
                 executeProcess(execProcessMessage);
                 yield true;
             }
-            case SuspendMessage ignored -> {
+            case SuspendMsg ignored -> {
                 suspend();
                 yield true;
             }
-            case ResumeMessage ignored -> {
+            case ResumeMsg ignored -> {
                 resume();
                 yield true;
             }
@@ -388,27 +527,32 @@ public class Program {
         };
     }
 
-    private void handleBatch(BatchMessage batchMessage) {
-        Arrays.stream(batchMessage.commands())
+    private Message normalizeMessage(Message msg) {
+        if (msg instanceof MessageShim shim) {
+            return shim.toMessage();
+        }
+        return msg;
+    }
+
+    private void handleBatch(Command... commands) {
+        Arrays.stream(commands)
                 .forEach(command -> commandExecutor.executeIfPresent(command, this::send, this::sendError));
     }
 
-    private void handleSequence(SequenceMessage sequenceMessage) {
-        Arrays.stream(sequenceMessage.commands())
+    private void handleSequence(Command... commands) {
+        Arrays.stream(commands)
                 .reduce(
                         CompletableFuture.completedFuture(null),
-                        (CompletableFuture<Void> future, Command command) ->
-                                future.thenCompose(__ ->
-                                        commandExecutor.executeIfPresent(command, this::send, this::sendError)
-                                ),
-                        (f1, f2) -> f2
-                ).join();
+                        (CompletableFuture<Void> future, Command command) -> future.thenCompose(
+                                __ -> commandExecutor.executeIfPresent(command, this::send, this::sendError)),
+                        (f1, f2) -> f2)
+                .join();
     }
 
-    private void handleOpenUrl(OpenUrlMessage openUrlMessage) {
-        boolean success = UrlOpener.open(openUrlMessage.url());
+    private void handleOpenUrl(String url) {
+        boolean success = UrlOpener.open(url);
         if (!success) {
-            logger.log(Level.WARNING, "Failed to open URL: " + openUrlMessage.url());
+            logger.log(Level.WARNING, "Failed to open URL: " + url);
         }
     }
 
@@ -465,8 +609,7 @@ public class Program {
         boolean overText = mouseHoverTextDetector.isHoveringText(
                 currentModel.view(),
                 mouseMessage.column(),
-                mouseMessage.row()
-        );
+                mouseMessage.row());
 
         if (overText && !hoverTextCursorActive) {
             renderer.setMouseCursorText();
@@ -511,13 +654,28 @@ public class Program {
         return MouseTargets.hitTest(provider.mouseTargets(), mouseMessage.column(), mouseMessage.row());
     }
 
+    private static MouseMessage toMouseMessage(MouseMsg mouseMsg) {
+        if (mouseMsg instanceof MouseMessage mouseMessage) {
+            return mouseMessage;
+        }
+        return new MouseMessage(
+                mouseMsg.column(),
+                mouseMsg.row(),
+                mouseMsg.isShift(),
+                mouseMsg.isAlt(),
+                mouseMsg.isCtrl(),
+                mouseMsg.getAction(),
+                mouseMsg.getButton()
+        );
+    }
+
     private Message checkSize() {
         Size size = terminal.getSize();
-        return new WindowSizeMessage(size.getColumns(), size.getRows());
+        return new WindowSizeMsg(size.getColumns(), size.getRows());
     }
 
     private void sendError(Throwable error) {
-        send(new ErrorMessage(error));
+        send(new ErrorMsg(error));
     }
 
     public void send(Message msg) {
@@ -545,7 +703,7 @@ public class Program {
         renderer.disableMouseAllMotion();
     }
 
-    private void executeProcess(ExecProcessMessage execProcessMessage) {
+    private void executeProcess(ExecProcessMsg execProcessMessage) {
         // Run synchronously to block the event loop, matching Bubble Tea's behavior
         Process process = execProcessMessage.process();
         BiConsumer<Integer, byte[]> outputHandler = execProcessMessage.outputHandler();
@@ -555,22 +713,20 @@ public class Program {
 
         try {
             // Drain stdout/stderr concurrently to prevent deadlock from filled buffers
-            CompletableFuture<byte[]> stdoutFuture =
-                CompletableFuture.supplyAsync(() -> {
-                    try {
-                        return ExecProcessMessage.readStream(process.getInputStream());
-                    } catch (IOException e) {
-                        throw new UncheckedIOException("Failed to read stdout", e);
-                    }
-                });
-            CompletableFuture<byte[]> stderrFuture =
-                CompletableFuture.supplyAsync(() -> {
-                    try {
-                        return ExecProcessMessage.readStream(process.getErrorStream());
-                    } catch (IOException e) {
-                        throw new UncheckedIOException("Failed to read stderr", e);
-                    }
-                });
+            CompletableFuture<byte[]> stdoutFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return ExecProcessMsg.readStream(process.getInputStream());
+                } catch (IOException e) {
+                    throw new UncheckedIOException("Failed to read stdout", e);
+                }
+            });
+            CompletableFuture<byte[]> stderrFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return ExecProcessMsg.readStream(process.getErrorStream());
+                } catch (IOException e) {
+                    throw new UncheckedIOException("Failed to read stderr", e);
+                }
+            });
 
             int exitCode = process.waitFor();
 
@@ -583,14 +739,14 @@ public class Program {
                 errorHandler.accept(exitCode, error);
             }
 
-            send(new ExecCompletedMessage(exitCode, null));
+            send(new ExecCompletedMsg(exitCode, null));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            send(new ExecCompletedMessage(-1, e));
+            send(new ExecCompletedMsg(-1, e));
         } catch (java.util.concurrent.ExecutionException e) {
             Throwable cause = e.getCause() != null ? e.getCause() : e;
             logger.log(Level.WARNING, "Error reading process streams", cause);
-            send(new ExecCompletedMessage(-1, cause));
+            send(new ExecCompletedMsg(-1, cause));
         } finally {
             resume(); // Restore terminal and renderer
         }
@@ -615,5 +771,141 @@ public class Program {
         renderer.hideCursor();
         renderer.write(currentModel.view());
         isSuspended = false;
+    }
+
+    private void applyStartupOptions() {
+        if (enableAltScreen && !renderer.altScreen()) {
+            renderer.enterAltScreen();
+        }
+        if (!withoutBracketedPaste) {
+            renderer.enableBracketedPaste();
+        }
+        if (enableMouseCellMotion) {
+            renderer.enableMouseCellMotion();
+            renderer.enableMouseSGRMode();
+        } else if (enableMouseAllMotion) {
+            renderer.enableMouseAllMotion();
+            renderer.enableMouseSGRMode();
+        }
+        if (enableReportFocus && !renderer.reportFocus()) {
+            renderer.enableReportFocus();
+        }
+    }
+
+    private void installCancelSignal() {
+        if (cancelSignal == null) {
+            return;
+        }
+        cancelSignal.whenComplete((result, error) -> send(new QuitMsg()));
+    }
+
+    private void applySelectionAutoScrollConfig() {
+        if (!selectionAutoScrollEnabled || mouseSelectionAutoScroller == null) {
+            return;
+        }
+        mouseSelectionAutoScroller.configure(selectionAutoScrollEdgeRows, selectionAutoScrollIntervalMs);
+    }
+
+    private int normalizeFps(int value) {
+        if (value < 1) {
+            return DEFAULT_FPS;
+        }
+        return Math.min(value, MAX_FPS);
+    }
+
+    private InputStream resolveInputStream() throws IOException {
+        InputStream resolved = input;
+        if (useInputTTY) {
+            resolved = openInputTTY();
+        }
+        if (resolved == null) {
+            inputDisabled = true;
+            return System.in;
+        }
+        return resolved;
+    }
+
+    private boolean isSystemTerminal(InputStream resolvedInput, OutputStream resolvedOutput) {
+        if (useInputTTY) {
+            return false;
+        }
+        boolean inputIsSystem = resolvedInput == System.in;
+        boolean outputIsSystem = resolvedOutput == System.out || resolvedOutput == System.err;
+        return inputIsSystem && outputIsSystem;
+    }
+
+    private InputStream openInputTTY() throws IOException {
+        InputStream tty = null;
+        String osName = System.getProperty("os.name", "").toLowerCase(Locale.ROOT);
+        if (osName.contains("win")) {
+            tty = new FileInputStream("CONIN$");
+        } else {
+            tty = new FileInputStream("/dev/tty");
+        }
+        openedInput = tty;
+        return tty;
+    }
+
+    private void closeOpenedInput() {
+        if (openedInput == null || openedInput == System.in) {
+            return;
+        }
+        try {
+            openedInput.close();
+        } catch (IOException ignored) {
+        }
+    }
+
+    void setOutput(OutputStream output) {
+        this.output = output;
+    }
+
+    void setInput(InputStream input) {
+        this.input = input;
+        this.inputDisabled = input == null;
+    }
+
+    void setInputTTY(boolean useInputTTY) {
+        this.useInputTTY = useInputTTY;
+    }
+
+    void setEnvironment(List<String> environment) {
+        this.environment = environment;
+    }
+
+    void setWithoutSignalHandler(boolean withoutSignalHandler) {
+        this.withoutSignalHandler = withoutSignalHandler;
+    }
+
+    void setWithoutCatchPanics(boolean withoutCatchPanics) {
+        this.withoutCatchPanics = withoutCatchPanics;
+    }
+
+    void setIgnoreSignals(boolean ignoreSignals) {
+        this.ignoreSignals.set(ignoreSignals);
+    }
+
+    void setWithoutBracketedPaste(boolean withoutBracketedPaste) {
+        this.withoutBracketedPaste = withoutBracketedPaste;
+    }
+
+    void setWithoutRenderer(boolean withoutRenderer) {
+        this.withoutRenderer = withoutRenderer;
+    }
+
+    void setAnsiCompressor(boolean ansiCompressor) {
+        this.ansiCompressor = ansiCompressor;
+    }
+
+    void setFilter(BiFunction<Model, Message, Message> filter) {
+        this.filter = filter;
+    }
+
+    void setFps(int fps) {
+        this.fps = fps;
+    }
+
+    void setCancelSignal(CompletableFuture<?> cancelSignal) {
+        this.cancelSignal = cancelSignal;
     }
 }

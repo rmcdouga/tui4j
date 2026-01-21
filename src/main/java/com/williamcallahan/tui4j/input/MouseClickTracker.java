@@ -3,6 +3,7 @@ package com.williamcallahan.tui4j.input;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 /**
  * Tracks click sequences and counts.
@@ -23,6 +24,10 @@ public final class MouseClickTracker {
 
     public MouseClickMessage handle(MouseMessage message, MouseTarget target) {
         return handle(message, target, System.currentTimeMillis());
+    }
+
+    public MouseClickMessage handle(MouseMsg message, MouseTarget target) {
+        return handle(toMouseMessage(message), target, System.currentTimeMillis());
     }
 
     MouseClickMessage handle(MouseMessage message, MouseTarget target, long nowMs) {
@@ -83,5 +88,20 @@ public final class MouseClickTracker {
         lastClickButton = button;
         lastClickCount = nextCount;
         return nextCount;
+    }
+
+    private static MouseMessage toMouseMessage(MouseMsg message) {
+        if (message instanceof MouseMessage mouseMessage) {
+            return mouseMessage;
+        }
+        return new MouseMessage(
+                message.column(),
+                message.row(),
+                message.isShift(),
+                message.isAlt(),
+                message.isCtrl(),
+                message.getAction(),
+                message.getButton()
+        );
     }
 }

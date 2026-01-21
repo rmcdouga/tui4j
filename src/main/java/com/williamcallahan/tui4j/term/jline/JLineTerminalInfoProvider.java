@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.term.jline;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import com.williamcallahan.tui4j.term.TerminalInfoProvider;
 import org.jline.terminal.Terminal;

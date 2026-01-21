@@ -157,6 +157,10 @@ public interface Renderer {
      */
     void disableReportFocus();
 
+    void enableBracketedPaste();
+    void disableBracketedPaste();
+    boolean bracketedPaste();
+
     /**
      * Notifies the renderer that the model has changed and a render is needed.
      * <p>

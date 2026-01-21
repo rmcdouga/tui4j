@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.term;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 
 /**
  * Represents terminal capability and background info.

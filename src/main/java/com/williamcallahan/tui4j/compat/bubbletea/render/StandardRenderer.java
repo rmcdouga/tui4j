@@ -4,16 +4,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
 import com.williamcallahan.tui4j.ansi.Code;
 import com.williamcallahan.tui4j.ansi.Truncate;
-import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.DisableMouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.EnableMouseAllMotionMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.EnableMouseCellMotionMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.PrintLineMessage;
-import com.williamcallahan.tui4j.message.ResetMouseCursorMessage;
-import com.williamcallahan.tui4j.message.SetMouseCursorPointerMessage;
-import com.williamcallahan.tui4j.message.SetMouseCursorTextMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.SetWindowTitleMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.*;
+import java.io.IOException;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
@@ -28,7 +20,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Default renderer backed by JLine.
- * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/StandardRenderer.java
+ * tui4j:
+ * src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/StandardRenderer.java
  */
 public class StandardRenderer implements Renderer {
 
@@ -50,6 +43,7 @@ public class StandardRenderer implements Renderer {
     private int height;
     private boolean isInAltScreen;
     private boolean isReportFocus;
+    private boolean bracketedPasteEnabled;
 
     public StandardRenderer(Terminal terminal) {
         this(terminal, DEFAULT_FPS);
@@ -191,7 +185,8 @@ public class StandardRenderer implements Renderer {
     @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go write behavior.
     public void write(String view) {
-        if (!isRunning) return;
+        if (!isRunning)
+            return;
 
         String string = view.isEmpty() ? " " : view;
 
@@ -205,7 +200,8 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go showCursor behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go showCursor
+    // behavior.
     public void showCursor() {
         renderLock.lock();
         try {
@@ -217,7 +213,8 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go hideCursor behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go hideCursor
+    // behavior.
     public void hideCursor() {
         renderLock.lock();
         try {
@@ -243,13 +240,15 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enableMouseCellMotion behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // enableMouseCellMotion behavior.
     public void enableMouseCellMotion() {
         writeToTerminal(Code.EnableMouseCellMotion.value());
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go disableMouseCellMotion behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // disableMouseCellMotion behavior.
     public void disableMouseCellMotion() {
         writeToTerminal(Code.DisableMouseCellMotion.value());
     }
@@ -265,25 +264,29 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enableMouseAllMotion behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // enableMouseAllMotion behavior.
     public void enableMouseAllMotion() {
         writeToTerminal(Code.EnableMouseAllMotion.value());
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go disableMouseAllMotion behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // disableMouseAllMotion behavior.
     public void disableMouseAllMotion() {
         writeToTerminal(Code.DisableMouseAllMotion.value());
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enableMouseSGRMode behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // enableMouseSGRMode behavior.
     public void enableMouseSGRMode() {
         writeToTerminal(Code.EnableMouseSgrExt.value());
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go disableMouseSGRMode behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // disableMouseSGRMode behavior.
     public void disableMouseSGRMode() {
         writeToTerminal(Code.DisableMouseSgrExt.value());
     }
@@ -313,7 +316,8 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go clearScreen behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go clearScreen
+    // behavior.
     public void clearScreen() {
         renderLock.lock();
         try {
@@ -326,19 +330,23 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go altScreen behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go altScreen
+    // behavior.
     public boolean altScreen() {
         return isInAltScreen;
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enterAltScreen behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enterAltScreen
+    // behavior.
     public void enterAltScreen() {
-        if (isInAltScreen) return;
+        if (isInAltScreen)
+            return;
 
         renderLock.lock();
         try {
-            if (terminal.getType().equals("dumb")) return;
+            if (terminal.getType().equals("dumb"))
+                return;
 
             terminal.puts(InfoCmp.Capability.enter_ca_mode);
             terminal.puts(InfoCmp.Capability.clear_screen);
@@ -355,9 +363,11 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go exitAltScreen behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go exitAltScreen
+    // behavior.
     public void exitAltScreen() {
-        if (!altScreen()) return;
+        if (!altScreen())
+            return;
 
         renderLock.lock();
         try {
@@ -374,7 +384,8 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go reportFocus behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go reportFocus
+    // behavior.
     public boolean reportFocus() {
         renderLock.lock();
         try {
@@ -385,7 +396,8 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enableReportFocus behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // enableReportFocus behavior.
     public void enableReportFocus() {
         renderLock.lock();
         try {
@@ -397,7 +409,8 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go disableReportFocus behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
+    // disableReportFocus behavior.
     public void disableReportFocus() {
         renderLock.lock();
         try {
@@ -409,62 +422,95 @@ public class StandardRenderer implements Renderer {
     }
 
     @Override
+    public void enableBracketedPaste() {
+        writeToTerminal(Code.EnableBracketedPaste.value());
+        bracketedPasteEnabled = true;
+    }
+
+    @Override
+    public void disableBracketedPaste() {
+        writeToTerminal(Code.DisableBracketedPaste.value());
+        bracketedPasteEnabled = false;
+    }
+
+    @Override
+    public boolean bracketedPaste() {
+        return bracketedPasteEnabled;
+    }
+
+    @Override
     // tui4j extension; no Bubble Tea equivalent.
     public void notifyModelChanged() {
         this.needsRender = true;
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go repaint behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go repaint
+    // behavior.
     public void repaint() {
         lastRender = "";
-        lastRenderedLines = new String[]{};
+        lastRenderedLines = new String[] {};
     }
 
     @Override
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go handleMessages behavior.
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go handleMessages
+    // behavior.
     public void handleMessage(Message msg) {
-        if (msg instanceof PrintLineMessage printLineMessage) {
-            if (!isInAltScreen) {
-                renderLock.lock();
-                try {
-                    String[] lines = printLineMessage.messageBody().split("\n");
-                    queuedMessageLines.addAll(Arrays.asList(lines));
-                    needsRender = true;
-                    repaint();
-                } finally {
-                    renderLock.unlock();
-                }
-            }
-        } else if (msg instanceof SetWindowTitleMessage windowTitleMessage) {
+        Message internalMsg = normalizeMessage(msg);
+        if (internalMsg instanceof PrintLineMsg printLineMessage) {
+            queuePrintLine(printLineMessage.messageBody());
+        } else if (internalMsg instanceof SetWindowTitleMsg windowTitleMessage) {
             setWindowTitle(windowTitleMessage.title());
-        } else if (msg instanceof EnableMouseCellMotionMessage) {
+        } else if (internalMsg instanceof EnableMouseCellMotionMsg) {
             enableMouseCellMotion();
             enableMouseSGRMode();
-        } else if (msg instanceof EnableMouseAllMotionMessage) {
+        } else if (internalMsg instanceof EnableMouseAllMotionMsg) {
             enableMouseAllMotion();
             enableMouseSGRMode();
-        } else if (msg instanceof DisableMouseMessage) {
+        } else if (internalMsg instanceof DisableMouseMsg) {
             disableMouseSGRMode();
             disableMouseNormalTracking();
             disableMouseCellMotion();
             disableMouseAllMotion();
-        } else if (msg instanceof SetMouseCursorTextMessage) {
+        } else if (internalMsg instanceof SetMouseCursorTextMsg) {
             setMouseCursorText();
-        } else if (msg instanceof SetMouseCursorPointerMessage) {
+        } else if (internalMsg instanceof SetMouseCursorPointerMsg) {
             setMouseCursorPointer();
-        } else if (msg instanceof ResetMouseCursorMessage) {
+        } else if (internalMsg instanceof ResetMouseCursorMsg) {
             resetMouseCursor();
-        } else if (msg instanceof CopyToClipboardMessage copyToClipboardMessage) {
+        } else if (internalMsg instanceof CopyToClipboardMsg copyToClipboardMessage) {
             copyToClipboard(copyToClipboardMessage.text());
-        } else if (msg instanceof WindowSizeMessage windowSizeMessage) {
+        } else if (internalMsg instanceof WindowSizeMsg windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();
         }
     }
 
-    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go setWindowTitle behavior.
+    private Message normalizeMessage(Message msg) {
+        if (msg instanceof MessageShim shim) {
+            return shim.toMessage();
+        }
+        return msg;
+    }
+
+    // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go setWindowTitle
+    // behavior.
     private void setWindowTitle(String title) {
         terminal.writer().print("\u001b]2;" + title + "\u0007");
+    }
+
+    private void queuePrintLine(String messageBody) {
+        if (isInAltScreen) {
+            return;
+        }
+        renderLock.lock();
+        try {
+            String[] lines = messageBody.split("\n");
+            queuedMessageLines.addAll(Arrays.asList(lines));
+            needsRender = true;
+            repaint();
+        } finally {
+            renderLock.unlock();
+        }
     }
 }

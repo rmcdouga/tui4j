@@ -4,6 +4,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -85,13 +86,11 @@ public final class MouseSelectionAutoScroller {
     }
 
     public void onMouse(MouseMessage message) {
-        if (message == null) {
-            return;
-        }
-        // Keep modifier state consistent with the latest user interaction.
-        shift = message.isShift();
-        alt = message.isAlt();
-        ctrl = message.isCtrl();
+        updateModifiers(message);
+    }
+
+    public void onMouseMessage(MouseMsg message) {
+        updateModifiers(message);
     }
 
     private void tick() {
@@ -131,5 +130,14 @@ public final class MouseSelectionAutoScroller {
                 wheel
         ));
     }
-}
 
+    private void updateModifiers(MouseMsg message) {
+        if (message == null) {
+            return;
+        }
+        // Keep modifier state consistent with the latest user interaction.
+        shift = message.isShift();
+        alt = message.isAlt();
+        ctrl = message.isCtrl();
+    }
+}
