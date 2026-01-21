@@ -215,8 +215,7 @@ class TextareaTest {
     @Test
     void testLineInfoClass() {
         Textarea.LineInfo lineInfo = new Textarea.LineInfo();
-
-        assertTrue(lineInfo != null, "LineInfo should not be null");
+        // Removed redundant null check
     }
 
     @Test
@@ -236,7 +235,6 @@ class TextareaTest {
     void testKeyMapClass() {
         Textarea.KeyMap keyMap = new Textarea.KeyMap();
 
-        assertTrue(keyMap != null, "KeyMap should not be null");
         assertTrue(keyMap.characterForward() != null, "characterForward binding should not be null");
         assertTrue(keyMap.characterBackward() != null, "characterBackward binding should not be null");
     }
