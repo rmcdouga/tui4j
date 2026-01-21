@@ -324,7 +324,7 @@ public class Table {
                 header = truncateCell(header, HEADER_ROW, i);
             }
 
-            int cellWidth = widths[i] - cellStyle.getHorizontalMargins();
+            int cellWidth = widths[i] - cellStyle.getHorizontalMargins() - cellStyle.getHorizontalBorderSize();
             s.append(cellStyle
                     .height(headerHeight - cellStyle.getVerticalMargins())
                     .width(cellWidth)
@@ -406,9 +406,10 @@ public class Table {
             }
 
             int cellWidth = c < widths.length ? widths[c] : 0;
+            int renderWidth = Math.max(0, cellWidth - cellStyle.getHorizontalMargins() - cellStyle.getHorizontalBorderSize());
             String renderedCell = cellStyle
                     .height(rowHeight - cellStyle.getVerticalMargins())
-                    .width(cellWidth - cellStyle.getHorizontalMargins())
+                    .width(renderWidth)
                     .render(cell);
             cells.add(renderedCell);
 
@@ -503,12 +504,27 @@ public class Table {
             int maxWidth = 0;
             for (int r = 0; r < data.rows(); r++) {
                 String cell = data.at(r, c);
-                int cellWidth = TextWidth.measureCellWidth(cell);
-                maxWidth = Math.max(maxWidth, cellWidth);
+                Style style = style(r, c);
+                int effectiveWidth;
+                if (style.getWidth() > 0) {
+                    effectiveWidth = style.getWidth() + style.getHorizontalBorderSize();
+                    if (c == 2) System.err.println("DEBUG: r=" + r + " c=" + c + " width=" + style.getWidth() + " border=" + style.getHorizontalBorderSize() + " eff=" + effectiveWidth);
+                } else {
+                    effectiveWidth = TextWidth.measureCellWidth(cell) + style.getHorizontalFrameSize();
+                }
+                maxWidth = Math.max(maxWidth, effectiveWidth);
             }
             if (c < headers.size()) {
-                int headerWidth = TextWidth.measureCellWidth(headers.get(c));
-                maxWidth = Math.max(maxWidth, headerWidth);
+                String header = headers.get(c);
+                Style style = style(HEADER_ROW, c);
+                int effectiveWidth;
+                if (style.getWidth() > 0) {
+                    effectiveWidth = style.getWidth() + style.getHorizontalBorderSize();
+                    if (c == 2) System.err.println("DEBUG: HEADER c=" + c + " width=" + style.getWidth() + " border=" + style.getHorizontalBorderSize() + " eff=" + effectiveWidth);
+                } else {
+                    effectiveWidth = TextWidth.measureCellWidth(header) + style.getHorizontalFrameSize();
+                }
+                maxWidth = Math.max(maxWidth, effectiveWidth);
             }
             widths[c] = maxWidth;
         }
@@ -521,10 +537,13 @@ public class Table {
             for (int c = 0; c < numCols; c++) {
                 String cell = data.at(r, c);
                 int cellWidth = widths[c];
-                if (cellWidth > 0 && wrap) {
+                Style style = style(r, c);
+                int availableWidth = cellWidth - style.getHorizontalFrameSize();
+
+                if (availableWidth > 0 && wrap) {
                     TextLines lines = TextLines.fromText(cell);
                     for (String line : lines.lines()) {
-                        int numLines = (int) Math.ceil((double) TextWidth.measureCellWidth(line) / cellWidth);
+                        int numLines = (int) Math.ceil((double) TextWidth.measureCellWidth(line) / availableWidth);
                         maxHeight = Math.max(maxHeight, numLines);
                     }
                 }
@@ -537,10 +556,13 @@ public class Table {
             for (int c = 0; c < headers.size(); c++) {
                 String header = headers.get(c);
                 int headerWidth = widths[c];
-                if (headerWidth > 0 && wrap) {
+                Style style = style(HEADER_ROW, c);
+                int availableWidth = headerWidth - style.getHorizontalFrameSize();
+
+                if (availableWidth > 0 && wrap) {
                     TextLines lines = TextLines.fromText(header);
                     for (String line : lines.lines()) {
-                        int numLines = (int) Math.ceil((double) TextWidth.measureCellWidth(line) / headerWidth);
+                        int numLines = (int) Math.ceil((double) TextWidth.measureCellWidth(line) / availableWidth);
                         headerHeight = Math.max(headerHeight, numLines);
                     }
                 }

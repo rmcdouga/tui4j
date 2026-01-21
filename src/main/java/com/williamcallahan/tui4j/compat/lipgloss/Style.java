@@ -180,6 +180,14 @@ public class Style implements Cloneable {
         return this;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public int getMaxWidth() {
         return maxWidth;
     }
