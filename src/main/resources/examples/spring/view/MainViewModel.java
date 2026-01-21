@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample.view;
+package examples.spring.view;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;

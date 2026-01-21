@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample.model;
+package examples.spring.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

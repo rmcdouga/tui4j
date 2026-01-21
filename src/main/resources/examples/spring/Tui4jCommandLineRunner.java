@@ -1,7 +1,7 @@
-package com.williamcallahan.tui4j.springexample;
+package examples.spring;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
-import com.williamcallahan.tui4j.springexample.view.MainViewModel;
+import examples.spring.view.MainViewModel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

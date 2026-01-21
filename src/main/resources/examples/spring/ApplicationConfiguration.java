@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample;
+package examples.spring;
 
 import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample;
+package examples.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

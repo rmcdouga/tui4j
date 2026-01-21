@@ -1,11 +1,11 @@
-package com.williamcallahan.tui4j.springexample.view;
+package examples.spring.view;
 
 import lombok.RequiredArgsConstructor;
 import com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems;
 import com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem;
 import com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource;
-import com.williamcallahan.tui4j.springexample.model.Book;
-import com.williamcallahan.tui4j.springexample.repository.BookRepository;
+import examples.spring.model.Book;
+import examples.spring.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;

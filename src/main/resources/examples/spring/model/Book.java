@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample.model;
+package examples.spring.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

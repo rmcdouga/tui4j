@@ -1,9 +1,9 @@
-package com.williamcallahan.tui4j.springexample.view;
+package examples.spring.view;
 
 import lombok.RequiredArgsConstructor;
 import com.williamcallahan.tui4j.compat.bubbles.list.DefaultItem;
-import com.williamcallahan.tui4j.springexample.model.Author;
-import com.williamcallahan.tui4j.springexample.model.Book;
+import examples.spring.model.Author;
+import examples.spring.model.Book;
 
 import java.util.List;
 

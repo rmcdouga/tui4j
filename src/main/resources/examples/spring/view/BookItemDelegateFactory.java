@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample.view;
+package examples.spring.view;
 
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;

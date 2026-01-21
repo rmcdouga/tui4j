@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.springexample.view;
+package examples.spring.view;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
@@ -14,8 +14,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.help.Help;
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
-import com.williamcallahan.tui4j.springexample.model.Book;
-import com.williamcallahan.tui4j.springexample.repository.BookRepository;
+import examples.spring.model.Book;
+import examples.spring.repository.BookRepository;
 import org.springframework.stereotype.Component;
 
 /**

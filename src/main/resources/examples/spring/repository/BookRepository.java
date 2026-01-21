@@ -1,6 +1,6 @@
-package com.williamcallahan.tui4j.springexample.repository;
+package examples.spring.repository;
 
-import com.williamcallahan.tui4j.springexample.model.Book;
+import examples.spring.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

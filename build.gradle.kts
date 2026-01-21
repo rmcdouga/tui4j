@@ -104,6 +104,7 @@ sourceSets {
     val examplesBubbletea by creating {
         java.srcDir("examples/bubbletea/src/main/java")
         resources.srcDir("examples/bubbletea/src/main/resources")
+        java.srcDir("src/main/resources/examples/compat/bubble-tea")
 
         bubbleteaExampleProjectDirs.forEach { dir ->
             java.addIfExists(dir.resolve("src/main/java"))
@@ -166,6 +167,7 @@ sourceSets {
     val examplesSpringIntegration by creating {
         java.srcDir("examples/spring/src/main/java")
         resources.srcDir("examples/spring/src/main/resources")
+        java.srcDir("src/main/resources/examples/spring")
         compileClasspath += main.output + configurations["examplesSpringIntegrationCompileClasspath"]
         runtimeClasspath += output + compileClasspath + configurations["examplesSpringIntegrationRuntimeClasspath"]
     }

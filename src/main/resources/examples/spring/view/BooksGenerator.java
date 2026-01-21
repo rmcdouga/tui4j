@@ -1,11 +1,11 @@
-package com.williamcallahan.tui4j.springexample.view;
+package examples.spring.view;
 
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.williamcallahan.tui4j.springexample.model.Author;
-import com.williamcallahan.tui4j.springexample.model.Book;
-import com.williamcallahan.tui4j.springexample.repository.BookRepository;
+import examples.spring.model.Author;
+import examples.spring.model.Book;
+import examples.spring.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 /**
