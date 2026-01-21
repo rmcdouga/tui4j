@@ -99,6 +99,16 @@ public class Program {
     private final AtomicBoolean ignoreSignals = new AtomicBoolean(false);
     private boolean withoutBracketedPaste;
     private boolean withoutRenderer;
+    /**
+     * Whether ANSI sequence compression is enabled (currently ignored).
+     *
+     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} option, deprecated in
+     * bubbletea v0.19.0 due to performance overhead. Accepted for API compatibility only.
+     *
+     * @deprecated Go Bubble Tea deprecated this in v0.19.0. Has no effect and will be removed.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    @SuppressWarnings("unused")
     private boolean ansiCompressor;
     private boolean enableAltScreen;
     private boolean enableMouseAllMotion;
@@ -111,6 +121,7 @@ public class Program {
     private boolean inputDisabled;
     private boolean useInputTTY;
     private InputStream openedInput;
+    // SSH/remote session support - passes environment to lipgloss for terminal capability detection
     private List<String> environment;
     private boolean selectionAutoScrollEnabled;
     private int selectionAutoScrollEdgeRows = 1;
@@ -151,6 +162,11 @@ public class Program {
             terminal.enterRawMode();
 
             TerminalInfo.provide(new JLineTerminalInfoProvider(terminal));
+
+            // Wire environment to lipgloss for SSH/remote session support
+            if (environment != null && !environment.isEmpty()) {
+                com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer().setEnvironment(environment);
+            }
 
             if (withoutRenderer) {
                 this.renderer = new NilRenderer();
@@ -893,6 +909,23 @@ public class Program {
         this.withoutRenderer = withoutRenderer;
     }
 
+    /**
+     * Enables ANSI sequence compression to reduce output size.
+     *
+     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} program option, which was
+     * deprecated in bubbletea v0.19.0 due to noticeable performance overhead. The Go team plans
+     * to optimize ANSI output automatically in a future release without requiring this option.
+     *
+     * <p>This setter is accepted for API compatibility but has no effect in tui4j.
+     *
+     * @param ansiCompressor whether to enable ANSI compression (ignored)
+     * @deprecated Go Bubble Tea deprecated {@code WithANSICompressor()} in v0.19.0 due to
+     *             performance issues. This option has no effect and will be removed.
+     * @see <a href="https://pkg.go.dev/github.com/charmbracelet/bubbletea#WithANSICompressor">
+     *      bubbletea.WithANSICompressor (Go docs)</a>
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    @SuppressWarnings("DeprecationWarning")
     void setAnsiCompressor(boolean ansiCompressor) {
         this.ansiCompressor = ansiCompressor;
     }

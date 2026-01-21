@@ -9,10 +9,11 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.RGBSupplier;
 import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import static java.lang.System.getenv;
-import static java.util.Optional.ofNullable;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Port of Lip Gloss output.
@@ -26,7 +27,44 @@ public class Output {
         return defaultOutput;
     }
 
+    /**
+     * Creates an Output with a custom environment for SSH/remote session support.
+     * Environment list should contain "KEY=VALUE" strings (same format as upstream Go).
+     *
+     * @param environment list of environment variables in "KEY=VALUE" format
+     * @return Output configured with the custom environment
+     */
+    public static Output withEnvironment(List<String> environment) {
+        return new Output(parseEnvironment(environment));
+    }
+
+    private static Map<String, String> parseEnvironment(List<String> environment) {
+        if (environment == null) {
+            return null;
+        }
+        return environment.stream()
+                .filter(s -> s != null && s.contains("="))
+                .collect(Collectors.toMap(
+                        s -> s.substring(0, s.indexOf('=')),
+                        s -> s.substring(s.indexOf('=') + 1),
+                        (v1, v2) -> v2 // later values override earlier ones
+                ));
+    }
+
+    private final Function<String, String> envLookup;
     private TerminalColor backgroundColor = new NoColor();
+
+    public Output() {
+        this.envLookup = System::getenv;
+    }
+
+    private Output(Map<String, String> environment) {
+        if (environment == null) {
+            this.envLookup = System::getenv;
+        } else {
+            this.envLookup = environment::get;
+        }
+    }
 
     public ColorProfile envColorProfile() {
         if (envNoColor()) {
@@ -39,6 +77,10 @@ public class Output {
         return colorProfile;
     }
 
+    private String getenv(String key) {
+        return envLookup.apply(key);
+    }
+
     private ColorProfile colorProfile() {
         if (!TerminalInfo.get().tty()) {
             return ColorProfile.Ascii;
@@ -47,8 +89,8 @@ public class Output {
             return ColorProfile.TrueColor;
         }
 
-        String term = ofNullable(getenv("TERM")).orElse("");
-        String colorTerm = ofNullable(getenv("COLORTERM")).orElse("");
+        String term = Optional.ofNullable(getenv("TERM")).orElse("");
+        String colorTerm = Optional.ofNullable(getenv("COLORTERM")).orElse("");
 
         switch (colorTerm.toLowerCase()) {
             case "24bit":

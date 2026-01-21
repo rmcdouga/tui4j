@@ -2,7 +2,6 @@ package com.williamcallahan.tui4j.compat.lipgloss;
 
 import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.lipgloss.Output;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -30,6 +29,26 @@ public class Renderer {
 
     public Renderer(Output output) {
         this.output = output;
+    }
+
+    /**
+     * Sets a custom environment for terminal capability detection.
+     * Used for SSH/remote session support where System.getenv() doesn't reflect
+     * the remote session's environment variables.
+     *
+     * @param environment list of environment variables in "KEY=VALUE" format
+     */
+    public void setEnvironment(java.util.List<String> environment) {
+        renderLock.lock();
+        try {
+            this.output = Output.withEnvironment(environment);
+            // Reset cached values so they're re-detected with new environment
+            this.colorProfile = null;
+            this.explicitColorProfile = false;
+            this.hasDarkBackgroundSet = false;
+        } finally {
+            renderLock.unlock();
+        }
     }
 
     public Style newStyle() {
