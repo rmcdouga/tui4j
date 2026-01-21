@@ -5,39 +5,40 @@ package com.williamcallahan.tui4j.compat.bubbletea.input;
  * Bubble Tea: bubbletea/mouse.go
  */
 public enum MouseButton {
+    /** No button. */
     MouseButtonNone("none"),
 
-    // left button
+    /** Left button. */
     MouseButtonLeft("left"),
 
-    // middle button (pressing the scroll wheel)
+    /** Middle button (pressing the scroll wheel). */
     MouseButtonMiddle("middle"),
 
-    // right button
+    /** Right button. */
     MouseButtonRight("right"),
 
-    // turn scroll wheel up
+    /** Turn scroll wheel up. */
     MouseButtonWheelUp("wheel up"),
 
-    // turn scroll wheel down
+    /** Turn scroll wheel down. */
     MouseButtonWheelDown("wheel down"),
 
-    // push scroll wheel left
+    /** Push scroll wheel left. */
     MouseButtonWheelLeft("wheel left"),
 
-    // push scroll wheel right
+    /** Push scroll wheel right. */
     MouseButtonWheelRight("wheel right"),
 
-    // 4th button (aka browser backward button)
+    /** 4th button (aka browser backward button). */
     MouseButtonBackward("backward"),
 
-    // 5th button (aka browser forward button)
+    /** 5th button (aka browser forward button). */
     MouseButtonForward("forward"),
 
-    // 10?
+    /** Button 10. */
     MouseButton10("button 10"),
 
-    // 11?
+    /** Button 11. */
     MouseButton11("button 11");
 
     private final String buttonName;
@@ -46,6 +47,11 @@ public enum MouseButton {
         this.buttonName = buttonName;
     }
 
+    /**
+     * Returns the button name.
+     *
+     * @return button name
+     */
     public String buttonName() {
         return buttonName;
     }

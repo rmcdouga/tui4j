@@ -35,55 +35,100 @@ public class MouseMsg implements Message {
         this.message = new MouseMessage(x, y, shift, alt, ctrl, action, button);
     }
 
-    /** @deprecated Use {@link MouseMessage#column()} instead. */
+    /**
+     * Returns the column position.
+     *
+     * @return column
+     * @deprecated Use {@link MouseMessage#column()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public int column() {
         return message.column();
     }
 
-    /** @deprecated Use {@link MouseMessage#row()} instead. */
+    /**
+     * Returns the row position.
+     *
+     * @return row
+     * @deprecated Use {@link MouseMessage#row()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public int row() {
         return message.row();
     }
 
-    /** @deprecated Use {@link MouseMessage#isShift()} instead. */
+    /**
+     * Returns whether shift was pressed.
+     *
+     * @return true if shift pressed
+     * @deprecated Use {@link MouseMessage#isShift()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean isShift() {
         return message.isShift();
     }
 
-    /** @deprecated Use {@link MouseMessage#isAlt()} instead. */
+    /**
+     * Returns whether alt was pressed.
+     *
+     * @return true if alt pressed
+     * @deprecated Use {@link MouseMessage#isAlt()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean isAlt() {
         return message.isAlt();
     }
 
-    /** @deprecated Use {@link MouseMessage#isCtrl()} instead. */
+    /**
+     * Returns whether ctrl was pressed.
+     *
+     * @return true if ctrl pressed
+     * @deprecated Use {@link MouseMessage#isCtrl()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean isCtrl() {
         return message.isCtrl();
     }
 
-    /** @deprecated Use {@link MouseMessage#getAction()} instead. */
+    /**
+     * Returns the mouse action.
+     *
+     * @return mouse action
+     * @deprecated Use {@link MouseMessage#getAction()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public MouseAction getAction() {
         return message.getAction();
     }
 
-    /** @deprecated Use {@link MouseMessage#getButton()} instead. */
+    /**
+     * Returns the mouse button.
+     *
+     * @return mouse button
+     * @deprecated Use {@link MouseMessage#getButton()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public MouseButton getButton() {
         return message.getButton();
     }
 
-    /** @deprecated Use {@link MouseMessage#isWheel()} instead. */
+    /**
+     * Returns whether this is a wheel event.
+     *
+     * @return true if wheel event
+     * @deprecated Use {@link MouseMessage#isWheel()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean isWheel() {
         return message.isWheel();
     }
 
-    /** @deprecated Use {@link MouseMessage#describe()} instead. */
+    /**
+     * Returns a description of the event.
+     *
+     * @return description
+     * @deprecated Use {@link MouseMessage#describe()} instead.
+     */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public String describe() {
         return message.describe();
