@@ -7,18 +7,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
-@SuppressWarnings("deprecation")
-public class DisableBracketedPasteMessage extends DisableBracketedPasteMsg implements MessageShim {
+public class DisableBracketedPasteMessage implements Message {
 
     /**
      * Creates a disable bracketed paste message.
      */
     public DisableBracketedPasteMessage() {
-        super();
-    }
-
-    @Override
-    public Message toMessage() {
-        return this;
     }
 }

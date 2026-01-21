@@ -9,10 +9,9 @@ import java.util.Objects;
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
  */
-@SuppressWarnings("deprecation")
-public class PasteMessage extends PasteMsg implements MessageShim {
+public class PasteMessage implements Message {
 
-    private final String contentRef;
+    private final String content;
 
     /**
      * Creates a paste message with the specified content.
@@ -20,8 +19,7 @@ public class PasteMessage extends PasteMsg implements MessageShim {
      * @param content the pasted content
      */
     public PasteMessage(String content) {
-        super(content);
-        this.contentRef = content;
+        this.content = content;
     }
 
     /**
@@ -29,9 +27,8 @@ public class PasteMessage extends PasteMsg implements MessageShim {
      *
      * @return the content
      */
-    @Override
     public String content() {
-        return contentRef;
+        return content;
     }
 
     @Override
@@ -42,21 +39,16 @@ public class PasteMessage extends PasteMsg implements MessageShim {
         if (!(other instanceof PasteMessage pasteMessage)) {
             return false;
         }
-        return Objects.equals(contentRef, pasteMessage.contentRef);
+        return Objects.equals(content, pasteMessage.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contentRef);
+        return Objects.hash(content);
     }
 
     @Override
     public String toString() {
-        return "PasteMessage[content=" + contentRef + "]";
-    }
-
-    @Override
-    public Message toMessage() {
-        return this;
+        return "PasteMessage[content=" + content + "]";
     }
 }

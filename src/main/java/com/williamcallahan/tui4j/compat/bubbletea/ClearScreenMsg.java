@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
  * Message to clear the terminal screen.
  * <p>

@@ -1,12 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link SuspendMsg}.
+ * Message sent when the program is suspended.
+ * <p>
+ * Bubble Tea: bubbletea/tea.go
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
  */
-public class SuspendMessage implements MessageShim {
-
-    @Override
-    public Message toMessage() {
-        return new SuspendMsg();
-    }
+public class SuspendMessage implements Message {
 }

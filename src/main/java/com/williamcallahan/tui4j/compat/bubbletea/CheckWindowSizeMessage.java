@@ -5,18 +5,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * <p>
  * tui4j extension; no Bubble Tea equivalent.
  */
-@SuppressWarnings("deprecation")
-public class CheckWindowSizeMessage extends CheckWindowSizeMsg implements MessageShim {
+public class CheckWindowSizeMessage implements Message {
 
     /**
      * Creates a check window size message.
      */
     public CheckWindowSizeMessage() {
-        super();
-    }
-
-    @Override
-    public Message toMessage() {
-        return this;
     }
 }

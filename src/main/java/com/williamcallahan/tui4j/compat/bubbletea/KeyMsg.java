@@ -1,6 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
 
@@ -23,7 +22,7 @@ public class KeyMsg implements Message {
      * Creates a key message.
      *
      * @param key the key that was pressed
-     * @deprecated Use {@link KeyPressMessage} instead.
+     * @deprecated Use {@link KeyPressMessage#KeyPressMessage(Key)} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public KeyMsg(Key key) {
@@ -34,7 +33,7 @@ public class KeyMsg implements Message {
      * Returns the key.
      *
      * @return the key
-     * @deprecated Use {@link KeyPressMessage} instead.
+     * @deprecated Use {@link KeyPressMessage#getKey()} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public Key getKey() {
@@ -45,7 +44,7 @@ public class KeyMsg implements Message {
      * Returns the key string representation.
      *
      * @return the key string
-     * @deprecated Use {@link KeyPressMessage} instead.
+     * @deprecated Use {@link KeyPressMessage#key()} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public String key() {
@@ -56,7 +55,7 @@ public class KeyMsg implements Message {
      * Returns the key runes.
      *
      * @return the runes
-     * @deprecated Use {@link KeyPressMessage} instead.
+     * @deprecated Use {@link KeyPressMessage#runes()} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public char[] runes() {
@@ -67,7 +66,7 @@ public class KeyMsg implements Message {
      * Returns the key type.
      *
      * @return the key type
-     * @deprecated Use {@link KeyPressMessage} instead.
+     * @deprecated Use {@link KeyPressMessage#type()} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public KeyType type() {
@@ -78,7 +77,7 @@ public class KeyMsg implements Message {
      * Returns whether alt was pressed.
      *
      * @return true if alt was pressed
-     * @deprecated Use {@link KeyPressMessage} instead.
+     * @deprecated Use {@link KeyPressMessage#alt()} instead.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean alt() {

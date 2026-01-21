@@ -1,19 +1,15 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link SetMouseCursorTextMsg}.
- * Bubble Tea: bubbletea/screen.go (tui4j extension; no direct equivalent).
+ * Message to set the mouse cursor to a text selection cursor.
+ * <p>
+ * tui4j extension; no direct Bubble Tea equivalent.
  */
-public class SetMouseCursorTextMessage implements MessageShim {
+public class SetMouseCursorTextMessage implements Message {
 
     /**
      * Creates a set mouse cursor text message.
      */
     public SetMouseCursorTextMessage() {
-    }
-
-    @Override
-    public Message toMessage() {
-        return new SetMouseCursorTextMsg();
     }
 }

@@ -457,51 +457,77 @@ public class StandardRenderer implements Renderer {
         lastRenderedLines = new String[] {};
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go handleMessages
     // behavior.
     public void handleMessage(Message msg) {
-        Message internalMsg = normalizeMessage(msg);
-        if (internalMsg instanceof PrintLineMsg printLineMessage) {
+        // Handle new *Message classes first, then fall back to deprecated *Msg classes
+        if (msg instanceof PrintLineMessage printLineMessage) {
             queuePrintLine(printLineMessage.messageBody());
-        } else if (internalMsg instanceof SetWindowTitleMsg windowTitleMessage) {
+        } else if (msg instanceof PrintLineMsg printLineMsg) {
+            queuePrintLine(printLineMsg.messageBody());
+        } else if (msg instanceof SetWindowTitleMessage windowTitleMessage) {
             setWindowTitle(windowTitleMessage.title());
-        } else if (internalMsg instanceof EnableMouseCellMotionMsg) {
+        } else if (msg instanceof SetWindowTitleMsg windowTitleMsg) {
+            setWindowTitle(windowTitleMsg.title());
+        } else if (msg instanceof EnableMouseCellMotionMessage) {
             enableMouseCellMotion();
             enableMouseSGRMode();
-        } else if (internalMsg instanceof EnableMouseAllMotionMsg) {
+        } else if (msg instanceof EnableMouseCellMotionMsg) {
+            enableMouseCellMotion();
+            enableMouseSGRMode();
+        } else if (msg instanceof EnableMouseAllMotionMessage) {
             enableMouseAllMotion();
             enableMouseSGRMode();
-        } else if (internalMsg instanceof DisableMouseMsg) {
+        } else if (msg instanceof EnableMouseAllMotionMsg) {
+            enableMouseAllMotion();
+            enableMouseSGRMode();
+        } else if (msg instanceof DisableMouseMessage) {
             disableMouseSGRMode();
             disableMouseNormalTracking();
             disableMouseCellMotion();
             disableMouseAllMotion();
-        } else if (internalMsg instanceof SetMouseCursorTextMsg) {
+        } else if (msg instanceof DisableMouseMsg) {
+            disableMouseSGRMode();
+            disableMouseNormalTracking();
+            disableMouseCellMotion();
+            disableMouseAllMotion();
+        } else if (msg instanceof SetMouseCursorTextMessage) {
             setMouseCursorText();
-        } else if (internalMsg instanceof SetMouseCursorPointerMsg) {
+        } else if (msg instanceof SetMouseCursorTextMsg) {
+            setMouseCursorText();
+        } else if (msg instanceof SetMouseCursorPointerMessage) {
             setMouseCursorPointer();
-        } else if (internalMsg instanceof ResetMouseCursorMsg) {
+        } else if (msg instanceof SetMouseCursorPointerMsg) {
+            setMouseCursorPointer();
+        } else if (msg instanceof ResetMouseCursorMessage) {
             resetMouseCursor();
-        } else if (internalMsg instanceof CopyToClipboardMsg copyToClipboardMessage) {
+        } else if (msg instanceof ResetMouseCursorMsg) {
+            resetMouseCursor();
+        } else if (msg instanceof CopyToClipboardMessage copyToClipboardMessage) {
             copyToClipboard(copyToClipboardMessage.text());
-        } else if (internalMsg instanceof ReadClipboardMsg) {
+        } else if (msg instanceof CopyToClipboardMsg copyToClipboardMsg) {
+            copyToClipboard(copyToClipboardMsg.text());
+        } else if (msg instanceof ReadClipboardMessage) {
             requestClipboard();
-        } else if (internalMsg instanceof EnableBracketedPasteMsg) {
+        } else if (msg instanceof ReadClipboardMsg) {
+            requestClipboard();
+        } else if (msg instanceof EnableBracketedPasteMessage) {
             enableBracketedPaste();
-        } else if (internalMsg instanceof DisableBracketedPasteMsg) {
+        } else if (msg instanceof EnableBracketedPasteMsg) {
+            enableBracketedPaste();
+        } else if (msg instanceof DisableBracketedPasteMessage) {
             disableBracketedPaste();
-        } else if (internalMsg instanceof WindowSizeMsg windowSizeMessage) {
+        } else if (msg instanceof DisableBracketedPasteMsg) {
+            disableBracketedPaste();
+        } else if (msg instanceof WindowSizeMessage windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();
+        } else if (msg instanceof WindowSizeMsg windowSizeMsg) {
+            this.width = windowSizeMsg.width();
+            this.height = windowSizeMsg.height();
         }
-    }
-
-    private Message normalizeMessage(Message msg) {
-        if (msg instanceof MessageShim shim) {
-            return shim.toMessage();
-        }
-        return msg;
     }
 
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go setWindowTitle

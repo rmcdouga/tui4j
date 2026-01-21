@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.function.BiConsumer;
 
 /**
@@ -9,12 +11,11 @@ import java.util.function.BiConsumer;
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
  */
-@SuppressWarnings("deprecation")
-public class ExecProcessMessage extends ExecProcessMsg implements MessageShim {
+public class ExecProcessMessage implements Message {
 
-    private final Process processRef;
-    private final BiConsumer<Integer, byte[]> outputHandlerRef;
-    private final BiConsumer<Integer, byte[]> errorHandlerRef;
+    private final Process process;
+    private final BiConsumer<Integer, byte[]> outputHandler;
+    private final BiConsumer<Integer, byte[]> errorHandler;
 
     /**
      * Creates a new exec process message.
@@ -24,10 +25,9 @@ public class ExecProcessMessage extends ExecProcessMsg implements MessageShim {
      * @param errorHandler handler for stderr (receives line number and bytes)
      */
     public ExecProcessMessage(Process process, BiConsumer<Integer, byte[]> outputHandler, BiConsumer<Integer, byte[]> errorHandler) {
-        super(process, outputHandler, errorHandler);
-        this.processRef = process;
-        this.outputHandlerRef = outputHandler;
-        this.errorHandlerRef = errorHandler;
+        this.process = process;
+        this.outputHandler = outputHandler;
+        this.errorHandler = errorHandler;
     }
 
     /**
@@ -35,9 +35,8 @@ public class ExecProcessMessage extends ExecProcessMsg implements MessageShim {
      *
      * @return the process
      */
-    @Override
     public Process process() {
-        return processRef;
+        return process;
     }
 
     /**
@@ -45,9 +44,8 @@ public class ExecProcessMessage extends ExecProcessMsg implements MessageShim {
      *
      * @return the output handler
      */
-    @Override
     public BiConsumer<Integer, byte[]> outputHandler() {
-        return outputHandlerRef;
+        return outputHandler;
     }
 
     /**
@@ -55,13 +53,18 @@ public class ExecProcessMessage extends ExecProcessMsg implements MessageShim {
      *
      * @return the error handler
      */
-    @Override
     public BiConsumer<Integer, byte[]> errorHandler() {
-        return errorHandlerRef;
+        return errorHandler;
     }
 
-    @Override
-    public Message toMessage() {
-        return this;
+    /**
+     * Reads all bytes from an input stream.
+     *
+     * @param inputStream the stream to read
+     * @return the bytes read
+     * @throws IOException if reading fails
+     */
+    public static byte[] readStream(InputStream inputStream) throws IOException {
+        return inputStream.readAllBytes();
     }
 }

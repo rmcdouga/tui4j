@@ -7,18 +7,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/focus.go">bubbletea/focus.go</a>
  */
-@SuppressWarnings("deprecation")
-public class BlurMessage extends BlurMsg implements MessageShim {
+public class BlurMessage implements Message {
 
     /**
      * Creates a blur message.
      */
     public BlurMessage() {
-        super();
-    }
-
-    @Override
-    public Message toMessage() {
-        return this;
     }
 }

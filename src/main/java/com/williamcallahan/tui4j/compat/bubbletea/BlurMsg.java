@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
  * Message sent when the terminal window loses focus.
  * <p>

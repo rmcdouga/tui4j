@@ -425,7 +425,7 @@ public class Program {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(SuspendMsg::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(SuspendMessage::new, this::send, this::sendError);
         });
         Signals.register("CONT", () -> {
             if (ignoreSignals.get()) {
@@ -674,7 +674,7 @@ public class Program {
     }
 
     private void sendError(Throwable error) {
-        send(new ErrorMsg(error));
+        send(new ErrorMessage(error));
     }
 
     public void send(Message msg) {
@@ -795,7 +795,7 @@ public class Program {
         if (cancelSignal == null) {
             return;
         }
-        cancelSignal.whenComplete((result, error) -> send(new QuitMsg()));
+        cancelSignal.whenComplete((result, error) -> send(new QuitMessage()));
     }
 
     private void applySelectionAutoScrollConfig() {

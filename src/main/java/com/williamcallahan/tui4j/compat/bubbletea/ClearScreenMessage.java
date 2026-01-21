@@ -7,18 +7,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  */
-@SuppressWarnings("deprecation")
-public class ClearScreenMessage extends ClearScreenMsg implements MessageShim {
+public class ClearScreenMessage implements Message {
 
     /**
      * Creates a clear screen message.
      */
     public ClearScreenMessage() {
-        super();
-    }
-
-    @Override
-    public Message toMessage() {
-        return this;
     }
 }
