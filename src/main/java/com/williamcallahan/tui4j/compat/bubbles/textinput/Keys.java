@@ -25,6 +25,9 @@ public class Keys {
     private final Binding nextSuggestion;
     private final Binding prevSuggestion;
 
+    /**
+     * Creates a new default text input key map.
+     */
     public Keys() {
         this.characterForward = new Binding(Binding.withKeys("right", "ctrl+f"));
         this.characterBackward = new Binding(Binding.withKeys("left", "ctrl+b"));
@@ -44,66 +47,114 @@ public class Keys {
         this.prevSuggestion = new Binding(Binding.withKeys("up", "ctrl+p"));
     }
 
+    /**
+     * @return key binding for moving character forward
+     */
     public Binding characterForward() {
         return characterForward;
     }
 
+    /**
+     * @return key binding for moving character backward
+     */
     public Binding characterBackward() {
         return characterBackward;
     }
 
+    /**
+     * @return key binding for moving word forward
+     */
     public Binding wordForward() {
         return wordForward;
     }
 
+    /**
+     * @return key binding for moving word backward
+     */
     public Binding wordBackward() {
         return wordBackward;
     }
 
+    /**
+     * @return key binding for deleting word backward
+     */
     public Binding deleteWordBackward() {
         return deleteWordBackward;
     }
 
+    /**
+     * @return key binding for deleting word forward
+     */
     public Binding deleteWordForward() {
         return deleteWordForward;
     }
 
+    /**
+     * @return key binding for deleting after cursor
+     */
     public Binding deleteAfterCursor() {
         return deleteAfterCursor;
     }
 
+    /**
+     * @return key binding for deleting before cursor
+     */
     public Binding deleteBeforeCursor() {
         return deleteBeforeCursor;
     }
 
+    /**
+     * @return key binding for deleting character backward
+     */
     public Binding deleteCharacterBackward() {
         return deleteCharacterBackward;
     }
 
+    /**
+     * @return key binding for deleting character forward
+     */
     public Binding deleteCharacterForward() {
         return deleteCharacterForward;
     }
 
+    /**
+     * @return key binding for moving to line start
+     */
     public Binding lineStart() {
         return lineStart;
     }
 
+    /**
+     * @return key binding for moving to line end
+     */
     public Binding lineEnd() {
         return lineEnd;
     }
 
+    /**
+     * @return key binding for paste
+     */
     public Binding paste() {
         return paste;
     }
 
+    /**
+     * @return key binding for accepting suggestion
+     */
     public Binding acceptSuggestion() {
         return acceptSuggestion;
     }
 
+    /**
+     * @return key binding for next suggestion
+     */
     public Binding nextSuggestion() {
         return nextSuggestion;
     }
 
+    /**
+     * @return key binding for previous suggestion
+     */
     public Binding prevSuggestion() {
         return prevSuggestion;
     }

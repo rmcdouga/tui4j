@@ -23,6 +23,9 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     private final Binding quit;
     private final Binding forceQuit;
 
+    /**
+     * Creates a new default key map.
+     */
     public KeyMap() {
         // Browsing
         this.cursorUp = new Binding(Binding.withKeys("up", "k"), Binding.withHelp("↑/k", "up"));
@@ -51,58 +54,100 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
         this.forceQuit = new Binding(Binding.withKeys("ctrl+c"));
     }
 
+    /**
+     * @return key binding for moving cursor up
+     */
     public Binding cursorUp() {
         return cursorUp;
     }
 
+    /**
+     * @return key binding for moving cursor down
+     */
     public Binding cursorDown() {
         return cursorDown;
     }
 
+    /**
+     * @return key binding for next page
+     */
     public Binding nextPage() {
         return nextPage;
     }
 
+    /**
+     * @return key binding for previous page
+     */
     public Binding prevPage() {
         return prevPage;
     }
 
+    /**
+     * @return key binding for going to start
+     */
     public Binding goToStart() {
         return goToStart;
     }
 
+    /**
+     * @return key binding for going to end
+     */
     public Binding goToEnd() {
         return goToEnd;
     }
 
+    /**
+     * @return key binding for filtering
+     */
     public Binding filter() {
         return filter;
     }
 
+    /**
+     * @return key binding for clearing filter
+     */
     public Binding clearFilter() {
         return clearFilter;
     }
 
+    /**
+     * @return key binding for cancelling while filtering
+     */
     public Binding cancelWhileFiltering() {
         return cancelWhileFiltering;
     }
 
+    /**
+     * @return key binding for accepting while filtering
+     */
     public Binding acceptWhileFiltering() {
         return acceptWhileFiltering;
     }
 
+    /**
+     * @return key binding for showing full help
+     */
     public Binding showFullHelp() {
         return showFullHelp;
     }
 
+    /**
+     * @return key binding for closing full help
+     */
     public Binding closeFullHelp() {
         return closeFullHelp;
     }
 
+    /**
+     * @return key binding for quitting
+     */
     public Binding quit() {
         return quit;
     }
 
+    /**
+     * @return key binding for force quitting
+     */
     public Binding forceQuit() {
         return forceQuit;
     }

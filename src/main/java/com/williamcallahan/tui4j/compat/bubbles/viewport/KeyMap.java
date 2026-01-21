@@ -2,6 +2,10 @@ package com.williamcallahan.tui4j.compat.bubbles.viewport;
 
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
+/**
+ * Port of Bubbles viewport key map.
+ * Bubble Tea: bubbles/viewport/viewport.go
+ */
 public class KeyMap {
 
     private final Binding pageDown;
@@ -13,6 +17,9 @@ public class KeyMap {
     private final Binding left;
     private final Binding right;
 
+    /**
+     * Creates a new default key map.
+     */
     public KeyMap() {
         this.pageDown = new Binding(Binding.withKeys("pgdown", "ctrl+d"), Binding.withHelp("pgdn/ctrl+d", "page down"));
         this.pageUp = new Binding(Binding.withKeys("pgup", "ctrl+u"), Binding.withHelp("pgup/ctrl+u", "page up"));
@@ -24,34 +31,58 @@ public class KeyMap {
         this.right = new Binding(Binding.withKeys("right"), Binding.withHelp("→", "right"));
     }
 
+    /**
+     * @return key binding for page down
+     */
     public Binding pageDown() {
         return pageDown;
     }
 
+    /**
+     * @return key binding for page up
+     */
     public Binding pageUp() {
         return pageUp;
     }
 
+    /**
+     * @return key binding for half page down
+     */
     public Binding halfPageDown() {
         return halfPageDown;
     }
 
+    /**
+     * @return key binding for half page up
+     */
     public Binding halfPageUp() {
         return halfPageUp;
     }
 
+    /**
+     * @return key binding for line down
+     */
     public Binding down() {
         return down;
     }
 
+    /**
+     * @return key binding for line up
+     */
     public Binding up() {
         return up;
     }
 
+    /**
+     * @return key binding for scrolling left
+     */
     public Binding left() {
         return left;
     }
 
+    /**
+     * @return key binding for scrolling right
+     */
     public Binding right() {
         return right;
     }
