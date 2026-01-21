@@ -226,10 +226,21 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         }
     }
 
+    /**
+     * Sets whether to filter on accept only.
+     *
+     * @param filterOnAcceptOnly true to filter only on accept
+     */
     public void setFilterOnAcceptOnly(boolean filterOnAcceptOnly) {
         this.filterOnAcceptOnly = filterOnAcceptOnly;
     }
 
+    /**
+     * Sets whether filtering is enabled.
+     *
+     * @param filteringEnabled true to enable filtering
+     * @return command to run
+     */
     public Command setFilteringEnabled(boolean filteringEnabled) {
         this.filteringEnabled = filteringEnabled;
         if (!filteringEnabled) {
@@ -238,25 +249,53 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return null;
     }
 
+    /**
+     * Returns whether filtering is enabled.
+     *
+     * @return true if filtering is enabled
+     */
     public boolean filteringEnabled() {
         return filteringEnabled;
     }
 
+    /**
+     * Sets the list title.
+     *
+     * @param title the title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Sets whether to show the title.
+     *
+     * @param showTitle true to show title
+     * @return command to run
+     */
     public Command setShowTitle(boolean showTitle) {
         this.showTitle = showTitle;
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Sets the filter text.
+     *
+     * @param filter the filter text
+     * @return command to run
+     */
     public Command setFilterText(String filter) {
         this.filterState = FilterState.Filtering;
         this.filterInput.setValue(filter);
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Sets the filter state.
+     *
+     * @param filterState the filter state
+     * @return command to run
+     */
     public Command setFilterState(FilterState filterState) {
         this.paginator.setPage(0);
         this.cursor = 0;
@@ -267,74 +306,156 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns whether the title is shown.
+     *
+     * @return true if title is shown
+     */
     public boolean showTitle() {
         return showTitle;
     }
 
+    /**
+     * Sets whether to show the filter.
+     *
+     * @param showFilter true to show filter
+     */
     public void setShowFilter(boolean showFilter) {
         this.showFilter = showFilter;
         updatePagination();
     }
 
+    /**
+     * Returns whether the filter is shown.
+     *
+     * @return true if filter is shown
+     */
     public boolean showFilter() {
         return showFilter;
     }
 
+    /**
+     * Sets whether to show the status bar.
+     *
+     * @param showStatusBar true to show status bar
+     */
     public void setShowStatusBar(boolean showStatusBar) {
         this.showStatusBar = showStatusBar;
         updatePagination();
     }
 
+    /**
+     * Returns whether the status bar is shown.
+     *
+     * @return true if status bar is shown
+     */
     public boolean showStatusBar() {
         return showStatusBar;
     }
 
+    /**
+     * Sets the item name singular and plural forms.
+     *
+     * @param singular singular name
+     * @param plural plural name
+     */
     public void setStatusBarItemName(String singular, String plural) {
         this.itemNameSingular = singular;
         this.itemNamePlural = plural;
     }
 
+    /**
+     * Returns the singular item name.
+     *
+     * @return singular item name
+     */
     public String itemNameSingular() {
         return itemNameSingular;
     }
 
+    /**
+     * Returns the plural item name.
+     *
+     * @return plural item name
+     */
     public String itemNamePlural() {
         return itemNamePlural;
     }
 
+    /**
+     * Sets whether to show pagination.
+     *
+     * @param showPagination true to show pagination
+     */
     public void setShowPagination(boolean showPagination) {
         this.showPagination = showPagination;
         updatePagination();
     }
 
+    /**
+     * Returns whether pagination is shown.
+     *
+     * @return true if pagination is shown
+     */
     public boolean showPagination() {
         return showPagination;
     }
 
+    /**
+     * Sets whether to show help.
+     *
+     * @param showHelp true to show help
+     * @return command to run
+     */
     public Command setShowHelp(boolean showHelp) {
         this.showHelp = showHelp;
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns whether help is shown.
+     *
+     * @return true if help is shown
+     */
     public boolean showHelp() {
         return showHelp;
     }
 
+    /**
+     * Selects the item at the given index.
+     *
+     * @param index item index
+     * @return command to run
+     */
     public Command select(int index) {
         this.paginator.setPage(index / paginator.perPage());
         this.cursor = index & paginator.perPage();
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Resets the selection to the first item.
+     */
     public void resetSelected() {
         select(0);
     }
 
+    /**
+     * Sets the item delegate.
+     *
+     * @param itemDelegate item delegate
+     * @return command to run
+     */
     public Command setItemDelegate(ItemDelegate itemDelegate) {
         this.itemDelegate = itemDelegate;
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns the selected item.
+     *
+     * @return selected item
+     */
     public Item selectedItem() {
         java.util.List<FilteredItem> visibleItems = visibleItems();
 
@@ -344,18 +465,38 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return visibleItems.get(cursor).item();
     }
 
+    /**
+     * Returns the visible items.
+     *
+     * @return visible items
+     */
     public java.util.List<FilteredItem> visibleItems() {
         return currentPageItems;
     }
 
+    /**
+     * Returns the absolute index of the cursor.
+     *
+     * @return absolute index
+     */
     public int index() {
         return paginator.page() * paginator.perPage() + cursor;
     }
 
+    /**
+     * Returns the cursor position on the current page.
+     *
+     * @return cursor position
+     */
     public int cursor() {
         return cursor;
     }
 
+    /**
+     * Moves to the next page.
+     *
+     * @return command to run
+     */
     public Command nextPage() {
         if (!paginator.onLastPage()) {
             paginator.nextPage();
@@ -365,6 +506,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return null;
     }
 
+    /**
+     * Moves to the previous page.
+     *
+     * @return command to run
+     */
     public Command prevPage() {
         if (paginator.page() > 0) {
             paginator.prevPage();
@@ -374,49 +520,101 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return null;
     }
 
+    /**
+     * Returns the current filter state.
+     *
+     * @return filter state
+     */
     public FilterState filterState() {
         return filterState;
     }
 
+    /**
+     * Returns the current filter value.
+     *
+     * @return filter value
+     */
     public String filterValue() {
         return filterInput.value();
     }
 
+    /**
+     * Returns whether the user is currently entering a filter.
+     *
+     * @return true if setting filter
+     */
     public boolean settingFilter() {
         return this.filterState == FilterState.Filtering;
     }
 
+    /**
+     * Returns whether the list is currently filtered.
+     *
+     * @return true if filtered
+     */
     public boolean isFiltered() {
         return this.filterState == FilterState.FilterApplied;
     }
 
+    /**
+     * Returns the list width.
+     *
+     * @return width
+     */
     public int width() {
         return width;
     }
 
+    /**
+     * Returns the list height.
+     *
+     * @return height
+     */
     public int height() {
         return height;
     }
 
+    /**
+     * Sets the spinner type.
+     *
+     * @param spinnerType spinner type
+     */
     public void setSpinnerType(SpinnerType spinnerType) {
         spinner.setType(spinnerType);
     }
 
+    /**
+     * Starts the spinner.
+     *
+     * @return command to run
+     */
     public Command startSpinner() {
         this.showSpinner = true;
         return spinner::tick;
     }
 
+    /**
+     * Stops the spinner.
+     */
     public void stopSpinner() {
         this.showSpinner = false;
     }
 
+    /**
+     * Disables quit keybindings.
+     */
     public void disableQuitKeybindings() {
         this.disableQuitKeybindings = true;
         keys.quit().setEnabled(false);
         keys.forceQuit().setEnabled(false);
     }
 
+    /**
+     * Creates a new status message command.
+     *
+     * @param status status message
+     * @return command to run
+     */
     public Command newStatusMessage(String status) {
         this.statusMessage = status;
 
@@ -446,10 +644,22 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         };
     }
 
+    /**
+     * Sets the lifetime of status messages.
+     *
+     * @param statusMessageLifetime lifetime duration
+     */
     public void setStatusMessageLifetime(Duration statusMessageLifetime) {
         this.statusMessageLifetime = statusMessageLifetime;
     }
 
+    /**
+     * Sets the size of the list.
+     *
+     * @param width width
+     * @param height height
+     * @return command to run
+     */
     public Command setSize(int width, int height) {
         int promptWidth = Size.width(styles.title().render(filterInput.prompt()));
 
@@ -462,14 +672,31 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Sets the width of the list.
+     *
+     * @param width width
+     * @return command to run
+     */
     public Command setWidth(int width) {
         return setSize(width, height);
     }
 
+    /**
+     * Sets the height of the list.
+     *
+     * @param height height
+     * @return command to run
+     */
     public Command setHeight(int height) {
         return setSize(width, height);
     }
 
+    /**
+     * Resets the filtering state.
+     *
+     * @return command to run
+     */
     protected Command resetFiltering() {
         if (filterState == FilterState.Unfiltered) {
             return null;
@@ -702,6 +929,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         }
     }
 
+    /**
+     * Moves the cursor up.
+     *
+     * @return command to run
+     */
     public Command cursorUp() {
         this.cursor--;
         if (cursor < 0) {
@@ -726,6 +958,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return null;
     }
 
+    /**
+     * Moves the cursor down.
+     *
+     * @return command to run
+     */
     public Command cursorDown() {
         int itemsOnPage = visibleItems().size();
         this.cursor++;
@@ -1064,14 +1301,29 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return kb.toArray(new Binding[0][]);
     }
 
+    /**
+     * Returns the styles used by the list.
+     *
+     * @return list styles
+     */
     public Styles styles() {
         return styles;
     }
 
+    /**
+     * Sets additional key bindings for short help.
+     *
+     * @param additionalShortHelpKeyMap supplier of bindings
+     */
     public void setAdditionalShortHelpKeys(Supplier<Binding[]> additionalShortHelpKeyMap) {
         this.additionalShortHelpKeyMap = additionalShortHelpKeyMap;
     }
 
+    /**
+     * Sets additional key bindings for full help.
+     *
+     * @param additionalFullHelpKeyMap supplier of bindings
+     */
     public void setAdditionalFullHelpKeys(Supplier<Binding[]> additionalFullHelpKeyMap) {
         this.additionalFullHelpKeyMap = additionalFullHelpKeyMap;
     }
