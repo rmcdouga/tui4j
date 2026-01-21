@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbles.progress;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
 /**
  * Message sent to set the progress bar percentage.
  * <p>
@@ -11,7 +13,9 @@ package com.williamcallahan.tui4j.compat.bubbles.progress;
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class SetPercentMsg extends SetPercentMessage {
+public class SetPercentMsg implements Message {
+
+    private final SetPercentMessage message;
 
     /**
      * Creates a set percent message.
@@ -21,6 +25,17 @@ public class SetPercentMsg extends SetPercentMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public SetPercentMsg(double percent) {
-        super(percent);
+        this.message = new SetPercentMessage(percent);
+    }
+
+    /**
+     * Returns the percentage value.
+     *
+     * @return the percentage (0.0 to 1.0)
+     * @deprecated Use {@link SetPercentMessage#percent()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public double percent() {
+        return message.percent();
     }
 }

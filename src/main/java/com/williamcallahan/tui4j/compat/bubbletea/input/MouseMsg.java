@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.input;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
 /**
  * Mouse input event data.
  * <p>
@@ -11,7 +13,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.input;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/mouse.go">bubbletea/mouse.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class MouseMsg extends MouseMessage {
+public class MouseMsg implements Message {
+
+    private final MouseMessage message;
 
     /**
      * Creates a mouse message.
@@ -28,7 +32,61 @@ public class MouseMsg extends MouseMessage {
     @Deprecated(since = "0.3.0", forRemoval = true)
     public MouseMsg(int x, int y, boolean shift, boolean alt, boolean ctrl,
                     MouseAction action, MouseButton button) {
-        super(x, y, shift, alt, ctrl, action, button);
+        this.message = new MouseMessage(x, y, shift, alt, ctrl, action, button);
+    }
+
+    /** @deprecated Use {@link MouseMessage#column()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int column() {
+        return message.column();
+    }
+
+    /** @deprecated Use {@link MouseMessage#row()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int row() {
+        return message.row();
+    }
+
+    /** @deprecated Use {@link MouseMessage#isShift()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean isShift() {
+        return message.isShift();
+    }
+
+    /** @deprecated Use {@link MouseMessage#isAlt()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean isAlt() {
+        return message.isAlt();
+    }
+
+    /** @deprecated Use {@link MouseMessage#isCtrl()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean isCtrl() {
+        return message.isCtrl();
+    }
+
+    /** @deprecated Use {@link MouseMessage#getAction()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public MouseAction getAction() {
+        return message.getAction();
+    }
+
+    /** @deprecated Use {@link MouseMessage#getButton()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public MouseButton getButton() {
+        return message.getButton();
+    }
+
+    /** @deprecated Use {@link MouseMessage#isWheel()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean isWheel() {
+        return message.isWheel();
+    }
+
+    /** @deprecated Use {@link MouseMessage#describe()} instead. */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public String describe() {
+        return message.describe();
     }
 
     /**

@@ -221,6 +221,30 @@ dependencies {
         configurations.runtimeClasspath.get()
     )
 
+    "examplesBubblesImplementation"(sourceSets.main.get().output)
+    configurations["examplesBubblesRuntimeClasspath"].extendsFrom(
+        configurations.api.get(),
+        configurations.runtimeClasspath.get()
+    )
+
+    "examplesLipglossImplementation"(sourceSets.main.get().output)
+    configurations["examplesLipglossRuntimeClasspath"].extendsFrom(
+        configurations.api.get(),
+        configurations.runtimeClasspath.get()
+    )
+
+    "examplesHarmonicaImplementation"(sourceSets.main.get().output)
+    configurations["examplesHarmonicaRuntimeClasspath"].extendsFrom(
+        configurations.api.get(),
+        configurations.runtimeClasspath.get()
+    )
+
+    "examplesXImplementation"(sourceSets.main.get().output)
+    configurations["examplesXRuntimeClasspath"].extendsFrom(
+        configurations.api.get(),
+        configurations.runtimeClasspath.get()
+    )
+
     "examplesSpringIntegrationImplementation"(platform("org.springframework.boot:spring-boot-dependencies:3.5.9"))
     "examplesSpringIntegrationImplementation"(sourceSets.main.get().output)
     "examplesSpringIntegrationImplementation"(libs.org.springframework.boot.spring.boot.starter.data.jpa) {
@@ -319,34 +343,28 @@ tasks.register<Jar>("examplesJar") {
     from(sourceSets["examplesSpringIntegration"].output)
     from(sourceSets.main.get().output)
 
-    val bubbleteaRuntimeClasspath = configurations["examplesBubbleteaRuntimeClasspath"]
-    val springRuntimeClasspath = configurations["examplesSpringIntegrationRuntimeClasspath"]
+    val examplesRuntimeClasspaths = listOf(
+        configurations["examplesBubbleteaRuntimeClasspath"],
+        configurations["examplesBubblesRuntimeClasspath"],
+        configurations["examplesLipglossRuntimeClasspath"],
+        configurations["examplesHarmonicaRuntimeClasspath"],
+        configurations["examplesXRuntimeClasspath"],
+        configurations["examplesSpringIntegrationRuntimeClasspath"]
+    )
 
-    bubbleteaRuntimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
-        from(zipTree(file)) {
-            exclude("META-INF/MANIFEST.MF")
-            exclude("META-INF/INDEX.LIST")
-            exclude("META-INF/io.netty.versions.properties")
-            exclude("META-INF/DEPENDENCIES")
-            exclude("META-INF/LICENSE")
-            exclude("META-INF/NOTICE")
-            exclude("META-INF/*.SF")
-            exclude("META-INF/*.DSA")
-            exclude("META-INF/*.RSA")
-        }
-    }
-
-    springRuntimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
-        from(zipTree(file)) {
-            exclude("META-INF/MANIFEST.MF")
-            exclude("META-INF/INDEX.LIST")
-            exclude("META-INF/io.netty.versions.properties")
-            exclude("META-INF/DEPENDENCIES")
-            exclude("META-INF/LICENSE")
-            exclude("META-INF/NOTICE")
-            exclude("META-INF/*.SF")
-            exclude("META-INF/*.DSA")
-            exclude("META-INF/*.RSA")
+    examplesRuntimeClasspaths.forEach { runtimeClasspath ->
+        runtimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
+            from(zipTree(file)) {
+                exclude("META-INF/MANIFEST.MF")
+                exclude("META-INF/INDEX.LIST")
+                exclude("META-INF/io.netty.versions.properties")
+                exclude("META-INF/DEPENDENCIES")
+                exclude("META-INF/LICENSE")
+                exclude("META-INF/NOTICE")
+                exclude("META-INF/*.SF")
+                exclude("META-INF/*.DSA")
+                exclude("META-INF/*.RSA")
+            }
         }
     }
 }

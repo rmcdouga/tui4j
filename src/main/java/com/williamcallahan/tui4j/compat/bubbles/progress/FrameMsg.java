@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbles.progress;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
 /**
  * Message sent on each animation frame of a progress bar.
  * <p>
@@ -11,7 +13,9 @@ package com.williamcallahan.tui4j.compat.bubbles.progress;
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class FrameMsg extends FrameMessage {
+public class FrameMsg implements Message {
+
+    private final FrameMessage message;
 
     /**
      * Creates a new frame message.
@@ -22,6 +26,28 @@ public class FrameMsg extends FrameMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public FrameMsg(int id, int tag) {
-        super(id, tag);
+        this.message = new FrameMessage(id, tag);
+    }
+
+    /**
+     * Returns the progress bar's unique identifier.
+     *
+     * @return the id
+     * @deprecated Use {@link FrameMessage#id()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int id() {
+        return message.id();
+    }
+
+    /**
+     * Returns the animation frame tag.
+     *
+     * @return the tag
+     * @deprecated Use {@link FrameMessage#tag()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public int tag() {
+        return message.tag();
     }
 }

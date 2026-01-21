@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbles.stopwatch;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
 /**
  * Message sent on each tick of the stopwatch.
  * <p>
@@ -11,7 +13,9 @@ package com.williamcallahan.tui4j.compat.bubbles.stopwatch;
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/stopwatch/stopwatch.go">bubbles/stopwatch/stopwatch.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class TickMsg extends TickMessage {
+public class TickMsg implements Message {
+
+    private final TickMessage message;
 
     /**
      * Creates a tick message.
@@ -22,6 +26,24 @@ public class TickMsg extends TickMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public TickMsg(int id, int tag) {
-        super(id, tag);
+        this.message = new TickMessage(id, tag);
+    }
+
+    /**
+     * Returns the stopwatch id.
+     *
+     * @return the id
+     */
+    public int id() {
+        return message.id();
+    }
+
+    /**
+     * Returns the stopwatch tag.
+     *
+     * @return the tag
+     */
+    public int tag() {
+        return message.tag();
     }
 }

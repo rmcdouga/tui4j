@@ -10,7 +10,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class UnknownSequenceMsg extends UnknownSequenceMessage {
+public class UnknownSequenceMsg implements Message {
+
+    private final UnknownSequenceMessage message;
 
     /**
      * Creates an unknown sequence message.
@@ -20,6 +22,15 @@ public class UnknownSequenceMsg extends UnknownSequenceMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public UnknownSequenceMsg(String sequence) {
-        super(sequence);
+        this.message = new UnknownSequenceMessage(sequence);
+    }
+
+    /**
+     * Returns the unrecognized sequence.
+     *
+     * @return the sequence
+     */
+    public String sequence() {
+        return message.sequence();
     }
 }
