@@ -163,20 +163,6 @@ class ListTest {
             return;
         }
 
-        // Also handle the legacy message forms that may be emitted internally.
-        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.BatchMsg batchMsg) {
-            for (Command c : batchMsg.commands()) {
-                applyCommand(list, c, budget);
-            }
-            return;
-        }
-        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.SequenceMsg sequenceMsg) {
-            for (Command c : sequenceMsg.commands()) {
-                applyCommand(list, c, budget);
-            }
-            return;
-        }
-
         com.williamcallahan.tui4j.compat.bubbletea.UpdateResult<List> result = list.update(msg);
         if (result != null && result.command() != null) {
             applyCommand(list, result.command(), budget);

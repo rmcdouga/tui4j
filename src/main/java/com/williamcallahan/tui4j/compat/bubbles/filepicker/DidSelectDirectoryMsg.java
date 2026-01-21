@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbles.filepicker;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
  * Message sent when a directory is selected in the file picker.
  * <p>
@@ -13,9 +11,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class DidSelectDirectoryMsg implements Message {
-
-    private final String path;
+public class DidSelectDirectoryMsg extends DidSelectDirectoryMessage {
 
     /**
      * Creates a directory selection message.
@@ -25,17 +21,6 @@ public class DidSelectDirectoryMsg implements Message {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public DidSelectDirectoryMsg(String path) {
-        this.path = path;
-    }
-
-    /**
-     * Returns the selected directory path.
-     *
-     * @return directory path
-     * @deprecated Use {@link DidSelectDirectoryMessage#path()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String path() {
-        return path;
+        super(path);
     }
 }

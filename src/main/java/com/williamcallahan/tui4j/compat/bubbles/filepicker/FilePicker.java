@@ -312,7 +312,7 @@ public class FilePicker implements Model {
                 Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
                 isDir = Files.isDirectory(resolved);
             } catch (IOException e) {
-                return UpdateResult.from(this, () -> new ErrorMsg(e));
+                return UpdateResult.from(this, () -> new ErrorMessage(e));
             }
         }
 
