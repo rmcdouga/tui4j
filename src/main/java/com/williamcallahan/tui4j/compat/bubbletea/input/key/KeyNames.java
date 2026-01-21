@@ -8,6 +8,11 @@ import java.util.Map;
  * Bubble Tea: bubbletea/key.go
  */
 public class KeyNames {
+
+    private KeyNames() {
+        // Utility class
+    }
+
     private static final Map<KeyType, String> KEY_NAMES = new HashMap<>();
 
     static {
@@ -102,6 +107,12 @@ public class KeyNames {
         KEY_NAMES.put(KeyType.KeyF20, "f20");
     }
 
+    /**
+     * Returns the name of the given key type.
+     *
+     * @param keyType the key type
+     * @return the name of the key type, or "unknown" if not found
+     */
     public static String getKeyName(KeyType keyType) {
         return KEY_NAMES.getOrDefault(keyType, "unknown");
     }
