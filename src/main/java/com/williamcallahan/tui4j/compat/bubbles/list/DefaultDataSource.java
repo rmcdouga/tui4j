@@ -72,7 +72,7 @@ public class DefaultDataSource implements ListDataSource {
      * @return refresh command
      */
     public Command setItems(Item... items) {
-        this.items = java.util.List.of(items);
+        this.items = new ArrayList<>(Arrays.asList(items));
         return list.refresh();
     }
 
