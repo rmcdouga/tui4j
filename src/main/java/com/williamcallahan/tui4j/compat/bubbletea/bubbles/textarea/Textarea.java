@@ -974,6 +974,9 @@ public class Textarea implements Model {
 
     private void wordLeft() {
         while (true) {
+            if (row == 0 && col == 0) {
+                break;
+            }
             characterLeft(true);
             if (col < value.get(row).length && !UCharacter.isWhitespace(value.get(row)[col])) {
                 break;
