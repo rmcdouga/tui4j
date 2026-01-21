@@ -11,7 +11,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class BatchMsg extends BatchMessage {
+public class BatchMsg implements Message {
+
+    private final BatchMessage message;
 
     /**
      * Creates a batch of commands.
@@ -21,6 +23,17 @@ public class BatchMsg extends BatchMessage {
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public BatchMsg(Command... commands) {
-        super(commands);
+        this.message = new BatchMessage(commands);
+    }
+
+    /**
+     * Returns the batched commands.
+     *
+     * @return commands
+     * @deprecated Use {@link BatchMessage#commands()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Command[] commands() {
+        return message.commands();
     }
 }

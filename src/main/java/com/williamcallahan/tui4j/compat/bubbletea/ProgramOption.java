@@ -70,9 +70,8 @@ public interface ProgramOption {
      *             This option is accepted for API compatibility but has no effect.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    @SuppressWarnings("removal")
     static ProgramOption withAnsiCompressor() {
-        return program -> program.setAnsiCompressor(true);
+        return program -> program.setAnsiCompressorInternal(true);
     }
 
     static ProgramOption withFilter(BiFunction<Model, Message, Message> filter) {

@@ -457,30 +457,19 @@ public class StandardRenderer implements Renderer {
         lastRenderedLines = new String[] {};
     }
 
-    @SuppressWarnings({"deprecation", "removal"})
     @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go handleMessages
     // behavior.
     public void handleMessage(Message msg) {
-        // Handle new *Message classes first, then fall back to deprecated *Msg classes
+        // Deprecated *Msg classes extend *Message, so these checks handle both.
         if (msg instanceof PrintLineMessage printLineMessage) {
             queuePrintLine(printLineMessage.messageBody());
-        } else if (msg instanceof PrintLineMsg printLineMsg) {
-            queuePrintLine(printLineMsg.messageBody());
         } else if (msg instanceof SetWindowTitleMessage windowTitleMessage) {
             setWindowTitle(windowTitleMessage.title());
-        } else if (msg instanceof SetWindowTitleMsg windowTitleMsg) {
-            setWindowTitle(windowTitleMsg.title());
         } else if (msg instanceof EnableMouseCellMotionMessage) {
             enableMouseCellMotion();
             enableMouseSGRMode();
-        } else if (msg instanceof EnableMouseCellMotionMsg) {
-            enableMouseCellMotion();
-            enableMouseSGRMode();
         } else if (msg instanceof EnableMouseAllMotionMessage) {
-            enableMouseAllMotion();
-            enableMouseSGRMode();
-        } else if (msg instanceof EnableMouseAllMotionMsg) {
             enableMouseAllMotion();
             enableMouseSGRMode();
         } else if (msg instanceof DisableMouseMessage) {
@@ -488,45 +477,23 @@ public class StandardRenderer implements Renderer {
             disableMouseNormalTracking();
             disableMouseCellMotion();
             disableMouseAllMotion();
-        } else if (msg instanceof DisableMouseMsg) {
-            disableMouseSGRMode();
-            disableMouseNormalTracking();
-            disableMouseCellMotion();
-            disableMouseAllMotion();
         } else if (msg instanceof SetMouseCursorTextMessage) {
-            setMouseCursorText();
-        } else if (msg instanceof SetMouseCursorTextMsg) {
             setMouseCursorText();
         } else if (msg instanceof SetMouseCursorPointerMessage) {
             setMouseCursorPointer();
-        } else if (msg instanceof SetMouseCursorPointerMsg) {
-            setMouseCursorPointer();
         } else if (msg instanceof ResetMouseCursorMessage) {
-            resetMouseCursor();
-        } else if (msg instanceof ResetMouseCursorMsg) {
             resetMouseCursor();
         } else if (msg instanceof CopyToClipboardMessage copyToClipboardMessage) {
             copyToClipboard(copyToClipboardMessage.text());
-        } else if (msg instanceof CopyToClipboardMsg copyToClipboardMsg) {
-            copyToClipboard(copyToClipboardMsg.text());
         } else if (msg instanceof ReadClipboardMessage) {
-            requestClipboard();
-        } else if (msg instanceof ReadClipboardMsg) {
             requestClipboard();
         } else if (msg instanceof EnableBracketedPasteMessage) {
             enableBracketedPaste();
-        } else if (msg instanceof EnableBracketedPasteMsg) {
-            enableBracketedPaste();
         } else if (msg instanceof DisableBracketedPasteMessage) {
-            disableBracketedPaste();
-        } else if (msg instanceof DisableBracketedPasteMsg) {
             disableBracketedPaste();
         } else if (msg instanceof WindowSizeMessage windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();
-        } else if (msg instanceof WindowSizeMsg windowSizeMsg) {
-            this.width = windowSizeMsg.width();
-            this.height = windowSizeMsg.height();
         }
     }
 

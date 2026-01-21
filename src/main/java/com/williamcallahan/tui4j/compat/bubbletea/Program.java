@@ -107,7 +107,6 @@ public class Program {
      * @deprecated Go Bubble Tea deprecated this in v0.19.0. Has no effect and will be removed.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    @SuppressWarnings("unused")
     private boolean ansiCompressor;
     private boolean enableAltScreen;
     private boolean enableMouseAllMotion;
@@ -908,8 +907,14 @@ public class Program {
      *      bubbletea.WithANSICompressor (Go docs)</a>
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    @SuppressWarnings("DeprecationWarning")
     void setAnsiCompressor(boolean ansiCompressor) {
+        setAnsiCompressorInternal(ansiCompressor);
+    }
+
+    void setAnsiCompressorInternal(boolean ansiCompressor) {
+        if (this.ansiCompressor == ansiCompressor) {
+            return;
+        }
         this.ansiCompressor = ansiCompressor;
     }
 

@@ -31,6 +31,13 @@ public class MouseMsg extends MouseMessage {
         super(x, y, shift, alt, ctrl, action, button);
     }
 
+    /**
+     * Returns a string representation of the mouse message.
+     *
+     * @return string representation
+     * @deprecated Use {@link MouseMessage#toString()} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     @Override
     public String toString() {
         return String.format("MouseMsg(width=%d, height=%d, shift=%b, alt=%b, ctrl=%b, action=%s, button=%s)",

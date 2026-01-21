@@ -145,7 +145,7 @@ public interface Renderer {
     /**
      * Requests clipboard contents from the terminal (OSC 52 read).
      * The terminal responds with clipboard contents delivered as a
-     * {@link com.williamcallahan.tui4j.compat.bubbletea.PasteMsg}.
+     * {@link com.williamcallahan.tui4j.compat.bubbletea.PasteMessage}.
      * <p>
      * Bubble Tea: bubbletea/commands.go Paste command
      */
