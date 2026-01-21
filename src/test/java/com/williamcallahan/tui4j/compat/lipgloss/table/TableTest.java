@@ -1106,14 +1106,7 @@ class TableTest {
 
     private static void assertGoldenPath(String path, String actual) {
         String expected = readResource(path);
-        try {
-            assertThat(actual).isEqualTo(expected);
-        } catch (AssertionError e) {
-            String msg = "Test failed: " + path + "\n" +
-                    "EXPECTED: [" + expected.replace("\n", "\\n").replace("\r", "\\r") + "]\n" +
-                    "ACTUAL:   [" + actual.replace("\n", "\\n").replace("\r", "\\r") + "]";
-            throw new AssertionError(msg, e);
-        }
+        assertThat(actual).isEqualTo(expected);
     }
 
     private static String readResource(String path) {
