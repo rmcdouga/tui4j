@@ -392,7 +392,7 @@ public class Table {
 
         int numCols = data != null ? data.columns() : 0;
         for (int c = 0; c < numCols; c++) {
-            String cell = isOverflow ? "…" : (c < numCols ? data.at(index, c) : "");
+            String cell = isOverflow ? "…" : data.at(index, c);
             Style cellStyle = style(index, c);
 
             if (!wrap) {
@@ -422,7 +422,7 @@ public class Table {
 
         s.append(joinHorizontal(cells.toArray(new String[0]))).append("\n");
 
-        if (borderRow && index < data.rows() - 1 && !isOverflow) {
+        if (borderRow && data != null && index < data.rows() - 1 && !isOverflow) {
             if (borderLeft) {
                 s.append(borderStyle.render(border.middleLeft()));
             }
