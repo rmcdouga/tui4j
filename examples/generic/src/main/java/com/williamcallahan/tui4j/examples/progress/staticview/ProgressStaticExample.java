@@ -5,9 +5,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
 import com.williamcallahan.tui4j.compat.bubbles.progress.Progress;
 
 import java.time.Duration;
@@ -51,7 +51,7 @@ public class ProgressStaticExample implements Model {
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof TickMsg) {
+        if (msg instanceof TickMessage) {
             percent += 0.25;
             if (percent > 1.0) {
                 percent = 1.0;
@@ -76,7 +76,7 @@ public class ProgressStaticExample implements Model {
     }
 
     private Command tickCmd() {
-        return Command.tick(Duration.ofSeconds(1), time -> new TickMsg());
+        return Command.tick(Duration.ofSeconds(1), time -> new TickMessage());
     }
 
     public static void main(String[] args) {
@@ -84,10 +84,10 @@ public class ProgressStaticExample implements Model {
     }
 }
 
-class TickMsg implements Message {
+class TickMessage implements Message {
     private final LocalDateTime time;
 
-    public TickMsg() {
+    public TickMessage() {
         this.time = LocalDateTime.now();
     }
 

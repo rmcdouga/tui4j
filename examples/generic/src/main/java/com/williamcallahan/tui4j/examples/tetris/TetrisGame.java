@@ -13,8 +13,8 @@ import com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator;
 import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
 import com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator;
 import com.williamcallahan.tui4j.message.CheckWindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
 
 /**
  * Example program for tetris game.

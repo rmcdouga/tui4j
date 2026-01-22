@@ -10,7 +10,7 @@ import com.williamcallahan.tui4j.compat.bubbles.help.Help;
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 import java.nio.file.Path;
 import java.nio.file.Paths;

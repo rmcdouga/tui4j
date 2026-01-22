@@ -6,10 +6,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.harmonica.Spring;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 import java.time.Duration;
-import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.WindowSizeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 public class CellExample implements Model {
@@ -89,7 +89,7 @@ public class CellExample implements Model {
 
     @Override
     public Command init() {
-        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMsg());
+        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMessage());
     }
 
     @Override
@@ -119,9 +119,9 @@ public class CellExample implements Model {
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof FrameMsg) {
+        if (msg instanceof FrameMessage) {
             if (!cells.ready()) {
-                return UpdateResult.from(this, Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMsg()));
+                return UpdateResult.from(this, Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMessage()));
             }
 
             cells.wipe();
@@ -132,7 +132,7 @@ public class CellExample implements Model {
             y = yResult[0];
             yVelocity = yResult[1];
             drawEllipse(cells, x, y, 16, 8);
-            return UpdateResult.from(this, Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMsg()));
+            return UpdateResult.from(this, Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMessage()));
         }
 
         return UpdateResult.from(this);
@@ -207,6 +207,6 @@ public class CellExample implements Model {
         }
     }
 
-    private static class FrameMsg implements Message {
+    private static class FrameMessage implements Message {
     }
 }

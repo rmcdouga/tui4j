@@ -10,8 +10,8 @@ import com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 
 import java.util.ArrayList;
 import java.util.List;

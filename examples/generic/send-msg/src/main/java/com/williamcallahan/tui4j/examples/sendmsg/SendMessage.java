@@ -1,10 +1,12 @@
 package com.williamcallahan.tui4j.examples.sendmsg;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 import java.time.Duration;
 
-public record SendMsg(Duration duration, String food) implements Message {
+/**
+ * Message carrying the send-msg example payload.
+ */
+public record SendMessage(Duration duration, String food) implements Message {
     @Override
     public String toString() {
         if (duration == null || duration.isZero()) {

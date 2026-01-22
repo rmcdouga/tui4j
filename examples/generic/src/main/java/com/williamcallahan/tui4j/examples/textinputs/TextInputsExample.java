@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
 import com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode;

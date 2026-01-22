@@ -67,7 +67,7 @@ public class ProgressAnimatedExample implements Model {
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof TickMsg) {
+        if (msg instanceof TickMessage) {
             if (progress.percent() >= 1.0) {
                 return new UpdateResult<>(this, QuitMessage::new);
             }
@@ -109,7 +109,7 @@ public class ProgressAnimatedExample implements Model {
      * @return tick command
      */
     private Command tickCmd() {
-        return Command.tick(Duration.ofSeconds(1), time -> new TickMsg());
+        return Command.tick(Duration.ofSeconds(1), time -> new TickMessage());
     }
 
     /**
@@ -125,13 +125,13 @@ public class ProgressAnimatedExample implements Model {
 /**
  * Message used to drive periodic progress updates.
  */
-class TickMsg implements Message {
+class TickMessage implements Message {
     private final LocalDateTime time;
 
     /**
      * Captures the current time for the tick message.
      */
-    public TickMsg() {
+    public TickMessage() {
         this.time = LocalDateTime.now();
     }
 

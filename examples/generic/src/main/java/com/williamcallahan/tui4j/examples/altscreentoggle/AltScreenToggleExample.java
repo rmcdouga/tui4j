@@ -7,10 +7,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.message.EnterAltScreen;
-import com.williamcallahan.tui4j.compat.bubbletea.message.ExitAltScreen;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.EnterAltScreenMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.ExitAltScreenMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 
 /**
  * Example program for mode.
@@ -59,9 +59,9 @@ public class AltScreenToggleExample implements Model {
                 case " " -> {
                     Command cmd;
                     if (altScreen) {
-                        cmd = ExitAltScreen::new;
+                        cmd = ExitAltScreenMessage::new;
                     } else {
-                        cmd = EnterAltScreen::new;
+                        cmd = EnterAltScreenMessage::new;
                     }
                     altScreen = !altScreen;
                     yield new UpdateResult<>(this, cmd);

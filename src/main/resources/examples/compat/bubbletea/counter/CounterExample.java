@@ -1,12 +1,12 @@
 package com.williamcallahan.tui4j.examples.counter;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
-import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 
 /**
  * Demonstrates a counter with immediate and delayed commands.
@@ -52,21 +52,27 @@ public class CounterExample implements Model {
     public UpdateResult<? extends Model> update(Message msg) {
         if (msg instanceof KeyPressMessage keyPressMessage) {
             return switch (keyPressMessage.key()) {
-                case "k", "K", "up" -> new UpdateResult<>(this, () -> CounterMsg.INCREMENT);
-                case "j", "J", "down" -> new UpdateResult<>(this, () -> CounterMsg.DECREMENT);
-                case "d", "D" -> new UpdateResult<>(this, () -> CounterMsg.INCREMENT_LATER);
+                case "k", "K", "up" -> new UpdateResult<>(this, () ->
+                    CounterMessage.INCREMENT
+                );
+                case "j", "J", "down" -> new UpdateResult<>(this, () ->
+                    CounterMessage.DECREMENT
+                );
+                case "d", "D" -> new UpdateResult<>(this, () ->
+                    CounterMessage.INCREMENT_LATER
+                );
                 case "q", "Q" -> new UpdateResult<>(this, QuitMessage::new);
                 default -> new UpdateResult<>(this, null);
             };
-        } else if (msg == CounterMsg.INCREMENT) {
+        } else if (msg == CounterMessage.INCREMENT) {
             return UpdateResult.from(increment());
-        } else if (msg == CounterMsg.DECREMENT) {
+        } else if (msg == CounterMessage.DECREMENT) {
             return UpdateResult.from(decrement());
-        } else if (msg == CounterMsg.INCREMENT_LATER) {
+        } else if (msg == CounterMessage.INCREMENT_LATER) {
             return new UpdateResult<>(this, () -> {
                 try {
                     Thread.sleep(1000); // Delay for 1 second
-                    return CounterMsg.INCREMENT;
+                    return CounterMessage.INCREMENT;
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return null;
@@ -102,17 +108,17 @@ public class CounterExample implements Model {
     @Override
     public String view() {
         return """
-                Counter Example
-                ==============
-                              \s
-                Value: %d
-                              \s
-                Commands:
-                ↑/k - Increment
-                ↓/j - Decrement
-                d - Delayed Increment
-                q - Quit
-               \s""".formatted(value);
+         Counter Example
+         ==============
+                       \s
+         Value: %d
+                       \s
+         Commands:
+         ↑/k - Increment
+         ↓/j - Decrement
+         d - Delayed Increment
+         q - Quit
+        \s""".formatted(value);
     }
 
     /**

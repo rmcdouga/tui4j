@@ -8,7 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
 import com.williamcallahan.tui4j.compat.bubbles.timer.Timer;

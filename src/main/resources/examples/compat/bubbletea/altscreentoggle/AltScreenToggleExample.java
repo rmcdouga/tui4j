@@ -1,16 +1,16 @@
 package com.williamcallahan.tui4j.examples.altscreentoggle;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.Model;
-import com.williamcallahan.tui4j.compat.bubbletea.Program;
-import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 import com.williamcallahan.tui4j.compat.bubbletea.EnterAltScreenMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.ExitAltScreenMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 
 /**
  * Describes the active screen mode so the view can explain state changes.
@@ -47,11 +47,12 @@ enum Mode {
 public class AltScreenToggleExample implements Model {
 
     private static final Style KEYWORD_STYLE = Style.newStyle()
-            .foreground(Color.color("204"))
-            .background(Color.color("235"));
+        .foreground(Color.color("204"))
+        .background(Color.color("235"));
 
-    private static final Style HELP_STYLE = Style.newStyle()
-            .foreground(Color.color("241"));
+    private static final Style HELP_STYLE = Style.newStyle().foreground(
+        Color.color("241")
+    );
 
     private boolean altScreen;
     private boolean quitting;
@@ -115,8 +116,12 @@ public class AltScreenToggleExample implements Model {
             mode = Mode.INLINE;
         }
 
-        return "\n\n  You're in %s\n\n\n".formatted(KEYWORD_STYLE.render(mode.getDescription())) +
-                HELP_STYLE.render("  space: switch modes • q: exit\n");
+        return (
+            "\n\n  You're in %s\n\n\n".formatted(
+                KEYWORD_STYLE.render(mode.getDescription())
+            ) +
+            HELP_STYLE.render("  space: switch modes • q: exit\n")
+        );
     }
 
     /**

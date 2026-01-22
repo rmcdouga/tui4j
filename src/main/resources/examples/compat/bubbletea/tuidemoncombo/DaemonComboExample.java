@@ -1,21 +1,20 @@
 package com.williamcallahan.tui4j.examples.tuidemoncombo;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Command;
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.Model;
-import com.williamcallahan.tui4j.compat.bubbletea.Program;
-import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage;
-
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.Program;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Random;
 import java.util.logging.Level;
@@ -26,7 +25,9 @@ import java.util.logging.Logger;
  */
 public class DaemonComboExample implements Model {
 
-    private static final Logger logger = Logger.getLogger(DaemonComboExample.class.getName());
+    private static final Logger logger = Logger.getLogger(
+        DaemonComboExample.class.getName()
+    );
 
     private final Spinner spinner;
     private final Deque<Result> results;
@@ -34,7 +35,9 @@ public class DaemonComboExample implements Model {
     private boolean quitting;
 
     private static final int SHOW_LAST_RESULTS = 5;
-    private static final Style HELP_STYLE = Style.newStyle().foreground(Color.color("241"));
+    private static final Style HELP_STYLE = Style.newStyle().foreground(
+        Color.color("241")
+    );
     private static final Style MAIN_STYLE = Style.newStyle().marginLeft(1);
 
     /**
@@ -42,7 +45,7 @@ public class DaemonComboExample implements Model {
      */
     public DaemonComboExample() {
         this.spinner = new Spinner(SpinnerType.DOT).setStyle(
-                Style.newStyle().foreground(Color.color("206"))
+            Style.newStyle().foreground(Color.color("206"))
         );
         this.results = new ArrayDeque<>(SHOW_LAST_RESULTS + 1);
         this.random = new Random();
@@ -72,8 +75,8 @@ public class DaemonComboExample implements Model {
             return new UpdateResult<>(this, QuitMessage::new);
         }
 
-        if (msg instanceof ProcessFinishedMsg processFinishedMsg) {
-            Duration duration = processFinishedMsg.duration();
+        if (msg instanceof ProcessFinishedMessage processFinishedMessage) {
+            Duration duration = processFinishedMessage.duration();
             Result res = new Result(randomEmoji(), duration);
             logger.info(res.emoji() + " Job finished in " + res.duration());
 
@@ -101,10 +104,17 @@ public class DaemonComboExample implements Model {
     @Override
     public String view() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n").append(spinner.view()).append(" Doing some work...\n\n");
+        sb
+            .append("\n")
+            .append(spinner.view())
+            .append(" Doing some work...\n\n");
 
         for (Result res : results) {
-            sb.append(res.emoji()).append(" Job finished in ").append(res.duration()).append("\n");
+            sb
+                .append(res.emoji())
+                .append(" Job finished in ")
+                .append(res.duration())
+                .append("\n");
         }
 
         for (int i = results.size(); i < SHOW_LAST_RESULTS; i++) {
@@ -131,7 +141,7 @@ public class DaemonComboExample implements Model {
             try {
                 Duration pause = Duration.ofMillis(100 + random.nextInt(900));
                 Thread.sleep(pause.toMillis());
-                return new ProcessFinishedMsg(pause);
+                return new ProcessFinishedMessage(pause);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 return null;
@@ -145,7 +155,34 @@ public class DaemonComboExample implements Model {
      * @return result
      */
     private String randomEmoji() {
-        String[] emojis = {"🍦", "🧋", "🍡", "🤠", "👾", "😭", "🦊", "🐯", "🦆", "🥨", "🎏", "🍔", "🍒", "🍥", "🎮", "📦", "🦁", "🐶", "🐸", "🍕", "🥐", "🧲", "🚒", "🥇", "🏆", "🌽"};
+        String[] emojis = {
+            "🍦",
+            "🧋",
+            "🍡",
+            "🤠",
+            "👾",
+            "😭",
+            "🦊",
+            "🐯",
+            "🦆",
+            "🥨",
+            "🎏",
+            "🍔",
+            "🍒",
+            "🍥",
+            "🎮",
+            "📦",
+            "🦁",
+            "🐶",
+            "🐸",
+            "🍕",
+            "🥐",
+            "🧲",
+            "🚒",
+            "🥇",
+            "🏆",
+            "🌽",
+        };
         return emojis[random.nextInt(emojis.length)];
     }
 
@@ -203,7 +240,34 @@ public class DaemonComboExample implements Model {
      * @return result
      */
     private static String getRandomEmoji(Random random) {
-        String[] emojis = {"🍦", "🧋", "🍡", "🤠", "👾", "😭", "🦊", "🐯", "🦆", "🥨", "🎏", "🍔", "🍒", "🍥", "🎮", "📦", "🦁", "🐶", "🐸", "🍕", "🥐", "🧲", "🚒", "🥇", "🏆", "🌽"};
+        String[] emojis = {
+            "🍦",
+            "🧋",
+            "🍡",
+            "🤠",
+            "👾",
+            "😭",
+            "🦊",
+            "🐯",
+            "🦆",
+            "🥨",
+            "🎏",
+            "🍔",
+            "🍒",
+            "🍥",
+            "🎮",
+            "📦",
+            "🦁",
+            "🐶",
+            "🐸",
+            "🍕",
+            "🥐",
+            "🧲",
+            "🚒",
+            "🥇",
+            "🏆",
+            "🌽",
+        };
         return emojis[random.nextInt(emojis.length)];
     }
 
@@ -215,7 +279,9 @@ public class DaemonComboExample implements Model {
         for (java.util.logging.Handler handler : rootLogger.getHandlers()) {
             handler.setLevel(Level.WARNING);
         }
-        Logger.getLogger(DaemonComboExample.class.getName()).setLevel(Level.INFO);
+        Logger.getLogger(DaemonComboExample.class.getName()).setLevel(
+            Level.INFO
+        );
     }
 
     /**
@@ -226,5 +292,7 @@ public class DaemonComboExample implements Model {
     /**
      * Support type for the Tuidemoncombo example.
      */
-    private record ProcessFinishedMsg(Duration duration) implements Message {}
+    private record ProcessFinishedMessage(
+        Duration duration
+    ) implements Message {}
 }

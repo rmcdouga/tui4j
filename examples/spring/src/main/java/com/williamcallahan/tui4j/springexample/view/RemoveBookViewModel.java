@@ -10,7 +10,7 @@ import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
 import com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.help.Help;
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;

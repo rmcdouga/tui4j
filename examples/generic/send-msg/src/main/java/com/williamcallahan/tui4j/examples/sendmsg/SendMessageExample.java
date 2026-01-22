@@ -1,31 +1,30 @@
 package com.williamcallahan.tui4j.examples.sendmsg;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Command;
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.Model;
-import com.williamcallahan.tui4j.compat.bubbletea.Program;
-import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.Program;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.time.Duration;
 
-public class SendMsgExample implements Model {
+public class SendMessageExample implements Model {
 
     private static final int MAX_RESULTS = 5;
 
     private final Spinner spinner;
-    private final List<SendMsg> results;
+    private final List<SendMessage> results;
     private boolean quitting;
     private Program program;
 
-    public SendMsgExample() {
+    public SendMessageExample() {
         this.spinner = new Spinner(SpinnerType.DOT);
         this.results = new ArrayList<>(MAX_RESULTS);
     }
@@ -42,7 +41,7 @@ public class SendMsgExample implements Model {
             return new UpdateResult<>(this, QuitMessage::new);
         }
 
-        if (msg instanceof SendMsg result) {
+        if (msg instanceof SendMessage result) {
             results.add(result);
             while (results.size() > MAX_RESULTS) {
                 results.remove(0);
@@ -69,7 +68,7 @@ public class SendMsgExample implements Model {
         }
 
         for (int i = 0; i < results.size(); i++) {
-            SendMsg result = results.get(i);
+            SendMessage result = results.get(i);
             sb.append(result.toString()).append("\n");
         }
 
@@ -85,9 +84,19 @@ public class SendMsgExample implements Model {
     }
 
     private static final String[] FOODS = {
-        "an apple", "a pear", "a gherkin", "a party gherkin",
-        "a kohlrabi", "some spaghetti", "tacos", "a currywurst", "some curry",
-        "a sandwich", "some peanut butter", "some cashews", "some ramen"
+        "an apple",
+        "a pear",
+        "a gherkin",
+        "a party gherkin",
+        "a kohlrabi",
+        "some spaghetti",
+        "tacos",
+        "a currywurst",
+        "some curry",
+        "a sandwich",
+        "some peanut butter",
+        "some cashews",
+        "some ramen",
     };
 
     private static final Random RANDOM = new Random();
@@ -97,7 +106,7 @@ public class SendMsgExample implements Model {
     }
 
     public static void main(String[] args) {
-        SendMsgExample model = new SendMsgExample();
+        SendMessageExample model = new SendMessageExample();
         Program program = new Program(model);
         model.setProgram(program);
 
@@ -107,14 +116,20 @@ public class SendMsgExample implements Model {
                     int delayMs = RANDOM.nextInt(900) + 100;
                     Thread.sleep(delayMs);
                     if (model.program.isRunning()) {
-                        model.program.send(new SendMsg(Duration.ofMillis(delayMs), randomFood()));
+                        model.program.send(
+                            new SendMessage(
+                                Duration.ofMillis(delayMs),
+                                randomFood()
+                            )
+                        );
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
                 }
             }
-        }).start();
+        })
+            .start();
 
         program.run();
     }

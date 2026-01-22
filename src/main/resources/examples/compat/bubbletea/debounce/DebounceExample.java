@@ -1,16 +1,15 @@
 package com.williamcallahan.tui4j.examples.debounce;
 
+import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
+import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
-import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color;
-
 import java.time.Duration;
 
 /**
@@ -30,7 +29,9 @@ public class DebounceExample implements Model {
     public DebounceExample() {
         this.tag = 0;
         this.spinner = new Spinner(SpinnerType.DOT);
-        this.spinner.setStyle(Style.newStyle().foreground(new ANSI256Color(240)));
+        this.spinner.setStyle(
+            Style.newStyle().foreground(new ANSI256Color(240))
+        );
     }
 
     /**
@@ -54,16 +55,16 @@ public class DebounceExample implements Model {
         if (msg instanceof KeyPressMessage) {
             tag++;
             return UpdateResult.from(
-                    this,
-                    Command.batch(
-                            Command.tick(DEBOUNCE_DURATION, __ -> new ExitMsg(tag)),
-                            spinner::tick
-                    )
+                this,
+                Command.batch(
+                    Command.tick(DEBOUNCE_DURATION, __ -> new ExitMessage(tag)),
+                    spinner::tick
+                )
             );
         }
 
-        if (msg instanceof ExitMsg exitMsg) {
-            if (exitMsg.tag() == tag) {
+        if (msg instanceof ExitMessage exitMessage) {
+            if (exitMessage.tag() == tag) {
                 return UpdateResult.from(this, Command.quit());
             }
         }
@@ -85,9 +86,13 @@ public class DebounceExample implements Model {
     @Override
     public String view() {
         String status = spinner.view() + " Waiting for debounce...";
-        return "Key presses: " + tag +
-                "\n" + status +
-                "\n\nTo exit press any key, then wait for one second without pressing anything.";
+        return (
+            "Key presses: " +
+            tag +
+            "\n" +
+            status +
+            "\n\nTo exit press any key, then wait for one second without pressing anything."
+        );
     }
 
     /**
@@ -102,6 +107,5 @@ public class DebounceExample implements Model {
     /**
      * Message used to signal a debounce timeout.
      */
-    private record ExitMsg(int tag) implements Message {
-    }
+    private record ExitMessage(int tag) implements Message {}
 }

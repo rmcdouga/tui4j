@@ -68,7 +68,7 @@ public class ProgressStaticExample implements Model {
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof TickMsg) {
+        if (msg instanceof TickMessage) {
             percent += 0.25;
             if (percent > 1.0) {
                 percent = 1.0;
@@ -103,7 +103,7 @@ public class ProgressStaticExample implements Model {
      * @return result
      */
     private Command tickCmd() {
-        return Command.tick(Duration.ofSeconds(1), time -> new TickMsg());
+        return Command.tick(Duration.ofSeconds(1), time -> new TickMessage());
     }
 
     /**
@@ -119,13 +119,13 @@ public class ProgressStaticExample implements Model {
 /**
  * Support type for the Progress example.
  */
-class TickMsg implements Message {
+class TickMessage implements Message {
     private final LocalDateTime time;
 
     /**
-     * Creates TickMsg to keep example ready for use.
+     * Creates TickMessage to keep example ready for use.
      */
-    public TickMsg() {
+    public TickMessage() {
         this.time = LocalDateTime.now();
     }
 

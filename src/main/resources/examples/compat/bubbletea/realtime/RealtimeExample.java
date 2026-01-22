@@ -1,16 +1,15 @@
 package com.williamcallahan.tui4j.examples.realtime;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Command;
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.Model;
-import com.williamcallahan.tui4j.compat.bubbletea.Program;
-import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
-
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,7 +48,7 @@ public class RealtimeExample implements Model {
                     int delay = random.nextInt(901) + 100;
                     Thread.sleep(delay);
                     if (running.get() && program != null) {
-                        program.send(RealtimeMsg.ACTIVITY);
+                        program.send(RealtimeMessage.ACTIVITY);
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -79,7 +78,7 @@ public class RealtimeExample implements Model {
             }
         }
 
-        if (msg == RealtimeMsg.ACTIVITY) {
+        if (msg == RealtimeMessage.ACTIVITY) {
             eventCount++;
             return new UpdateResult<>(this, null);
         }
@@ -100,7 +99,11 @@ public class RealtimeExample implements Model {
     @Override
     public String view() {
         String spinnerView = spinner.view();
-        String content = String.format("  %s Events received: %d", spinnerView, eventCount);
+        String content = String.format(
+            "  %s Events received: %d",
+            spinnerView,
+            eventCount
+        );
 
         if (quitting) {
             return content + "\n\n";
