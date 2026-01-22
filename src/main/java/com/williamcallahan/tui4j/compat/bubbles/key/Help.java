@@ -8,6 +8,8 @@ package com.williamcallahan.tui4j.compat.bubbles.key;
  * @param key the key binding label (e.g., "ctrl+c")
  * @param desc the help description (e.g., "quit")
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/key/key.go">bubbles/key/key.go</a>
+ * <p>
+ * Bubbles: key/key.go.
  */
 public record Help(String key, String desc) {
 

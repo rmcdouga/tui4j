@@ -18,6 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Port of the cursor blink initialization message.
  * Upstream: github.com/charmbracelet/bubbles/cursor (initialBlinkMsg)
+ * <p>
+ * Bubbles: cursor/cursor.go.
  */
 record InitialBlinkMessage() implements Message {
 }
@@ -25,6 +27,8 @@ record InitialBlinkMessage() implements Message {
 /**
  * Port of the cursor blink message.
  * Upstream: github.com/charmbracelet/bubbles/cursor (blinkMsg)
+ * <p>
+ * Bubbles: cursor/cursor.go.
  */
 record BlinkMessage(int id, int tag) implements Message {
 }
@@ -32,6 +36,8 @@ record BlinkMessage(int id, int tag) implements Message {
 /**
  * Port of the cursor blink cancel message.
  * Upstream: github.com/charmbracelet/bubbles/cursor (blinkCanceledMsg)
+ * <p>
+ * Bubbles: cursor/cursor.go.
  */
 record BlinkCanceled() implements Message {
 
@@ -40,6 +46,8 @@ record BlinkCanceled() implements Message {
 /**
  * Port of the Bubble Tea cursor model used by Bubbles inputs.
  * Upstream: github.com/charmbracelet/bubbles/cursor (Model)
+ * <p>
+ * Bubbles: cursor/cursor.go.
  */
 public class Cursor implements Model {
 
