@@ -1,50 +1,23 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * Compatibility filter state for legacy Bubble Tea list usage.
- * <p>
- * Bubbles: list/list.go.
- *
- * @see com.williamcallahan.tui4j.compat.bubbles.list.FilterState
+ * Port of Bubbles filter state.
+ * Bubble Tea: bubbletea/examples/list-simple/main.go
  */
+@Deprecated(since = "0.3.0")
 public enum FilterState {
-    /**
-     * No filtering is applied.
-     */
-    Unfiltered,
-    /**
-     * Filtering is in progress.
-     */
-    Filtering,
-    /**
-     * Filtering has completed with a query.
-     */
-    FilterApplied;
+    Unfiltered("unfiltered"), // no filter set
+    Filtering("filtering"), // user is actively setting a filter
+    FilterApplied("filter applied");
 
-    /**
-     * Converts this deprecated enum value to the canonical enum value.
-     *
-     * @return the canonical enum value
-     */
-    public com.williamcallahan.tui4j.compat.bubbles.list.FilterState toCanonical() {
-        return switch (this) {
-            case Unfiltered -> com.williamcallahan.tui4j.compat.bubbles.list.FilterState.Unfiltered;
-            case Filtering -> com.williamcallahan.tui4j.compat.bubbles.list.FilterState.Filtering;
-            case FilterApplied -> com.williamcallahan.tui4j.compat.bubbles.list.FilterState.FilterApplied;
-        };
+    private final String stateName;
+
+    FilterState(String stateName) {
+        this.stateName = stateName;
     }
 
-    /**
-     * Converts a canonical enum value to this deprecated enum value.
-     * @param canonical the canonical enum value
-     * @return the deprecated enum value
-     */
-    public static FilterState fromCanonical(com.williamcallahan.tui4j.compat.bubbles.list.FilterState canonical) {
-        if (canonical == null) return null;
-        return switch (canonical) {
-            case Unfiltered -> Unfiltered;
-            case Filtering -> Filtering;
-            case FilterApplied -> FilterApplied;
-        };
+    @Override
+    public String toString() {
+        return stateName;
     }
 }

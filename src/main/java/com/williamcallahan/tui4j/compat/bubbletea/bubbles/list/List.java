@@ -1,123 +1,65 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import com.williamcallahan.tui4j.ansi.Truncate;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Size;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.VerticalJoinDecorator;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.help.Help;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.help.KeyMap;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Paginator;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Type;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.Spinner;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.SpinnerType;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.TickMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.bubbles.textinput.TextInput;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Future;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
+import static com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItemStyles.ELLIPSIS;
+
 /**
- * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.list.List}.
- * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/List.java}.
- * <p>
- * Bubbles: list/list.go.
- *
- * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.List}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.List} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  */
 @Deprecated(since = "0.3.0")
-@SuppressWarnings("removal")
 public class List extends com.williamcallahan.tui4j.compat.bubbles.list.List {
 
-    // Legacy constructors
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param items items
-     * @param width width
-     * @param height height
-     */
+    @Deprecated(since = "0.3.0")
     public List(Item[] items, int width, int height) {
         super(items, width, height);
     }
 
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param items items
-     * @param delegate delegate
-     * @param width width
-     * @param height height
-     */
+    @Deprecated(since = "0.3.0")
     public List(Item[] items, ItemDelegate delegate, int width, int height) {
         super(items, delegate, width, height);
     }
 
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param dataSource data source
-     * @param width width
-     * @param height height
-     */
-    public List(com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ListDataSource dataSource, int width, int height) {
-        super(dataSource.toCanonical(), new com.williamcallahan.tui4j.compat.bubbles.list.DefaultDelegate(), width, height);
-    }
-
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param dataSource data source
-     * @param delegate delegate
-     * @param width width
-     * @param height height
-     */
-    public List(com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
-        super(dataSource.toCanonical(), delegate, width, height);
-    }
-
-    // Forward compatibility constructors (accepting New types)
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param items items
-     * @param width width
-     * @param height height
-     */
-    public List(com.williamcallahan.tui4j.compat.bubbles.list.Item[] items, int width, int height) {
-        super(items, width, height);
-    }
-
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param items items
-     * @param delegate delegate
-     * @param width width
-     * @param height height
-     */
-    public List(com.williamcallahan.tui4j.compat.bubbles.list.Item[] items, com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate delegate, int width, int height) {
-        super(items, delegate, width, height);
-    }
-
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param dataSource data source
-     * @param width width
-     * @param height height
-     */
-    public List(com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource dataSource, int width, int height) {
-        super(dataSource, width, height);
-    }
-
-    /**
-     * Creates List to keep this component ready for use.
-     *
-     * @param dataSource data source
-     * @param delegate delegate
-     * @param width width
-     * @param height height
-     */
-    public List(com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource dataSource, com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate delegate, int width, int height) {
+    @Deprecated(since = "0.3.0")
+    public List(ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
         super(dataSource, delegate, width, height);
     }
 
-    /**
-     * Handles styles for this component.
-     *
-     * @return result
-     */
-    @Override
-    public Styles styles() {
-        com.williamcallahan.tui4j.compat.bubbles.list.Styles styles = super.styles();
-        if (styles instanceof Styles legacy) {
-            return legacy;
-        }
-        return Styles.fromCanonical(styles);
+    @Deprecated(since = "0.3.0")
+    public List(ListDataSource dataSource, int width, int height) {
+        super(dataSource, width, height);
     }
+
 }

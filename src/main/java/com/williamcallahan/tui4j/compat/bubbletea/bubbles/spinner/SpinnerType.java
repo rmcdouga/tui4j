@@ -3,78 +3,164 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner;
 import java.time.Duration;
 
 /**
- * Spinner shape presets for Bubble Tea-compatible spinners.
- * <p>
- * Bubbles: spinner/spinner.go.
+ * Port of Bubbles spinner type.
+ * Bubble Tea: bubbletea/examples/spinner/main.go
  */
+@Deprecated(since = "0.3.0")
 public enum SpinnerType {
 
-    /**
-     * Simple line spinner.
-     */
-    LINE,
-    /**
-     * Braille dot spinner.
-     */
-    DOT,
-    /**
-     * Compact braille dot spinner.
-     */
-    MINI_DOT,
-    /**
-     * Jumping dot spinner.
-     */
-    JUMP,
-    /**
-     * Pulsing block spinner.
-     */
-    PULSE,
-    /**
-     * Three-dot points spinner.
-     */
-    POINTS,
-    /**
-     * Rotating globe spinner.
-     */
-    GLOBE,
-    /**
-     * Lunar phase spinner.
-     */
-    MOON,
-    /**
-     * See-no/ hear-no/ speak-no monkey spinner.
-     */
-    MONKEY,
-    /**
-     * Meter bar spinner.
-     */
-    METER,
-    /**
-     * Hamburger menu spinner.
-     */
-    HAMBURGER,
-    /**
-     * Ellipsis dot spinner.
-     */
-    ELLIPSIS;
+    LINE {
+        @Override
+        String[] frames() {
+            return new String[]{"|", "/", "-", "\\"};
+        }
 
-    /**
-     * Handles to new for this component.
-     *
-     * @return result
-     */
-    public com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType toNew() {
-        return com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType.valueOf(this.name());
-    }
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(10);
+        }
+    },
 
-    /**
-     * Handles from new for this component.
-     *
-     * @param type type
-     * @return result
-     */
-    public static SpinnerType fromNew(com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType type) {
-        return SpinnerType.valueOf(type.name());
-    }
-    
+    DOT {
+        @Override
+        String[] frames() {
+            return new String[]{"⣾ ", "⣽ ", "⣻ ", "⢿ ", "⡿ ", "⣟ ", "⣯ ", "⣷ "};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(10);
+        }
+    },
+
+    MINI_DOT {
+        @Override
+        String[] frames() {
+            return new String[]{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(12);
+        }
+    },
+
+    JUMP {
+        @Override
+        String[] frames() {
+            return new String[]{"⢄", "⢂", "⢁", "⡁", "⡈", "⡐", "⡠"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(10);
+        }
+    },
+
+    PULSE {
+        @Override
+        String[] frames() {
+            return new String[]{"█", "▓", "▒", "░"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(8);
+        }
+    },
+
+    POINTS {
+        @Override
+        String[] frames() {
+            return new String[]{"∙∙∙", "●∙∙", "∙●∙", "∙∙●"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(7);
+        }
+    },
+
+    GLOBE {
+        @Override
+        String[] frames() {
+            return new String[]{"🌍", "🌎", "🌏"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(4);
+        }
+    },
+
+    MOON {
+        @Override
+        String[] frames() {
+            return new String[]{"🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(8);
+        }
+    },
+
+    MONKEY {
+        @Override
+        String[] frames() {
+            return new String[]{"🙈", "🙉", "🙊"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(3);
+        }
+    },
+
+    METER {
+        @Override
+        String[] frames() {
+            return new String[]{
+                    "▱▱▱",
+                    "▰▱▱",
+                    "▰▰▱",
+                    "▰▰▰",
+                    "▰▰▱",
+                    "▰▱▱",
+                    "▱▱▱"
+            };
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(7);
+        }
+    },
+
+    HAMBURGER {
+        @Override
+        String[] frames() {
+            return new String[]{"☱", "☲", "☴", "☲"};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(3);
+        }
+    },
+
+    ELLIPSIS {
+        @Override
+        String[] frames() {
+            return new String[]{"", ".", "..", "..."};
+        }
+
+        @Override
+        Duration duration() {
+            return Duration.ofSeconds(1).dividedBy(3);
+        }
+    };
+
+    abstract String[] frames();
+    abstract Duration duration();
 }

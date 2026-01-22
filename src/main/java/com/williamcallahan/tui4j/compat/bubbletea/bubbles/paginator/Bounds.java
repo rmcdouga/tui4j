@@ -1,11 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator;
 
 /**
- * Reports the visible range for the paginator.
- * <p>
- * Bubbles: paginator/paginator.go.
- *
- * @param start the starting index
- * @param end the ending index
+ * Port of Bubbles bounds.
+ * Bubble Tea: bubbletea/examples/paginator/main.go
  */
-public record Bounds(int start, int end) {}
+@Deprecated(since = "0.3.0")
+public record Bounds(int start, int end) {
+}

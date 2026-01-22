@@ -1,43 +1,18 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.cursor;
 
+import java.util.stream.Stream;
+
 /**
- * Cursor rendering modes for the Bubble Tea-compatible cursor model.
- * <p>
- * Bubbles: cursor/cursor.go.
+ * Port of Bubbles cursor mode.
+ * Bubble Tea: bubbletea/examples/textinputs/main.go
  */
+@Deprecated(since = "0.3.0")
 public enum CursorMode {
-    /** Blinking cursor. */
     Blink,
-    /** Static cursor. */
     Static,
-    /** Hidden cursor. */
     Hide;
 
-    /**
-     * Handles to new for this component.
-     *
-     * @return result
-     */
-    public com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode toNew() {
-        return switch (this) {
-            case Blink -> com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode.Blink;
-            case Static -> com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode.Static;
-            case Hide -> com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode.Hide;
-        };
-    }
-
-    /**
-     * Handles from new for this component.
-     *
-     * @param mode mode
-     * @return result
-     */
-    public static CursorMode fromNew(com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode mode) {
-        if (mode == null) return null;
-        return switch (mode) {
-            case Blink -> Blink;
-            case Static -> Static;
-            case Hide -> Hide;
-        };
+    public static CursorMode fromOrdinal(int value) {
+        return Stream.of(CursorMode.values()).filter(mode -> mode.ordinal() == value).findAny().orElse(null);
     }
 }
