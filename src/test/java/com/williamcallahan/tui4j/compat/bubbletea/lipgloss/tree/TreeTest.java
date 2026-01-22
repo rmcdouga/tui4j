@@ -1,11 +1,12 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
 import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
+import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
 import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
 import com.williamcallahan.tui4j.compat.lipgloss.List;
+import com.williamcallahan.tui4j.compat.lipgloss.tree.Filter;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +14,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer;
+import static com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer;
 import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.alphabet;
 import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.arabic;
+import static com.williamcallahan.tui4j.compat.lipgloss.tree.Children.newStringData;
 
 /**
  * Tests tree.
@@ -36,7 +38,7 @@ class TreeTest {
     @Test
     void test_ShouldPrintTree() {
         // given
-        Tree tree = new Tree().child(
+        var tree = new Tree().child(
                 "Foo",
                 Tree.withRoot("Bar")
                         .child(
@@ -89,7 +91,7 @@ class TreeTest {
     @Test
     void test_TreeHidden() {
         // given
-        Tree tree = new Tree().child(
+        var tree = new Tree().child(
                 "Foo",
                 Tree.withRoot("Bar").child(
                         "Qux",
@@ -111,7 +113,7 @@ class TreeTest {
     @Test
     void test_TreeAllHidden() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .child(
                         "Foo",
                         Tree.withRoot("Bar").child(
@@ -129,7 +131,7 @@ class TreeTest {
     @Test
     void test_TreeRoot() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("Root")
                 .child(
                         "Foo",
@@ -150,7 +152,7 @@ class TreeTest {
     @Test
     void test_TreeStartsWithSubtree() {
         // given
-        Tree tree = new Tree().child(
+        var tree = new Tree().child(
                 new Tree().root("Bar").child("Qux", "Quuux"),
                 "Baz"
         );
@@ -166,7 +168,7 @@ class TreeTest {
     @Test
     void test_TreeAddTwoSubTreesWithoutName() {
         // given
-        Tree tree = new Tree().child(
+        var tree = new Tree().child(
                 "Bar",
                 "Foo",
                 new Tree().child("Qux", "Qux", "Qux", "Qux", "Qux"),
@@ -194,7 +196,7 @@ class TreeTest {
     @Test
     void test_TreeLastNodeIsSubTree() {
         // given
-        Tree tree = new Tree().child(
+        var tree = new Tree().child(
                 "Foo",
                 Tree.withRoot("Bar").child(
                         "Qux",
@@ -217,7 +219,7 @@ class TreeTest {
     @Test
     void test_TreeNil() {
         // given
-        Tree tree = new Tree().child(
+        var tree = new Tree().child(
                 null,
                 Tree.withRoot("Bar").child(
                         "Qux",
@@ -240,7 +242,7 @@ class TreeTest {
     @Test
     void test_TreeCustom() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .child(
                         "Foo",
                         Tree.withRoot("Bar").child(
@@ -270,7 +272,7 @@ class TreeTest {
     @Test
     void test_TreeMultilineNode() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("Big\nRoot\nNode")
                 .child(
                         "Foo",
@@ -304,7 +306,7 @@ class TreeTest {
     @Test
     void test_TreeSubTreeWithCustomEnumerator() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("The Root Node™")
                 .child(
                         Tree.withRoot("Parent")
@@ -335,7 +337,7 @@ class TreeTest {
                 6, "VI"
         );
 
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("The Root Node™")
                 .child("Foo", "Foo", "Foo", "Foo", "Foo")
                 .enumerator((children, i) -> romans.get(i + 1));
@@ -353,7 +355,7 @@ class TreeTest {
     @Test
     void test_TreeStyleNilFuncs() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("Silly")
                 .child("Willy ", "Nilly")
                 .itemStyleFunc(null)
@@ -369,7 +371,7 @@ class TreeTest {
     @Test
     void test_TreeStyleAt() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("Root")
                 .child("Foo", "Baz")
                 .enumerator((children, i) ->
@@ -385,11 +387,11 @@ class TreeTest {
     @Test
     void test_RootStyle() {
         // given
-        Renderer renderer = defaultRenderer();
+        var renderer = defaultRenderer();
         renderer.setColorProfile(ColorProfile.TrueColor);
         renderer.setHasDarkBackground(true);
 
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .root("Root")
                 .child("Foo", "Baz")
                 .rootStyle(Style.newStyle().background(Color.color("#5A56E0")))
@@ -408,7 +410,7 @@ class TreeTest {
     @Test
     void test_At() {
         // given
-        Children data = Children.newStringData("Foo", "Bar");
+        var data = newStringData("Foo", "Bar");
 
         // then
         assertThat(data.at(0).value()).isEqualTo("Foo");
@@ -419,9 +421,9 @@ class TreeTest {
     @Test
     void test_Filter() {
         // given
-        Filter data = new Filter(Children.newStringData("Foo", "Bar", "Baz", "Nope"))
+        var data = new Filter(newStringData("Foo", "Bar", "Baz", "Nope"))
                 .filter(index -> index != 3);
-        Tree tree = new Tree().root("Root").child(data);
+        var tree = new Tree().root("Root").child(data);
 
         // when
         String treeString = tree.render();
@@ -437,7 +439,7 @@ class TreeTest {
     @Test
     void test_NodeDataRemoveOutOfBounds() {
         // given
-        Children data = Children.newStringData("a");
+        var data = newStringData("a");
 
         // then
         assertThat(data.length()).isEqualTo(1);
@@ -446,14 +448,14 @@ class TreeTest {
     @Test
     void test_AddItemWithAndWithoutRoot() {
         // given
-        Tree t1 = new Tree().child(
+        var t1 = new Tree().child(
                 "Foo",
                 "Bar",
                 new Tree().child("Baz"),
                 "Qux"
         );
 
-        Tree t2 = new Tree().child(
+        var t2 = new Tree().child(
                 "Foo",
                 new Tree().root("Bar").child("Baz"),
                 "Qux"
@@ -474,7 +476,7 @@ class TreeTest {
     @Test
     void test_EmbedListWithinTree() {
         // given
-        Tree t1 = new Tree()
+        var t1 = new Tree()
                 .child(new List("A", "B", "C").enumerator(arabic()))
                 .child(new List("1", "2", "3").enumerator(alphabet()));
 
@@ -495,7 +497,7 @@ class TreeTest {
     void test_MultilinePrefix() {
         // given
         Style paddingStyle = Style.newStyle().paddingLeft(1).paddingBottom(1);
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .enumerator((children, index) -> {
                     if (index == 1) {
                         return "│\n│";
@@ -524,7 +526,7 @@ class TreeTest {
     void test_MultilinePrefixSubtree() {
         // given
         Style paddingStyle = Style.newStyle().padding(0, 0, 1, 1);
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .child("Foo")
                 .child("Bar")
                 .child(new Tree()
@@ -572,7 +574,7 @@ class TreeTest {
         };
         TreeIndenter glowIndenter = (children, index) -> "  ";
         Style paddingStyle = Style.newStyle().paddingLeft(1).paddingBottom(1);
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .enumerator(glowEnum)
                 .indenter(glowIndenter)
                 .itemStyle(paddingStyle)
@@ -613,7 +615,7 @@ class TreeTest {
     @Test
     void test_Types() {
         // given
-        Tree tree = new Tree()
+        var tree = new Tree()
                 .child(0)
                 .child(true)
                 .child("Foo", "Bar")

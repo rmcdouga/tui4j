@@ -93,7 +93,7 @@ public class FilePickerTest {
         filePicker.update(msg);
 
         KeyPressMessage keyMsg = new KeyPressMessage(new Key(KeyType.KeyUp));
-        UpdateResult<FilePicker> result = filePicker.update(keyMsg);
+        UpdateResult<?> result = filePicker.update(keyMsg);
         assertNotNull(result);
     }
 
@@ -104,7 +104,7 @@ public class FilePickerTest {
         filePicker.update(msg);
 
         KeyPressMessage keyMsg = new KeyPressMessage(new Key(KeyType.KeyDown));
-        UpdateResult<FilePicker> result = filePicker.update(keyMsg);
+        UpdateResult<?> result = filePicker.update(keyMsg);
         assertNotNull(result);
     }
 

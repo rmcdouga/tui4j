@@ -8,9 +8,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color.color;
+import static com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer;
+import static com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle;
+import static com.williamcallahan.tui4j.compat.lipgloss.color.Color.color;
 
 /**
  * Tests renderer.
@@ -22,12 +22,12 @@ class RendererTest {
     @MethodSource("provideTestData")
     void test_ShouldRenderExpectedOutputForGivenColorProfile(String name, ColorProfile colorProfile, String expectedOutput) {
         // given
-        Renderer renderer = defaultRenderer();
+        var renderer = defaultRenderer();
         String input = "hello";
 
         // when
         renderer.setColorProfile(colorProfile);
-        Style style = newStyle().foreground(color("#5A56E0"));
+        var style = newStyle().foreground(color("#5A56E0"));
         String output = style.render(input);
 
         // then

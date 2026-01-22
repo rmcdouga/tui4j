@@ -148,11 +148,11 @@ class StopwatchTest {
         Stopwatch stopwatch = new Stopwatch(Duration.ofMillis(100));
         stopwatch.update(new StartStopMsg(stopwatch.id(), true));
 
-        UpdateResult<Stopwatch> result1 = stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        UpdateResult<?> result1 = stopwatch.update(new TickMsg(stopwatch.id(), 0));
         assertThat(result1.command()).isNotNull();
 
         stopwatch.update(new TickMsg(stopwatch.id(), 1));
-        UpdateResult<Stopwatch> result2 = stopwatch.update(new TickMsg(stopwatch.id(), 2));
+        UpdateResult<?> result2 = stopwatch.update(new TickMsg(stopwatch.id(), 2));
 
         TickMsg tickMsg = (TickMsg) result2.command().execute();
         assertThat(tickMsg.tag()).isEqualTo(3);
