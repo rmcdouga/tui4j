@@ -9,11 +9,11 @@ import org.jline.utils.AttributedStyle;
  * Lipgloss: color.go.
  *
  * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor}.
- * This transitional shim preserves the legacy Bubble Tea method signatures and will be removed
- * in a future release.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * @since 0.3.0
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public interface TerminalColor {
+public interface TerminalColor extends com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor {
     /**
      * Applies this color as a background to the given style.
      *
@@ -21,7 +21,12 @@ public interface TerminalColor {
      * @param renderer renderer context
      * @return updated style
      */
-    AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer);
+    default AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
+        if (renderer == null) {
+            return applyAsBackground(style, (com.williamcallahan.tui4j.compat.lipgloss.Renderer) null);
+        }
+        return applyAsBackground(style, renderer.toCanonical());
+    }
 
     /**
      * Applies this color as a foreground to the given style.
@@ -30,5 +35,10 @@ public interface TerminalColor {
      * @param renderer renderer context
      * @return updated style
      */
-    AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer);
+    default AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
+        if (renderer == null) {
+            return applyAsForeground(style, (com.williamcallahan.tui4j.compat.lipgloss.Renderer) null);
+        }
+        return applyAsForeground(style, renderer.toCanonical());
+    }
 }

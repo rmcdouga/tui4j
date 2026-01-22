@@ -5,10 +5,7 @@ package com.williamcallahan.tui4j.ansi;
  * This mirrors the compat parser states.
  * For the full compat parser, see {@link com.williamcallahan.tui4j.compat.x.ansi.parser.State}.
  *
- * @deprecated Deprecated in tui4j in favor of the full compat parser; use
- *             {@link com.williamcallahan.tui4j.compat.x.ansi.parser.State} instead.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public enum State {
     /** Initial state; normal text processing. */
     GROUND,

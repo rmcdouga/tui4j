@@ -5,10 +5,7 @@ package com.williamcallahan.tui4j.ansi;
  * This is a simplified action set used by the native tui4j.ansi package.
  * For the full compat parser, see {@link com.williamcallahan.tui4j.compat.x.ansi.parser.Action}.
  *
- * @deprecated Deprecated in tui4j in favor of the full compat parser; use
- *             {@link com.williamcallahan.tui4j.compat.x.ansi.parser.Action} instead.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public enum Action {
     /** No-op / Ignore input. */
     NONE,

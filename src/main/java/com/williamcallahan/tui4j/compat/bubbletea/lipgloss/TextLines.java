@@ -1,12 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.TextLines}.
- * This transitional shim is temporary and will be removed in an upcoming release.
- * <p>
- * Lip Gloss: ranges.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class TextLines {
     private final com.williamcallahan.tui4j.compat.lipgloss.TextLines delegate;
 

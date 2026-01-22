@@ -7,11 +7,7 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Lipgloss: color.go.
  *
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.ColorApplyStrategy}.
- * This transitional shim preserves the legacy Bubble Tea strategy API and will be removed
- * in a future release.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public interface ColorApplyStrategy {
     /**
      * Applies this strategy for foreground styling.

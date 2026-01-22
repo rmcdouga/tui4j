@@ -8,11 +8,7 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
  * @param r red channel (0-1)
  * @param g green channel (0-1)
  * @param b blue channel (0-1)
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.RGB}.
- * This transitional shim preserves the legacy Bubble Tea record API and will be removed
- * in a future release.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public record RGB(float r, float g, float b) {
 
     /**

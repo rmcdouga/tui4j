@@ -5,6 +5,8 @@ package com.williamcallahan.tui4j.compat.bubbletea.harmonica;
  * <p>
  * Port of `charmbracelet/harmonica`.
  * Simulates a damped spring system for natural animation curves.
+ * <p>
+ * Harmonica: spring.go.
  */
 public class Spring {
 
@@ -15,6 +17,14 @@ public class Spring {
     private final double velPosCoef;
     private final double velVelCoef;
 
+    /**
+     * Creates Spring to keep this component ready for use.
+     *
+     * @param posPosCoef pos pos coef
+     * @param posVelCoef pos vel coef
+     * @param velPosCoef vel pos coef
+     * @param velVelCoef vel vel coef
+     */
     private Spring(double posPosCoef, double posVelCoef, double velPosCoef, double velVelCoef) {
         this.posPosCoef = posPosCoef;
         this.posVelCoef = posVelCoef;
@@ -22,10 +32,24 @@ public class Spring {
         this.velVelCoef = velVelCoef;
     }
 
+    /**
+     * Handles fps for this component.
+     *
+     * @param n n
+     * @return result
+     */
     public static double fps(int n) {
         return 1.0 / n;
     }
 
+    /**
+     * Handles new spring for this component.
+     *
+     * @param deltaTime delta time
+     * @param angularFrequency angular frequency
+     * @param dampingRatio damping ratio
+     * @return result
+     */
     public static Spring newSpring(double deltaTime, double angularFrequency, double dampingRatio) {
         double af = Math.max(0.0, angularFrequency);
         double dr = Math.max(0.0, dampingRatio);

@@ -14,12 +14,7 @@ import java.io.Writer;
 import java.util.List;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.Output}.
- * This transitional shim is temporary and will be removed in an upcoming release.
- * <p>
- * Lip Gloss: renderer.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Output {
     private final com.williamcallahan.tui4j.compat.lipgloss.Output delegate;
     private final List<String> environment;
@@ -151,8 +146,28 @@ public class Output {
          * @return updated style
          */
         @Override
-        public org.jline.utils.AttributedStyle applyAsBackground(org.jline.utils.AttributedStyle style,
-                                                                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        public org.jline.utils.AttributedStyle applyAsBackground(
+            org.jline.utils.AttributedStyle style,
+            com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
+        ) {
+            return delegate
+                .rgb()
+                .asColorApplyStrategy()
+                .applyForBackground(style);
+        }
+
+        /**
+         * Applies the delegate as a background using the canonical renderer.
+         *
+         * @param style style to update
+         * @param renderer renderer context
+         * @return updated style
+         */
+        @Override
+        public org.jline.utils.AttributedStyle applyAsBackground(
+            org.jline.utils.AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
+        ) {
             return delegate
                 .rgb()
                 .asColorApplyStrategy()
@@ -167,8 +182,28 @@ public class Output {
          * @return updated style
          */
         @Override
-        public org.jline.utils.AttributedStyle applyAsForeground(org.jline.utils.AttributedStyle style,
-                                                                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        public org.jline.utils.AttributedStyle applyAsForeground(
+            org.jline.utils.AttributedStyle style,
+            com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
+        ) {
+            return delegate
+                .rgb()
+                .asColorApplyStrategy()
+                .applyForForeground(style);
+        }
+
+        /**
+         * Applies the delegate as a foreground using the canonical renderer.
+         *
+         * @param style style to update
+         * @param renderer renderer context
+         * @return updated style
+         */
+        @Override
+        public org.jline.utils.AttributedStyle applyAsForeground(
+            org.jline.utils.AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
+        ) {
             return delegate
                 .rgb()
                 .asColorApplyStrategy()

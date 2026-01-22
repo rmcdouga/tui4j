@@ -3,6 +3,21 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 
 /**
+ * Border glyph set for Bubble Tea-compatible rendering.
+ *
+ * @param top top border glyph
+ * @param bottom bottom border glyph
+ * @param left left border glyph
+ * @param right right border glyph
+ * @param topLeft top-left corner glyph
+ * @param topRight top-right corner glyph
+ * @param bottomLeft bottom-left corner glyph
+ * @param bottomRight bottom-right corner glyph
+ * @param middleLeft middle-left glyph
+ * @param middleRight middle-right glyph
+ * @param middle middle glyph
+ * @param middleTop middle-top glyph
+ * @param middleBottom middle-bottom glyph
  * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.border.Border}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>

@@ -3,12 +3,7 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner;
 import java.time.Duration;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType}.
- * This transitional shim is temporary and will be removed in an upcoming release.
- * <p>
- * Bubbles: spinner/spinner.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public enum SpinnerType {
 
     LINE, DOT, MINI_DOT, JUMP, PULSE, POINTS, GLOBE, MOON, MONKEY, METER, HAMBURGER, ELLIPSIS;

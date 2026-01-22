@@ -1,12 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.cursor;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode}.
- * This transitional shim is temporary and will be removed in an upcoming release.
- * <p>
- * Bubbles: cursor/cursor.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public enum CursorMode {
     /** Blinking cursor. */
     Blink,

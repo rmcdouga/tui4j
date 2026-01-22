@@ -22,6 +22,7 @@ public class ReadClipboardMessage implements Message {
     @SuppressWarnings("removal")
 /** {@inheritDoc} */
     @Override
+ */
     public boolean equals(Object other) {
         if (this == other) {
             return true;

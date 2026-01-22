@@ -8,11 +8,8 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Lipgloss: color.go.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public final class RGBColor implements TerminalColor, RGBSupplier {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor delegate;
@@ -59,7 +56,6 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      * @param renderer canonical renderer context
      * @return updated style
      */
-    @Override
     public AttributedStyle applyAsBackground(
         AttributedStyle style,
         com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
@@ -89,7 +85,6 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      * @param renderer canonical renderer context
      * @return updated style
      */
-    @Override
     public AttributedStyle applyAsForeground(
         AttributedStyle style,
         com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer

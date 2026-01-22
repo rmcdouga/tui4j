@@ -810,6 +810,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
         return new com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor() {
 /** {@inheritDoc} */
             @Override
+ */
             public org.jline.utils.AttributedStyle applyAsBackground(
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
@@ -819,6 +820,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
 
 /** {@inheritDoc} */
             @Override
+ */
             public org.jline.utils.AttributedStyle applyAsForeground(
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer

@@ -1,12 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.fuzzy;
 
 /**
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.fuzzy.Match}.
- * This transitional shim is temporary and will be removed in an upcoming release.
- * <p>
- * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Match {
     private final int index;
     private final int patternIndex;

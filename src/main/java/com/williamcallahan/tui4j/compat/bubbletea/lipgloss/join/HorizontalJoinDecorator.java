@@ -7,14 +7,9 @@ import com.williamcallahan.tui4j.compat.lipgloss.Position;
  * <p>
  * Lipgloss: join.go
  *
- * @deprecated <b>tui4j compat refactor:</b> Moved to
- *             {@link com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator}.
- *             This transitional shim preserves backward compatibility and will be removed
- *             in a future release. Migrate to the canonical location.
  * @since 0.3.0
  * @see com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public final class HorizontalJoinDecorator {
 
     /**

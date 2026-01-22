@@ -8,14 +8,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
  * @param h hue in degrees (0-360)
  * @param s saturation (0-1)
  * @param l lightness (0-1)
- * @deprecated <b>tui4j compat refactor:</b> Moved to
- *             {@link com.williamcallahan.tui4j.compat.lipgloss.color.HSL}.
- *             This transitional shim preserves backward compatibility and will be removed
- *             in a future release. Migrate to the canonical location.
  * @since 0.3.0
  * @see com.williamcallahan.tui4j.compat.lipgloss.color.HSL
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public record HSL(float h, float s, float l) {
 
     /**

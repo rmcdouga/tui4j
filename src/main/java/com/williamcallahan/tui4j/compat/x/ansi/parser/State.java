@@ -20,7 +20,6 @@ public enum State {
     PM_STRING,
     APC_STRING,
     /** UTF-8 state - not part of DEC ANSI standard, used for UTF-8 handling. */
- */
     UTF8;
 
     /**

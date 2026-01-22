@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.table.Data}.
- * This transitional shim is temporary and will be removed in an upcoming release.
- * <p>
- * Lip Gloss: table/rows.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Data implements com.williamcallahan.tui4j.compat.lipgloss.table.Data {
     private final String[] headers;
     private final String[][] rows;

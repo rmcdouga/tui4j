@@ -34,6 +34,9 @@ public class Spring {
      * Compatibility port of SpringUpdateResult to preserve upstream behavior.
      * <p>
      * Bubbles: progress/progress.go.
+     *
+     * @param position updated spring position
+     * @param velocity updated spring velocity
      */
     public record SpringUpdateResult(double position, double velocity) {}
 

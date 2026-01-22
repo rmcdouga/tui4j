@@ -1,13 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.FilterState}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * @see com.williamcallahan.tui4j.compat.bubbles.list.FilterState
  * <p>
  * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public enum FilterState {
     Unfiltered,
     Filtering,

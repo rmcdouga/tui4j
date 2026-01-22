@@ -14,11 +14,8 @@ import java.time.Duration;
  * <p>
  * Bubbles: cursor/cursor.go.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Cursor implements Model {
 
     private com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor delegate;

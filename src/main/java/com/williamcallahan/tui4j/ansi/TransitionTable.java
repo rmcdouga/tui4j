@@ -61,6 +61,9 @@ public class TransitionTable {
 
     /**
      * Transition result containing the next state and action to perform.
+     *
+     * @param state next parser state
+     * @param action action to perform
      */
     public record Transition(State state, Action action) {}
 

@@ -3,13 +3,7 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.Dimensions}.
- * This transitional shim preserves the legacy Bubble Tea profile type and will be removed
- * in a future release.
- * <p>
- * Lip Gloss: size.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Dimensions {
     private final ColorProfile profile;
 

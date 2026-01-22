@@ -8,11 +8,8 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Lipgloss: color.go.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public final class ANSI256Color implements TerminalColor, RGBSupplier {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color delegate;
@@ -42,6 +39,21 @@ public final class ANSI256Color implements TerminalColor, RGBSupplier {
     }
 
     /**
+     * Applies this ANSI 256 color as a background using the canonical renderer.
+     *
+     * @param style style to update
+     * @param renderer canonical renderer context
+     * @return updated style
+     */
+    @Override
+    public AttributedStyle applyAsBackground(
+        AttributedStyle style,
+        com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
+    ) {
+        return delegate.applyAsBackground(style, renderer);
+    }
+
+    /**
      * Applies this ANSI 256 color as a foreground.
      *
      * @param style style to update
@@ -54,6 +66,21 @@ public final class ANSI256Color implements TerminalColor, RGBSupplier {
         com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
     ) {
         return delegate.applyAsForeground(style, renderer.toCanonical());
+    }
+
+    /**
+     * Applies this ANSI 256 color as a foreground using the canonical renderer.
+     *
+     * @param style style to update
+     * @param renderer canonical renderer context
+     * @return updated style
+     */
+    @Override
+    public AttributedStyle applyAsForeground(
+        AttributedStyle style,
+        com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
+    ) {
+        return delegate.applyAsForeground(style, renderer);
     }
 
     /**

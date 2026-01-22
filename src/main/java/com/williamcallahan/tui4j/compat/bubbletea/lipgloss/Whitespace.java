@@ -7,11 +7,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
  * <p>
  * Lipgloss: whitespace.go.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.Whitespace}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Whitespace {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.Whitespace delegate;
@@ -48,11 +45,8 @@ public class Whitespace {
      * <p>
      * Lipgloss: whitespace.go.
      *
-     * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.Whitespace.WhitespaceOption}.
-     * This transitional shim is temporary and will be removed in an upcoming release.
      * @since 0.3.0
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
     public interface WhitespaceOption {
         /**
          * Applies this option to the whitespace instance.
@@ -155,6 +149,7 @@ public class Whitespace {
         return new com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor() {
 /** {@inheritDoc} */
             @Override
+ */
             public org.jline.utils.AttributedStyle applyAsBackground(
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
@@ -164,6 +159,7 @@ public class Whitespace {
 
 /** {@inheritDoc} */
             @Override
+ */
             public org.jline.utils.AttributedStyle applyAsForeground(
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer

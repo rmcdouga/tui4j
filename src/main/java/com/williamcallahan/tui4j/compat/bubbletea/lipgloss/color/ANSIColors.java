@@ -5,11 +5,8 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
  * <p>
  * Lipgloss: color.go
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColors}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public final class ANSIColors {
 
     /**
