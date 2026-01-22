@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +44,7 @@ import java.util.logging.Logger;
 import org.jline.terminal.Size;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.terminal.impl.DumbTerminal;
 import org.jline.utils.InfoCmp;
 import org.jline.utils.Signals;
 
@@ -83,6 +85,8 @@ public class Program {
     private volatile Model currentModel;
     private Renderer renderer;
     private Terminal terminal;
+    private boolean systemTerminal;
+    private boolean terminalIsTty;
     private final MouseSelectionTracker mouseSelectionTracker =
         new MouseSelectionTracker();
     private final MouseHoverTextDetector mouseHoverTextDetector =
@@ -114,7 +118,7 @@ public class Program {
      * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
      *             Deprecated since v0.3.0 in tui4j; has no effect and will be removed.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     private boolean ansiCompressor;
 
     private boolean enableAltScreen;
@@ -172,21 +176,39 @@ public class Program {
         try {
             InputStream resolvedInput = resolveInputStream();
             OutputStream resolvedOutput = output == null ? System.out : output;
-            boolean systemTerminal = isSystemTerminal(
+            this.systemTerminal = isSystemTerminal(
+                resolvedInput,
+                resolvedOutput
+            );
+            boolean useDumbTerminal = shouldUseDumbTerminal(
                 resolvedInput,
                 resolvedOutput
             );
 
-            TerminalBuilder builder = TerminalBuilder.builder()
-                .jni(true)
-                .system(systemTerminal);
+            if (useDumbTerminal) {
+                this.terminal = new DumbTerminal(
+                    "tui4j-dumb",
+                    "dumb",
+                    resolvedInput,
+                    resolvedOutput,
+                    Charset.defaultCharset()
+                );
+            } else {
+                TerminalBuilder builder = TerminalBuilder.builder()
+                    .jni(true)
+                    .system(this.systemTerminal);
 
-            if (!systemTerminal) {
-                builder.streams(resolvedInput, resolvedOutput);
+                if (!systemTerminal) {
+                    builder.streams(resolvedInput, resolvedOutput);
+                }
+
+                this.terminal = builder.build();
             }
 
-            this.terminal = builder.build();
-            terminal.enterRawMode();
+            this.terminalIsTty = !isDumbTerminal(terminal);
+            if (terminalIsTty) {
+                terminal.enterRawMode();
+            }
 
             TerminalInfo.provide(new JLineTerminalInfoProvider(terminal));
 
@@ -215,7 +237,7 @@ public class Program {
             );
             applySelectionAutoScrollConfig();
         } catch (IOException e) {
-            throw new ProgramException("Failed to initialize terminal", e);
+            throw new RuntimeException("Failed to initialize terminal", e);
         }
     }
 
@@ -453,7 +475,7 @@ public class Program {
         }
 
         if (lastError != null) {
-            throw new ProgramException(lastError);
+            throw new RuntimeException(lastError);
         }
         return finalModel;
     }
@@ -515,7 +537,7 @@ public class Program {
             if (lastError != null) {
                 e.addSuppressed(lastError);
             }
-            throw new ProgramException(e);
+            throw new RuntimeException(e);
         } finally {
             closeOpenedInput();
         }
@@ -974,7 +996,7 @@ public class Program {
         try {
             initLatch.await();
         } catch (InterruptedException e) {
-            throw new ProgramException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -1062,7 +1084,9 @@ public class Program {
         isSuspended = true;
         renderer.showCursor();
         renderer.pause();
-        terminal.pause();
+        if (terminalIsTty) {
+            terminal.pause();
+        }
     }
 
     /**
@@ -1072,7 +1096,9 @@ public class Program {
         if (!isSuspended) {
             return;
         }
-        terminal.resume();
+        if (terminalIsTty) {
+            terminal.resume();
+        }
         renderer.resume();
         renderer.hideCursor();
         renderer.write(currentModel.view());
@@ -1172,6 +1198,34 @@ public class Program {
         boolean outputIsSystem =
             resolvedOutput == System.out || resolvedOutput == System.err;
         return inputIsSystem && outputIsSystem;
+    }
+
+    /**
+     * Reports whether a dumb terminal should be used for the resolved streams.
+     *
+     * @param resolvedInput resolved input
+     * @param resolvedOutput resolved output
+     * @return whether to use a dumb terminal
+     */
+    private boolean shouldUseDumbTerminal(
+        InputStream resolvedInput,
+        OutputStream resolvedOutput
+    ) {
+        if (useInputTTY) {
+            return false;
+        }
+        return !isSystemTerminal(resolvedInput, resolvedOutput);
+    }
+
+    /**
+     * Reports whether the terminal is a dumb terminal.
+     *
+     * @param terminal terminal
+     * @return whether dumb
+     */
+    private boolean isDumbTerminal(Terminal terminal) {
+        String type = terminal.getType();
+        return type != null && type.startsWith("dumb");
     }
 
     /**
@@ -1302,7 +1356,7 @@ public class Program {
      * @see <a href="https://pkg.go.dev/github.com/charmbracelet/bubbletea#WithANSICompressor">
      *      bubbletea.WithANSICompressor (Go docs)</a>
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     void setAnsiCompressor(boolean ansiCompressor) {
         setAnsiCompressorInternal(ansiCompressor);
     }

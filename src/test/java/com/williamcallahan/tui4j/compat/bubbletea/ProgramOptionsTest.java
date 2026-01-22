@@ -90,7 +90,7 @@ class ProgramOptionsTest {
                     ProgramOption.withOutput(new ByteArrayOutputStream()));
 
             assertThat(getBoolean(program, "useInputTTY")).isTrue();
-        } catch (ProgramException e) {
+        } catch (RuntimeException e) {
             // In CI environments without TTY, Program.openInputTTY() fails with FileNotFoundException.
             // This exception proves withInputTTY() was applied - if it weren't, openInputTTY() wouldn't be called.
             assertThat(e.getCause())
