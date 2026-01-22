@@ -10,6 +10,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
 @Deprecated(since = "0.3.0")
 public class Styles extends com.williamcallahan.tui4j.compat.bubbles.help.Styles {
 
+    /**
+     * Creates default help styles.
+     *
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.help.Styles#Styles()} instead.
+     */
     @Deprecated(since = "0.3.0")
     public Styles() {
         super();

@@ -44,10 +44,21 @@ public class StandardRenderer implements Renderer {
     private boolean isReportFocus;
     private boolean bracketedPasteEnabled;
 
+    /**
+     * Creates a renderer with the default frame rate.
+     *
+     * @param terminal JLine terminal
+     */
     public StandardRenderer(Terminal terminal) {
         this(terminal, DEFAULT_FPS);
     }
 
+    /**
+     * Creates a renderer with a custom frame rate.
+     *
+     * @param terminal JLine terminal
+     * @param fps frames per second (clamped to 1-120)
+     */
     public StandardRenderer(Terminal terminal, int fps) {
         this.terminal = terminal;
         this.frameTime = 1000 / Math.min(Math.max(fps, 1), 120);

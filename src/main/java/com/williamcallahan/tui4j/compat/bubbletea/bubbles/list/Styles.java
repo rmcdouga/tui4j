@@ -12,4 +12,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
 @Deprecated(since = "0.3.0")
 public class Styles extends com.williamcallahan.tui4j.compat.bubbles.list.Styles {
 
+    /**
+     * Creates default list styles.
+     *
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.list.Styles#Styles()} instead.
+     */
+    @Deprecated(since = "0.3.0")
+    public Styles() {
+        super();
+    }
 }

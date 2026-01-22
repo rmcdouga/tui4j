@@ -32,10 +32,18 @@ public class Stopwatch implements Model {
     private int tag;
     private boolean running;
 
+    /**
+     * Creates a stopwatch with the default interval of one second.
+     */
     public Stopwatch() {
         this(DEFAULT_INTERVAL);
     }
 
+    /**
+     * Creates a stopwatch with the specified interval.
+     *
+     * @param interval tick interval
+     */
     public Stopwatch(Duration interval) {
         this.elapsed = Duration.ZERO;
         this.interval = interval;
@@ -43,10 +51,20 @@ public class Stopwatch implements Model {
         this.id = nextId();
     }
 
+    /**
+     * Returns the unique ID for this stopwatch.
+     *
+     * @return stopwatch ID
+     */
     public int id() {
         return id;
     }
 
+    /**
+     * Returns the elapsed duration.
+     *
+     * @return elapsed time
+     */
     public Duration elapsed() {
         return elapsed;
     }
@@ -60,14 +78,29 @@ public class Stopwatch implements Model {
         this.elapsed = elapsed;
     }
 
+    /**
+     * Returns the tick interval.
+     *
+     * @return interval duration
+     */
     public Duration interval() {
         return interval;
     }
 
+    /**
+     * Sets the tick interval.
+     *
+     * @param interval tick interval
+     */
     public void setInterval(Duration interval) {
         this.interval = interval;
     }
 
+    /**
+     * Returns whether the stopwatch is running.
+     *
+     * @return {@code true} when running
+     */
     public boolean running() {
         return running;
     }

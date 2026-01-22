@@ -9,5 +9,12 @@ import com.williamcallahan.tui4j.compat.lipgloss.Style;
 @FunctionalInterface
 public interface StyleFunc {
 
+    /**
+     * Returns the style for a cell at the given position.
+     *
+     * @param row row index
+     * @param col column index
+     * @return style for the cell
+     */
     Style apply(int row, int col);
 }

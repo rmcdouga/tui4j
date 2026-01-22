@@ -32,6 +32,9 @@ public class Table implements Model, KeyMap {
     private int start = 0;
     private int end = 0;
 
+    /**
+     * Creates a new table with default configuration.
+     */
     public Table() {
         this.keys = Keys.defaultKeys();
         this.styles = Styles.defaultStyles();
@@ -39,16 +42,33 @@ public class Table implements Model, KeyMap {
         updateViewport();
     }
 
+    /**
+     * Factory method to create a new table.
+     *
+     * @return new table instance
+     */
     public static Table create() {
         return new Table();
     }
 
+    /**
+     * Sets the columns from a list.
+     *
+     * @param columns column definitions
+     * @return this table
+     */
     public Table columns(List<Column> columns) {
         this.columns = columns;
         updateViewport();
         return this;
     }
 
+    /**
+     * Sets the columns from varargs.
+     *
+     * @param columns column definitions
+     * @return this table
+     */
     public Table columns(Column... columns) {
         this.columns = List.of(columns);
         updateViewport();
@@ -292,16 +312,27 @@ public class Table implements Model, KeyMap {
         return focused;
     }
 
+    /**
+     * Focuses the table.
+     */
     public void focus() {
         this.focused = true;
         updateViewport();
     }
 
+    /**
+     * Removes focus from the table.
+     */
     public void blur() {
         this.focused = false;
         updateViewport();
     }
 
+    /**
+     * Returns the currently selected row.
+     *
+     * @return selected row, or null if no rows
+     */
     public Row selectedRow() {
         if (cursor < 0 || cursor >= rows.size()) {
             return null;
@@ -309,14 +340,29 @@ public class Table implements Model, KeyMap {
         return rows.get(cursor);
     }
 
+    /**
+     * Returns the row data.
+     *
+     * @return rows
+     */
     public List<Row> getRows() {
         return rows;
     }
 
+    /**
+     * Returns the column definitions.
+     *
+     * @return columns
+     */
     public List<Column> getColumns() {
         return columns;
     }
 
+    /**
+     * Sets the row data.
+     *
+     * @param rows rows to set
+     */
     public void setRows(List<Row> rows) {
         this.rows = rows;
         if (cursor > rows.size() - 1) {
@@ -325,33 +371,68 @@ public class Table implements Model, KeyMap {
         updateViewport();
     }
 
+    /**
+     * Sets the column definitions.
+     *
+     * @param columns columns to set
+     */
     public void setColumns(List<Column> columns) {
         this.columns = columns;
         updateViewport();
     }
 
+    /**
+     * Sets the table width.
+     *
+     * @param width width in cells
+     */
     public void setWidth(int width) {
         this.width = width;
         updateViewport();
     }
 
+    /**
+     * Sets the table height.
+     *
+     * @param height height in lines
+     */
     public void setHeight(int height) {
         this.height = height;
         updateViewport();
     }
 
+    /**
+     * Returns the table height.
+     *
+     * @return height
+     */
     public int height() {
         return height;
     }
 
+    /**
+     * Returns the table width.
+     *
+     * @return width
+     */
     public int width() {
         return width;
     }
 
+    /**
+     * Returns the cursor position.
+     *
+     * @return cursor index
+     */
     public int cursor() {
         return cursor;
     }
 
+    /**
+     * Sets the cursor position.
+     *
+     * @param cursor cursor index
+     */
     public void setCursor(int cursor) {
         this.cursor = clamp(cursor, 0, Math.max(0, rows.size() - 1));
         updateViewport();
