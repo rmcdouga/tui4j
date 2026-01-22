@@ -9,6 +9,11 @@ public class TransitionTable {
     private static final TransitionTable instance = new TransitionTable();
     private static final com.williamcallahan.tui4j.compat.x.ansi.parser.TransitionTable compatTable =
             com.williamcallahan.tui4j.compat.x.ansi.parser.TransitionTable.get();
+    /**
+     * Returns the singleton transition table instance.
+     *
+     * @return transition table
+     */
     public static TransitionTable get() {
         return instance;
     }
@@ -16,10 +21,20 @@ public class TransitionTable {
     private TransitionTable() {
     }
 
+    /**
+     * Generates the transition table (no-op, delegated to compat).
+     */
     public void generateTable() {
         // Table is generated in the compat implementation.
     }
 
+    /**
+     * Returns the transition for the given state and input byte.
+     *
+     * @param state current state
+     * @param code input byte
+     * @return transition result
+     */
     public Transition transition(State state, byte code) {
         com.williamcallahan.tui4j.compat.x.ansi.parser.TransitionTable.Transition transition =
                 compatTable.transition(toCompatState(state), code);

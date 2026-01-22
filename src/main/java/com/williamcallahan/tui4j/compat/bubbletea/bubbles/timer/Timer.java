@@ -14,16 +14,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Deprecated(since = "0.3.0")
 public class Timer extends com.williamcallahan.tui4j.compat.bubbles.timer.Timer {
 
+    /**
+     * Creates a timer with default timeout and interval.
+     *
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.timer.Timer#Timer()} instead.
+     */
     @Deprecated(since = "0.3.0")
     public Timer() {
         super();
     }
 
+    /**
+     * Creates a timer with the specified timeout.
+     *
+     * @param timeout countdown duration
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.timer.Timer#Timer(Duration)} instead.
+     */
     @Deprecated(since = "0.3.0")
     public Timer(Duration timeout) {
         super(timeout);
     }
 
+    /**
+     * Creates a timer with the specified timeout and interval.
+     *
+     * @param timeout countdown duration
+     * @param interval tick interval
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.timer.Timer#Timer(Duration, Duration)} instead.
+     */
     @Deprecated(since = "0.3.0")
     public Timer(Duration timeout, Duration interval) {
         super(timeout, interval);

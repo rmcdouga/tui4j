@@ -13,6 +13,11 @@ public final class Whitespace {
     private Style style;
     private String chars;
 
+    /**
+     * Creates a whitespace renderer with the specified style.
+     *
+     * @param style style to apply
+     */
     public Whitespace(Style style) {
         this.style = style;
     }
@@ -22,6 +27,11 @@ public final class Whitespace {
      * Upstream: github.com/charmbracelet/lipgloss (whitespace.go)
      */
     public interface WhitespaceOption {
+        /**
+         * Applies this option to the whitespace.
+         *
+         * @param whitespace whitespace to configure
+         */
         void apply(Whitespace whitespace);
     }
 
@@ -74,6 +84,12 @@ public final class Whitespace {
         return whitespace;
     }
 
+    /**
+     * Renders whitespace of the specified width.
+     *
+     * @param width width in cells
+     * @return rendered whitespace
+     */
     public String render(int width) {
         if (chars == null || chars.isEmpty()) {
             chars = " ";

@@ -615,10 +615,20 @@ public class Viewport implements Model {
         this.style = style;
     }
 
+    /**
+     * Returns whether high performance rendering is enabled.
+     *
+     * @return true if enabled
+     */
     public boolean isHighPerformanceRendering() {
         return highPerformanceRendering;
     }
 
+    /**
+     * Enables or disables high performance rendering.
+     *
+     * @param highPerformanceRendering true to enable
+     */
     public void setHighPerformanceRendering(boolean highPerformanceRendering) {
         this.highPerformanceRendering = highPerformanceRendering;
     }
