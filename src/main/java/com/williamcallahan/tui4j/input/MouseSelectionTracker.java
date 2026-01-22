@@ -2,7 +2,6 @@ package com.williamcallahan.tui4j.input;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 /**
  * Tracks mouse selection state.
@@ -17,7 +16,7 @@ public final class MouseSelectionTracker {
     /**
      * Update selection state from the latest mouse event.
      */
-    public MouseSelectionUpdate update(MouseMessage message) {
+    public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         boolean wasSelecting = selecting;
 
         if (message.getAction() == MouseAction.MouseActionPress
@@ -34,9 +33,9 @@ public final class MouseSelectionTracker {
         lastColumn = message.column();
         lastRow = message.row();
 
-        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg selectionScrollUpdate = null;
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage selectionScrollUpdate = null;
         if (message.isWheel() && selecting) {
-            selectionScrollUpdate = new com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg(
+            selectionScrollUpdate = new com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage(
                 lastColumn,
                 lastRow,
                 message.isShift(),
@@ -55,15 +54,15 @@ public final class MouseSelectionTracker {
         );
     }
 
-    public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg message) {
-        return update(toMouseMessage(message));
+    public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
+        return update((com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage) message);
     }
 
-    public MouseSelectionUpdate onMouseMessage(MouseMessage message) {
+    public MouseSelectionUpdate onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         return update(message);
     }
 
-    public void onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg message) {
+    public void onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         update(message);
     }
 
@@ -77,9 +76,5 @@ public final class MouseSelectionTracker {
 
     public int lastRow() {
         return lastRow;
-    }
-
-    private static MouseMessage toMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg message) {
-        return message;
     }
 }

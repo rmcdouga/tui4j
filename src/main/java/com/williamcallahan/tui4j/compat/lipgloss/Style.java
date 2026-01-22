@@ -142,9 +142,27 @@ public class Style implements Cloneable {
         return this;
     }
 
+    /**
+     * Returns the configured width for this style.
+     *
+     * @return the width, or {@code 0} when unset
+     */
+    public int getWidth() {
+        return width;
+    }
+
     public Style height(int height) {
         this.height = height;
         return this;
+    }
+
+    /**
+     * Returns the configured height for this style.
+     *
+     * @return the height, or {@code 0} when unset
+     */
+    public int getHeight() {
+        return height;
     }
 
     public Style maxWidth(int maxWidth) {

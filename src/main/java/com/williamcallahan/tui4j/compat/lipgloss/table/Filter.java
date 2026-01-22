@@ -12,15 +12,33 @@ public final class Filter implements Data {
     private final Data data;
     private IntPredicate predicate = row -> true;
 
+    /**
+     * Creates a filtered view over table data.
+     *
+     * @param data backing data source
+     */
     public Filter(Data data) {
         this.data = data;
     }
 
+    /**
+     * Sets the predicate used to include rows.
+     *
+     * @param predicate row predicate; {@code null} resets to accept all rows
+     * @return this filter for chaining
+     */
     public Filter filter(IntPredicate predicate) {
         this.predicate = predicate == null ? row -> true : predicate;
         return this;
     }
 
+    /**
+     * Returns the value at the filtered row and column.
+     *
+     * @param row filtered row index
+     * @param cell column index
+     * @return cell value or empty string when missing
+     */
     @Override
     public String at(int row, int cell) {
         int index = 0;
@@ -35,6 +53,11 @@ public final class Filter implements Data {
         return "";
     }
 
+    /**
+     * Returns the number of rows that match the predicate.
+     *
+     * @return filtered row count
+     */
     @Override
     public int rows() {
         int count = 0;
@@ -46,6 +69,11 @@ public final class Filter implements Data {
         return count;
     }
 
+    /**
+     * Returns the number of columns in the backing data.
+     *
+     * @return column count
+     */
     @Override
     public int columns() {
         return data.columns();

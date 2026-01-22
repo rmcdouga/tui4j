@@ -21,11 +21,20 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
 
     private static final Logger logger = Logger.getLogger(JLineTerminalInfoProvider.class.getName());
 
+    /**
+     * Encapsulates a terminal response string.
+     */
     private static class Response {
 
         String response;
         boolean isOSC;
 
+        /**
+         * Creates a response wrapper.
+         *
+         * @param response raw response text
+         * @param isOSC whether the response is OSC
+         */
         Response(String response, boolean isOSC) {
             this.response = response;
             this.isOSC = isOSC;
@@ -41,15 +50,30 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
     private boolean tty;
     private TerminalColor backgroundColor;
 
+    /**
+     * Reads terminal capabilities from the provided terminal.
+     *
+     * @param terminal JLine terminal instance
+     */
     public JLineTerminalInfoProvider(Terminal terminal) {
         readFromTerminal(terminal);
     }
 
+    /**
+     * Returns the detected terminal information.
+     *
+     * @return terminal info snapshot
+     */
     @Override
     public TerminalInfo provide() {
         return new TerminalInfo(tty, backgroundColor);
     }
 
+    /**
+     * Reads terminal metadata from the underlying terminal.
+     *
+     * @param terminal JLine terminal instance
+     */
     private void readFromTerminal(Terminal terminal) {
         this.tty = !"dumb".equals(terminal.getType());
         if (!tty) {
@@ -88,6 +112,13 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
         }
     }
 
+    /**
+     * Reads the next OSC or CSI response from the terminal.
+     *
+     * @param reader non-blocking reader
+     * @return response wrapper or {@code null} when unavailable
+     * @throws IOException when reading fails
+     */
     private static Response readNextResponse(NonBlockingReader reader) throws IOException {
         StringBuilder response = new StringBuilder();
 
@@ -140,6 +171,12 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
         return null;
     }
 
+    /**
+     * Parses an OSC color response into an RGB color.
+     *
+     * @param response raw OSC response
+     * @return parsed RGB color
+     */
     private static RGBColor parseColor(String response) {
         // Check length validity
         if (response.length() < 24 || response.length() > 25) {

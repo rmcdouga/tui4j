@@ -1,11 +1,11 @@
 package com.williamcallahan.tui4j.compat.lipgloss.table;
 
-import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.ansi.Truncate;
+import com.williamcallahan.tui4j.compat.lipgloss.Join;
+import com.williamcallahan.tui4j.compat.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.lipgloss.TextLines;
 import com.williamcallahan.tui4j.compat.lipgloss.border.Border;
 
 import java.util.ArrayList;
@@ -246,8 +246,8 @@ public class Table {
         sb.append(bottom);
 
         return Style.newStyle()
-                .height(height > 0 ? height : computeHeight())
-                .width(width > 0 ? width : computeWidth())
+                .maxHeight(computeHeight())
+                .maxWidth(width)
                 .render(sb.toString());
     }
 
@@ -260,23 +260,6 @@ public class Table {
         return sumHeights - 1 + boolToInt(hasHeaders) +
                 boolToInt(borderTop) + boolToInt(borderBottom) +
                 boolToInt(borderHeader) + data.rows() * boolToInt(borderRow);
-    }
-
-    private int computeWidth() {
-        int totalWidth = 0;
-        for (int w : widths) {
-            totalWidth += w;
-        }
-        if (borderLeft) {
-            totalWidth += border.getLeftSize();
-        }
-        if (borderRight) {
-            totalWidth += border.getRightSize();
-        }
-        if (borderColumn && widths.length > 1) {
-            totalWidth += (widths.length - 1) * border.getLeftSize();
-        }
-        return totalWidth;
     }
 
     private int boolToInt(boolean b) {
@@ -318,7 +301,7 @@ public class Table {
     }
 
     private String constructHeaders() {
-        int headerHeight = heights[0];
+        int headerHeight = heights[HEADER_ROW + 1];
 
         StringBuilder s = new StringBuilder();
         if (borderLeft) {
@@ -332,11 +315,12 @@ public class Table {
                 header = truncateCell(header, HEADER_ROW, i);
             }
 
-            int cellWidth = widths[i] - cellStyle.getHorizontalMargins();
             s.append(cellStyle
                     .height(headerHeight - cellStyle.getVerticalMargins())
-                    .width(cellWidth)
-                    .render(header));
+                    .maxHeight(headerHeight)
+                    .width(widths[i] - cellStyle.getHorizontalMargins())
+                    .maxWidth(widths[i])
+                    .render(truncateCell(header, HEADER_ROW, i)));
             if (i < headers.size() - 1 && borderColumn) {
                 s.append(borderStyle.render(border.left()));
             }
@@ -416,7 +400,9 @@ public class Table {
             int cellWidth = c < widths.length ? widths[c] : 0;
             String renderedCell = cellStyle
                     .height(rowHeight - cellStyle.getVerticalMargins())
+                    .maxHeight(rowHeight)
                     .width(cellWidth - cellStyle.getHorizontalMargins())
+                    .maxWidth(cellWidth)
                     .render(cell);
             cells.add(renderedCell);
 
@@ -434,7 +420,7 @@ public class Table {
             cells.set(i, cells.get(i).replaceAll("\n$", ""));
         }
 
-        s.append(joinHorizontal(cells.toArray(new String[0]))).append("\n");
+        s.append(Join.joinHorizontal(Position.Top, cells.toArray(new String[0]))).append("\n");
 
         if (borderRow && data != null && index < data.rows() - 1 && !isOverflow) {
             if (borderLeft) {
@@ -455,39 +441,6 @@ public class Table {
         return s.toString();
     }
 
-    private String joinHorizontal(String... parts) {
-        if (parts.length == 0) {
-            return "";
-        }
-        if (parts.length == 1) {
-            return parts[0];
-        }
-        StringBuilder result = new StringBuilder();
-        int maxLines = 0;
-        String[][] linesParts = new String[parts.length][];
-        for (int i = 0; i < parts.length; i++) {
-            linesParts[i] = parts[i].split("\n");
-            maxLines = Math.max(maxLines, linesParts[i].length);
-        }
-        for (int line = 0; line < maxLines; line++) {
-            if (line > 0) {
-                result.append("\n");
-            }
-            for (int i = 0; i < parts.length; i++) {
-                if (i > 0) {
-                    result.append("");
-                }
-                if (line < linesParts[i].length) {
-                    result.append(linesParts[i][line]);
-                } else {
-                    int width = TextWidth.measureCellWidth(parts[i].split("\n")[0]);
-                    result.append(" ".repeat(width));
-                }
-            }
-        }
-        return result.toString();
-    }
-
     private String truncateCell(String cell, int rowIndex, int colIndex) {
         boolean hasHeaders = !headers.isEmpty();
         int rowHeight = heights[rowIndex + boolToInt(hasHeaders)];
@@ -499,101 +452,16 @@ public class Table {
     }
 
     private void resize() {
-        int numCols = Math.max(headers.size(), data != null ? data.columns() : 0);
-        calculateWidths(numCols);
-        calculateHeights(numCols);
-        adjustWidthsForConstraint(numCols);
-    }
+        boolean hasHeaders = !headers.isEmpty();
+        String[][] rows = TableResizer.dataToMatrix(data);
+        TableResizer resizer = new TableResizer(width, height, headers, rows);
+        resizer.setWrap(wrap);
+        resizer.setBorderColumn(borderColumn);
+        resizer.applyStyles(styleFunc == null ? DEFAULT_STYLES : styleFunc, hasHeaders);
 
-    private void calculateWidths(int numCols) {
-        widths = new int[numCols];
-        for (int c = 0; c < numCols; c++) {
-            int maxWidth = 0;
-            for (int r = 0; r < data.rows(); r++) {
-                String cell = data.at(r, c);
-                int cellWidth = TextWidth.measureCellWidth(cell);
-                maxWidth = Math.max(maxWidth, cellWidth);
-            }
-            if (c < headers.size()) {
-                int headerWidth = TextWidth.measureCellWidth(headers.get(c));
-                maxWidth = Math.max(maxWidth, headerWidth);
-            }
-            widths[c] = maxWidth;
-        }
-    }
-
-    private void calculateHeights(int numCols) {
-        heights = new int[data.rows() + boolToInt(!headers.isEmpty())];
-        for (int r = 0; r < data.rows(); r++) {
-            int maxHeight = 1;
-            for (int c = 0; c < numCols; c++) {
-                String cell = data.at(r, c);
-                int cellWidth = widths[c];
-                if (cellWidth > 0 && wrap) {
-                    TextLines lines = TextLines.fromText(cell);
-                    for (String line : lines.lines()) {
-                        int numLines = (int) Math.ceil((double) TextWidth.measureCellWidth(line) / cellWidth);
-                        maxHeight = Math.max(maxHeight, numLines);
-                    }
-                }
-            }
-            heights[r + boolToInt(!headers.isEmpty())] = maxHeight;
-        }
-
-        if (!headers.isEmpty()) {
-            int headerHeight = 1;
-            for (int c = 0; c < headers.size(); c++) {
-                String header = headers.get(c);
-                int headerWidth = widths[c];
-                if (headerWidth > 0 && wrap) {
-                    TextLines lines = TextLines.fromText(header);
-                    for (String line : lines.lines()) {
-                        int numLines = (int) Math.ceil((double) TextWidth.measureCellWidth(line) / headerWidth);
-                        headerHeight = Math.max(headerHeight, numLines);
-                    }
-                }
-            }
-            heights[0] = headerHeight;
-        }
-    }
-
-    private void adjustWidthsForConstraint(int numCols) {
-        if (width > 0) {
-            int availableWidth = width;
-            if (borderLeft) {
-                availableWidth -= border.getLeftSize();
-            }
-            if (borderRight) {
-                availableWidth -= border.getRightSize();
-            }
-            if (borderColumn && numCols > 1) {
-                availableWidth -= (numCols - 1) * border.getLeftSize();
-            }
-
-            int totalContentWidth = 0;
-            for (int w : widths) {
-                totalContentWidth += w;
-            }
-
-            if (totalContentWidth < availableWidth) {
-                int extraWidth = availableWidth - totalContentWidth;
-                int numExpandable = widths.length;
-                if (numExpandable > 0) {
-                    for (int i = 0; i < widths.length; i++) {
-                        int add = extraWidth / numExpandable;
-                        widths[i] += add;
-                        extraWidth -= add;
-                    }
-                }
-            } else if (totalContentWidth > availableWidth) {
-                int overflow = totalContentWidth - availableWidth;
-                for (int i = widths.length - 1; i >= 0 && overflow > 0; i--) {
-                    int reduce = Math.min(widths[i] - 1, overflow);
-                    widths[i] -= reduce;
-                    overflow -= reduce;
-                }
-            }
-        }
+        TableResizer.ResizeResult result = resizer.optimizedWidths();
+        widths = result.columnWidths();
+        heights = result.rowHeights();
     }
 
     @Override

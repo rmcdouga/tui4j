@@ -3,7 +3,6 @@ package com.williamcallahan.tui4j.input;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -84,16 +83,17 @@ public final class MouseSelectionAutoScroller {
         }
     }
 
-    public void onMouse(MouseMessage message) {
+    public void onMouse(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         updateModifiers(message);
     }
 
     /**
-     * @deprecated Use {@link #onMouse(MouseMessage)} instead.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this method was renamed;
+     *             use {@link #onMouse(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage)} instead.
      * @param message mouse message
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    public void onMouseMessage(MouseMessage message) {
+    public void onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         updateModifiers(message);
     }
 
@@ -135,7 +135,7 @@ public final class MouseSelectionAutoScroller {
         ));
     }
 
-    private void updateModifiers(MouseMessage message) {
+    private void updateModifiers(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         if (message == null) {
             return;
         }

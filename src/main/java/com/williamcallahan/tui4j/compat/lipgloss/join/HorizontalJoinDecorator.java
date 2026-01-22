@@ -11,10 +11,23 @@ import static com.williamcallahan.tui4j.compat.lipgloss.Position.Top;
 
 /**
  * Port of Lip Gloss horizontal join decorator.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Upstream: github.com/charmbracelet/lipgloss/join.go
  */
 public class HorizontalJoinDecorator {
 
+    /**
+     * Creates a horizontal join helper.
+     */
+    public HorizontalJoinDecorator() {
+    }
+
+    /**
+     * Joins strings horizontally using the provided alignment.
+     *
+     * @param position vertical alignment within the join
+     * @param strings strings to join
+     * @return joined string
+     */
     public static String joinHorizontal(Position position, String... strings) {
 
         if (strings.length == 0) {

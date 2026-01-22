@@ -2,8 +2,6 @@ package com.williamcallahan.tui4j.input;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 /**
  * Tracks click sequences and counts.
@@ -22,15 +20,15 @@ public final class MouseClickTracker {
     private MouseButton lastClickButton = MouseButton.MouseButtonNone;
     private int lastClickCount = 0;
 
-    public MouseClickMessage handle(MouseMessage message, MouseTarget target) {
+    public MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target) {
         return handle(message, target, System.currentTimeMillis());
     }
 
-    public MouseClickMessage handle(MouseMsg message, MouseTarget target) {
-        return handle(toMouseMessage(message), target, System.currentTimeMillis());
+    public MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target) {
+        return handle((com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage) message, target, System.currentTimeMillis());
     }
 
-    MouseClickMessage handle(MouseMessage message, MouseTarget target, long nowMs) {
+    MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target, long nowMs) {
         if (message == null || message.isWheel()) {
             return null;
         }
@@ -51,7 +49,7 @@ public final class MouseClickTracker {
         return null;
     }
 
-    private MouseClickMessage createClickIfMatches(MouseMessage message, MouseTarget target, long nowMs) {
+    private MouseClickMessage createClickIfMatches(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target, long nowMs) {
         if (lastPressButton == MouseButton.MouseButtonNone) {
             return null;
         }
@@ -90,18 +88,4 @@ public final class MouseClickTracker {
         return nextCount;
     }
 
-    private static MouseMessage toMouseMessage(MouseMsg message) {
-        if (message instanceof MouseMessage mouseMessage) {
-            return mouseMessage;
-        }
-        return new MouseMessage(
-                message.column(),
-                message.row(),
-                message.isShift(),
-                message.isAlt(),
-                message.isCtrl(),
-                message.getAction(),
-                message.getButton()
-        );
-    }
 }

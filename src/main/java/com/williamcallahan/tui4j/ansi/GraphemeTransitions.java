@@ -39,11 +39,21 @@ public class GraphemeTransitions {
     private static final int PR_EXTENDED_PICTOGRAPHIC = 14;
     private static final int PR_REGIONAL_INDICATOR = 15;
 
+    /**
+     * Holds the transition output for a grapheme state.
+     */
     static class TransitionResult {
         final int newState;
         final int newProp;
         final int boundary;
 
+        /**
+         * Creates a transition result.
+         *
+         * @param newState next grapheme state
+         * @param newProp next property
+         * @param boundary boundary flag
+         */
         TransitionResult(int newState, int newProp, int boundary) {
             this.newState = newState;
             this.newProp = newProp;
@@ -155,6 +165,13 @@ public class GraphemeTransitions {
         return new TransitionResult(-1, -1, -1);
     }
 
+    /**
+     * Advances the grapheme state machine for the given code point.
+     *
+     * @param state current state
+     * @param r code point
+     * @return array of {newState, newProp, boundaryFlag}
+     */
     public static int[] transitionGraphemeState(int state, int r) {
         // Determine the property of the next character
         int prop = propertyGraphemes(r);
@@ -193,9 +210,21 @@ public class GraphemeTransitions {
         return new int[] { GR_ANY, prop, 1 };
     }
 
+    /**
+     * Returns the grapheme property for a code point.
+     *
+     * @param codePoint Unicode code point
+     * @return grapheme property constant
+     */
     private static int propertyGraphemes(int codePoint) {
         // This needs to be implemented based on Unicode properties
         // For now returning PR_ANY
         return PR_ANY;
+    }
+
+    /**
+     * Creates a grapheme transition helper.
+     */
+    public GraphemeTransitions() {
     }
 }

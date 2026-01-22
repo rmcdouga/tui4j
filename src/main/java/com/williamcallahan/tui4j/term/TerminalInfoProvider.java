@@ -6,5 +6,10 @@ package com.williamcallahan.tui4j.term;
  */
 public interface TerminalInfoProvider {
 
+    /**
+     * Returns terminal capability information.
+     *
+     * @return terminal info snapshot
+     */
     TerminalInfo provide();
 }
