@@ -1,19 +1,14 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link DisableMouseMsg}.
+ * Message that disables mouse reporting.
+ * <p>
  * Bubble Tea: bubbletea/screen.go
  */
-public class DisableMouseMessage implements MessageShim {
+public class DisableMouseMessage implements Message {
 
     /**
      * Creates a disable mouse message.
      */
-    public DisableMouseMessage() {
-    }
-
-    @Override
-    public Message toMessage() {
-        return new DisableMouseMsg();
-    }
+    public DisableMouseMessage() {}
 }

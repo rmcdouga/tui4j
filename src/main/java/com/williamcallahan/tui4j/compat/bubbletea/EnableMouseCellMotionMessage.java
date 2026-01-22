@@ -1,19 +1,14 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link EnableMouseCellMotionMsg}.
+ * Message that enables mouse cell-motion tracking.
+ * <p>
  * Bubble Tea: bubbletea/screen.go
  */
-public class EnableMouseCellMotionMessage implements MessageShim {
+public class EnableMouseCellMotionMessage implements Message {
 
     /**
      * Creates an enable mouse cell-motion message.
      */
-    public EnableMouseCellMotionMessage() {
-    }
-
-    @Override
-    public Message toMessage() {
-        return new EnableMouseCellMotionMsg();
-    }
+    public EnableMouseCellMotionMessage() {}
 }

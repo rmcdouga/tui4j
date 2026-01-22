@@ -69,9 +69,9 @@ public interface Command {
      *
      * @param commands commands to execute
      * @return sequential command
-     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
-     *             Go's {@code Sequentially} is deprecated in favor of {@code Sequence}.
-     *             Deprecated since v0.3.0 in tui4j; use {@link #sequence(Command...)} instead.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because Bubble Tea deprecated
+     *             {@code Sequentially} in favor of {@code Sequence}; use
+     *             {@link #sequence(Command...)} instead.
      * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
      */
     @Deprecated(since = "0.3.0")
@@ -260,7 +260,7 @@ public interface Command {
      * @return set cursor text command
      */
     static Command setMouseCursorText() {
-        return SetMouseCursorTextMessage::new;
+        return com.williamcallahan.tui4j.message.SetMouseCursorTextMessage::new;
     }
 
     /**
@@ -269,7 +269,7 @@ public interface Command {
      * @return set cursor pointer command
      */
     static Command setMouseCursorPointer() {
-        return SetMouseCursorPointerMessage::new;
+        return com.williamcallahan.tui4j.message.SetMouseCursorPointerMessage::new;
     }
 
     /**
@@ -278,7 +278,7 @@ public interface Command {
      * @return reset cursor command
      */
     static Command resetMouseCursor() {
-        return ResetMouseCursorMessage::new;
+        return com.williamcallahan.tui4j.message.ResetMouseCursorMessage::new;
     }
 
     /**

@@ -115,8 +115,9 @@ public class Program {
      * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} option, which is deprecated
      * upstream due to performance overhead. Accepted for API compatibility only.
      *
-     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
-     *             Deprecated since v0.3.0 in tui4j; has no effect and will be removed.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because ANSI compression is a no-op;
+     *             omit this option and use the default renderer behavior instead.
+     *             Bubble Tea deprecated {@code WithANSICompressor} due to performance overhead.
      */
     @Deprecated(since = "0.3.0")
     private boolean ansiCompressor;
@@ -1351,8 +1352,9 @@ public class Program {
      * <p>This setter is accepted for API compatibility but has no effect in tui4j.
      *
      * @param ansiCompressor whether to enable ANSI compression (ignored)
-     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
-     *             Deprecated since v0.3.0 in tui4j; this option has no effect and will be removed.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because ANSI compression is a no-op;
+     *             omit this option and use the default renderer behavior instead.
+     *             Bubble Tea deprecated {@code WithANSICompressor} due to performance overhead.
      * @see <a href="https://pkg.go.dev/github.com/charmbracelet/bubbletea#WithANSICompressor">
      *      bubbletea.WithANSICompressor (Go docs)</a>
      */

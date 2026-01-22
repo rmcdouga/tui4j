@@ -1,10 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link BatchMsg}.
+ * Message that batches commands for execution.
+ * <p>
  * Bubble Tea: bubbletea/commands.go
  */
-public class BatchMessage implements MessageShim {
+public class BatchMessage implements Message {
 
     private final Command[] commands;
 
@@ -24,10 +25,5 @@ public class BatchMessage implements MessageShim {
      */
     public Command[] commands() {
         return commands;
-    }
-
-    @Override
-    public Message toMessage() {
-        return new BatchMsg(commands);
     }
 }

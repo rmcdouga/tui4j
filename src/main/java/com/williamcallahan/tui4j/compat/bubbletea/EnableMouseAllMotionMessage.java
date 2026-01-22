@@ -1,19 +1,14 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link EnableMouseAllMotionMsg}.
+ * Message that enables mouse all-motion tracking.
+ * <p>
  * Bubble Tea: bubbletea/screen.go
  */
-public class EnableMouseAllMotionMessage implements MessageShim {
+public class EnableMouseAllMotionMessage implements Message {
 
     /**
      * Creates an enable mouse all-motion message.
      */
-    public EnableMouseAllMotionMessage() {
-    }
-
-    @Override
-    public Message toMessage() {
-        return new EnableMouseAllMotionMsg();
-    }
+    public EnableMouseAllMotionMessage() {}
 }

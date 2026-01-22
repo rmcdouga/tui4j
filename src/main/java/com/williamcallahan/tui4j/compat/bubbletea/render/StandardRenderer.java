@@ -456,30 +456,30 @@ public class StandardRenderer implements Renderer {
     // behavior.
     public void handleMessage(Message msg) {
         Message internalMsg = normalizeMessage(msg);
-        if (internalMsg instanceof PrintLineMsg printLineMessage) {
+        if (internalMsg instanceof PrintLineMessage printLineMessage) {
             queuePrintLine(printLineMessage.messageBody());
-        } else if (internalMsg instanceof SetWindowTitleMsg windowTitleMessage) {
+        } else if (internalMsg instanceof SetWindowTitleMessage windowTitleMessage) {
             setWindowTitle(windowTitleMessage.title());
-        } else if (internalMsg instanceof EnableMouseCellMotionMsg) {
+        } else if (internalMsg instanceof EnableMouseCellMotionMessage) {
             enableMouseCellMotion();
             enableMouseSGRMode();
-        } else if (internalMsg instanceof EnableMouseAllMotionMsg) {
+        } else if (internalMsg instanceof EnableMouseAllMotionMessage) {
             enableMouseAllMotion();
             enableMouseSGRMode();
-        } else if (internalMsg instanceof DisableMouseMsg) {
+        } else if (internalMsg instanceof DisableMouseMessage) {
             disableMouseSGRMode();
             disableMouseNormalTracking();
             disableMouseCellMotion();
             disableMouseAllMotion();
-        } else if (internalMsg instanceof SetMouseCursorTextMsg) {
+        } else if (internalMsg instanceof SetMouseCursorTextMessage) {
             setMouseCursorText();
-        } else if (internalMsg instanceof SetMouseCursorPointerMsg) {
+        } else if (internalMsg instanceof SetMouseCursorPointerMessage) {
             setMouseCursorPointer();
-        } else if (internalMsg instanceof ResetMouseCursorMsg) {
+        } else if (internalMsg instanceof ResetMouseCursorMessage) {
             resetMouseCursor();
-        } else if (internalMsg instanceof CopyToClipboardMsg copyToClipboardMessage) {
+        } else if (internalMsg instanceof CopyToClipboardMessage copyToClipboardMessage) {
             copyToClipboard(copyToClipboardMessage.text());
-        } else if (internalMsg instanceof WindowSizeMsg windowSizeMessage) {
+        } else if (internalMsg instanceof WindowSizeMessage windowSizeMessage) {
             this.width = windowSizeMessage.width();
             this.height = windowSizeMessage.height();
         }

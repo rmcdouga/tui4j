@@ -1,19 +1,14 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Compatibility shim for {@link SetMouseCursorPointerMsg}.
+ * Message that sets the mouse cursor to a pointer style.
+ * <p>
  * Bubble Tea: bubbletea/screen.go (tui4j extension; no direct equivalent).
  */
-public class SetMouseCursorPointerMessage implements MessageShim {
+public class SetMouseCursorPointerMessage implements Message {
 
     /**
      * Creates a set mouse cursor pointer message.
      */
-    public SetMouseCursorPointerMessage() {
-    }
-
-    @Override
-    public Message toMessage() {
-        return new SetMouseCursorPointerMsg();
-    }
+    public SetMouseCursorPointerMessage() {}
 }

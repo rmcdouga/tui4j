@@ -13,15 +13,15 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.NonBlockingReader;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.PasteMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.ExtendedSequences;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
-import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage;
 
 /**
  * Port of Bubble Tea new input handler.

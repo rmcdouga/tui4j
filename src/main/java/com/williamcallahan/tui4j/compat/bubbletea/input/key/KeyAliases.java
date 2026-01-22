@@ -4,28 +4,107 @@ import java.util.EnumMap;
 
 /**
  * Port of Bubble Tea key aliases.
- * Upstream: github.com/charmbracelet/bubbletea (key.go)
+ * Upstream: github.com/charmbracelet/bubbletea/key.go
  */
 public class KeyAliases {
 
     /**
+     * Creates a key alias registry.
+     */
+    public KeyAliases() {
+    }
+
+    /**
      * Port of Bubble Tea key alias mappings.
-     * Upstream: github.com/charmbracelet/bubbletea (key.go)
+     * Upstream: github.com/charmbracelet/bubbletea/key.go
      */
     public static final EnumMap<KeyAlias, KeyType> CONTROL_KEY_ALIASES = new EnumMap<>(KeyAlias.class);
 
     /**
      * Port of Bubble Tea key alias names.
-     * Upstream: github.com/charmbracelet/bubbletea (key.go)
+     * Upstream: github.com/charmbracelet/bubbletea/key.go
      */
     public enum KeyAlias {
-        KeyNull, KeyBreak, KeyEnter, KeyBackspace, KeyTab, KeyEsc, KeyEscape,
-        KeyCtrlAt, KeyCtrlA, KeyCtrlB, KeyCtrlC, KeyCtrlD, KeyCtrlE, KeyCtrlF,
-        KeyCtrlG, KeyCtrlH, KeyCtrlI, KeyCtrlJ, KeyCtrlK, KeyCtrlL, KeyCtrlM,
-        KeyCtrlN, KeyCtrlO, KeyCtrlP, KeyCtrlQ, KeyCtrlR, KeyCtrlS, KeyCtrlT,
-        KeyCtrlU, KeyCtrlV, KeyCtrlW, KeyCtrlX, KeyCtrlY, KeyCtrlZ,
-        KeyCtrlOpenBracket, KeyCtrlBackslash, KeyCtrlCloseBracket, KeyCtrlCaret,
-        KeyCtrlUnderscore, KeyCtrlQuestionMark
+        /** Alias for NUL (Ctrl+@). */
+        KeyNull,
+        /** Alias for ETX (Break). */
+        KeyBreak,
+        /** Alias for carriage return. */
+        KeyEnter,
+        /** Alias for backspace. */
+        KeyBackspace,
+        /** Alias for horizontal tab. */
+        KeyTab,
+        /** Alias for ESC. */
+        KeyEsc,
+        /** Alias for ESC. */
+        KeyEscape,
+        /** Alias for Ctrl+@. */
+        KeyCtrlAt,
+        /** Alias for Ctrl+A. */
+        KeyCtrlA,
+        /** Alias for Ctrl+B. */
+        KeyCtrlB,
+        /** Alias for Ctrl+C. */
+        KeyCtrlC,
+        /** Alias for Ctrl+D. */
+        KeyCtrlD,
+        /** Alias for Ctrl+E. */
+        KeyCtrlE,
+        /** Alias for Ctrl+F. */
+        KeyCtrlF,
+        /** Alias for Ctrl+G. */
+        KeyCtrlG,
+        /** Alias for Ctrl+H. */
+        KeyCtrlH,
+        /** Alias for Ctrl+I. */
+        KeyCtrlI,
+        /** Alias for Ctrl+J. */
+        KeyCtrlJ,
+        /** Alias for Ctrl+K. */
+        KeyCtrlK,
+        /** Alias for Ctrl+L. */
+        KeyCtrlL,
+        /** Alias for Ctrl+M. */
+        KeyCtrlM,
+        /** Alias for Ctrl+N. */
+        KeyCtrlN,
+        /** Alias for Ctrl+O. */
+        KeyCtrlO,
+        /** Alias for Ctrl+P. */
+        KeyCtrlP,
+        /** Alias for Ctrl+Q. */
+        KeyCtrlQ,
+        /** Alias for Ctrl+R. */
+        KeyCtrlR,
+        /** Alias for Ctrl+S. */
+        KeyCtrlS,
+        /** Alias for Ctrl+T. */
+        KeyCtrlT,
+        /** Alias for Ctrl+U. */
+        KeyCtrlU,
+        /** Alias for Ctrl+V. */
+        KeyCtrlV,
+        /** Alias for Ctrl+W. */
+        KeyCtrlW,
+        /** Alias for Ctrl+X. */
+        KeyCtrlX,
+        /** Alias for Ctrl+Y. */
+        KeyCtrlY,
+        /** Alias for Ctrl+Z. */
+        KeyCtrlZ,
+        /** Alias for Ctrl+[. */
+        KeyCtrlOpenBracket,
+        /** Alias for Ctrl+\\. */
+        KeyCtrlBackslash,
+        /** Alias for Ctrl+]. */
+        KeyCtrlCloseBracket,
+        /** Alias for Ctrl+^. */
+        KeyCtrlCaret,
+        /** Alias for Ctrl+_. */
+        KeyCtrlUnderscore,
+        /** Alias for Ctrl+?. */
+        KeyCtrlQuestionMark
     }
 
     static {
@@ -72,6 +151,12 @@ public class KeyAliases {
         CONTROL_KEY_ALIASES.put(KeyAlias.KeyCtrlQuestionMark, KeyType.keyDEL);
     }
 
+    /**
+     * Returns the key type mapped to the alias.
+     *
+     * @param alias alias to look up
+     * @return mapped key type
+     */
     public static KeyType getKeyType(KeyAlias alias) {
         return CONTROL_KEY_ALIASES.get(alias);
     }
