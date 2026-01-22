@@ -12,7 +12,6 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.NonBlockingReader;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.ExtendedSequences;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;
@@ -118,7 +117,7 @@ public class OldLaggyInputHandler implements InputHandler {
             }
         } catch (IOException e) {
             if (!Thread.currentThread().isInterrupted()) {
-                throw new ProgramException("Unable to initialize keyboard input", e);
+                throw new RuntimeException("Unable to initialize keyboard input", e);
             }
         }
     }

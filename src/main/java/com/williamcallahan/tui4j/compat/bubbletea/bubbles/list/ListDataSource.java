@@ -1,15 +1,12 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource}.
+ * Bubble Tea-compatible alias for {@link com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource}.
  * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/ListDataSource.java}.
- *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@SuppressWarnings("removal")
 public interface ListDataSource extends com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource {
 
     /**

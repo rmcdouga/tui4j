@@ -50,6 +50,11 @@ public class Spring {
     /**
      * Advances the spring simulation by one step.
      * Calculates the new position and velocity based on the pre-computed coefficients.
+     *
+     * @param pos current position
+     * @param vel current velocity
+     * @param equilibriumPos equilibrium position
+     * @return array containing new position and velocity
      */
     public double[] update(double pos, double vel, double equilibriumPos) {
         return delegate.update(pos, vel, equilibriumPos);

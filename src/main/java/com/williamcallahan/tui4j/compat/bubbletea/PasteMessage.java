@@ -45,9 +45,6 @@ public class PasteMessage implements Message {
         if (this == other) {
             return true;
         }
-        if (other instanceof PasteMsg pasteMsg) {
-            return Objects.equals(content, pasteMsg.content());
-        }
         if (!(other instanceof PasteMessage pasteMessage)) {
             return false;
         }

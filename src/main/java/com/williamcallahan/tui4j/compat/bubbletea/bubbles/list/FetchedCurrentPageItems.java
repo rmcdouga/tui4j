@@ -6,12 +6,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems}.
  * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/FetchedCurrentPageItems.java}.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
+@SuppressWarnings("removal")
 public class FetchedCurrentPageItems extends com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems
         implements Message {
 

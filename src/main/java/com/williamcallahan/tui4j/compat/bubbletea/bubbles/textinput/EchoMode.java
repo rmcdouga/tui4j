@@ -7,23 +7,23 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.textinput;
  */
 public enum EchoMode {
     /**
-     * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode#EchoNormal}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode#EchoNormal}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     EchoNormal,
 
     /**
-     * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode#EchoPassword}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode#EchoPassword}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     EchoPassword,
 
     /**
-     * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode#EchoNone}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textinput.EchoMode#EchoNone}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     EchoNone,
 }

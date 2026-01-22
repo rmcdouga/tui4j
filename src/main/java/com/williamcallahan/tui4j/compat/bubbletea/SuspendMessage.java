@@ -10,4 +10,10 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Bubble Tea: key_windows.go.
  */
 public class SuspendMessage implements Message {
+
+    /**
+     * Creates a suspend message.
+     */
+    public SuspendMessage() {
+    }
 }

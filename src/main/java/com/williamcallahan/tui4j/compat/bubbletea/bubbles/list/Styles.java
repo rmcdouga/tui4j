@@ -6,16 +6,26 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
  * <p>
  * Bubbles: list/style.go.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.Styles}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.Styles}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class Styles extends com.williamcallahan.tui4j.compat.bubbles.list.Styles {
     
     /**
-     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.list.Styles#defaultStyles} instead.
+     * Creates a styles container for the legacy shim.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Styles() {
+    }
+
+    /**
+     * Creates the default list styles.
+     *
+     * @return default styles
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.list.Styles#defaultStyles} instead.
+     */
+    @Deprecated(since = "0.3.0")
     public static Styles defaultStyles() {
         return fromCanonical(com.williamcallahan.tui4j.compat.bubbles.list.Styles.defaultStyles());
     }

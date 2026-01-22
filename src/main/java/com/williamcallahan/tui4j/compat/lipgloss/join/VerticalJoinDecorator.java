@@ -13,6 +13,12 @@ import com.williamcallahan.tui4j.compat.lipgloss.Position;
 public class VerticalJoinDecorator {
 
     /**
+     * Creates a vertical join decorator helper.
+     */
+    public VerticalJoinDecorator() {
+    }
+
+    /**
      * Handles join vertical for this component.
      *
      * @param position position

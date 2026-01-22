@@ -17,6 +17,12 @@ public interface TreeIndenter {
     class DefaultIndenter implements TreeIndenter {
 
         /**
+         * Creates a default indenter.
+         */
+        public DefaultIndenter() {
+        }
+
+        /**
          * Handles indent for this component.
          *
          * @param children children

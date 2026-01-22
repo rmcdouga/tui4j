@@ -6,7 +6,13 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator;
  * Bubbles: paginator/paginator.go.
  */
 public enum Type {
+    /**
+     * Dot pagination indicator.
+     */
     Dots,
+    /**
+     * Numeric pagination (1, 2, 3).
+     */
     Arabic;
 
     /**

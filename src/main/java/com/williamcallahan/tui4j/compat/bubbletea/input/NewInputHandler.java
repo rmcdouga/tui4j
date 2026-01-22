@@ -14,7 +14,6 @@ import org.jline.utils.NonBlockingReader;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.PasteMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.ExtendedSequences;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;
@@ -26,8 +25,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage;
 
 /**
  * Port of Bubble Tea new input handler.
- * <p>
- * Bubble Tea: inputreader_other.go, key_other.go.
+ * Bubble Tea: bubbletea/inputreader_other.go
  */
 public class NewInputHandler implements InputHandler {
     private static final Pattern MOUSE_SGR_REGEX = Pattern.compile("(\\d+);(\\d+);(\\d+)([Mm])");
@@ -41,16 +39,11 @@ public class NewInputHandler implements InputHandler {
 
     private static final String BP_START = "\u001b[200~";
     private static final String BP_END = "\u001b[201~";
+    private static final int MOUSE_EVENT_X10_LEN = 6;
 
     private boolean inBracketedPaste = false;
     private final StringBuilder pasteBuffer = new StringBuilder();
 
-    /**
-     * Creates a new input handler.
-     *
-     * @param terminal terminal to read from
-     * @param messageConsumer consumer for messages
-     */
     public NewInputHandler(Terminal terminal, Consumer<Message> messageConsumer) {
         this.terminal = terminal;
         this.messageConsumer = messageConsumer;
@@ -61,9 +54,6 @@ public class NewInputHandler implements InputHandler {
         });
     }
 
-    /**
-     * Handles start for this component.
-     */
     @Override
     public void start() {
         if (!running) {
@@ -72,9 +62,6 @@ public class NewInputHandler implements InputHandler {
         }
     }
 
-    /**
-     * Handles stop for this component.
-     */
     @Override
     public void stop() {
         running = false;
@@ -86,9 +73,6 @@ public class NewInputHandler implements InputHandler {
         }
     }
 
-    /**
-     * Handles handle input for this component.
-     */
     private void handleInput() {
         try {
             NonBlockingReader reader = terminal.reader();
@@ -120,17 +104,11 @@ public class NewInputHandler implements InputHandler {
             }
         } catch (IOException e) {
             if (!Thread.currentThread().isInterrupted()) {
-                throw new ProgramException("Unable to initialize keyboard input", e);
+                throw new RuntimeException("Unable to initialize keyboard input", e);
             }
         }
     }
 
-    /**
-     * Handles process one message for this component.
-     *
-     * @param input input
-     * @return result
-     */
     private int processOneMessage(char[] input) throws IOException {
         if (input.length == 0)
             return 0;
@@ -228,12 +206,6 @@ public class NewInputHandler implements InputHandler {
         return 1;
     }
 
-    /**
-     * Handles process control sequence for this component.
-     *
-     * @param input input
-     * @return result
-     */
     private int processControlSequence(char[] input) throws IOException {
         if (input.length < 2)
             return 0;
@@ -305,14 +277,6 @@ public class NewInputHandler implements InputHandler {
         return 0; // Incomplete sequence
     }
 
-    /**
-     * Handles find end index for this component.
-     *
-     * @param input input
-     * @param start start
-     * @param terminators terminators
-     * @return result
-     */
     private int findEndIndex(char[] input, int start, char... terminators) {
         for (int i = start; i < input.length; i++) {
             for (char term : terminators) {
@@ -323,11 +287,6 @@ public class NewInputHandler implements InputHandler {
         return -1;
     }
 
-    /**
-     * Handles handle x10 mouse event for this component.
-     *
-     * @param input input
-     */
     private void handleX10MouseEvent(char[] input) {
         if (input.length < 3)
             return;
@@ -338,11 +297,6 @@ public class NewInputHandler implements InputHandler {
         messageConsumer.accept(MouseMessage.parseX10MouseEvent(col, row, button));
     }
 
-    /**
-     * Handles handle sgrmouse event for this component.
-     *
-     * @param input input
-     */
     private void handleSGRMouseEvent(char[] input) {
         Matcher matcher = MOUSE_SGR_REGEX.matcher(new String(input));
         if (matcher.matches()) {
@@ -355,26 +309,12 @@ public class NewInputHandler implements InputHandler {
         }
     }
 
-    /**
-     * Handles append for this component.
-     *
-     * @param firstArray first array
-     * @param secondArray second array
-     * @return result
-     */
     private char[] append(char[] firstArray, char[] secondArray) {
         char[] result = Arrays.copyOf(firstArray, firstArray.length + secondArray.length);
         System.arraycopy(secondArray, 0, result, firstArray.length, secondArray.length);
         return result;
     }
 
-    /**
-     * Handles starts with for this component.
-     *
-     * @param input input
-     * @param prefix prefix
-     * @return whether arts with
-     */
     private static boolean startsWith(char[] input, String prefix) {
         if (input.length < prefix.length()) {
             return false;
@@ -387,13 +327,6 @@ public class NewInputHandler implements InputHandler {
         return true;
     }
 
-    /**
-     * Handles ends with for this component.
-     *
-     * @param input input
-     * @param suffix suffix
-     * @return whether ds with
-     */
     private static boolean endsWith(char[] input, String suffix) {
         if (input.length < suffix.length()) {
             return false;
@@ -406,13 +339,6 @@ public class NewInputHandler implements InputHandler {
         return true;
     }
 
-    /**
-     * Handles index of for this component.
-     *
-     * @param input input
-     * @param search search
-     * @return result
-     */
     private static int indexOf(char[] input, String search) {
         String inputStr = new String(input);
         return inputStr.indexOf(search);

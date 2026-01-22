@@ -4,7 +4,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 
 import java.time.Duration;
 
@@ -150,7 +149,7 @@ public class Cursor implements Model {
      *
      * @param style style
      */
-    public void setStyle(Style style) {
+    public void setStyle(com.williamcallahan.tui4j.compat.lipgloss.Style style) {
         delegate.setStyle(style);
     }
 
@@ -159,7 +158,7 @@ public class Cursor implements Model {
      *
      * @param textStyle text style
      */
-    public void setTextStyle(Style textStyle) {
+    public void setTextStyle(com.williamcallahan.tui4j.compat.lipgloss.Style textStyle) {
         delegate.setTextStyle(textStyle);
     }
 

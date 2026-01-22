@@ -31,7 +31,7 @@ public class ReadClipboardMessage implements Message {
         if (this == other) {
             return true;
         }
-        return other instanceof ReadClipboardMessage || other instanceof ReadClipboardMsg;
+        return other instanceof ReadClipboardMessage;
     }
 
     /**

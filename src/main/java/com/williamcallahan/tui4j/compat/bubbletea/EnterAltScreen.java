@@ -10,9 +10,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
  * <p>
  * Bubble Tea: key_windows.go.
- * @deprecated Compatibility shim for relocated type; use {@link EnterAltScreenMessage} instead.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class EnterAltScreen extends EnterAltScreenMessage {
 
     /**

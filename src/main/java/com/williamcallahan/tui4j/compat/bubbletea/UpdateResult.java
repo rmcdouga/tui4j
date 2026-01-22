@@ -15,6 +15,7 @@ public record UpdateResult<M extends Model>(M model, Command command) {
     /**
      * Handles from for this component.
      *
+     * @param <M> model type
      * @param model model
      * @param cmd cmd
      * @return result
@@ -26,6 +27,7 @@ public record UpdateResult<M extends Model>(M model, Command command) {
     /**
      * Handles from for this component.
      *
+     * @param <M> model type
      * @param model model
      * @return result
      */

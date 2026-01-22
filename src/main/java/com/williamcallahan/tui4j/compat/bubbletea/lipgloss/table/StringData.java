@@ -7,12 +7,12 @@ import java.util.List;
  * <p>
  * Lipgloss: table/rows.go
  *
- * @deprecated <b>tui4j compat refactor:</b> Moved to
+ * @deprecated Deprecated in tui4j as of 0.3.0 because of a compat refactor; use
  *             {@link com.williamcallahan.tui4j.compat.lipgloss.table.StringData}.
  *             This transitional shim preserves backward compatibility and will be removed
  *             in a future release. Migrate to the canonical location.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class StringData extends Data {
     private final com.williamcallahan.tui4j.compat.lipgloss.table.StringData delegate;
     private final String rawData;

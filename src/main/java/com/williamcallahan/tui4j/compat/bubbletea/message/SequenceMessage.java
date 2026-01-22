@@ -8,10 +8,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.Command;
  * Port of charmbracelet/bubbletea commands.go sequenceMsg type.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
- * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage} instead.
  * Bubble Tea: commands.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class SequenceMessage extends com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage {
 
     /**

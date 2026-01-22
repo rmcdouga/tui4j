@@ -1,14 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.key;
 
 /**
- * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding}.
+ * Bubble Tea-compatible alias for {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding}.
  * <p>
  * Bubbles: key/key.go.
- *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class Binding
     extends com.williamcallahan.tui4j.compat.bubbles.key.Binding
 {
@@ -21,15 +17,26 @@ public class Binding
             com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption {}
 
     /**
-     * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding#Binding(com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption...)}.
-     * This transitional shim is temporary and will be removed in an upcoming release.
+     * Creates a binding with the provided options.
      *
      * @param opts binding options
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
     public Binding(
         com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption... opts
     ) {
         super(opts);
+    }
+
+    /**
+     * Returns whether the given key press matches this binding.
+     *
+     * @param keyPressMessage key press message
+     * @return true when a key matches
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #matches(com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage)} instead.
+     */
+    @Deprecated(since = "0.3.0")
+    @SuppressWarnings("removal")
+    public boolean matches(com.williamcallahan.tui4j.compat.bubbletea.KeyMsg keyPressMessage) {
+        return matches((com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage) keyPressMessage);
     }
 }

@@ -5,7 +5,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.cursor.Cursor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 
 /**
  * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.textinput.TextInput}.
@@ -13,8 +12,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
  * <p>
  * Bubbles: textinput/textinput.go.
  *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textinput.TextInput}.
+ * This shim cannot extend the successor without breaking the public
+ * {@code UpdateResult<TextInput>} signature, so it delegates to preserve API stability.
  * @since 0.3.0
  */
+@Deprecated(since = "0.3.0", forRemoval = true)
+@SuppressWarnings("removal")
 public class TextInput implements Model {
 
     private com.williamcallahan.tui4j.compat.bubbles.textinput.TextInput delegate;
@@ -27,18 +31,25 @@ public class TextInput implements Model {
     }
 
     /**
-     * @deprecated Use {@link #TextInput()} and setters instead.
+     * Creates a text input with a placeholder.
+     *
+     * @param placeholder placeholder text
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #TextInput()} and setters instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public TextInput(String placeholder) {
         this();
         setPlaceholder(placeholder);
     }
 
     /**
-     * @deprecated Use {@link #TextInput()} and setters instead.
+     * Creates a text input with a placeholder and width.
+     *
+     * @param placeholder placeholder text
+     * @param width       width in cells
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #TextInput()} and setters instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public TextInput(String placeholder, int width) {
         this();
         setPlaceholder(placeholder);
@@ -46,9 +57,14 @@ public class TextInput implements Model {
     }
 
     /**
-     * @deprecated Use {@link #TextInput()} and setters instead.
+     * Creates a text input with placeholder, width, and character limit.
+     *
+     * @param placeholder placeholder text
+     * @param width       width in cells
+     * @param charLimit   character limit
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #TextInput()} and setters instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public TextInput(String placeholder, int width, int charLimit) {
         this();
         setPlaceholder(placeholder);
@@ -88,7 +104,7 @@ public class TextInput implements Model {
      *
      * @param promptStyle prompt style
      */
-    public void setPromptStyle(Style promptStyle) {
+    public void setPromptStyle(com.williamcallahan.tui4j.compat.lipgloss.Style promptStyle) {
         delegate.setPromptStyle(promptStyle);
     }
 
@@ -97,7 +113,7 @@ public class TextInput implements Model {
      *
      * @param textStyle text style
      */
-    public void setTextStyle(Style textStyle) {
+    public void setTextStyle(com.williamcallahan.tui4j.compat.lipgloss.Style textStyle) {
         delegate.setTextStyle(textStyle);
     }
 

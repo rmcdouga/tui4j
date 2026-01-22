@@ -10,4 +10,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Bubble Tea: key_windows.go.
  */
 public class ResumeMessage implements Message {
+    /**
+     * Creates a resume message.
+     */
+    public ResumeMessage() {
+    }
 }

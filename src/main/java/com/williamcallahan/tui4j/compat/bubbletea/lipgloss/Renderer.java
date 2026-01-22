@@ -12,6 +12,7 @@ import java.util.List;
  *
  * @since 0.3.0
  */
+@SuppressWarnings("removal")
 public class Renderer {
 
     private static final Renderer DEFAULT_RENDERER = new Renderer(Output.defaultOutput());
@@ -127,7 +128,7 @@ public class Renderer {
      * @param options whitespace options
      * @return placed text
      */
-    public String place(int width, int height, Position hPos, Position vPos, String input, Whitespace.WhitespaceOption... options) {
+    public String place(int width, int height, com.williamcallahan.tui4j.compat.lipgloss.Position hPos, com.williamcallahan.tui4j.compat.lipgloss.Position vPos, String input, Whitespace.WhitespaceOption... options) {
         return delegate.place(width, height, hPos, vPos, input, Whitespace.toCanonicalOptions(options));
     }
 
@@ -140,7 +141,7 @@ public class Renderer {
      * @param options whitespace options
      * @return placed text
      */
-    public String placeVertical(int height, Position position, String input, Whitespace.WhitespaceOption... options) {
+    public String placeVertical(int height, com.williamcallahan.tui4j.compat.lipgloss.Position position, String input, Whitespace.WhitespaceOption... options) {
         return delegate.placeVertical(height, position, input, Whitespace.toCanonicalOptions(options));
     }
 
@@ -153,7 +154,7 @@ public class Renderer {
      * @param options whitespace options
      * @return placed text
      */
-    public String placeHorizontal(int width, Position position, String input, Whitespace.WhitespaceOption... options) {
+    public String placeHorizontal(int width, com.williamcallahan.tui4j.compat.lipgloss.Position position, String input, Whitespace.WhitespaceOption... options) {
         return delegate.placeHorizontal(width, position, input, Whitespace.toCanonicalOptions(options));
     }
 

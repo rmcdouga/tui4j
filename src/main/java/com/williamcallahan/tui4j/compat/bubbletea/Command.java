@@ -74,7 +74,7 @@ public interface Command {
      *             Deprecated since v0.3.0 in tui4j; use {@link #sequence(Command...)} instead.
      * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     static Command sequentially(Command... commands) {
         return () -> {
             if (commands == null) {
@@ -192,13 +192,13 @@ public interface Command {
     }
 
     /**
-     * @deprecated Compatibility: Moved to {@link #setWindowTitle(String)}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link #setWindowTitle(String)}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      *
      * @param title the title to set
      * @return the command
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     static Command setWidowTitle(String title) {
         return setWindowTitle(title);
     }

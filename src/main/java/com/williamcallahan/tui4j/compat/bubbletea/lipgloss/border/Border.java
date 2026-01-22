@@ -18,12 +18,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
  * @param middle middle glyph
  * @param middleTop middle-top glyph
  * @param middleBottom middle-bottom glyph
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.border.Border}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Lip Gloss: borders.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@SuppressWarnings("removal")
 public record Border(
         String top,
         String bottom,

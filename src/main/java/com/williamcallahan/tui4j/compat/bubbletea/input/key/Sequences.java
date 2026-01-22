@@ -5,12 +5,19 @@ import java.util.Map;
 
 /**
  * Port of Bubble Tea sequences.
- * Bubble Tea: key_sequences.go.
- * <p>
- * Bubble Tea: key_other.go.
+ * Bubble Tea: bubbletea/key_sequences.go
  */
 public class Sequences {
 
+    /**
+     * Creates a sequences container.
+     */
+    public Sequences() {
+    }
+
+    /**
+     * Maps escape sequences to parsed key values.
+     */
     public static final Map<String, Key> SEQUENCES = new HashMap<>();
 
     static {

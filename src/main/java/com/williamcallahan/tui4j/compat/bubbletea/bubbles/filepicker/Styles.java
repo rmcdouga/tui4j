@@ -5,16 +5,22 @@ import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 
 /**
- * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.filepicker.Styles} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.filepicker.Styles} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: filepicker/filepicker.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class Styles extends com.williamcallahan.tui4j.compat.bubbles.filepicker.Styles {
     
     private static final int FILE_SIZE_WIDTH = 7;
     private static final int PADDING_LEFT = 2;
+
+    /**
+     * Creates a styles container for the legacy shim.
+     */
+    public Styles() {
+    }
 
     /**
      * Handles default styles for this component.

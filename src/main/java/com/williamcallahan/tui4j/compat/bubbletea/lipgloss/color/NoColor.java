@@ -7,11 +7,11 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Lipgloss: color.go.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.NoColor}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.NoColor}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public final class NoColor extends com.williamcallahan.tui4j.compat.lipgloss.color.NoColor implements TerminalColor {
 
     /**

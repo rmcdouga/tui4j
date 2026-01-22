@@ -2,25 +2,26 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 
 /**
  * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate}.
  * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/ItemDelegate.java}.
  *
- * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
+@SuppressWarnings("removal")
 public interface ItemDelegate extends com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate {
 
     /**
-     * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.UpdateFunction}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.UpdateFunction}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
+    @SuppressWarnings("removal")
     interface UpdateFunction extends com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.UpdateFunction {
 
         /**
@@ -46,10 +47,11 @@ public interface ItemDelegate extends com.williamcallahan.tui4j.compat.bubbles.l
     }
 
     /**
-     * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.ShortHelpFunc}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.ShortHelpFunc}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
+    @SuppressWarnings("removal")
     interface ShortHelpFunc extends com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.ShortHelpFunc {
 
         /**
@@ -57,14 +59,15 @@ public interface ItemDelegate extends com.williamcallahan.tui4j.compat.bubbles.l
          *
          * @return bindings
          */
-        Binding[] get();
+        com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding[] get();
     }
 
     /**
-     * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.FullHelpFunc}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.FullHelpFunc}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
+    @SuppressWarnings("removal")
     interface FullHelpFunc extends com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate.FullHelpFunc {
 
         /**
@@ -72,7 +75,7 @@ public interface ItemDelegate extends com.williamcallahan.tui4j.compat.bubbles.l
          *
          * @return bindings
          */
-        Binding[][] get();
+        com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding[][] get();
     }
 
     /**

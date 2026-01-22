@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
  * <p>
  * Lipgloss: table/table.go
  *
- * @deprecated <b>tui4j compat refactor:</b> Moved to
+ * @deprecated Deprecated in tui4j as of 0.3.0 because of a compat refactor; use
  * {@link com.williamcallahan.tui4j.compat.lipgloss.table.Table}.
  * This transitional shim preserves backward compatibility and will be removed
  * in a future release. Migrate to the canonical location.
@@ -15,7 +15,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
  * @see com.williamcallahan.tui4j.compat.lipgloss.table.Table
  * Lip Gloss: table/table.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class Table extends com.williamcallahan.tui4j.compat.lipgloss.table.Table {
 
     /**

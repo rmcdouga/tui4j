@@ -4,12 +4,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 
 /**
- * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: spinner/spinner.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
+@SuppressWarnings("removal")
 public class Spinner extends com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner {
     
     /**

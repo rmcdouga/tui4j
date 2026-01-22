@@ -4,12 +4,12 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Lip Gloss: style.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class PaddingDecorator extends com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator {
 
     /**

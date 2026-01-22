@@ -14,6 +14,12 @@ import java.util.Objects;
 public class Truncate {
 
     /**
+     * Creates a truncate helper instance.
+     */
+    public Truncate() {
+    }
+
+    /**
      * Truncates a string to a given display width, adding a tail if truncated.
      * ANSI escape codes are preserved and not counted toward width.
      *
@@ -85,10 +91,12 @@ public class Truncate {
     }
 
     /**
-     * @deprecated Compatibility shim for legacy tui4j.ansi API; use
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a legacy tui4j.ansi compatibility shim; use
      *             {@link Ansi#utf8ByteLength(byte)} instead.
+     * @param b byte to measure
+     * @return UTF-8 byte length
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public static int utf8ByteLen(byte b) {
         return Ansi.utf8ByteLength(b);
     }

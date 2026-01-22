@@ -7,12 +7,12 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import java.time.Duration;
 
 /**
- * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.timer.Timer} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.timer.Timer} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: timer/timer.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class Timer extends com.williamcallahan.tui4j.compat.bubbles.timer.Timer {
     /**
      * Creates Timer to keep this component ready for use.

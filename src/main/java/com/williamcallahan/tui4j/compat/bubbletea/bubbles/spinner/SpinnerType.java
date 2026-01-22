@@ -9,7 +9,54 @@ import java.time.Duration;
  */
 public enum SpinnerType {
 
-    LINE, DOT, MINI_DOT, JUMP, PULSE, POINTS, GLOBE, MOON, MONKEY, METER, HAMBURGER, ELLIPSIS;
+    /**
+     * Simple line spinner.
+     */
+    LINE,
+    /**
+     * Braille dot spinner.
+     */
+    DOT,
+    /**
+     * Compact braille dot spinner.
+     */
+    MINI_DOT,
+    /**
+     * Jumping dot spinner.
+     */
+    JUMP,
+    /**
+     * Pulsing block spinner.
+     */
+    PULSE,
+    /**
+     * Three-dot points spinner.
+     */
+    POINTS,
+    /**
+     * Rotating globe spinner.
+     */
+    GLOBE,
+    /**
+     * Lunar phase spinner.
+     */
+    MOON,
+    /**
+     * See-no/ hear-no/ speak-no monkey spinner.
+     */
+    MONKEY,
+    /**
+     * Meter bar spinner.
+     */
+    METER,
+    /**
+     * Hamburger menu spinner.
+     */
+    HAMBURGER,
+    /**
+     * Ellipsis dot spinner.
+     */
+    ELLIPSIS;
 
     /**
      * Handles to new for this component.

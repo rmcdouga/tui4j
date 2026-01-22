@@ -7,7 +7,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGB;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBColor;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBSupplier;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
 import java.io.Writer;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import java.util.List;
  * <p>
  * Lipgloss: term/output.go.
  */
+@SuppressWarnings("removal")
 public class Output {
     private final com.williamcallahan.tui4j.compat.lipgloss.Output delegate;
     private final List<String> environment;
@@ -72,7 +72,7 @@ public class Output {
      *
      * @return background color
      */
-    public TerminalColor backgroundColor() {
+    public com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor backgroundColor() {
         return toBubbleteaColor(delegate.backgroundColor());
     }
 
@@ -104,7 +104,7 @@ public class Output {
      * @param color canonical terminal color
      * @return bubbletea terminal color
      */
-    private static TerminalColor toBubbleteaColor(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+    private static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor toBubbleteaColor(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
         if (color == null) {
             return new NoColor();
         }
@@ -127,7 +127,7 @@ public class Output {
     /**
      * Adapter that exposes a canonical RGB supplier as a Bubble Tea terminal color.
      */
-    private static final class RGBColorAdapter implements TerminalColor, RGBSupplier {
+    private static final class RGBColorAdapter implements com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor, RGBSupplier {
         private final com.williamcallahan.tui4j.compat.lipgloss.color.RGBSupplier delegate;
 
         /**

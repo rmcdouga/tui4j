@@ -1,9 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * @see com.williamcallahan.tui4j.compat.bubbles.list.FilterState
+ * Compatibility filter state for legacy Bubble Tea list usage.
  * <p>
  * Bubbles: list/list.go.
+ *
+ * @see com.williamcallahan.tui4j.compat.bubbles.list.FilterState
  */
 public enum FilterState {
     /**

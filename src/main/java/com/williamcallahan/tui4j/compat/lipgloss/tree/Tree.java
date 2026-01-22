@@ -25,6 +25,12 @@ public class Tree implements Node {
     private ReentrantLock rendererLock = new ReentrantLock();
 
     /**
+     * Creates an empty tree node.
+     */
+    public Tree() {
+    }
+
+    /**
      * Reports whether hidden.
      *
      * @return whether hidden
@@ -114,7 +120,10 @@ public class Tree implements Node {
     }
 
     /**
-     * Adds a child node or value to this tree node.
+     * Adds child nodes or values to this tree node.
+     *
+     * @param children children to append
+     * @return this tree node
      */
     public Tree child(Object... children) {
         for (Object child : children) {
@@ -352,6 +361,8 @@ public class Tree implements Node {
 
     /**
      * Renders the tree hierarchy to a string.
+     *
+     * @return rendered tree
      */
     public String render() {
         return ensureRenderer().render(this, true, "");

@@ -1,14 +1,13 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 
 /**
- * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeStyle} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeStyle} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Lip Gloss: tree/tree.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class TreeStyle extends com.williamcallahan.tui4j.compat.lipgloss.tree.TreeStyle {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.tree.TreeStyle delegate;
@@ -19,9 +18,14 @@ public class TreeStyle extends com.williamcallahan.tui4j.compat.lipgloss.tree.Tr
     public TreeStyle() {
         super();
         this.delegate = this;
-        super.setEnumeratorFunction((children, index) -> Style.newStyle().paddingRight(1));
-        super.setItemFunction((children, index) -> Style.newStyle());
-        super.setRootStyle(Style.newStyle());
+        super.setEnumeratorFunction(
+            (children, index) -> com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle()
+                .paddingRight(1)
+        );
+        super.setItemFunction(
+            (children, index) -> com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle()
+        );
+        super.setRootStyle(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle());
     }
 
     /**
@@ -32,9 +36,14 @@ public class TreeStyle extends com.williamcallahan.tui4j.compat.lipgloss.tree.Tr
     TreeStyle(com.williamcallahan.tui4j.compat.lipgloss.tree.TreeStyle delegate) {
         super();
         this.delegate = delegate;
-        this.delegate.setEnumeratorFunction((children, index) -> Style.newStyle().paddingRight(1));
-        this.delegate.setItemFunction((children, index) -> Style.newStyle());
-        this.delegate.setRootStyle(Style.newStyle());
+        this.delegate.setEnumeratorFunction(
+            (children, index) -> com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle()
+                .paddingRight(1)
+        );
+        this.delegate.setItemFunction(
+            (children, index) -> com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle()
+        );
+        this.delegate.setRootStyle(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle());
     }
 
     /**
@@ -43,11 +52,11 @@ public class TreeStyle extends com.williamcallahan.tui4j.compat.lipgloss.tree.Tr
      * @return result
      */
     @Override
-    public Style rootStyle() {
+    public com.williamcallahan.tui4j.compat.lipgloss.Style rootStyle() {
         if (delegate == this) {
-            return (Style) super.rootStyle();
+            return super.rootStyle();
         }
-        return (Style) delegate.rootStyle();
+        return delegate.rootStyle();
     }
 
     /**
@@ -107,8 +116,10 @@ public class TreeStyle extends com.williamcallahan.tui4j.compat.lipgloss.tree.Tr
      * Updates the root style.
      *
      * @param rootStyle root style
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #setRootStyle(com.williamcallahan.tui4j.compat.lipgloss.Style)} instead.
      */
-    public void setRootStyle(Style rootStyle) {
+    @Deprecated(since = "0.3.0")
+    public void setRootStyle(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style rootStyle) {
         if (delegate == this) {
             super.setRootStyle(rootStyle);
             return;

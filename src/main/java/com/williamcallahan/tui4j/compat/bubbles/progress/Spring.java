@@ -84,10 +84,13 @@ public class Spring {
     }
 
     /**
-     * @deprecated Compatibility: Moved to {@link #Spring(double, double)}.
-     * This transitional shim is temporary and will be removed in an upcoming release.
+     * Creates a spring using the legacy FPS signature.
+     *
+     * @param fps frames per second
+     * @param frequency spring frequency
+     * @param damping spring damping
+     * @return spring instance
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
     public static Spring withFPS(double fps, double frequency, double damping) {
         return new Spring(frequency, damping);
     }

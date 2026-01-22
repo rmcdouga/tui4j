@@ -17,6 +17,12 @@ public interface TreeEnumerator {
     class DefaultEnumerator implements TreeEnumerator {
 
         /**
+         * Creates a default enumerator.
+         */
+        public DefaultEnumerator() {
+        }
+
+        /**
          * Handles enumerate for this component.
          *
          * @param children children
@@ -38,6 +44,12 @@ public interface TreeEnumerator {
      * Lipgloss: tree/enumerator.go.
      */
     class RounderEnumerator implements TreeEnumerator {
+
+        /**
+         * Creates a rounded enumerator.
+         */
+        public RounderEnumerator() {
+        }
 
         /**
          * Handles enumerate for this component.

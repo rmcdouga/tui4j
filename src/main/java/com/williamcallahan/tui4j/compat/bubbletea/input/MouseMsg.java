@@ -1,16 +1,16 @@
 package com.williamcallahan.tui4j.compat.bubbletea.input;
 
 /**
- * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility alias for legacy *Msg naming; use {@link MouseMessage} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubble Tea: mouse.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class MouseMsg extends MouseMessage {
 
     /**
-     * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage} instead.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility alias for legacy *Msg naming; use {@link MouseMessage} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
      *
      * @param x column position
@@ -21,7 +21,7 @@ public class MouseMsg extends MouseMessage {
      * @param action mouse action
      * @param button mouse button
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public MouseMsg(
         int x,
         int y,
@@ -35,7 +35,7 @@ public class MouseMsg extends MouseMessage {
     }
 
     /**
-     * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage#parseX10MouseEvent} instead.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility alias for legacy *Msg naming; use {@link MouseMessage#parseX10MouseEvent} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
      *
      * @param col column position
@@ -43,13 +43,13 @@ public class MouseMsg extends MouseMessage {
      * @param button raw button value
      * @return parsed mouse message
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public static MouseMsg parseX10MouseEvent(int col, int row, int button) {
         return fromNew(MouseMessage.parseX10MouseEvent(col, row, button));
     }
 
     /**
-     * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage#parseSGRMouseEvent} instead.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility alias for legacy *Msg naming; use {@link MouseMessage#parseSGRMouseEvent} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
      *
      * @param button raw button value
@@ -58,7 +58,7 @@ public class MouseMsg extends MouseMessage {
      * @param release whether this is a release event
      * @return parsed mouse message
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public static MouseMsg parseSGRMouseEvent(
         int button,
         int col,

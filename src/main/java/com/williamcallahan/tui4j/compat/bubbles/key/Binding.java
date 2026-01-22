@@ -87,22 +87,23 @@ public class Binding {
      *
      * @param keyPressMessage key press message
      * @return true when a key matches
-     * @deprecated <b>tui4j rename:</b> Use {@link #matches(KeyPressMessage)} instead.
-     *             {@code KeyMsg} was renamed to {@code KeyPressMessage} in v0.3.0.
-     * @since 0.3.0
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public boolean matches(com.williamcallahan.tui4j.compat.bubbletea.KeyMsg keyPressMessage) {
+    public boolean matches(KeyPressMessage keyPressMessage) {
         return matchesKey(keyPressMessage.key());
     }
 
     /**
      * Returns whether the given key press matches this binding.
      *
-     * @param keyPressMessage key press message
+     * @param keyPressMessage legacy key press message
      * @return true when a key matches
+     * @deprecated <b>tui4j rename:</b> Use {@link #matches(KeyPressMessage)} instead.
+     *             {@code KeyMsg} was renamed to {@code KeyPressMessage} in v0.3.0.
+     * @since 0.3.0
      */
-    public boolean matches(KeyPressMessage keyPressMessage) {
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    @SuppressWarnings("removal")
+    public boolean matches(com.williamcallahan.tui4j.compat.bubbletea.KeyMsg keyPressMessage) {
         return matchesKey(keyPressMessage.key());
     }
 

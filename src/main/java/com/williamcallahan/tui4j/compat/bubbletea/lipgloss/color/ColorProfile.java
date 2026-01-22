@@ -3,12 +3,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 import org.jline.utils.AttributedCharSequence;
 
 /**
- * Compatibility shim for {@link com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile}.
- * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/lipgloss/color/ColorProfile.java}.
- * <p>
- * Lip Gloss: color.go.
- *
+ * Port of Lip Gloss color profile.
+ * Bubble Tea: bubbletea/examples/list-fancy/main.go
  */
+@SuppressWarnings("removal")
 public enum ColorProfile {
     /** TrueColor, 24-bit color profile. */
     TrueColor(AttributedCharSequence.TRUE_COLORS),
@@ -21,17 +19,13 @@ public enum ColorProfile {
 
     private final int colorsCount;
 
-    /**
-     * Creates ColorProfile to keep this component ready for use.
-     *
-     * @param colorsCount colors count
-     */
     ColorProfile(int colorsCount) {
         this.colorsCount = colorsCount;
     }
 
     /**
-     * Creates a terminal color from a string. Valid inputs are hex colors or ANSI codes.
+     * Color creates a {@link TerminalColor} from a string. Valid inputs are hex colors, as well as
+     * ANSI color codes (0-15, 16-255).
      *
      * @param color color string
      * @return terminal color, or null when parsing fails
@@ -61,7 +55,7 @@ public enum ColorProfile {
     }
 
     /**
-     * Transforms the given terminal color into a compatible color for this profile.
+     * Transforms given {@link TerminalColor} to a {@link TerminalColor} supported within the {@link ColorProfile}.
      *
      * @param terminalColor terminal color
      * @return compatible terminal color
@@ -98,27 +92,5 @@ public enum ColorProfile {
      */
     public int colorsCount() {
         return colorsCount;
-    }
-
-    /**
-     * Converts this shim to the canonical enum.
-     *
-     * @return canonical color profile
-     */
-    public com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile toCanonical() {
-        return com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile.valueOf(name());
-    }
-
-    /**
-     * Converts a canonical enum value to the legacy shim.
-     *
-     * @param canonical canonical color profile
-     * @return legacy color profile
-     */
-    public static ColorProfile fromCanonical(com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile canonical) {
-        if (canonical == null) {
-            return null;
-        }
-        return ColorProfile.valueOf(canonical.name());
     }
 }

@@ -1,7 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
 
 import java.util.function.Function;
 
@@ -10,11 +9,12 @@ import java.util.function.Function;
  * <p>
  * Lipgloss: style.go.
  *
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.Style}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.Style}.
  * This transitional shim preserves the legacy Bubble Tea fluent API and will be removed
  * in a future release.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
+@SuppressWarnings("removal")
 public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
 
     /**
@@ -24,6 +24,23 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      */
     public static Style newStyle() {
         return new Style(Renderer.defaultRenderer());
+    }
+
+    /**
+     * Wraps a canonical style with the legacy Bubble Tea shim.
+     *
+     * @param canonical canonical style
+     * @return legacy style shim
+     */
+    public static Style fromCanonical(com.williamcallahan.tui4j.compat.lipgloss.Style canonical) {
+        if (canonical instanceof Style legacy) {
+            return legacy;
+        }
+        Style legacy = new Style(Renderer.defaultRenderer());
+        if (canonical != null) {
+            legacy.inherit(canonical);
+        }
+        return legacy;
     }
 
     /**
@@ -65,7 +82,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea terminal color
      * @return this style
      */
-    public Style foreground(TerminalColor color) {
+    public Style foreground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.foreground(adaptColor(color));
         return this;
     }
@@ -88,7 +105,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea terminal color
      * @return this style
      */
-    public Style background(TerminalColor color) {
+    public Style background(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.background(adaptColor(color));
         return this;
     }
@@ -433,7 +450,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param marginBackgroundColor bubbletea terminal color
      * @return this style
      */
-    public Style marginBackgroundColor(TerminalColor marginBackgroundColor) {
+    public Style marginBackgroundColor(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor marginBackgroundColor) {
         super.marginBackgroundColor(adaptColor(marginBackgroundColor));
         return this;
     }
@@ -551,7 +568,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param colors bubbletea colors
      * @return this style
      */
-    public Style borderBackground(TerminalColor... colors) {
+    public Style borderBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor... colors) {
         super.borderBackground(adaptColors(colors));
         return this;
     }
@@ -574,7 +591,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderTopBackground(TerminalColor color) {
+    public Style borderTopBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderTopBackground(adaptColor(color));
         return this;
     }
@@ -597,7 +614,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderRightBackground(TerminalColor color) {
+    public Style borderRightBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderRightBackground(adaptColor(color));
         return this;
     }
@@ -620,7 +637,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderBottomBackground(TerminalColor color) {
+    public Style borderBottomBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderBottomBackground(adaptColor(color));
         return this;
     }
@@ -643,7 +660,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderLeftBackground(TerminalColor color) {
+    public Style borderLeftBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderLeftBackground(adaptColor(color));
         return this;
     }
@@ -666,7 +683,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param colors bubbletea colors
      * @return this style
      */
-    public Style borderForeground(TerminalColor... colors) {
+    public Style borderForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor... colors) {
         super.borderForeground(adaptColors(colors));
         return this;
     }
@@ -689,7 +706,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderTopForeground(TerminalColor color) {
+    public Style borderTopForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderTopForeground(adaptColor(color));
         return this;
     }
@@ -712,7 +729,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderRightForeground(TerminalColor color) {
+    public Style borderRightForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderRightForeground(adaptColor(color));
         return this;
     }
@@ -735,7 +752,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderBottomForeground(TerminalColor color) {
+    public Style borderBottomForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderBottomForeground(adaptColor(color));
         return this;
     }
@@ -758,7 +775,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea color
      * @return this style
      */
-    public Style borderLeftForeground(TerminalColor color) {
+    public Style borderLeftForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         super.borderLeftForeground(adaptColor(color));
         return this;
     }
@@ -803,7 +820,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param color bubbletea terminal color
      * @return canonical terminal color
      */
-    private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor adaptColor(TerminalColor color) {
+    private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor adaptColor(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         if (color == null) {
             return null;
         }
@@ -834,7 +851,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param colors bubbletea colors
      * @return canonical colors
      */
-    private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor[] adaptColors(TerminalColor... colors) {
+    private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor[] adaptColors(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor... colors) {
         if (colors == null) {
             return null;
         }

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems}.
+ * Bubble Tea-compatible alias for {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems}.
  * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/FetchedItems.java}.
- *
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems}.
- * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@SuppressWarnings("removal")
 public class FetchedItems extends com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems {
 
     /**

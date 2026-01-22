@@ -5,9 +5,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * tui4j: src/main/java/com/williamcallahan/tui4j/compat/bubbletea/ProgramException.java
  * <p>
  * Bubble Tea: tea.go.
- * @deprecated Compatibility shim for relocated type; use {@link RuntimeException} instead.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
 public class ProgramException extends RuntimeException {
     /**
      * Creates ProgramException to keep this component ready for use.

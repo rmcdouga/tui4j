@@ -5,7 +5,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.cursor.Cursor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 
 /**
  * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea}.
@@ -13,7 +12,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
  * <p>
  * Bubbles: textarea/textarea.go.
  *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea}.
+ * This shim cannot extend the successor without breaking the public
+ * {@code UpdateResult<Textarea>} signature, so it delegates to preserve API stability.
  */
+@Deprecated(since = "0.3.0")
 public class Textarea implements Model {
 
     private com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea delegate;
@@ -26,18 +29,26 @@ public class Textarea implements Model {
     }
 
     /**
-     * @deprecated Use {@link #Textarea()} and setters instead.
+     * Creates a textarea with a placeholder.
+     *
+     * @param placeholder placeholder text
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #Textarea()} and setters instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Textarea(String placeholder) {
         this();
         setPlaceholder(placeholder);
     }
 
     /**
-     * @deprecated Use {@link #Textarea()} and setters instead.
+     * Creates a textarea with placeholder, width, and height.
+     *
+     * @param placeholder placeholder text
+     * @param width       width in cells
+     * @param height      height in rows
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #Textarea()} and setters instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Textarea(String placeholder, int width, int height) {
         this();
         setPlaceholder(placeholder);
@@ -46,9 +57,15 @@ public class Textarea implements Model {
     }
 
     /**
-     * @deprecated Use {@link #Textarea()} and setters instead.
+     * Creates a textarea with placeholder, width, height, and character limit.
+     *
+     * @param placeholder placeholder text
+     * @param width       width in cells
+     * @param height      height in rows
+     * @param charLimit   character limit
+     * @deprecated Deprecated in tui4j as of 0.3.0 because you should use {@link #Textarea()} and setters instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Textarea(String placeholder, int width, int height, int charLimit) {
         this();
         setPlaceholder(placeholder);
@@ -337,10 +354,10 @@ public class Textarea implements Model {
     }
 
     /**
-     * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.Style}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.Style}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public static class Style extends com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.Style {
         private final com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.Style delegate;
 
@@ -849,10 +866,10 @@ public class Textarea implements Model {
     }
 
     /**
-     * @deprecated Moved to {@link com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.LineInfo}.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.LineInfo}.
      * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public static class LineInfo extends com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.LineInfo {
 
         /**

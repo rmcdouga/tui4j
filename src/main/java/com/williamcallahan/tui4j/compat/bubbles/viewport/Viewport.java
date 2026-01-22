@@ -43,7 +43,7 @@ public class Viewport implements Model {
      *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     private boolean highPerformanceRendering;
 
     private boolean initialized;
@@ -167,6 +167,8 @@ public class Viewport implements Model {
     /**
      * Replaces the viewport content and recalculates dimensions.
      * Resets position if content shrinks above current scroll.
+     *
+     * @param content new content
      */
     public void setContent(String content) {
         if (content == null || content.isEmpty()) {
@@ -582,7 +584,7 @@ public class Viewport implements Model {
      * @return always returns the stored value, but feature has no effect
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public boolean isHighPerformanceRendering() {
         return highPerformanceRendering;
     }
@@ -594,7 +596,7 @@ public class Viewport implements Model {
      * @param highPerformanceRendering ignored, feature has no effect
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public void setHighPerformanceRendering(boolean highPerformanceRendering) {
         this.highPerformanceRendering = highPerformanceRendering;
     }

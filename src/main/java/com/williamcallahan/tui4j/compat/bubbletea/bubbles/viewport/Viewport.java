@@ -1,12 +1,12 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.viewport;
 
 /**
- * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: viewport/viewport.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class Viewport extends com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport {
     
     /**
@@ -17,18 +17,27 @@ public class Viewport extends com.williamcallahan.tui4j.compat.bubbles.viewport.
     }
 
     /**
-     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     * Creates a viewport with initial content.
+     *
+     * @param content viewport content
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Viewport(String content) {
         super();
         this.setContent(content);
     }
 
     /**
-     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     * Creates a viewport with content and height.
+     *
+     * @param content viewport content
+     * @param height viewport height
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Viewport(String content, int height) {
         super();
         this.setContent(content);
@@ -36,9 +45,15 @@ public class Viewport extends com.williamcallahan.tui4j.compat.bubbles.viewport.
     }
 
     /**
-     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     * Creates a viewport with content, width, and height.
+     *
+     * @param content viewport content
+     * @param width viewport width
+     * @param height viewport height
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Viewport(String content, int width, int height) {
         super();
         this.setContent(content);
@@ -47,10 +62,17 @@ public class Viewport extends com.williamcallahan.tui4j.compat.bubbles.viewport.
     }
 
     /**
-     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     * Creates a viewport with content, dimensions, and key map.
+     *
+     * @param content viewport content
+     * @param width viewport width
+     * @param height viewport height
+     * @param keyMap key bindings
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public Viewport(String content, int width, int height, KeyMap keyMap) {
+    @Deprecated(since = "0.3.0")
+    public Viewport(String content, int width, int height, com.williamcallahan.tui4j.compat.bubbles.viewport.KeyMap keyMap) {
         super();
         this.setContent(content);
         this.setWidth(width);

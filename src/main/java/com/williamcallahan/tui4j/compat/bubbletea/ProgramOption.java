@@ -147,13 +147,13 @@ public interface ProgramOption {
      * Removes redundant ANSI sequences to produce potentially smaller output.
      *
      * @return program option
-     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
-     *             {@code WithANSICompressor} is deprecated due to performance overhead.
-     *             Deprecated since v0.3.0 in tui4j; this option has no effect.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this option is a no-op;
+     *             omit it and rely on default program behavior instead.
+     *             {@code WithANSICompressor} is deprecated in Bubble Tea due to performance overhead.
      * @see <a href="https://pkg.go.dev/github.com/charmbracelet/bubbletea#WithANSICompressor">
      *      bubbletea.WithANSICompressor (Go docs)</a>
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     static ProgramOption withAnsiCompressor() {
         return program -> program.setAnsiCompressorInternal(true);
     }

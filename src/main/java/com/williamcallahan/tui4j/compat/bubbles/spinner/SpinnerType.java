@@ -10,15 +10,45 @@ import java.time.Duration;
  */
 public enum SpinnerType {
 
+    /**
+     * Simple line spinner.
+     */
     LINE(new String[]{"|", "/", "-", "\\"}, Duration.ofSeconds(1).dividedBy(10)),
+    /**
+     * Braille dot spinner.
+     */
     DOT(new String[]{"⣾ ", "⣽ ", "⣻ ", "⢿ ", "⡿ ", "⣟ ", "⣯ ", "⣷ "}, Duration.ofSeconds(1).dividedBy(10)),
+    /**
+     * Compact braille dot spinner.
+     */
     MINI_DOT(new String[]{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}, Duration.ofSeconds(1).dividedBy(12)),
+    /**
+     * Jumping dot spinner.
+     */
     JUMP(new String[]{"⢄", "⢂", "⢁", "⡁", "⡈", "⡐", "⡠"}, Duration.ofSeconds(1).dividedBy(10)),
+    /**
+     * Pulsing block spinner.
+     */
     PULSE(new String[]{"█", "▓", "▒", "░"}, Duration.ofSeconds(1).dividedBy(8)),
+    /**
+     * Three-dot points spinner.
+     */
     POINTS(new String[]{"∙∙∙", "●∙∙", "∙●∙", "∙∙●"}, Duration.ofSeconds(1).dividedBy(7)),
+    /**
+     * Rotating globe spinner.
+     */
     GLOBE(new String[]{"🌍", "🌎", "🌏"}, Duration.ofSeconds(1).dividedBy(4)),
+    /**
+     * Lunar phase spinner.
+     */
     MOON(new String[]{"🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"}, Duration.ofSeconds(1).dividedBy(8)),
+    /**
+     * See-no/ hear-no/ speak-no monkey spinner.
+     */
     MONKEY(new String[]{"🙈", "🙉", "🙊"}, Duration.ofSeconds(1).dividedBy(3)),
+    /**
+     * Meter bar spinner.
+     */
     METER(new String[]{
             "▱▱▱",
             "▰▱▱",
@@ -28,7 +58,13 @@ public enum SpinnerType {
             "▰▱▱",
             "▱▱▱"
     }, Duration.ofSeconds(1).dividedBy(7)),
+    /**
+     * Hamburger menu spinner.
+     */
     HAMBURGER(new String[]{"☱", "☲", "☴", "☲"}, Duration.ofSeconds(1).dividedBy(3)),
+    /**
+     * Ellipsis dot spinner.
+     */
     ELLIPSIS(new String[]{"", ".", "..", "..."}, Duration.ofSeconds(1).dividedBy(3));
 
     private final String[] frames;

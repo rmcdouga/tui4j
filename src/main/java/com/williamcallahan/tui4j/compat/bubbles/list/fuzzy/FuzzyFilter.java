@@ -20,8 +20,10 @@ public class FuzzyFilter {
 
     /**
      * Creates FuzzyFilter to keep this component ready for use.
+     * <p>
+     * Protected to allow legacy compatibility shims.
      */
-    private FuzzyFilter() {}
+    protected FuzzyFilter() {}
 
     /**
      * Filters and ranks targets by fuzzy matching against a search term.

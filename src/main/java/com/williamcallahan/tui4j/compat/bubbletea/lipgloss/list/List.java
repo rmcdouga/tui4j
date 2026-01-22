@@ -3,12 +3,12 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list;
 import com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator;
 
 /**
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.List}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.List}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Lip Gloss: list/list.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class List extends com.williamcallahan.tui4j.compat.lipgloss.List {
     /**
      * Creates List to keep this component ready for use.

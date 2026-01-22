@@ -1,6 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
 
 /**
  * Whitespace renderer for Bubble Tea-compatible layouts.
@@ -9,6 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
  *
  * @since 0.3.0
  */
+@SuppressWarnings("removal")
 public class Whitespace {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.Whitespace delegate;
@@ -62,7 +62,7 @@ public class Whitespace {
      * @param color foreground color
      * @return whitespace option
      */
-    public static WhitespaceOption WithWhitespaceForeground(TerminalColor color) {
+    public static WhitespaceOption WithWhitespaceForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         return whitespace -> com.williamcallahan.tui4j.compat.lipgloss.Whitespace
             .WithWhitespaceForeground(adaptColor(color))
             .apply(whitespace.delegate);
@@ -74,7 +74,7 @@ public class Whitespace {
      * @param color background color
      * @return whitespace option
      */
-    public static WhitespaceOption WithWhitespaceBackground(TerminalColor color) {
+    public static WhitespaceOption WithWhitespaceBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         return whitespace -> com.williamcallahan.tui4j.compat.lipgloss.Whitespace
             .WithWhitespaceBackground(adaptColor(color))
             .apply(whitespace.delegate);
@@ -142,7 +142,7 @@ public class Whitespace {
      * @param color bubbletea terminal color
      * @return canonical terminal color
      */
-    private static com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor adaptColor(TerminalColor color) {
+    private static com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor adaptColor(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
         if (color == null) {
             return null;
         }

@@ -12,6 +12,12 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 public class Styles {
 
     /**
+     * Creates a styles container.
+     */
+    public Styles() {
+    }
+
+    /**
      * Handles default styles for this component.
      *
      * @return result

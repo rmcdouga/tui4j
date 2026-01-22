@@ -8,11 +8,11 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Lipgloss: color.go.
  *
- * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public interface TerminalColor extends com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor {
     /**
      * Applies this color as a background to the given style.
