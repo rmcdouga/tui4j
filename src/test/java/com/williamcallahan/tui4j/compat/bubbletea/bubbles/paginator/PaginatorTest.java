@@ -8,8 +8,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Paginator.Option.withPerPage;
-import static com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator.Paginator.Option.withTotalPages;
+import static com.williamcallahan.tui4j.compat.bubbles.paginator.Paginator.Option.withPerPage;
+import static com.williamcallahan.tui4j.compat.bubbles.paginator.Paginator.Option.withTotalPages;
 
 /**
  * Tests paginator.

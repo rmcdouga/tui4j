@@ -11,7 +11,7 @@ import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 import com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator;
 import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
-import com.williamcallahan.tui4j.compat.lipgloss.placement.PlacementDecorator;
+import com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator;
 import com.williamcallahan.tui4j.message.CheckWindowSizeMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
