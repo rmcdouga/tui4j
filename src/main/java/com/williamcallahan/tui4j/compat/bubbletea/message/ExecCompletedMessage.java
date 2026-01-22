@@ -6,7 +6,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.message;
  * Port of charmbracelet/bubbletea exec.go execCompletedMsg type.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
+ * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage} instead.
+ * Bubble Tea: exec.go.
  */
+@Deprecated(since = "0.3.0", forRemoval = true)
 public class ExecCompletedMessage extends com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage {
 
     /**

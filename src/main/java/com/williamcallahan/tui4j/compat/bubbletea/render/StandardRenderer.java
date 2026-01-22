@@ -1,5 +1,4 @@
 package com.williamcallahan.tui4j.compat.bubbletea.render;
-import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.ProgramException;
@@ -22,6 +21,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * Default renderer backed by JLine.
  * tui4j:
  * src/main/java/com/williamcallahan/tui4j/compat/bubbletea/render/StandardRenderer.java
+ * <p>
+ * Bubble Tea: standard_renderer.go.
  */
 public class StandardRenderer implements Renderer {
 
@@ -45,10 +46,21 @@ public class StandardRenderer implements Renderer {
     private boolean isReportFocus;
     private boolean bracketedPasteEnabled;
 
+    /**
+     * Creates StandardRenderer to keep this component ready for use.
+     *
+     * @param terminal terminal
+     */
     public StandardRenderer(Terminal terminal) {
         this(terminal, DEFAULT_FPS);
     }
 
+    /**
+     * Creates StandardRenderer to keep this component ready for use.
+     *
+     * @param terminal terminal
+     * @param fps fps
+     */
     public StandardRenderer(Terminal terminal, int fps) {
         this.terminal = terminal;
         this.frameTime = 1000 / Math.min(Math.max(fps, 1), 120);
@@ -72,6 +84,9 @@ public class StandardRenderer implements Renderer {
     }
 
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go start behavior.
+    /**
+     * Handles start for this component.
+     */
     public void start() {
         if (!isRunning) {
             isRunning = true;
@@ -80,6 +95,9 @@ public class StandardRenderer implements Renderer {
     }
 
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go stop behavior.
+    /**
+     * Handles stop for this component.
+     */
     public void stop() {
         isRunning = false;
         try {
@@ -90,16 +108,25 @@ public class StandardRenderer implements Renderer {
         }
     }
 
+    /**
+     * Handles pause for this component.
+     */
     @Override
     public void pause() {
         isRunning = false;
     }
 
+    /**
+     * Handles resume for this component.
+     */
     @Override
     public void resume() {
         isRunning = true;
     }
 
+    /**
+     * Handles flush for this component.
+     */
     private void flush() {
         if (!needsRender) {
             return;
@@ -182,8 +209,13 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go write behavior.
+    /**
+     * Handles write for this component.
+     *
+     * @param view view
+     */
+    @Override
     public void write(String view) {
         if (!isRunning)
             return;
@@ -199,9 +231,12 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go showCursor
     // behavior.
+    /**
+     * Handles show cursor for this component.
+     */
+    @Override
     public void showCursor() {
         renderLock.lock();
         try {
@@ -212,9 +247,12 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go hideCursor
     // behavior.
+    /**
+     * Handles hide cursor for this component.
+     */
+    @Override
     public void hideCursor() {
         renderLock.lock();
         try {
@@ -225,11 +263,21 @@ public class StandardRenderer implements Renderer {
         }
     }
 
+    /**
+     * Handles write to terminal unlocked for this component.
+     *
+     * @param value value
+     */
     private void writeToTerminalUnlocked(String value) {
         terminal.writer().print(value);
         terminal.writer().flush();
     }
 
+    /**
+     * Handles write to terminal for this component.
+     *
+     * @param value value
+     */
     private void writeToTerminal(String value) {
         renderLock.lock();
         try {
@@ -239,91 +287,135 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // enableMouseCellMotion behavior.
+    /**
+     * Handles enable mouse cell motion for this component.
+     */
+    @Override
     public void enableMouseCellMotion() {
         writeToTerminal(Code.EnableMouseCellMotion.value());
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // disableMouseCellMotion behavior.
+    /**
+     * Handles disable mouse cell motion for this component.
+     */
+    @Override
     public void disableMouseCellMotion() {
         writeToTerminal(Code.DisableMouseCellMotion.value());
     }
 
+    /**
+     * Handles enable mouse normal tracking for this component.
+     */
     @Override
     public void enableMouseNormalTracking() {
         writeToTerminal(Code.EnableMouseNormalTracking.value());
     }
 
+    /**
+     * Handles disable mouse normal tracking for this component.
+     */
     @Override
     public void disableMouseNormalTracking() {
         writeToTerminal(Code.DisableMouseNormalTracking.value());
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // enableMouseAllMotion behavior.
+    /**
+     * Handles enable mouse all motion for this component.
+     */
+    @Override
     public void enableMouseAllMotion() {
         writeToTerminal(Code.EnableMouseAllMotion.value());
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // disableMouseAllMotion behavior.
+    /**
+     * Handles disable mouse all motion for this component.
+     */
+    @Override
     public void disableMouseAllMotion() {
         writeToTerminal(Code.DisableMouseAllMotion.value());
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // enableMouseSGRMode behavior.
+    /**
+     * Handles enable mouse sgrmode for this component.
+     */
+    @Override
     public void enableMouseSGRMode() {
         writeToTerminal(Code.EnableMouseSgrExt.value());
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // disableMouseSGRMode behavior.
+    /**
+     * Handles disable mouse sgrmode for this component.
+     */
+    @Override
     public void disableMouseSGRMode() {
         writeToTerminal(Code.DisableMouseSgrExt.value());
     }
 
-    @Override
     // tui4j extension; no Bubble Tea equivalent.
+    /**
+     * Updates the mouse cursor text.
+     */
+    @Override
     public void setMouseCursorText() {
         writeToTerminal(Code.SetMouseTextCursor.value());
     }
 
-    @Override
     // tui4j extension; no Bubble Tea equivalent.
+    /**
+     * Updates the mouse cursor pointer.
+     */
+    @Override
     public void setMouseCursorPointer() {
         writeToTerminal(Code.SetMousePointerCursor.value());
     }
 
-    @Override
     // tui4j extension; no Bubble Tea equivalent.
+    /**
+     * Handles reset mouse cursor for this component.
+     */
+    @Override
     public void resetMouseCursor() {
         writeToTerminal(Code.ResetMouseCursor.value());
     }
 
-    @Override
     // tui4j extension; no Bubble Tea equivalent.
+    /**
+     * Handles copy to clipboard for this component.
+     *
+     * @param text text
+     */
+    @Override
     public void copyToClipboard(String text) {
         writeToTerminal(Code.copyToClipboard(text));
     }
 
-    @Override
     // Bubble Tea: bubbletea/commands.go Paste command
+    /**
+     * Handles request clipboard for this component.
+     */
+    @Override
     public void requestClipboard() {
         writeToTerminal(Code.requestClipboard());
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go clearScreen
     // behavior.
+    /**
+     * Handles clear screen for this component.
+     */
+    @Override
     public void clearScreen() {
         renderLock.lock();
         try {
@@ -335,16 +427,24 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go altScreen
     // behavior.
+    /**
+     * Handles alt screen for this component.
+     *
+     * @return whether the alternate screen is active
+     */
+    @Override
     public boolean altScreen() {
         return isInAltScreen;
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go enterAltScreen
     // behavior.
+    /**
+     * Handles enter alt screen for this component.
+     */
+    @Override
     public void enterAltScreen() {
         if (isInAltScreen)
             return;
@@ -368,9 +468,12 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go exitAltScreen
     // behavior.
+    /**
+     * Handles exit alt screen for this component.
+     */
+    @Override
     public void exitAltScreen() {
         if (!altScreen())
             return;
@@ -389,9 +492,14 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go reportFocus
     // behavior.
+    /**
+     * Handles report focus for this component.
+     *
+     * @return whether focus reporting is enabled
+     */
+    @Override
     public boolean reportFocus() {
         renderLock.lock();
         try {
@@ -401,9 +509,12 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // enableReportFocus behavior.
+    /**
+     * Handles enable report focus for this component.
+     */
+    @Override
     public void enableReportFocus() {
         renderLock.lock();
         try {
@@ -414,9 +525,12 @@ public class StandardRenderer implements Renderer {
         }
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go
     // disableReportFocus behavior.
+    /**
+     * Handles disable report focus for this component.
+     */
+    @Override
     public void disableReportFocus() {
         renderLock.lock();
         try {
@@ -427,40 +541,62 @@ public class StandardRenderer implements Renderer {
         }
     }
 
+    /**
+     * Handles enable bracketed paste for this component.
+     */
     @Override
     public void enableBracketedPaste() {
         writeToTerminal(Code.EnableBracketedPaste.value());
         bracketedPasteEnabled = true;
     }
 
+    /**
+     * Handles disable bracketed paste for this component.
+     */
     @Override
     public void disableBracketedPaste() {
         writeToTerminal(Code.DisableBracketedPaste.value());
         bracketedPasteEnabled = false;
     }
 
+    /**
+     * Handles bracketed paste for this component.
+     *
+     * @return whether acketed paste
+     */
     @Override
     public boolean bracketedPaste() {
         return bracketedPasteEnabled;
     }
 
-    @Override
     // tui4j extension; no Bubble Tea equivalent.
+    /**
+     * Handles notify model changed for this component.
+     */
+    @Override
     public void notifyModelChanged() {
         this.needsRender = true;
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go repaint
     // behavior.
+    /**
+     * Handles repaint for this component.
+     */
+    @Override
     public void repaint() {
         lastRender = "";
         lastRenderedLines = new String[] {};
     }
 
-    @Override
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go handleMessages
     // behavior.
+    /**
+     * Handles handle message for this component.
+     *
+     * @param msg msg
+     */
+    @Override
     public void handleMessage(Message msg) {
         // Deprecated *Msg classes extend *Message, so these checks handle both.
         if (msg instanceof PrintLineMessage printLineMessage) {
@@ -484,7 +620,7 @@ public class StandardRenderer implements Renderer {
             setMouseCursorPointer();
         } else if (msg instanceof ResetMouseCursorMessage) {
             resetMouseCursor();
-        } else if (msg instanceof CopyToClipboardMessage copyToClipboardMessage) {
+        } else if (msg instanceof com.williamcallahan.tui4j.message.CopyToClipboardMessage copyToClipboardMessage) {
             copyToClipboard(copyToClipboardMessage.text());
         } else if (msg instanceof ReadClipboardMessage) {
             requestClipboard();
@@ -500,10 +636,20 @@ public class StandardRenderer implements Renderer {
 
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go setWindowTitle
     // behavior.
+    /**
+     * Updates the window title.
+     *
+     * @param title title
+     */
     private void setWindowTitle(String title) {
         terminal.writer().print("\u001b]2;" + title + "\u0007");
     }
 
+    /**
+     * Handles queue print line for this component.
+     *
+     * @param messageBody message body
+     */
     private void queuePrintLine(String messageBody) {
         if (isInAltScreen) {
             return;

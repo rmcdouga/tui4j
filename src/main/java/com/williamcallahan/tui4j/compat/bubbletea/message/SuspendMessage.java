@@ -6,7 +6,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.message;
  * Port of charmbracelet/bubbletea tea.go SuspendMsg type.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
+ * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbletea.SuspendMessage} instead.
+ * Bubble Tea: tea.go.
  */
+@Deprecated(since = "0.3.0", forRemoval = true)
 public class SuspendMessage extends com.williamcallahan.tui4j.compat.bubbletea.SuspendMessage {
 
     /** Creates a suspend message. */
