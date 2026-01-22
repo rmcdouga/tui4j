@@ -1,27 +1,28 @@
 package com.williamcallahan.tui4j.compat.bubbles.viewport;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import com.williamcallahan.tui4j.ansi.TextWidth;
+import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.x.ansi.Cut;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 /**
  * Scrollable viewport for viewing content larger than the screen.
  * <p>
- * Port of `bubbles/viewport`.
+ * Port of {@code bubbles/viewport/viewport.go}.
  * Handles vertical scrolling and panning of wrapped or raw text content.
+ *
+ * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
  */
 public class Viewport implements Model {
 
@@ -35,17 +36,23 @@ public class Viewport implements Model {
     private int horizontalStep;
     private int yPosition;
     private Style style;
+
     /**
-     * @deprecated High performance rendering is deprecated in upstream Bubble Tea.
-     *             This field is retained for API compatibility but has no effect.
-     * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
+     * @deprecated Deprecated in upstream Bubbles ({@code charmbracelet/bubbles}).
+     *             High performance rendering is deprecated in the upstream viewport model.
+     *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
+     * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
-    @Deprecated(since = "0.3.0")
+    @Deprecated(since = "0.3.0", forRemoval = true)
     private boolean highPerformanceRendering;
+
     private boolean initialized;
     private List<String> lines;
     private int longestLineWidth;
 
+    /**
+     * Creates Viewport to keep this component ready for use.
+     */
     public Viewport() {
         this.width = 0;
         this.height = 0;
@@ -63,6 +70,13 @@ public class Viewport implements Model {
         this.longestLineWidth = 0;
     }
 
+    /**
+     * Creates a value for this component.
+     *
+     * @param width width
+     * @param height height
+     * @return result
+     */
     public static Viewport create(int width, int height) {
         Viewport viewport = new Viewport();
         viewport.setWidth(width);
@@ -70,6 +84,9 @@ public class Viewport implements Model {
         return viewport;
     }
 
+    /**
+     * Updates the initial values.
+     */
     private void setInitialValues() {
         this.keyMap = new KeyMap();
         this.mouseWheelEnabled = true;
@@ -77,23 +94,48 @@ public class Viewport implements Model {
         this.initialized = true;
     }
 
+    /**
+     * Supplies the initial command for the model.
+     *
+     * @return initial command
+     */
     @Override
     public Command init() {
         return null;
     }
 
+    /**
+     * Handles at top for this component.
+     *
+     * @return whether top
+     */
     public boolean atTop() {
         return yOffset <= 0;
     }
 
+    /**
+     * Handles at bottom for this component.
+     *
+     * @return whether bottom
+     */
     public boolean atBottom() {
         return yOffset >= maxYOffset();
     }
 
+    /**
+     * Handles past bottom for this component.
+     *
+     * @return whether st bottom
+     */
     public boolean pastBottom() {
         return yOffset > maxYOffset();
     }
 
+    /**
+     * Handles scroll percent for this component.
+     *
+     * @return result
+     */
     public double scrollPercent() {
         if (lines.isEmpty() || height >= lines.size()) {
             return 1.0;
@@ -105,6 +147,11 @@ public class Viewport implements Model {
         return max(0.0, min(1.0, v));
     }
 
+    /**
+     * Handles horizontal scroll percent for this component.
+     *
+     * @return result
+     */
     public double horizontalScrollPercent() {
         int effectiveWidth = max(0, width - style.getHorizontalFrameSize());
         if (lines.isEmpty() || effectiveWidth >= longestLineWidth) {
@@ -136,10 +183,20 @@ public class Viewport implements Model {
         }
     }
 
+    /**
+     * Handles max yoffset for this component.
+     *
+     * @return result
+     */
     private int maxYOffset() {
         return max(0, lines.size() - height + style.getVerticalFrameSize());
     }
 
+    /**
+     * Handles visible lines for this component.
+     *
+     * @return result
+     */
     private List<String> visibleLines() {
         int h = height - style.getVerticalFrameSize();
         int w = width - style.getHorizontalFrameSize();
@@ -165,30 +222,47 @@ public class Viewport implements Model {
         return new ArrayList<>();
     }
 
+    /**
+     * Handles page down for this component.
+     */
     public void pageDown() {
         if (!atBottom()) {
             scrollDown(height);
         }
     }
 
+    /**
+     * Handles page up for this component.
+     */
     public void pageUp() {
         if (!atTop()) {
             scrollUp(height);
         }
     }
 
+    /**
+     * Handles half page down for this component.
+     */
     public void halfPageDown() {
         if (!atBottom()) {
             scrollDown(height / 2);
         }
     }
 
+    /**
+     * Handles half page up for this component.
+     */
     public void halfPageUp() {
         if (!atTop()) {
             scrollUp(height / 2);
         }
     }
 
+    /**
+     * Handles scroll down for this component.
+     *
+     * @param n n
+     */
     public void scrollDown(int n) {
         if (atBottom() || n == 0 || lines.isEmpty()) {
             return;
@@ -196,6 +270,11 @@ public class Viewport implements Model {
         setYOffsetInternal(yOffset + n);
     }
 
+    /**
+     * Handles scroll up for this component.
+     *
+     * @param n n
+     */
     public void scrollUp(int n) {
         if (atTop() || n == 0 || lines.isEmpty()) {
             return;
@@ -203,41 +282,83 @@ public class Viewport implements Model {
         setYOffsetInternal(yOffset - n);
     }
 
+    /**
+     * Updates the horizontal step.
+     *
+     * @param n n
+     */
     public void setHorizontalStep(int n) {
         this.horizontalStep = max(n, 0);
     }
 
+    /**
+     * Updates the xoffset.
+     *
+     * @param n n
+     */
     public void setXOffset(int n) {
         int effectiveWidth = max(0, width - style.getHorizontalFrameSize());
         this.xOffset = clamp(n, 0, max(0, longestLineWidth - effectiveWidth));
     }
 
+    /**
+     * Handles scroll left for this component.
+     *
+     * @param n n
+     */
     public void scrollLeft(int n) {
         setXOffset(xOffset - n);
     }
 
+    /**
+     * Handles scroll right for this component.
+     *
+     * @param n n
+     */
     public void scrollRight(int n) {
         setXOffset(xOffset + n);
     }
 
+    /**
+     * Handles total line count for this component.
+     *
+     * @return result
+     */
     public int totalLineCount() {
         return lines.size();
     }
 
+    /**
+     * Handles visible line count for this component.
+     *
+     * @return result
+     */
     public int visibleLineCount() {
         return visibleLines().size();
     }
 
+    /**
+     * Handles goto top for this component.
+     */
     public void gotoTop() {
         if (!atTop()) {
             setYOffsetInternal(0);
         }
     }
 
+    /**
+     * Handles goto bottom for this component.
+     */
     public void gotoBottom() {
         setYOffsetInternal(maxYOffset());
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @return next model state and command
+     */
     @Override
     public UpdateResult<Viewport> update(Message msg) {
         if (!initialized) {
@@ -249,7 +370,9 @@ public class Viewport implements Model {
                 pageDown();
             } else if (Binding.matches(keyPressMessage, keyMap.pageUp())) {
                 pageUp();
-            } else if (Binding.matches(keyPressMessage, keyMap.halfPageDown())) {
+            } else if (
+                Binding.matches(keyPressMessage, keyMap.halfPageDown())
+            ) {
                 halfPageDown();
             } else if (Binding.matches(keyPressMessage, keyMap.halfPageUp())) {
                 halfPageUp();
@@ -267,6 +390,11 @@ public class Viewport implements Model {
         return UpdateResult.from(this);
     }
 
+    /**
+     * Renders the model view for display.
+     *
+     * @return rendered view
+     */
     @Override
     public String view() {
         if (highPerformanceRendering) {
@@ -288,16 +416,24 @@ public class Viewport implements Model {
         }
 
         String rendered = style
-                .width(effectiveWidth)
-                .height(effectiveHeight)
-                .render(content.toString());
+            .width(effectiveWidth)
+            .height(effectiveHeight)
+            .render(content.toString());
         return rendered;
     }
 
+    /**
+     * Handles find longest line width for this component.
+     *
+     * @param lines lines
+     * @return result
+     */
     private int findLongestLineWidth(List<String> lines) {
         int w = 0;
         for (String line : lines) {
-            int lineWidth = TextWidth.measureCellWidth(line != null ? line : "");
+            int lineWidth = TextWidth.measureCellWidth(
+                line != null ? line : ""
+            );
             if (lineWidth > w) {
                 w = lineWidth;
             }
@@ -305,6 +441,14 @@ public class Viewport implements Model {
         return w;
     }
 
+    /**
+     * Handles clamp for this component.
+     *
+     * @param v v
+     * @param low low
+     * @param high high
+     * @return result
+     */
     private int clamp(int v, int low, int high) {
         if (high < low) {
             int temp = low;
@@ -314,90 +458,179 @@ public class Viewport implements Model {
         return max(low, min(high, v));
     }
 
+    /**
+     * Updates the yoffset internal.
+     *
+     * @param n n
+     */
     private void setYOffsetInternal(int n) {
         this.yOffset = clamp(n, 0, maxYOffset());
     }
 
+    /**
+     * Updates the width.
+     *
+     * @param width width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Updates the height.
+     *
+     * @param height height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Returns the width.
+     *
+     * @return result
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the height.
+     *
+     * @return result
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Returns the key map.
+     *
+     * @return result
+     */
     public KeyMap getKeyMap() {
         return keyMap;
     }
 
+    /**
+     * Reports whether mouse wheel enabled.
+     *
+     * @return whether mouse wheel enabled
+     */
     public boolean isMouseWheelEnabled() {
         return mouseWheelEnabled;
     }
 
+    /**
+     * Updates the mouse wheel enabled.
+     *
+     * @param mouseWheelEnabled mouse wheel enabled
+     */
     public void setMouseWheelEnabled(boolean mouseWheelEnabled) {
         this.mouseWheelEnabled = mouseWheelEnabled;
     }
 
+    /**
+     * Returns the mouse wheel delta.
+     *
+     * @return result
+     */
     public int getMouseWheelDelta() {
         return mouseWheelDelta;
     }
 
+    /**
+     * Updates the mouse wheel delta.
+     *
+     * @param mouseWheelDelta mouse wheel delta
+     */
     public void setMouseWheelDelta(int mouseWheelDelta) {
         this.mouseWheelDelta = mouseWheelDelta;
     }
 
+    /**
+     * Returns the yoffset.
+     *
+     * @return result
+     */
     public int getYOffset() {
         return yOffset;
     }
 
+    /**
+     * Returns the style.
+     *
+     * @return result
+     */
     public Style getStyle() {
         return style;
     }
 
+    /**
+     * Updates the style.
+     *
+     * @param style style
+     */
     public void setStyle(Style style) {
         this.style = style;
     }
 
     /**
-     * @deprecated High performance rendering is deprecated in upstream Bubble Tea.
-     *             This method is retained for API compatibility but has no effect.
-     * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
+     * @deprecated Deprecated in upstream Bubbles ({@code charmbracelet/bubbles}).
+     *             High performance rendering is deprecated in the upstream viewport model.
+     *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
+     * @return always returns the stored value, but feature has no effect
+     * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
-    @Deprecated(since = "0.3.0")
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public boolean isHighPerformanceRendering() {
         return highPerformanceRendering;
     }
 
     /**
-     * @deprecated High performance rendering is deprecated in upstream Bubble Tea.
-     *             This method is retained for API compatibility but has no effect.
-     * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/viewport/viewport.go">bubbles/viewport/viewport.go</a>
+     * @deprecated Deprecated in upstream Bubbles ({@code charmbracelet/bubbles}).
+     *             High performance rendering is deprecated in the upstream viewport model.
+     *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
+     * @param highPerformanceRendering ignored, feature has no effect
+     * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
-    @Deprecated(since = "0.3.0")
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public void setHighPerformanceRendering(boolean highPerformanceRendering) {
         this.highPerformanceRendering = highPerformanceRendering;
     }
 
+    /**
+     * Returns the yposition.
+     *
+     * @return result
+     */
     public int getYPosition() {
         return yPosition;
     }
 
+    /**
+     * Updates the yposition.
+     *
+     * @param yPosition y position
+     */
     public void setYPosition(int yPosition) {
         this.yPosition = yPosition;
     }
 
+    /**
+     * Returns the xoffset.
+     *
+     * @return result
+     */
     public int getXOffset() {
         return xOffset;
     }
 
+    /**
+     * Returns the max yoffset.
+     *
+     * @return result
+     */
     public int getMaxYOffset() {
         return maxYOffset();
     }

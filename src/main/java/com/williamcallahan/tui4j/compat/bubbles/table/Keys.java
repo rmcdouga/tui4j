@@ -5,6 +5,8 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 /**
  * Port of Bubbles table KeyMap.
  * Bubble Tea: bubbles/table/keys.go
+ * <p>
+ * Bubbles: table/table.go.
  */
 public class Keys {
 

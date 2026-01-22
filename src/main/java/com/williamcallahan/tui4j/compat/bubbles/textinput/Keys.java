@@ -5,6 +5,8 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 /**
  * Port of Bubbles keys.
  * Bubble Tea: bubbletea/examples/textinput/main.go
+ * <p>
+ * Bubbles: textinput/textinput.go.
  */
 public class Keys {
 
