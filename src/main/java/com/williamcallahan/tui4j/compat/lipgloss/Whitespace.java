@@ -8,11 +8,16 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
  * Port of Lip Gloss whitespace rendering.
  * Upstream: github.com/charmbracelet/lipgloss (whitespace.go)
  */
-public final class Whitespace {
+public class Whitespace {
 
     private Style style;
     private String chars;
 
+    /**
+     * Creates Whitespace to keep this component ready for use.
+     *
+     * @param style style
+     */
     public Whitespace(Style style) {
         this.style = style;
     }
@@ -22,6 +27,11 @@ public final class Whitespace {
      * Upstream: github.com/charmbracelet/lipgloss (whitespace.go)
      */
     public interface WhitespaceOption {
+        /**
+         * Handles apply for this component.
+         *
+         * @param whitespace whitespace
+         */
         void apply(Whitespace whitespace);
     }
 
@@ -61,6 +71,12 @@ public final class Whitespace {
         return whitespace;
     }
 
+    /**
+     * Handles render for this component.
+     *
+     * @param width width
+     * @return result
+     */
     public String render(int width) {
         if (chars == null || chars.isEmpty()) {
             chars = " ";

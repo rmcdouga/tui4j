@@ -24,9 +24,16 @@ import static com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer
  * <p>
  * Port of `lipgloss/style.go`.
  * Provides a chainable API for coloring, sizing, padding, and aligning text content.
+ * <p>
+ * Lipgloss: style.go.
  */
 public class Style implements Cloneable {
 
+    /**
+     * Handles new style for this component.
+     *
+     * @return result
+     */
     public static Style newStyle() {
         return defaultRenderer.newStyle();
     }
@@ -81,85 +88,186 @@ public class Style implements Cloneable {
     private TerminalColor borderBottomBackground = new NoColor();
     private TerminalColor borderLeftBackground = new NoColor();
 
+    /**
+     * Creates Style to keep this component ready for use.
+     *
+     * @param renderer renderer
+     */
     public Style(Renderer renderer) {
         this.renderer = renderer;
     }
 
+    /**
+     * Updates the string.
+     *
+     * @param strings strings
+     * @return result
+     */
     public Style setString(String... strings) {
         this.value = String.join(" ", strings);
         return this;
     }
 
+    /**
+     * Handles foreground for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style foreground(TerminalColor color) {
         this.foreground = color;
         return this;
     }
 
+    /**
+     * Handles background for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style background(TerminalColor color) {
         this.background = color;
         return this;
     }
 
+    /**
+     * Handles bold for this component.
+     *
+     * @param bold bold
+     * @return result
+     */
     public Style bold(boolean bold) {
         this.bold = bold;
         return this;
     }
 
+    /**
+     * Handles italic for this component.
+     *
+     * @param italic italic
+     * @return result
+     */
     public Style italic(boolean italic) {
         this.italic = italic;
         return this;
     }
 
+    /**
+     * Handles underline for this component.
+     *
+     * @param underline underline
+     * @return result
+     */
     public Style underline(boolean underline) {
         this.underline = underline;
         return this;
     }
 
+    /**
+     * Handles reverse for this component.
+     *
+     * @param reverse reverse
+     * @return result
+     */
     public Style reverse(boolean reverse) {
         this.reverse = reverse;
         return this;
     }
 
+    /**
+     * Handles blink for this component.
+     *
+     * @param blink blink
+     * @return result
+     */
     public Style blink(boolean blink) {
         this.blink = blink;
         return this;
     }
 
+    /**
+     * Handles faint for this component.
+     *
+     * @param faint faint
+     * @return result
+     */
     public Style faint(boolean faint) {
         this.faint = faint;
         return this;
     }
 
+    /**
+     * Handles inline for this component.
+     *
+     * @param inline inline
+     * @return result
+     */
     public Style inline(boolean inline) {
         this.inline = inline;
         return this;
     }
 
+    /**
+     * Handles width for this component.
+     *
+     * @param width width
+     * @return result
+     */
     public Style width(int width) {
         this.width = width;
         return this;
     }
 
+    /**
+     * Handles height for this component.
+     *
+     * @param height height
+     * @return result
+     */
     public Style height(int height) {
         this.height = height;
         return this;
     }
 
+    /**
+     * Handles max width for this component.
+     *
+     * @param maxWidth max width
+     * @return result
+     */
     public Style maxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
         return this;
     }
 
+    /**
+     * Handles max height for this component.
+     *
+     * @param maxHeight max height
+     * @return result
+     */
     public Style maxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
         return this;
     }
 
+    /**
+     * Handles ellipsis for this component.
+     *
+     * @param ellipsis ellipsis
+     * @return result
+     */
     public Style ellipsis(String ellipsis) {
         this.ellipsis = ellipsis;
         return this;
     }
 
+    /**
+     * Handles align for this component.
+     *
+     * @param positions positions
+     * @return result
+     */
     public Style align(Position... positions) {
         if (positions.length > 0) {
             this.horizontalAlign = positions[0];
@@ -170,42 +278,90 @@ public class Style implements Cloneable {
         return this;
     }
 
+    /**
+     * Handles align horizontal for this component.
+     *
+     * @param position position
+     * @return result
+     */
     public Style alignHorizontal(Position position) {
         this.horizontalAlign = position;
         return this;
     }
 
+    /**
+     * Handles align vertical for this component.
+     *
+     * @param position position
+     * @return result
+     */
     public Style alignVertical(Position position) {
         this.verticalAlign = position;
         return this;
     }
 
+    /**
+     * Returns the width.
+     *
+     * @return result
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the height.
+     *
+     * @return result
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Returns the max width.
+     *
+     * @return result
+     */
     public int getMaxWidth() {
         return maxWidth;
     }
 
+    /**
+     * Returns the max height.
+     *
+     * @return result
+     */
     public int getMaxHeight() {
         return maxHeight;
     }
 
+    /**
+     * Handles unset max width for this component.
+     *
+     * @return result
+     */
     public Style unsetMaxWidth() {
         this.maxWidth = 0;
         return this;
     }
 
+    /**
+     * Handles unset max height for this component.
+     *
+     * @return result
+     */
     public Style unsetMaxHeight() {
         this.maxHeight = 0;
         return this;
     }
 
+    /**
+     * Handles padding for this component.
+     *
+     * @param values values
+     * @return result
+     */
     public Style padding(int... values) {
         int[] boxValues = expandBoxValues(IntStream.range(0, values.length).toArray());
         this.topPadding = values[boxValues[0]];
@@ -215,34 +371,74 @@ public class Style implements Cloneable {
         return this;
     }
 
+    /**
+     * Handles padding top for this component.
+     *
+     * @param topPadding top padding
+     * @return result
+     */
     public Style paddingTop(int topPadding) {
         this.topPadding = topPadding;
         return this;
     }
 
+    /**
+     * Handles padding right for this component.
+     *
+     * @param rightPadding right padding
+     * @return result
+     */
     public Style paddingRight(int rightPadding) {
         this.rightPadding = rightPadding;
         return this;
     }
 
+    /**
+     * Handles right padding for this component.
+     *
+     * @return result
+     */
     public int rightPadding() {
         return rightPadding;
     }
 
+    /**
+     * Handles padding bottom for this component.
+     *
+     * @param bottomPadding bottom padding
+     * @return result
+     */
     public Style paddingBottom(int bottomPadding) {
         this.bottomPadding = bottomPadding;
         return this;
     }
 
+    /**
+     * Handles padding left for this component.
+     *
+     * @param leftPadding left padding
+     * @return result
+     */
     public Style paddingLeft(int leftPadding) {
         this.leftPadding = leftPadding;
         return this;
     }
 
+    /**
+     * Handles left padding for this component.
+     *
+     * @return result
+     */
     public int leftPadding() {
         return leftPadding;
     }
 
+    /**
+     * Handles margin for this component.
+     *
+     * @param values values
+     * @return result
+     */
     public Style margin(int... values) {
         int[] boxValues = expandBoxValues(IntStream.range(0, values.length).toArray());
         this.topMargin = values[boxValues[0]];
@@ -252,35 +448,77 @@ public class Style implements Cloneable {
         return this;
     }
 
+    /**
+     * Handles margin top for this component.
+     *
+     * @param topMargin top margin
+     * @return result
+     */
     public Style marginTop(int topMargin) {
         this.topMargin = topMargin;
         return this;
     }
 
+    /**
+     * Handles margin right for this component.
+     *
+     * @param rightMargin right margin
+     * @return result
+     */
     public Style marginRight(int rightMargin) {
         this.rightMargin = rightMargin;
         return this;
     }
 
+    /**
+     * Handles margin bottom for this component.
+     *
+     * @param bottomMargin bottom margin
+     * @return result
+     */
     public Style marginBottom(int bottomMargin) {
         this.bottomMargin = bottomMargin;
         return this;
     }
 
+    /**
+     * Handles margin left for this component.
+     *
+     * @param leftMargin left margin
+     * @return result
+     */
     public Style marginLeft(int leftMargin) {
         this.leftMargin = leftMargin;
         return this;
     }
 
+    /**
+     * Handles margin background color for this component.
+     *
+     * @param marginBackgroundColor margin background color
+     * @return result
+     */
     public Style marginBackgroundColor(TerminalColor marginBackgroundColor) {
         this.marginBackgroundColor = marginBackgroundColor;
         return this;
     }
 
+    /**
+     * Handles top margin for this component.
+     *
+     * @return result
+     */
     public int topMargin() {
         return topMargin;
     }
 
+    /**
+     * Handles border for this component.
+     *
+     * @param border border
+     * @param sides sides
+     * @return result
+     */
     public Style border(Border border, boolean... sides) {
         if (sides.length == 0) {
             return border(border, true);
@@ -300,35 +538,71 @@ public class Style implements Cloneable {
                 .borderLeft(sides[boxValues[3]]);
     }
 
+    /**
+     * Handles border decoration for this component.
+     *
+     * @param borderDecoration border decoration
+     * @return result
+     */
     public Style borderDecoration(Border borderDecoration) {
         this.borderDecoration = borderDecoration;
         return this;
     }
 
+    /**
+     * Handles border top for this component.
+     *
+     * @param borderTop border top
+     * @return result
+     */
     public Style borderTop(boolean borderTop) {
         this.borderTop = borderTop;
         this.borderTopSet = true;
         return this;
     }
 
+    /**
+     * Handles border right for this component.
+     *
+     * @param borderRight border right
+     * @return result
+     */
     public Style borderRight(boolean borderRight) {
         this.borderRight = borderRight;
         this.borderRightSet = true;
         return this;
     }
 
+    /**
+     * Handles border bottom for this component.
+     *
+     * @param borderBottom border bottom
+     * @return result
+     */
     public Style borderBottom(boolean borderBottom) {
         this.borderBottom = borderBottom;
         this.borderBottomSet = true;
         return this;
     }
 
+    /**
+     * Handles border left for this component.
+     *
+     * @param borderLeft border left
+     * @return result
+     */
     public Style borderLeft(boolean borderLeft) {
         this.borderLeft = borderLeft;
         this.borderLeftSet = true;
         return this;
     }
 
+    /**
+     * Handles border background for this component.
+     *
+     * @param colors colors
+     * @return result
+     */
     public Style borderBackground(TerminalColor... colors) {
         int[] boxValues = expandBoxValues(
                 IntStream.range(0, colors.length).toArray()
@@ -341,26 +615,56 @@ public class Style implements Cloneable {
         return this;
     }
 
+    /**
+     * Handles border top background for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderTopBackground(TerminalColor color) {
         this.borderTopBackground = color;
         return this;
     }
 
+    /**
+     * Handles border right background for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderRightBackground(TerminalColor color) {
         this.borderRightBackground = color;
         return this;
     }
 
+    /**
+     * Handles border bottom background for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderBottomBackground(TerminalColor color) {
         this.borderBottomBackground = color;
         return this;
     }
 
+    /**
+     * Handles border left background for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderLeftBackground(TerminalColor color) {
         this.borderLeftBackground = color;
         return this;
     }
 
+    /**
+     * Handles border foreground for this component.
+     *
+     * @param colors colors
+     * @return result
+     */
     public Style borderForeground(TerminalColor... colors) {
         int[] boxValues = expandBoxValues(
                 IntStream.range(0, colors.length).toArray()
@@ -373,26 +677,56 @@ public class Style implements Cloneable {
         return this;
     }
 
+    /**
+     * Handles border top foreground for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderTopForeground(TerminalColor color) {
         this.borderTopForeground = color;
         return this;
     }
 
+    /**
+     * Handles border right foreground for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderRightForeground(TerminalColor color) {
         this.borderRightForeground = color;
         return this;
     }
 
+    /**
+     * Handles border bottom foreground for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderBottomForeground(TerminalColor color) {
         this.borderBottomForeground = color;
         return this;
     }
 
+    /**
+     * Handles border left foreground for this component.
+     *
+     * @param color color
+     * @return result
+     */
     public Style borderLeftForeground(TerminalColor color) {
         this.borderLeftForeground = color;
         return this;
     }
 
+    /**
+     * Handles transform for this component.
+     *
+     * @param transformFunction transform function
+     * @return result
+     */
     public Style transform(Function<String, String> transformFunction) {
         this.transformFunction = transformFunction;
         return this;
@@ -518,6 +852,12 @@ public class Style implements Cloneable {
         return string;
     }
 
+    /**
+     * Handles apply borders for this component.
+     *
+     * @param string string
+     * @return result
+     */
     private String applyBorders(String string) {
         boolean hasTop = this.borderTop;
         boolean hasRight = this.borderRight;
@@ -551,10 +891,21 @@ public class Style implements Cloneable {
                 renderer);
     }
 
+    /**
+     * Handles implicit borders for this component.
+     *
+     * @return whether plicit borders
+     */
     private boolean implicitBorders() {
         return borderDecoration != null && !(borderTopSet || borderRightSet || borderBottomSet || borderLeftSet);
     }
 
+    /**
+     * Handles expand box values for this component.
+     *
+     * @param values values
+     * @return result
+     */
     public static int[] expandBoxValues(int... values) {
         int[] result = new int[4];  // top, right, bottom, left
 
@@ -586,26 +937,56 @@ public class Style implements Cloneable {
         return result;
     }
 
+    /**
+     * Handles frame size for this component.
+     *
+     * @return result
+     */
     public Dimensions frameSize() {
         return new Dimensions(getHorizontalFrameSize(), getVerticalFrameSize());
     }
 
+    /**
+     * Returns the vertical frame size.
+     *
+     * @return result
+     */
     public int getVerticalFrameSize() {
         return getVerticalMargins() + getVerticalPadding() + getVerticalBorderSize();
     }
 
+    /**
+     * Returns the vertical margins.
+     *
+     * @return result
+     */
     public int getVerticalMargins() {
         return topMargin + bottomMargin;
     }
 
+    /**
+     * Returns the vertical padding.
+     *
+     * @return result
+     */
     public int getVerticalPadding() {
         return topPadding + bottomPadding;
     }
 
+    /**
+     * Returns the vertical border size.
+     *
+     * @return result
+     */
     public int getVerticalBorderSize() {
         return getBorderTopSize() + getBorderBottomSize();
     }
 
+    /**
+     * Returns the border top size.
+     *
+     * @return result
+     */
     public int getBorderTopSize() {
         if (!borderTop && !implicitBorders()) {
             return 0;
@@ -613,6 +994,11 @@ public class Style implements Cloneable {
         return borderDecoration.getTopSize();
     }
 
+    /**
+     * Returns the border bottom size.
+     *
+     * @return result
+     */
     public int getBorderBottomSize() {
         if (!borderBottom && !implicitBorders()) {
             return 0;
@@ -620,22 +1006,47 @@ public class Style implements Cloneable {
         return borderDecoration.getBottomSize();
     }
 
+    /**
+     * Returns the horizontal frame size.
+     *
+     * @return result
+     */
     public int getHorizontalFrameSize() {
         return getHorizontalMargins() + getHorizontalPadding() + getHorizontalBorderSize();
     }
 
+    /**
+     * Returns the horizontal margins.
+     *
+     * @return result
+     */
     public int getHorizontalMargins() {
         return rightMargin + leftMargin;
     }
 
+    /**
+     * Returns the horizontal padding.
+     *
+     * @return result
+     */
     public int getHorizontalPadding() {
         return rightPadding + leftPadding;
     }
 
+    /**
+     * Returns the horizontal border size.
+     *
+     * @return result
+     */
     public int getHorizontalBorderSize() {
         return getBorderLeftSize() + getBorderRightSize();
     }
 
+    /**
+     * Returns the border left size.
+     *
+     * @return result
+     */
     public int getBorderLeftSize() {
         if (!borderLeft && !implicitBorders()) {
             return 0;
@@ -643,6 +1054,11 @@ public class Style implements Cloneable {
         return borderDecoration.getLeftSize();
     }
 
+    /**
+     * Returns the border right size.
+     *
+     * @return result
+     */
     public int getBorderRightSize() {
         if (!borderRight && !implicitBorders()) {
             return 0;
@@ -650,6 +1066,11 @@ public class Style implements Cloneable {
         return borderDecoration.getRightSize();
     }
 
+    /**
+     * Handles clone for this component.
+     *
+     * @return result
+     */
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -673,6 +1094,12 @@ public class Style implements Cloneable {
         }
     }
 
+    /**
+     * Handles inherit for this component.
+     *
+     * @param style style
+     * @return result
+     */
     public Style inherit(Style style) {
         if (this.value == null) this.value = style.value;
         if (this.transformFunction == null) this.transformFunction = style.transformFunction;

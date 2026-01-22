@@ -9,6 +9,8 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.RGBSupplier;
 import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,11 +20,18 @@ import java.util.stream.Collectors;
 /**
  * Port of Lip Gloss output.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: renderer.go.
  */
 public class Output {
 
     private static Output defaultOutput = new Output();
 
+    /**
+     * Handles default output for this component.
+     *
+     * @return result
+     */
     public static Output defaultOutput() {
         return defaultOutput;
     }
@@ -38,6 +47,12 @@ public class Output {
         return new Output(parseEnvironment(environment));
     }
 
+    /**
+     * Handles parse environment for this component.
+     *
+     * @param environment environment
+     * @return result
+     */
     private static Map<String, String> parseEnvironment(List<String> environment) {
         if (environment == null) {
             return null;
@@ -52,20 +67,45 @@ public class Output {
     }
 
     private final Function<String, String> envLookup;
+    private final Writer writer;
     private TerminalColor backgroundColor = new NoColor();
 
+    /**
+     * Creates Output to keep this component ready for use.
+     */
     public Output() {
         this.envLookup = System::getenv;
+        this.writer = new OutputStreamWriter(System.out);
     }
 
+    /**
+     * Creates Output to keep this component ready for use.
+     *
+     * @param environment environment
+     */
     private Output(Map<String, String> environment) {
         if (environment == null) {
             this.envLookup = System::getenv;
         } else {
             this.envLookup = environment::get;
         }
+        this.writer = new OutputStreamWriter(System.out);
     }
 
+    /**
+     * Returns the writer for this output.
+     *
+     * @return writer
+     */
+    public Writer writer() {
+        return writer;
+    }
+
+    /**
+     * Handles env color profile for this component.
+     *
+     * @return result
+     */
     public ColorProfile envColorProfile() {
         if (envNoColor()) {
             return ColorProfile.Ascii;
@@ -77,10 +117,21 @@ public class Output {
         return colorProfile;
     }
 
+    /**
+     * Returns the env.
+     *
+     * @param key key
+     * @return result
+     */
     private String getenv(String key) {
         return envLookup.apply(key);
     }
 
+    /**
+     * Handles color profile for this component.
+     *
+     * @return result
+     */
     private ColorProfile colorProfile() {
         if (!TerminalInfo.get().tty()) {
             return ColorProfile.Ascii;
@@ -121,6 +172,11 @@ public class Output {
         return ColorProfile.ANSI256;
     }
 
+    /**
+     * Handles env no color for this component.
+     *
+     * @return whether v no color
+     */
     private boolean envNoColor() {
         String noColor = getenv("NO_COLOR");
         String clicolor = getenv("CLICOLOR");
@@ -128,6 +184,11 @@ public class Output {
         return (noColor != null && !noColor.isBlank()) || ((clicolor != null && clicolor.equals("0")) && !cliColorForced());
     }
 
+    /**
+     * Handles cli color forced for this component.
+     *
+     * @return whether i color forced
+     */
     private boolean cliColorForced() {
         String force = getenv("CLICOLOR_FORCE");
         if (force == null || force.isBlank()) {
@@ -136,6 +197,11 @@ public class Output {
         return !"0".equals(force);
     }
 
+    /**
+     * Reports whether dark background is present.
+     *
+     * @return whether s dark background
+     */
     public boolean hasDarkBackground() {
         TerminalColor terminalColor = backgroundColor();
 
@@ -148,6 +214,11 @@ public class Output {
         return hsl.isDark();
     }
 
+    /**
+     * Handles background color for this component.
+     *
+     * @return result
+     */
     public TerminalColor backgroundColor() {
         if (!TerminalInfo.get().tty()) {
             return backgroundColor;

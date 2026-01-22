@@ -8,13 +8,15 @@ import static com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padRigh
 /**
  * Port of Lip Gloss margin decorator.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: style.go.
  */
-public final class MarginDecorator {
+public class MarginDecorator {
 
     /**
-     * Utility class.
+     * Utility constructor for compatibility shims.
      */
-    private MarginDecorator() {
+    protected MarginDecorator() {
     }
 
     /**

@@ -8,8 +8,10 @@ import com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter;
 /**
  * List component.
  * <p>
- * Port of `lipgloss/list`.
+ * Port of {@code lipgloss/list/list.go}.
  * Renders an ordered or unordered list of items using the underlying Tree component.
+ *
+ * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/list/list.go">lipgloss/list/list.go</a>
  */
 public class List {
 
@@ -149,6 +151,11 @@ public class List {
         return tree.render();
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return render();

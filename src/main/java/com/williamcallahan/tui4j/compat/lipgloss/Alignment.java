@@ -9,6 +9,9 @@ import org.jline.utils.AttributedStyle;
  */
 public final class Alignment {
 
+    /**
+     * Creates Alignment to keep this component ready for use.
+     */
     private Alignment() {
     }
 

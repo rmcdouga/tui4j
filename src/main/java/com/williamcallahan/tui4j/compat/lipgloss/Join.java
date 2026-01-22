@@ -9,9 +9,14 @@ import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
  * Port of charmbracelet/lipgloss join.go.
  *
  * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/join.go">lipgloss/join.go</a>
+ * <p>
+ * Lipgloss: join.go.
  */
 public final class Join {
 
+    /**
+     * Creates Join to keep this component ready for use.
+     */
     private Join() {
     }
 

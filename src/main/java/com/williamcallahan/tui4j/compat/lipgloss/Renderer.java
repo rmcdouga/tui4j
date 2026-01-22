@@ -9,11 +9,18 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Abstraction for rendering and terminal mode control.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: renderer.go.
  */
 public class Renderer {
 
     static Renderer defaultRenderer = new Renderer(Output.defaultOutput());
 
+    /**
+     * Handles default renderer for this component.
+     *
+     * @return result
+     */
     public static Renderer defaultRenderer() {
         return defaultRenderer;
     }
@@ -27,6 +34,11 @@ public class Renderer {
     private boolean hasDarkBackgroundSet;
     private boolean explicitBackgroundColor;
 
+    /**
+     * Creates Renderer to keep this component ready for use.
+     *
+     * @param output output
+     */
     public Renderer(Output output) {
         this.output = output;
     }
@@ -50,10 +62,20 @@ public class Renderer {
         }
     }
 
+    /**
+     * Handles new style for this component.
+     *
+     * @return result
+     */
     public Style newStyle() {
         return new Style(this);
     }
 
+    /**
+     * Reports whether dark background is present.
+     *
+     * @return whether s dark background
+     */
     public boolean hasDarkBackground() {
         if (hasDarkBackgroundSet || explicitBackgroundColor) {
             return hasDarkBackground;
@@ -69,6 +91,11 @@ public class Renderer {
         }
     }
 
+    /**
+     * Handles color profile for this component.
+     *
+     * @return result
+     */
     public ColorProfile colorProfile() {
         if (!explicitColorProfile && colorProfile == null) {
             renderLock.lock();
@@ -81,6 +108,11 @@ public class Renderer {
         return colorProfile;
     }
 
+    /**
+     * Updates the color profile.
+     *
+     * @param colorProfile color profile
+     */
     public void setColorProfile(ColorProfile colorProfile) {
         renderLock.lock();
         try {
@@ -91,6 +123,11 @@ public class Renderer {
         }
     }
 
+    /**
+     * Updates the has dark background.
+     *
+     * @param hasDarkBackground has dark background
+     */
     public void setHasDarkBackground(boolean hasDarkBackground) {
         renderLock.lock();
         try {
@@ -102,10 +139,30 @@ public class Renderer {
         }
     }
 
+    /**
+     * Handles place for this component.
+     *
+     * @param width width
+     * @param height height
+     * @param hPos h pos
+     * @param vPos v pos
+     * @param input input
+     * @param options options
+     * @return result
+     */
     public String place(int width, int height, Position hPos, Position vPos, String input, Whitespace.WhitespaceOption... options) {
         return placeVertical(height, vPos, placeHorizontal(width, hPos, input, options), options);
     }
 
+    /**
+     * Handles place vertical for this component.
+     *
+     * @param height height
+     * @param position position
+     * @param input input
+     * @param options options
+     * @return result
+     */
     public String placeVertical(int height, Position position, String input, Whitespace.WhitespaceOption... options) {
         int contentHeight = (int) (input.chars().filter(ch -> ch == '\n').count() + 1);
         int gap = height - contentHeight;
@@ -145,6 +202,15 @@ public class Renderer {
         return builder.toString();
     }
 
+    /**
+     * Handles place horizontal for this component.
+     *
+     * @param width width
+     * @param position position
+     * @param input input
+     * @param options options
+     * @return result
+     */
     public String placeHorizontal(int width, Position position, String input, Whitespace.WhitespaceOption... options) {
         TextLines textLines = TextLines.fromText(input);
         int contentWidth = textLines.widestLineLength();

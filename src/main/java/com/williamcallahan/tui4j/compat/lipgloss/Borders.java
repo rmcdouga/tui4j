@@ -6,9 +6,14 @@ import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
 /**
  * Port of Lip Gloss border helpers.
  * Lip Gloss: lipgloss/borders.go
+ * <p>
+ * Lipgloss: borders.go.
  */
 public final class Borders {
 
+    /**
+     * Creates Borders to keep this component ready for use.
+     */
     private Borders() {
     }
 

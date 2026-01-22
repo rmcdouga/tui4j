@@ -10,6 +10,15 @@ import java.util.Set;
  */
 public class Runes {
 
+    /**
+     * Handles style runes for this component.
+     *
+     * @param input input
+     * @param indices indices
+     * @param matched matched
+     * @param unmatched unmatched
+     * @return result
+     */
     public static String styleRunes(String input, int[] indices, Style matched, Style unmatched) {
         // Convert indices to a Set for faster lookups
         Set<Integer> indexSet = new HashSet<>();
