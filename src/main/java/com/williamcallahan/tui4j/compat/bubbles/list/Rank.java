@@ -11,15 +11,31 @@ public class Rank {
     private final int index;
     private final int[] matchedIndexes;
 
+    /**
+     * Creates a rank entry for a matched item.
+     *
+     * @param index matched item index
+     * @param matchedIndexes matched rune indexes
+     */
     public Rank(int index, int[] matchedIndexes) {
         this.index = index;
         this.matchedIndexes = matchedIndexes;
     }
 
+    /**
+     * Returns the matched item index.
+     *
+     * @return item index
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Returns the matched rune indexes.
+     *
+     * @return matched indexes
+     */
     public int[] getMatchedIndexes() {
         return matchedIndexes;
     }

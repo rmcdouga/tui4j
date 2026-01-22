@@ -35,6 +35,13 @@ public final class MouseSelectionAutoScroller {
     private volatile boolean alt;
     private volatile boolean ctrl;
 
+    /**
+     * Creates an auto scroller for mouse selection.
+     *
+     * @param terminalHeight terminal height supplier
+     * @param selectionTracker selection tracker
+     * @param messageConsumer message sink for synthesized scroll events
+     */
     public MouseSelectionAutoScroller(
         IntSupplier terminalHeight,
         MouseSelectionTracker selectionTracker,
@@ -59,16 +66,28 @@ public final class MouseSelectionAutoScroller {
         });
     }
 
+    /**
+     * Enables auto scrolling with the current configuration.
+     */
     public void enable() {
         enabled = true;
     }
 
+    /**
+     * Enables auto scrolling and configures edge and interval settings.
+     *
+     * @param edgeRows number of rows from the edge to trigger auto scroll
+     * @param intervalMs polling interval in milliseconds
+     */
     public void configure(int edgeRows, int intervalMs) {
         enabled = true;
         this.edgeRows = Math.max(edgeRows, 1);
         this.intervalMs = Math.max(intervalMs, 10);
     }
 
+    /**
+     * Starts the auto scroll scheduler if enabled.
+     */
     public void start() {
         if (!enabled) {
             return;
@@ -84,6 +103,9 @@ public final class MouseSelectionAutoScroller {
         );
     }
 
+    /**
+     * Stops the auto scroll scheduler.
+     */
     public void stop() {
         if (!running.compareAndSet(true, false)) {
             return;
@@ -96,6 +118,11 @@ public final class MouseSelectionAutoScroller {
         }
     }
 
+    /**
+     * Updates modifier state based on the current mouse message.
+     *
+     * @param message mouse message
+     */
     public void onMouse(
         com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message
     ) {

@@ -13,7 +13,11 @@ public class Sanitizer {
     private String replaceNewLine;
     private String replaceTab;
 
-    // Constructor to initialize the sanitizer with options
+    /**
+     * Creates a sanitizer with the given options.
+     *
+     * @param options configuration options
+     */
     @SafeVarargs
     public Sanitizer(Consumer<Sanitizer>... options) {
         this.replaceNewLine = "\n";
@@ -23,7 +27,12 @@ public class Sanitizer {
         }
     }
 
-    // Method to sanitize the input char array
+    /**
+     * Sanitizes the input character array.
+     *
+     * @param runes input characters
+     * @return sanitized characters
+     */
     public char[] sanitize(char[] runes) {
         StringBuilder result = new StringBuilder(runes.length);
         boolean copied = false;
@@ -58,12 +67,22 @@ public class Sanitizer {
         return result.toString().toCharArray();
     }
 
-    // Function to replace tabs
+    /**
+     * Returns an option that replaces tabs with the given string.
+     *
+     * @param tabReplacement replacement string for tabs
+     * @return configuration option
+     */
     public static Consumer<Sanitizer> replaceTabs(String tabReplacement) {
         return sanitizer -> sanitizer.replaceTab = tabReplacement;
     }
 
-    // Function to replace newlines
+    /**
+     * Returns an option that replaces newlines with the given string.
+     *
+     * @param newlineReplacement replacement string for newlines
+     * @return configuration option
+     */
     public static Consumer<Sanitizer> replaceNewlines(String newlineReplacement) {
         return sanitizer -> sanitizer.replaceNewLine = newlineReplacement;
     }

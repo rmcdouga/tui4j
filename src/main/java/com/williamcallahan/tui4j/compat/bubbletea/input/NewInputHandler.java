@@ -44,6 +44,12 @@ public class NewInputHandler implements InputHandler {
     private boolean inBracketedPaste = false;
     private final StringBuilder pasteBuffer = new StringBuilder();
 
+    /**
+     * Creates an input handler backed by a terminal reader.
+     *
+     * @param terminal terminal instance
+     * @param messageConsumer message sink
+     */
     public NewInputHandler(Terminal terminal, Consumer<Message> messageConsumer) {
         this.terminal = terminal;
         this.messageConsumer = messageConsumer;

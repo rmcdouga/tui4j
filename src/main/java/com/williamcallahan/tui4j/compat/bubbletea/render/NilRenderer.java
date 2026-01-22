@@ -2,7 +2,17 @@ package com.williamcallahan.tui4j.compat.bubbletea.render;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
+/**
+ * No-op renderer implementation.
+ * Upstream: bubbletea/nil_renderer.go
+ */
 public class NilRenderer implements Renderer {
+
+    /**
+     * Creates a no-op renderer.
+     */
+    public NilRenderer() {
+    }
     @Override
     public void start() {
     }

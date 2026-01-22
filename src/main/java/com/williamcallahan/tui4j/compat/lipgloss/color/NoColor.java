@@ -5,9 +5,15 @@ import org.jline.utils.AttributedStyle;
 
 /**
  * Port of Lip Gloss no color.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Upstream: lipgloss/color.go
  */
 public final class NoColor implements TerminalColor{
+
+    /**
+     * Creates a no-color instance.
+     */
+    public NoColor() {
+    }
 
     @Override
     public AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {

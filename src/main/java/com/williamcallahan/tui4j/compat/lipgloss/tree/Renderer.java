@@ -13,6 +13,7 @@ import java.util.List;
  * Tree structure renderer.
  * <p>
  * Port of `lipgloss/tree`.
+ * Upstream: lipgloss/tree/tree.go
  * Handles the visual hierarchy, indentation, and joining of tree nodes.
  */
 public class Renderer {
@@ -20,12 +21,23 @@ public class Renderer {
     private TreeEnumerator enumerator;
     private TreeIndenter indenter;
 
+    /**
+     * Creates a tree renderer with default styles.
+     */
     public Renderer() {
         this.style = new TreeStyle();
         this.enumerator = new TreeEnumerator.DefaultEnumerator();
         this.indenter = new TreeIndenter.DefaultIndenter();
     }
 
+    /**
+     * Renders the tree starting at the provided node.
+     *
+     * @param node node to render
+     * @param root whether this is the root node
+     * @param prefix prefix to apply to child nodes
+     * @return rendered tree
+     */
     public String render(Node node, boolean root, String prefix) {
         if (node.isHidden()) {
             return "";
@@ -115,14 +127,29 @@ public class Renderer {
         return String.join("\n", strings);
     }
 
+    /**
+     * Returns the current tree style.
+     *
+     * @return tree style
+     */
     public TreeStyle style() {
         return style;
     }
 
+    /**
+     * Sets the enumerator used for rendering.
+     *
+     * @param enumerator enumerator
+     */
     public void setEnumerator(TreeEnumerator enumerator) {
         this.enumerator = enumerator;
     }
 
+    /**
+     * Sets the indenter used for rendering.
+     *
+     * @param indenter indenter
+     */
     public void setIndenter(TreeIndenter indenter) {
         this.indenter = indenter;
     }

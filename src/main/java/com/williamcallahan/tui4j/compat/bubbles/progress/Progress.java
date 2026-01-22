@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Progress bar bubble with gradient support.
  * <p>
  * Port of `bubbles/progress`.
+ * Upstream: bubbles/progress/progress.go
  * Visualizes a percentage value, optionally using a spring animation for smooth transitions.
  */
 public class Progress implements Model {
@@ -53,6 +54,9 @@ public class Progress implements Model {
     private ColorProfile colorProfile;
     private ColorProfile cachedColorProfile;
 
+    /**
+     * Creates a progress model with default settings.
+     */
     public Progress() {
         this.id = nextId();
         this.width = DEFAULT_WIDTH;
@@ -71,67 +75,141 @@ public class Progress implements Model {
         return LAST_ID.incrementAndGet();
     }
 
+    /**
+     * Sets the progress bar width.
+     *
+     * @param width bar width
+     * @return this progress model
+     */
     public Progress withWidth(int width) {
         this.width = width;
         return this;
     }
 
+    /**
+     * Sets the filled character.
+     *
+     * @param full filled character
+     * @return this progress model
+     */
     public Progress withFull(char full) {
         this.full = full;
         return this;
     }
 
+    /**
+     * Sets the empty character.
+     *
+     * @param empty empty character
+     * @return this progress model
+     */
     public Progress withEmpty(char empty) {
         this.empty = empty;
         return this;
     }
 
+    /**
+     * Sets the filled color (disables gradient).
+     *
+     * @param fullColor filled color
+     * @return this progress model
+     */
     public Progress withFullColor(String fullColor) {
         this.fullColor = fullColor;
         this.useRamp = false;
         return this;
     }
 
+    /**
+     * Sets the empty color.
+     *
+     * @param emptyColor empty color
+     * @return this progress model
+     */
     public Progress withEmptyColor(String emptyColor) {
         this.emptyColor = emptyColor;
         return this;
     }
 
+    /**
+     * Disables percentage display.
+     *
+     * @return this progress model
+     */
     public Progress withoutPercentage() {
         this.showPercentage = false;
         return this;
     }
 
+    /**
+     * Sets whether to show percentage text.
+     *
+     * @param showPercentage show percentage flag
+     * @return this progress model
+     */
     public Progress withShowPercentage(boolean showPercentage) {
         this.showPercentage = showPercentage;
         return this;
     }
 
+    /**
+     * Sets the percentage format string.
+     *
+     * @param percentFormat percent format
+     * @return this progress model
+     */
     public Progress withPercentFormat(String percentFormat) {
         this.percentFormat = percentFormat;
         return this;
     }
 
+    /**
+     * Sets the style for percentage text.
+     *
+     * @param percentageStyle percentage style
+     * @return this progress model
+     */
     public Progress withPercentageStyle(Style percentageStyle) {
         this.percentageStyle = percentageStyle;
         return this;
     }
 
+    /**
+     * Applies the default gradient.
+     *
+     * @return this progress model
+     */
     public Progress withDefaultGradient() {
         return withGradient("#5A56E0", "#EE6FF8");
     }
 
     /**
      * Configures a color gradient for the filled portion of the bar.
+     *
+     * @param colorA start color
+     * @param colorB end color
+     * @return this progress model
      */
     public Progress withGradient(String colorA, String colorB) {
         return setRamp(colorA, colorB, false);
     }
 
+    /**
+     * Applies the default scaled gradient.
+     *
+     * @return this progress model
+     */
     public Progress withDefaultScaledGradient() {
         return withScaledGradient("#5A56E0", "#EE6FF8");
     }
 
+    /**
+     * Configures a scaled gradient for the filled portion of the bar.
+     *
+     * @param colorA start color
+     * @param colorB end color
+     * @return this progress model
+     */
     public Progress withScaledGradient(String colorA, String colorB) {
         return setRamp(colorA, colorB, true);
     }
@@ -151,11 +229,22 @@ public class Progress implements Model {
         return RGB.fromHexString(color);
     }
 
+    /**
+     * Sets spring animation parameters.
+     *
+     * @param frequency spring frequency
+     * @param damping spring damping
+     */
     public void setSpringOptions(double frequency, double damping) {
         this.spring = new Spring(frequency, damping);
         this.springCustomized = true;
     }
 
+    /**
+     * Sets the color profile override.
+     *
+     * @param colorProfile color profile
+     */
     public void setColorProfile(ColorProfile colorProfile) {
         this.colorProfile = colorProfile;
     }
@@ -170,58 +259,128 @@ public class Progress implements Model {
         return cachedColorProfile;
     }
 
+    /**
+     * Returns the progress model id.
+     *
+     * @return model id
+     */
     public int id() {
         return id;
     }
 
+    /**
+     * Returns the bar width.
+     *
+     * @return bar width
+     */
     public int width() {
         return width;
     }
 
+    /**
+     * Sets the bar width.
+     *
+     * @param width bar width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Returns the filled character.
+     *
+     * @return filled character
+     */
     public char full() {
         return full;
     }
 
+    /**
+     * Returns the empty character.
+     *
+     * @return empty character
+     */
     public char empty() {
         return empty;
     }
 
+    /**
+     * Returns the filled color string.
+     *
+     * @return filled color
+     */
     public String fullColor() {
         return fullColor;
     }
 
+    /**
+     * Returns the empty color string.
+     *
+     * @return empty color
+     */
     public String emptyColor() {
         return emptyColor;
     }
 
+    /**
+     * Returns whether percentage display is enabled.
+     *
+     * @return {@code true} when percentage is shown
+     */
     public boolean showPercentage() {
         return showPercentage;
     }
 
+    /**
+     * Returns the percent format string.
+     *
+     * @return percent format
+     */
     public String percentFormat() {
         return percentFormat;
     }
 
+    /**
+     * Returns the target percent value.
+     *
+     * @return target percent
+     */
     public double percent() {
         return targetPercent;
     }
 
+    /**
+     * Returns the target percent value.
+     *
+     * @return target percent
+     */
     public double targetPercent() {
         return targetPercent;
     }
 
+    /**
+     * Returns the current animation tag.
+     *
+     * @return animation tag
+     */
     public int tag() {
         return tag;
     }
 
+    /**
+     * Returns the currently displayed percent.
+     *
+     * @return displayed percent
+     */
     public double percentShown() {
         return percentShown;
     }
 
+    /**
+     * Returns whether the spring animation is active.
+     *
+     * @return {@code true} when animating
+     */
     public boolean isAnimating() {
         double dist = Math.abs(percentShown - targetPercent);
         return !(dist < 0.001 && Math.abs(velocity) < 0.01);
@@ -255,6 +414,12 @@ public class Progress implements Model {
         return viewAs(percentShown);
     }
 
+    /**
+     * Renders the progress bar at the provided percent.
+     *
+     * @param percent percent to render
+     * @return rendered progress bar
+     */
     public String viewAs(double percent) {
         StringBuilder b = new StringBuilder();
         String percentView = percentageView(percent);
@@ -402,16 +567,34 @@ public class Progress implements Model {
         return UpdateResult.from(this, nextFrame());
     }
 
+    /**
+     * Sets the target percent and schedules animation.
+     *
+     * @param p target percent (0-1)
+     * @return animation command
+     */
     public Command setPercent(double p) {
         this.targetPercent = Math.max(0, Math.min(1, p));
         this.tag++;
         return nextFrame();
     }
 
+    /**
+     * Increments the target percent.
+     *
+     * @param v delta percent
+     * @return animation command
+     */
     public Command incrPercent(double v) {
         return setPercent(targetPercent + v);
     }
 
+    /**
+     * Decrements the target percent.
+     *
+     * @param v delta percent
+     * @return animation command
+     */
     public Command decrPercent(double v) {
         return setPercent(targetPercent - v);
     }

@@ -5,4 +5,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * <p>
  * Bubble Tea: bubbletea/tea.go
  */
-public class QuitMessage implements Message {}
+public class QuitMessage implements Message {
+
+    /**
+     * Creates a quit message.
+     */
+    public QuitMessage() {
+    }
+}

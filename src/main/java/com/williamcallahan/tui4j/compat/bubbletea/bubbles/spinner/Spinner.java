@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 public class Spinner extends com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner {
 
     /**
+     * Creates a spinner with the given type.
+     *
+     * @param type spinner type
      * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner#Spinner(com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType)} instead.
      */
     @Deprecated(since = "0.3.0")

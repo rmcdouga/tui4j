@@ -20,14 +20,30 @@ public class Spinner implements Model {
     private int tag;
     private Style style = Style.newStyle();
 
+    /**
+     * Creates a spinner with the given type.
+     *
+     * @param type spinner type
+     */
     public Spinner(SpinnerType type) {
         this.type = type;
     }
 
+    /**
+     * Sets the spinner type.
+     *
+     * @param type spinner type
+     */
     public void setType(SpinnerType type) {
         this.type = type;
     }
 
+    /**
+     * Sets the style for this spinner.
+     *
+     * @param style style to apply
+     * @return this spinner
+     */
     public Spinner setStyle(Style style) {
         this.style = style;
         return this;
@@ -68,6 +84,11 @@ public class Spinner implements Model {
         return style.render(type.frames()[frame]);
     }
 
+    /**
+     * Produces an initial tick message.
+     *
+     * @return tick message
+     */
     public Message tick() {
         return new TickMessage(LocalDateTime.now(), tag, id);
     }

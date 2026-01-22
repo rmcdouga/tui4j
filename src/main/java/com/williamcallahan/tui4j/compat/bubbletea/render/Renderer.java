@@ -6,6 +6,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * Core interface for rendering the TUI and controlling terminal modes.
  * <p>
  * Port of Bubble Tea's `Renderer` interface (renderer.go).
+ * Upstream: bubbletea/renderer.go
  * Handles the actual output to the terminal, including screen clearing,
  * cursor management, and mouse event tracking.
  */
@@ -28,6 +29,8 @@ public interface Renderer {
 
     /**
      * Writes the given view string to the terminal buffer.
+     *
+     * @param view rendered view
      */
     void write(String view);
 
@@ -43,6 +46,8 @@ public interface Renderer {
 
     /**
      * Returns true if the renderer is currently using the alternate screen buffer.
+     *
+     * @return {@code true} when using the alt screen
      */
     boolean altScreen();
 
@@ -138,12 +143,16 @@ public interface Renderer {
      * Copies text to the system clipboard (OSC 52).
      * <p>
      * tui4j extension; no Bubble Tea equivalent.
+     *
+     * @param text text to copy
      */
     default void copyToClipboard(String text) {
     }
 
     /**
      * Returns whether focus event reporting is enabled.
+     *
+     * @return {@code true} when focus reporting is enabled
      */
     boolean reportFocus();
 
@@ -157,8 +166,21 @@ public interface Renderer {
      */
     void disableReportFocus();
 
+    /**
+     * Enables bracketed paste mode.
+     */
     void enableBracketedPaste();
+
+    /**
+     * Disables bracketed paste mode.
+     */
     void disableBracketedPaste();
+
+    /**
+     * Returns whether bracketed paste mode is enabled.
+     *
+     * @return {@code true} when bracketed paste is enabled
+     */
     boolean bracketedPaste();
 
     /**
@@ -170,6 +192,8 @@ public interface Renderer {
 
     /**
      * Processes a message that might affect the renderer state (e.g. window resize).
+     *
+     * @param msg message to handle
      */
     void handleMessage(Message msg);
 }

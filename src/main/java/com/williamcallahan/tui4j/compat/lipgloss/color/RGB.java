@@ -2,7 +2,7 @@ package com.williamcallahan.tui4j.compat.lipgloss.color;
 
 /**
  * Port of Lip Gloss rgb.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Upstream: lipgloss/color.go
  *
  * @param r red channel (0-1)
  * @param g green channel (0-1)
@@ -10,10 +10,22 @@ package com.williamcallahan.tui4j.compat.lipgloss.color;
  */
 public record RGB(float r, float g, float b) {
 
+    /**
+     * Returns black (0,0,0).
+     *
+     * @return black RGB
+     */
     public static RGB black() {
         return new RGB(0, 0, 0);
     }
 
+    /**
+     * Parses a hex color string into RGB.
+     *
+     * @param hexValue hex color string
+     * @return parsed RGB
+     * @throws NumberFormatException when the string is not a valid hex color
+     */
     public static RGB fromHexString(String hexValue) {
         String hex = hexValue.replace("#", "").trim();
         float factor = 1.0f / 255.0f;
@@ -38,6 +50,11 @@ public record RGB(float r, float g, float b) {
         }
     }
 
+    /**
+     * Converts this color to an ANSI 256 color.
+     *
+     * @return ANSI 256 color
+     */
     public ANSI256Color toANSI256Color() {
         // Convert float values in range 0-1 to 0-255 range
         float rScaled = r * 255.0f;
@@ -88,12 +105,23 @@ public record RGB(float r, float g, float b) {
         return Math.min(5, (int) ((value - 35) / 40));
     }
 
+    /**
+     * Computes the HSLuv distance to another color.
+     *
+     * @param other other color
+     * @return distance value
+     */
     public float distanceHSLuv(RGB other) {
         HSL hsluv1 = toHSL();
         HSL hsluv2 = other.toHSL();
         return hsluv1.distance(hsluv2);
     }
 
+    /**
+     * Converts this color to HSL.
+     *
+     * @return HSL value
+     */
     public HSL toHSL() {
         float max = Math.max(Math.max(r, g), b);
         float min = Math.min(Math.min(r, g), b);
@@ -130,10 +158,20 @@ public record RGB(float r, float g, float b) {
         return "%f,%f,%f".formatted(r, g, b);
     }
 
+    /**
+     * Returns a color apply strategy for this RGB value.
+     *
+     * @return color apply strategy
+     */
     public ColorApplyStrategy asColorApplyStrategy() {
         return new RGBAApplyStrategy((int) (r * 255.0f), (int) (g * 255.0f), (int) (b * 255.f));
     }
 
+    /**
+     * Converts this RGB value to an integer packed RGB.
+     *
+     * @return packed integer color
+     */
     public int toInt() {
         return ((int)(r * 255.0f) << 16) + ((int)(g * 255.0f) << 8) + (int)(b * 255.0f);
     }

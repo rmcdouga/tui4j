@@ -11,6 +11,9 @@ import java.util.function.Consumer;
 public class Sanitizer extends com.williamcallahan.tui4j.compat.bubbles.runeutil.Sanitizer {
 
     /**
+     * Creates a sanitizer with the given options.
+     *
+     * @param options configuration options
      * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.runeutil.Sanitizer#Sanitizer(java.util.function.Consumer[])} instead.
      */
     @Deprecated(since = "0.3.0")

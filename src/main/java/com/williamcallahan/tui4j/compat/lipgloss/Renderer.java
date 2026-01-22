@@ -9,12 +9,17 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Abstraction for rendering and terminal mode control.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Upstream: lipgloss/renderer.go
  */
 public class Renderer {
 
     static Renderer defaultRenderer = new Renderer(Output.defaultOutput());
 
+    /**
+     * Returns the default renderer instance.
+     *
+     * @return default renderer
+     */
     public static Renderer defaultRenderer() {
         return defaultRenderer;
     }
@@ -28,14 +33,29 @@ public class Renderer {
     private boolean hasDarkBackgroundSet;
     private boolean explicitBackgroundColor;
 
+    /**
+     * Creates a renderer with the provided output.
+     *
+     * @param output output configuration
+     */
     public Renderer(Output output) {
         this.output = output;
     }
 
+    /**
+     * Creates a new style bound to this renderer.
+     *
+     * @return new style
+     */
     public Style newStyle() {
         return new Style(this);
     }
 
+    /**
+     * Returns whether the background is dark.
+     *
+     * @return {@code true} when the background is dark
+     */
     public boolean hasDarkBackground() {
         if (hasDarkBackgroundSet || explicitBackgroundColor) {
             return hasDarkBackground;
@@ -51,6 +71,11 @@ public class Renderer {
         }
     }
 
+    /**
+     * Returns the color profile for this renderer.
+     *
+     * @return color profile
+     */
     public ColorProfile colorProfile() {
         if (!explicitColorProfile && colorProfile == null) {
             renderLock.lock();
@@ -63,6 +88,11 @@ public class Renderer {
         return colorProfile;
     }
 
+    /**
+     * Sets the color profile.
+     *
+     * @param colorProfile color profile
+     */
     public void setColorProfile(ColorProfile colorProfile) {
         renderLock.lock();
         try {
@@ -73,6 +103,11 @@ public class Renderer {
         }
     }
 
+    /**
+     * Sets the background darkness flag.
+     *
+     * @param hasDarkBackground dark background flag
+     */
     public void setHasDarkBackground(boolean hasDarkBackground) {
         renderLock.lock();
         try {
@@ -94,10 +129,30 @@ public class Renderer {
         // TODO: Wire environment to Output for SSH/remote terminal detection
     }
 
+    /**
+     * Places input within the given width and height.
+     *
+     * @param width available width
+     * @param height available height
+     * @param hPos horizontal position
+     * @param vPos vertical position
+     * @param input content to place
+     * @param options whitespace options
+     * @return positioned content
+     */
     public String place(int width, int height, Position hPos, Position vPos, String input, Whitespace.WhitespaceOption... options) {
         return placeVertical(height, vPos, placeHorizontal(width, hPos, input, options), options);
     }
 
+    /**
+     * Places input vertically within the given height.
+     *
+     * @param height available height
+     * @param position vertical position
+     * @param input content to place
+     * @param options whitespace options
+     * @return positioned content
+     */
     public String placeVertical(int height, Position position, String input, Whitespace.WhitespaceOption... options) {
         int contentHeight = (int) (input.chars().filter(ch -> ch == '\n').count() + 1);
         int gap = height - contentHeight;
@@ -137,6 +192,15 @@ public class Renderer {
         return builder.toString();
     }
 
+    /**
+     * Places input horizontally within the given width.
+     *
+     * @param width available width
+     * @param position horizontal position
+     * @param input content to place
+     * @param options whitespace options
+     * @return positioned content
+     */
     public String placeHorizontal(int width, Position position, String input, Whitespace.WhitespaceOption... options) {
         TextLines textLines = TextLines.fromText(input);
         int contentWidth = textLines.widestLineLength();
