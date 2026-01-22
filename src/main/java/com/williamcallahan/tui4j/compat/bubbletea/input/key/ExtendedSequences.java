@@ -11,6 +11,8 @@ import java.util.Map;
  * Port of charmbracelet/bubbletea key_sequences.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key_sequences.go">bubbletea/key_sequences.go</a>
+ * <p>
+ * Bubble Tea: key_sequences.go.
  */
 public class ExtendedSequences {
 
@@ -68,5 +70,8 @@ public class ExtendedSequences {
         return EXT_SEQUENCES.get(sequence);
     }
 
+    /**
+     * Creates ExtendedSequences to keep this component ready for use.
+     */
     private ExtendedSequences() {}
 }

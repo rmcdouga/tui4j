@@ -2,7 +2,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.input.key;
 
 /**
  * Port of Bubble Tea key type.
- * Bubble Tea: bubbletea/key.go
+ * Bubble Tea: key.go.
+ * <p>
+ * Bubble Tea: inputreader_windows.go.
  */
 public enum KeyType {
     /** Null character. */
@@ -181,6 +183,11 @@ public enum KeyType {
 
     private final int code;
 
+    /**
+     * Creates KeyType to keep this component ready for use.
+     *
+     * @param code code
+     */
     KeyType(int code) {
         this.code = code;
     }

@@ -10,6 +10,8 @@ package com.williamcallahan.tui4j.compat.bubbletea.input.key;
  * @param alt whether the Alt modifier is set
  * @param paste whether this represents a paste sequence
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
+ * <p>
+ * Bubble Tea: key.go.
  */
 public record Key(KeyType type, char[] runes, boolean alt, boolean paste) {
 
@@ -53,6 +55,11 @@ public record Key(KeyType type, char[] runes, boolean alt, boolean paste) {
         this(type, runes, alt, false);
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         String keyName = KeyNames.getKeyName(type);

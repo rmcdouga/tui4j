@@ -2,7 +2,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.input;
 
 /**
  * Mouse button values.
- * Bubble Tea: bubbletea/mouse.go
+ * Bubble Tea: mouse.go.
+ * <p>
+ * Bubble Tea: key_windows.go.
  */
 public enum MouseButton {
     /** No button. */
@@ -43,6 +45,11 @@ public enum MouseButton {
 
     private final String buttonName;
 
+    /**
+     * Creates MouseButton to keep this component ready for use.
+     *
+     * @param buttonName button name
+     */
     MouseButton(String buttonName) {
         this.buttonName = buttonName;
     }
@@ -56,6 +63,11 @@ public enum MouseButton {
         return buttonName;
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return buttonName;

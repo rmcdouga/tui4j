@@ -8,9 +8,16 @@ import java.util.EnumMap;
  * Port of charmbracelet/bubbletea key.go key alias constants.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
+ * <p>
+ * Bubble Tea: key.go.
  */
 public class KeyAliases {
 
+    /**
+     * Creates KeyAliases to keep this component ready for use.
+     * <p>
+     * Bubble Tea: inputreader_windows.go.
+     */
     private KeyAliases() {}
 
     /** Map from key aliases to their corresponding KeyType. */

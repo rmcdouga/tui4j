@@ -5,7 +5,9 @@ import java.util.Map;
 
 /**
  * Port of Bubble Tea sequences.
- * Bubble Tea: bubbletea/key_sequences.go
+ * Bubble Tea: key_sequences.go.
+ * <p>
+ * Bubble Tea: key_other.go.
  */
 public class Sequences {
 

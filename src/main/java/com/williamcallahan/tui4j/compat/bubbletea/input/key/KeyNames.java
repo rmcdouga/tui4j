@@ -5,10 +5,15 @@ import java.util.Map;
 
 /**
  * Port of Bubble Tea key names.
- * Bubble Tea: bubbletea/key.go
+ * Bubble Tea: key.go.
+ * <p>
+ * Bubble Tea: inputreader_windows.go.
  */
 public class KeyNames {
 
+    /**
+     * Creates KeyNames to keep this component ready for use.
+     */
     private KeyNames() {
         // Utility class
     }

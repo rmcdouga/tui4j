@@ -24,7 +24,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage;
 
 /**
  * Port of Bubble Tea old laggy input handler.
- * Bubble Tea: bubbletea/inputreader_other.go
+ * Bubble Tea: inputreader_other.go.
  */
 public class OldLaggyInputHandler implements InputHandler {
     private static final Pattern MOUSE_SGR_REGEX = Pattern.compile("(\\d+);(\\d+);(\\d+)([Mm])");
@@ -37,6 +37,12 @@ public class OldLaggyInputHandler implements InputHandler {
     // Buffer for handling escape sequences
     private static final int READ_TIMEOUT_MS = 50;
 
+    /**
+     * Creates OldLaggyInputHandler to keep this component ready for use.
+     *
+     * @param terminal terminal
+     * @param messageConsumer message consumer
+     */
     public OldLaggyInputHandler(Terminal terminal, Consumer<Message> messageConsumer) {
         this.terminal = terminal;
         this.messageConsumer = messageConsumer;
@@ -47,6 +53,9 @@ public class OldLaggyInputHandler implements InputHandler {
         });
     }
 
+    /**
+     * Handles start for this component.
+     */
     @Override
     public void start() {
         if (!running) {
@@ -55,6 +64,9 @@ public class OldLaggyInputHandler implements InputHandler {
         }
     }
 
+    /**
+     * Handles stop for this component.
+     */
     @Override
     public void stop() {
         running = false;
@@ -66,6 +78,9 @@ public class OldLaggyInputHandler implements InputHandler {
         }
     }
 
+    /**
+     * Handles handle input for this component.
+     */
     private void handleInput() {
         try {
             NonBlockingReader reader = terminal.reader();
@@ -108,6 +123,12 @@ public class OldLaggyInputHandler implements InputHandler {
         }
     }
 
+    /**
+     * Handles handle control sequence for this component.
+     *
+     * @param reader reader
+     * @param firstChar first char
+     */
     private void handleControlSequence(NonBlockingReader reader, char firstChar) throws IOException {
         StringBuilder sequence = new StringBuilder("\u001b");
         sequence.append(firstChar);
@@ -184,6 +205,11 @@ public class OldLaggyInputHandler implements InputHandler {
         }
     }
 
+    /**
+     * Handles handle x10 mouse event for this component.
+     *
+     * @param reader reader
+     */
     private void handleX10MouseEvent(NonBlockingReader reader) throws IOException {
         // Read 3 bytes for button and coordinates
         int button = reader.read();
@@ -193,6 +219,11 @@ public class OldLaggyInputHandler implements InputHandler {
         messageConsumer.accept(MouseMessage.parseX10MouseEvent(col, row, button));
     }
 
+    /**
+     * Handles handle sgrmouse event for this component.
+     *
+     * @param reader reader
+     */
     private void handleSGRMouseEvent(NonBlockingReader reader) throws IOException {
         StringBuilder buf = new StringBuilder();
 

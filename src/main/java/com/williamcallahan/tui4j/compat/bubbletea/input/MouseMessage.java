@@ -5,9 +5,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 /**
  * Mouse input event data.
  * <p>
- * Bubble Tea: bubbletea/mouse.go
+ * Bubble Tea: mouse.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/mouse.go">bubbletea/mouse.go</a>
+ * <p>
+ * Bubble Tea: key_windows.go.
  */
 public class MouseMessage implements Message {
 
@@ -118,6 +120,11 @@ public class MouseMessage implements Message {
                 button == MouseButton.MouseButtonWheelRight;
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return String.format("MouseMessage(width=%d, height=%d, shift=%b, alt=%b, ctrl=%b, action=%s, button=%s)",
@@ -211,6 +218,11 @@ public class MouseMessage implements Message {
         );
     }
 
+    /**
+     * Compatibility port of MouseEvent to preserve upstream behavior.
+     * <p>
+     * Bubble Tea: mouse.go.
+     */
     private static class MouseEvent {
         boolean shift;
         boolean alt;
@@ -219,6 +231,13 @@ public class MouseMessage implements Message {
         MouseButton button = MouseButton.MouseButtonNone;
     }
 
+    /**
+     * Handles parse mouse button for this component.
+     *
+     * @param b b
+     * @param isSGR is sgr
+     * @return result
+     */
     private static MouseEvent parseMouseButton(int b, boolean isSGR) {
         MouseEvent m = new MouseEvent();
         int e = b & 0xFF;
@@ -263,6 +282,12 @@ public class MouseMessage implements Message {
         return m;
     }
 
+    /**
+     * Reports whether wheel button.
+     *
+     * @param button button
+     * @return whether wheel button
+     */
     private static boolean isWheelButton(MouseButton button) {
         return button == MouseButton.MouseButtonWheelUp ||
                 button == MouseButton.MouseButtonWheelDown ||
