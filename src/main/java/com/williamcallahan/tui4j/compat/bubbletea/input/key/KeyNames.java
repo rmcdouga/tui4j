@@ -8,6 +8,12 @@ import java.util.Map;
  * Bubble Tea: bubbletea/key.go
  */
 public class KeyNames {
+    /**
+     * Creates a key name registry.
+     */
+    public KeyNames() {
+    }
+
     private static final Map<KeyType, String> KEY_NAMES = new HashMap<>();
 
     static {
@@ -36,8 +42,8 @@ public class KeyNames {
         KEY_NAMES.put(KeyType.keyNAK, "ctrl+u");
         KEY_NAMES.put(KeyType.keySYN, "ctrl+v");
         KEY_NAMES.put(KeyType.keyETB, "ctrl+w");
-        KEY_NAMES.put(KeyType.keyCAN, "ctrl+width");
-        KEY_NAMES.put(KeyType.keyEM, "ctrl+height");
+        KEY_NAMES.put(KeyType.keyCAN, "ctrl+x");
+        KEY_NAMES.put(KeyType.keyEM, "ctrl+y");
         KEY_NAMES.put(KeyType.keySUB, "ctrl+z");
         KEY_NAMES.put(KeyType.keyESC, "esc");
         KEY_NAMES.put(KeyType.keyFS, "ctrl+\\");
@@ -102,6 +108,12 @@ public class KeyNames {
         KEY_NAMES.put(KeyType.KeyF20, "f20");
     }
 
+    /**
+     * Returns the display name for a key type.
+     *
+     * @param keyType key type
+     * @return key name or {@code "unknown"} when not mapped
+     */
     public static String getKeyName(KeyType keyType) {
         return KEY_NAMES.getOrDefault(keyType, "unknown");
     }

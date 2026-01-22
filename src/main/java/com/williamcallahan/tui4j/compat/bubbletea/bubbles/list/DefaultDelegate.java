@@ -16,6 +16,9 @@ import java.util.LinkedList;
 @Deprecated(since = "0.3.0")
 public class DefaultDelegate extends com.williamcallahan.tui4j.compat.bubbles.list.DefaultDelegate {
 
+    /**
+     * Creates a default list delegate.
+     */
     @Deprecated(since = "0.3.0")
     public DefaultDelegate() {
         super();

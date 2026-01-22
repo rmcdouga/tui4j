@@ -3,13 +3,21 @@ package com.williamcallahan.tui4j.compat.lipgloss;
 import com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator;
 
 /**
- * Port of Lip Gloss list enumerator.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Port of Lip Gloss list enumerators.
+ * Upstream: lipgloss/list/enumerator.go
  */
 public interface ListEnumerator {
 
+    /**
+     * Length of the Latin alphabet for enumerator calculations.
+     */
     int abcLen = 26;
 
+    /**
+     * Returns an A, B, C style enumerator.
+     *
+     * @return alphabet enumerator
+     */
     static TreeEnumerator alphabet() {
         return (children, index) -> {
             if (index >= abcLen * abcLen + abcLen) {
@@ -22,10 +30,20 @@ public interface ListEnumerator {
         };
     }
 
+    /**
+     * Returns a numeric enumerator.
+     *
+     * @return arabic numeral enumerator
+     */
     static TreeEnumerator arabic() {
         return (children, index) -> String.format("%d.", index + 1);
     }
 
+    /**
+     * Returns a Roman numeral enumerator.
+     *
+     * @return roman numeral enumerator
+     */
     static TreeEnumerator roman() {
         return (children, index) -> {
             String[] roman = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
@@ -45,14 +63,29 @@ public interface ListEnumerator {
         };
     }
 
+    /**
+     * Returns a bullet enumerator.
+     *
+     * @return bullet enumerator
+     */
     static TreeEnumerator bullet() {
         return (children, index) -> "•";
     }
 
+    /**
+     * Returns an asterisk enumerator.
+     *
+     * @return asterisk enumerator
+     */
     static TreeEnumerator asterisk() {
         return (children, index) -> "*";
     }
 
+    /**
+     * Returns a dash enumerator.
+     *
+     * @return dash enumerator
+     */
     static TreeEnumerator dash() {
         return (children, index) -> "-";
     }

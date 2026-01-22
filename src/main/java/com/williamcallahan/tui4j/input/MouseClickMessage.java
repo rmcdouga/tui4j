@@ -29,6 +29,12 @@ public record MouseClickMessage(
         MouseTarget target,
         com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage source
 ) implements Message {
+    /**
+     * Creates a click message from a release event and timestamp.
+     *
+     * @param event source mouse event
+     * @param timestamp event time in milliseconds
+     */
     public MouseClickMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage event, long timestamp) {
         this(
                 event.column(),

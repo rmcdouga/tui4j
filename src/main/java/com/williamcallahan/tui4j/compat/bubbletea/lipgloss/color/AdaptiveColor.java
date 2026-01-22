@@ -11,7 +11,7 @@ import org.jline.utils.AttributedStyle;
  * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public final class AdaptiveColor implements TerminalColor {
     private final com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor delegate;
 
@@ -21,7 +21,7 @@ public final class AdaptiveColor implements TerminalColor {
      * @param light light color string
      * @param dark dark color string
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public AdaptiveColor(String light, String dark) {
         this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor(light, dark);
     }

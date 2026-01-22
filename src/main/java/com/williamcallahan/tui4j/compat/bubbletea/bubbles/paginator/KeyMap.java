@@ -9,11 +9,20 @@ import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 @Deprecated(since = "0.3.0")
 public class KeyMap extends com.williamcallahan.tui4j.compat.bubbles.paginator.KeyMap {
 
+    /**
+     * Creates a paginator key map shim.
+     */
     @Deprecated(since = "0.3.0")
     public KeyMap() {
         super();
     }
 
+    /**
+     * Creates a paginator key map with explicit bindings.
+     *
+     * @param prevPage previous-page binding
+     * @param nextPage next-page binding
+     */
     @Deprecated(since = "0.3.0")
     public KeyMap(Binding prevPage, Binding nextPage) {
         super(prevPage, nextPage);

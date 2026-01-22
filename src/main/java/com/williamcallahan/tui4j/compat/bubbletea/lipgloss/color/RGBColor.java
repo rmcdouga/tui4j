@@ -23,7 +23,10 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      * @param hexValue hex color (e.g., "#ff0000")
      */
     public RGBColor(String hexValue) {
-        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor(hexValue);
+        this.delegate =
+            new com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor(
+                hexValue
+            );
     }
 
     /**
@@ -34,7 +37,12 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      * @param b blue channel (0-255)
      */
     public RGBColor(int r, int g, int b) {
-        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor(r, g, b);
+        this.delegate =
+            new com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor(
+                r,
+                g,
+                b
+            );
     }
 
     /**
@@ -95,7 +103,6 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
         return delegate.applyAsForeground(style, renderer);
     }
 
-
     /**
      * Returns the RGB value for this color.
      *
@@ -120,7 +127,6 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      *
      * @return canonical RGB color
      */
-    @Override
     public com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor toCanonical() {
         return delegate;
     }

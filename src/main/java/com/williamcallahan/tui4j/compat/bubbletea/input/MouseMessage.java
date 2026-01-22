@@ -17,6 +17,17 @@ public class MouseMessage implements Message {
 
     private static final int X10_MOUSE_BYTE_OFFSET = 32;
 
+    /**
+     * Creates a mouse message.
+     *
+     * @param x column position
+     * @param y row position
+     * @param shift whether shift is pressed
+     * @param alt whether alt is pressed
+     * @param ctrl whether ctrl is pressed
+     * @param action mouse action
+     * @param button mouse button
+     */
     public MouseMessage(int x, int y, boolean shift, boolean alt, boolean ctrl,
                         MouseAction action, MouseButton button) {
         this.x = x;
@@ -28,34 +39,74 @@ public class MouseMessage implements Message {
         this.button = button;
     }
 
+    /**
+     * Returns the column position.
+     *
+     * @return column (0-based)
+     */
     public int column() {
         return x;
     }
 
+    /**
+     * Returns the row position.
+     *
+     * @return row (0-based)
+     */
     public int row() {
         return y;
     }
 
+    /**
+     * Returns whether shift was held.
+     *
+     * @return {@code true} when shift is held
+     */
     public boolean isShift() {
         return shift;
     }
 
+    /**
+     * Returns whether alt was held.
+     *
+     * @return {@code true} when alt is held
+     */
     public boolean isAlt() {
         return alt;
     }
 
+    /**
+     * Returns whether ctrl was held.
+     *
+     * @return {@code true} when ctrl is held
+     */
     public boolean isCtrl() {
         return ctrl;
     }
 
+    /**
+     * Returns the mouse action.
+     *
+     * @return mouse action
+     */
     public MouseAction getAction() {
         return action;
     }
 
+    /**
+     * Returns the mouse button.
+     *
+     * @return mouse button
+     */
     public MouseButton getButton() {
         return button;
     }
 
+    /**
+     * Returns whether the event is a wheel action.
+     *
+     * @return {@code true} when the button represents a wheel action
+     */
     public boolean isWheel() {
         return button == MouseButton.MouseButtonWheelUp ||
                 button == MouseButton.MouseButtonWheelDown ||
@@ -69,6 +120,11 @@ public class MouseMessage implements Message {
                 x, y, shift, alt, ctrl, action, button);
     }
 
+    /**
+     * Returns a human-readable description for this event.
+     *
+     * @return description string
+     */
     public String describe() {
         StringBuilder s = new StringBuilder();
 
@@ -106,6 +162,14 @@ public class MouseMessage implements Message {
         return s.toString();
     }
 
+    /**
+     * Parses an X10 mouse event into a mouse message.
+     *
+     * @param col column position (1-based)
+     * @param row row position (1-based)
+     * @param button button encoding
+     * @return parsed mouse message
+     */
     public static MouseMessage parseX10MouseEvent(int col, int row, int button) {
         MouseEvent event = parseMouseButton(button, false);
         return new MouseMessage(
@@ -119,6 +183,15 @@ public class MouseMessage implements Message {
         );
     }
 
+    /**
+     * Parses an SGR mouse event into a mouse message.
+     *
+     * @param button button encoding
+     * @param col column position (1-based)
+     * @param row row position (1-based)
+     * @param release whether this is a release event
+     * @return parsed mouse message
+     */
     public static MouseMessage parseSGRMouseEvent(int button, int col, int row, boolean release) {
         MouseEvent event = parseMouseButton(button, true);
         if (release && event.action != MouseAction.MouseActionMotion && !isWheelButton(event.button)) {

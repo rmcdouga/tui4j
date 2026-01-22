@@ -1,6 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.padding;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
@@ -37,7 +36,7 @@ public class PaddingDecorator extends com.williamcallahan.tui4j.compat.lipgloss.
         int bottomPadding,
         int leftPadding,
         AttributedStyle attributedStyle,
-        Renderer renderer
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
     ) {
         return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.applyPadding(
             input,
@@ -63,7 +62,7 @@ public class PaddingDecorator extends com.williamcallahan.tui4j.compat.lipgloss.
         String input,
         int leftPadding,
         AttributedStyle attributedStyle,
-        Renderer renderer
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
     ) {
         return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padLeft(
             input,
@@ -86,7 +85,7 @@ public class PaddingDecorator extends com.williamcallahan.tui4j.compat.lipgloss.
         String input,
         int rightPadding,
         AttributedStyle attributedStyle,
-        Renderer renderer
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
     ) {
         return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padRight(
             input,
@@ -109,7 +108,7 @@ public class PaddingDecorator extends com.williamcallahan.tui4j.compat.lipgloss.
         String str,
         int n,
         AttributedStyle attributedStyle,
-        Renderer renderer
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
     ) {
         return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.pad(
             str,

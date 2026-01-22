@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.table;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-
 /**
  * Table component for rendering tabular data.
  * <p>
@@ -23,7 +21,7 @@ public class Table extends com.williamcallahan.tui4j.compat.lipgloss.table.Table
      *
      * @param renderer the renderer
      */
-    public Table(Renderer renderer) {
+    public Table(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer) {
         super(renderer.toCanonical());
     }
 
@@ -33,6 +31,6 @@ public class Table extends com.williamcallahan.tui4j.compat.lipgloss.table.Table
      * @return the new Table
      */
     public static Table create() {
-        return new Table(Renderer.defaultRenderer());
+        return new Table(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer());
     }
 }

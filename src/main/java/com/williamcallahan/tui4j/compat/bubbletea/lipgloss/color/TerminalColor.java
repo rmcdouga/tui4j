@@ -1,6 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
@@ -21,7 +20,8 @@ public interface TerminalColor extends com.williamcallahan.tui4j.compat.lipgloss
      * @param renderer renderer context
      * @return updated style
      */
-    default AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
+    default AttributedStyle applyAsBackground(AttributedStyle style,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer) {
         if (renderer == null) {
             return applyAsBackground(style, (com.williamcallahan.tui4j.compat.lipgloss.Renderer) null);
         }
@@ -35,10 +35,20 @@ public interface TerminalColor extends com.williamcallahan.tui4j.compat.lipgloss
      * @param renderer renderer context
      * @return updated style
      */
-    default AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
+    default AttributedStyle applyAsForeground(AttributedStyle style,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer) {
         if (renderer == null) {
             return applyAsForeground(style, (com.williamcallahan.tui4j.compat.lipgloss.Renderer) null);
         }
         return applyAsForeground(style, renderer.toCanonical());
+    }
+
+    /**
+     * Returns the canonical terminal color representation for this shim.
+     *
+     * @return canonical terminal color
+     */
+    default com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor toCanonical() {
+        return this;
     }
 }

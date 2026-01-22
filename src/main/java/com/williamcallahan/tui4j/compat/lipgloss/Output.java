@@ -22,12 +22,28 @@ public class Output {
 
     private static Output defaultOutput = new Output();
 
+    /**
+     * Creates an output helper.
+     */
+    public Output() {
+    }
+
+    /**
+     * Returns the shared default output instance.
+     *
+     * @return default output
+     */
     public static Output defaultOutput() {
         return defaultOutput;
     }
 
     private TerminalColor backgroundColor = new NoColor();
 
+    /**
+     * Returns the environment-derived color profile.
+     *
+     * @return detected color profile
+     */
     public ColorProfile envColorProfile() {
         if (envNoColor()) {
             return ColorProfile.Ascii;
@@ -94,6 +110,11 @@ public class Output {
         return !"0".equals(force);
     }
 
+    /**
+     * Returns whether the detected background is dark.
+     *
+     * @return {@code true} when the background is dark
+     */
     public boolean hasDarkBackground() {
         TerminalColor terminalColor = backgroundColor();
 
@@ -106,6 +127,11 @@ public class Output {
         return hsl.isDark();
     }
 
+    /**
+     * Returns the detected background color.
+     *
+     * @return terminal background color
+     */
     public TerminalColor backgroundColor() {
         if (!TerminalInfo.get().tty()) {
             return backgroundColor;

@@ -5,16 +5,24 @@ import java.util.List;
 
 /**
  * Port of Lip Gloss node children.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Upstream: lipgloss/tree/children.go
  */
 public class NodeChildren implements Children {
 
     private List<Node> children = new ArrayList<>();
 
+    /**
+     * Creates node children with an initial list.
+     *
+     * @param children initial children
+     */
     public NodeChildren(List<Node> children) {
         this.children = children;
     }
 
+    /**
+     * Creates an empty node children container.
+     */
     public NodeChildren() {
     }
 
@@ -37,6 +45,12 @@ public class NodeChildren implements Children {
         return children.size();
     }
 
+    /**
+     * Appends a child node.
+     *
+     * @param child child to add
+     * @return this children container
+     */
     public Children append(Node child) {
         children.add(child);
         return this;

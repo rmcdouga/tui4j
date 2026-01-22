@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-
 /**
  * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator}.
  * This transitional shim is temporary and will be removed in an upcoming release.
@@ -24,8 +22,22 @@ public class VerticalJoinDecorator extends com.williamcallahan.tui4j.compat.lipg
      * @param blocks   blocks to join
      * @return joined block string
      */
-    public static String joinVertical(Position position, String... blocks) {
+    public static String joinVertical(
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position position,
+        String... blocks
+    ) {
+        return joinVertical(position.toNew(), blocks);
+    }
+
+    /**
+     * Joins blocks vertically using the canonical position type.
+     *
+     * @param position position to align within the widest block
+     * @param blocks blocks to join
+     * @return joined block string
+     */
+    public static String joinVertical(com.williamcallahan.tui4j.compat.lipgloss.Position position, String... blocks) {
         return com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator
-            .joinVertical(position.toNew(), blocks);
+            .joinVertical(position, blocks);
     }
 }

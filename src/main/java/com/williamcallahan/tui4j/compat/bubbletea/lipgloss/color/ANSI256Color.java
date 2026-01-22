@@ -23,7 +23,10 @@ public final class ANSI256Color implements TerminalColor, RGBSupplier {
      * @param colorCode ANSI 256 color code (0-255)
      */
     public ANSI256Color(int colorCode) {
-        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color(colorCode);
+        this.delegate =
+            new com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color(
+                colorCode
+            );
     }
 
     /**
@@ -119,7 +122,6 @@ public final class ANSI256Color implements TerminalColor, RGBSupplier {
      *
      * @return canonical ANSI 256 color
      */
-    @Override
     public com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color toCanonical() {
         return delegate;
     }

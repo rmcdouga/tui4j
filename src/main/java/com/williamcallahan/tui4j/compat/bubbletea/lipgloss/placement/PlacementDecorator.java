@@ -1,22 +1,18 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.placement;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace;
-
 /**
  * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator}.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Lip Gloss: style.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator {
 
     /**
      * Creates a placement decorator instance for legacy compatibility.
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public PlacementDecorator() {
     }
 
@@ -34,12 +30,14 @@ public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipglos
     public static String place(
         int width,
         int height,
-        Position hPos,
-        Position vPos,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position hPos,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position vPos,
         String input,
-        Whitespace.WhitespaceOption... options
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption... options
     ) {
-        return Renderer.defaultRenderer().place(width, height, hPos.toNew(), vPos.toNew(), input, options);
+        return com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer
+            .defaultRenderer()
+            .place(width, height, hPos.toNew(), vPos.toNew(), input, options);
     }
 
     /**
@@ -53,11 +51,13 @@ public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipglos
      */
     public static String placeHorizontal(
         int width,
-        Position position,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position position,
         String input,
-        Whitespace.WhitespaceOption... options
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption... options
     ) {
-        return Renderer.defaultRenderer().placeHorizontal(width, position.toNew(), input, options);
+        return com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer
+            .defaultRenderer()
+            .placeHorizontal(width, position.toNew(), input, options);
     }
 
     /**
@@ -71,10 +71,12 @@ public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipglos
      */
     public static String placeVertical(
         int height,
-        Position position,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position position,
         String input,
-        Whitespace.WhitespaceOption... options
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption... options
     ) {
-        return Renderer.defaultRenderer().placeVertical(height, position.toNew(), input, options);
+        return com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer
+            .defaultRenderer()
+            .placeVertical(height, position.toNew(), input, options);
     }
 }

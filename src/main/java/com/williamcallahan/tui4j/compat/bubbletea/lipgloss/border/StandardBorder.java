@@ -9,27 +9,38 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border;
 @Deprecated(since = "0.3.0")
 public class StandardBorder extends com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder {
     /** Border with no visible lines. */
-    public static Border NoBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.NoBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border NoBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.NoBorder;
     /** Single-line box border. */
-    public static Border NormalBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.NormalBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border NormalBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.NormalBorder;
     /** Rounded corner border. */
-    public static Border RoundedBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.RoundedBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border RoundedBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.RoundedBorder;
     /** Solid block border. */
-    public static Border BlockBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.BlockBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border BlockBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.BlockBorder;
     /** Outer half-block border. */
-    public static Border OuterHalfBlockBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.OuterHalfBlockBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border OuterHalfBlockBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.OuterHalfBlockBorder;
     /** Inner half-block border. */
-    public static Border InnerHalfBlockBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.InnerHalfBlockBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border InnerHalfBlockBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.InnerHalfBlockBorder;
     /** Thick line border. */
-    public static Border ThickBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.ThickBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border ThickBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.ThickBorder;
     /** Double line border. */
-    public static Border DoubleBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.DoubleBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border DoubleBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.DoubleBorder;
     /** Hidden border (spaces). */
-    public static Border HiddenBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.HiddenBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border HiddenBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.HiddenBorder;
     /** Markdown table border. */
-    public static Border MarkdownBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.MarkdownBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border MarkdownBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.MarkdownBorder;
     /** ASCII line border. */
-    public static Border ASCIIBorder = Border.fromNew(com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.ASCIIBorder);
+    public static com.williamcallahan.tui4j.compat.lipgloss.border.Border ASCIIBorder =
+        com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder.ASCIIBorder;
 
     /**
      * Creates a standard border shim.

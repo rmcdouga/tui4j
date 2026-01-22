@@ -23,7 +23,10 @@ public final class ANSIColor implements TerminalColor, RGBSupplier {
      * @param colorCode ANSI color code (0-15)
      */
     public ANSIColor(int colorCode) {
-        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor(colorCode);
+        this.delegate =
+            new com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor(
+                colorCode
+            );
     }
 
     /**
@@ -110,7 +113,6 @@ public final class ANSIColor implements TerminalColor, RGBSupplier {
      *
      * @return canonical ANSI color
      */
-    @Override
     public com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor toCanonical() {
         return delegate;
     }

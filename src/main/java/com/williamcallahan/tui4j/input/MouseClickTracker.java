@@ -21,6 +21,12 @@ public final class MouseClickTracker {
     private int lastClickCount = 0;
 
     /**
+     * Creates a click tracker.
+     */
+    public MouseClickTracker() {
+    }
+
+    /**
      * Handles a mouse message and returns a click if detected.
      *
      * @param message mouse message

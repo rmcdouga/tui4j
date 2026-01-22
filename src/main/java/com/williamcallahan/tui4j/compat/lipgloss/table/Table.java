@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.border.Border;
-
+import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,8 @@ public class Table {
      */
     public static final int HEADER_ROW = -1;
 
-    private static final StyleFunc DEFAULT_STYLES = (row, col) -> Style.newStyle();
+    private static final StyleFunc DEFAULT_STYLES = (row, col) ->
+        Style.newStyle();
 
     private StyleFunc styleFunc = DEFAULT_STYLES;
     private Border border;
@@ -35,7 +36,7 @@ public class Table {
     private boolean borderRight = true;
     private boolean borderHeader = true;
     private boolean borderColumn = true;
-    private boolean borderRow = true;
+    private boolean borderRow = false;
 
     private Style borderStyle;
     private List<String> headers = new ArrayList<>();
@@ -60,11 +61,7 @@ public class Table {
     }
 
     private Border createDefaultBorder() {
-        return new Border(
-                " ", " ", " ", " ",
-                " ", " ", " ", " ",
-                " ", " ", " ", " ", " "
-        );
+        return StandardBorder.RoundedBorder;
     }
 
     public static Table create() {
@@ -246,9 +243,9 @@ public class Table {
         sb.append(bottom);
 
         return Style.newStyle()
-                .maxHeight(computeHeight())
-                .maxWidth(width)
-                .render(sb.toString());
+            .maxHeight(computeHeight())
+            .maxWidth(width)
+            .render(sb.toString());
     }
 
     private int computeHeight() {
@@ -257,9 +254,15 @@ public class Table {
         for (int h : heights) {
             sumHeights += h;
         }
-        return sumHeights - 1 + boolToInt(hasHeaders) +
-                boolToInt(borderTop) + boolToInt(borderBottom) +
-                boolToInt(borderHeader) + data.rows() * boolToInt(borderRow);
+        return (
+            sumHeights -
+            1 +
+            boolToInt(hasHeaders) +
+            boolToInt(borderTop) +
+            boolToInt(borderBottom) +
+            boolToInt(borderHeader) +
+            data.rows() * boolToInt(borderRow)
+        );
     }
 
     private int boolToInt(boolean b) {
@@ -315,12 +318,14 @@ public class Table {
                 header = truncateCell(header, HEADER_ROW, i);
             }
 
-            s.append(cellStyle
+            s.append(
+                cellStyle
                     .height(headerHeight - cellStyle.getVerticalMargins())
                     .maxHeight(headerHeight)
                     .width(widths[i] - cellStyle.getHorizontalMargins())
                     .maxWidth(widths[i])
-                    .render(truncateCell(header, HEADER_ROW, i)));
+                    .render(truncateCell(header, HEADER_ROW, i))
+            );
             if (i < headers.size() - 1 && borderColumn) {
                 s.append(borderStyle.render(border.left()));
             }
@@ -383,7 +388,9 @@ public class Table {
         }
 
         List<String> cells = new ArrayList<>();
-        String leftBorder = (borderStyle.render(border.left()) + "\n").repeat(rowHeight);
+        String leftBorder = (borderStyle.render(border.left()) + "\n").repeat(
+            rowHeight
+        );
         if (borderLeft) {
             cells.add(leftBorder);
         }
@@ -399,11 +406,11 @@ public class Table {
 
             int cellWidth = c < widths.length ? widths[c] : 0;
             String renderedCell = cellStyle
-                    .height(rowHeight - cellStyle.getVerticalMargins())
-                    .maxHeight(rowHeight)
-                    .width(cellWidth - cellStyle.getHorizontalMargins())
-                    .maxWidth(cellWidth)
-                    .render(cell);
+                .height(rowHeight - cellStyle.getVerticalMargins())
+                .maxHeight(rowHeight)
+                .width(cellWidth - cellStyle.getHorizontalMargins())
+                .maxWidth(cellWidth)
+                .render(cell);
             cells.add(renderedCell);
 
             if (c < numCols - 1 && borderColumn) {
@@ -412,7 +419,10 @@ public class Table {
         }
 
         if (borderRight) {
-            String rightBorder = (borderStyle.render(border.right()) + "\n").repeat(rowHeight);
+            String rightBorder = (
+                borderStyle.render(border.right()) +
+                "\n"
+            ).repeat(rowHeight);
             cells.add(rightBorder);
         }
 
@@ -420,9 +430,15 @@ public class Table {
             cells.set(i, cells.get(i).replaceAll("\n$", ""));
         }
 
-        s.append(Join.joinHorizontal(Position.Top, cells.toArray(new String[0]))).append("\n");
+        s
+            .append(
+                Join.joinHorizontal(Position.Top, cells.toArray(new String[0]))
+            )
+            .append("\n");
 
-        if (borderRow && data != null && index < data.rows() - 1 && !isOverflow) {
+        if (
+            borderRow && data != null && index < data.rows() - 1 && !isOverflow
+        ) {
             if (borderLeft) {
                 s.append(borderStyle.render(border.middleLeft()));
             }
@@ -447,7 +463,10 @@ public class Table {
         int cellWidth = widths[colIndex];
         Style cellStyle = style(rowIndex, colIndex);
 
-        int length = (cellWidth * rowHeight) - cellStyle.getHorizontalPadding() - cellStyle.getHorizontalMargins();
+        int length =
+            (cellWidth * rowHeight) -
+            cellStyle.getHorizontalPadding() -
+            cellStyle.getHorizontalMargins();
         return Truncate.truncate(cell, length, "…");
     }
 
@@ -457,7 +476,10 @@ public class Table {
         TableResizer resizer = new TableResizer(width, height, headers, rows);
         resizer.setWrap(wrap);
         resizer.setBorderColumn(borderColumn);
-        resizer.applyStyles(styleFunc == null ? DEFAULT_STYLES : styleFunc, hasHeaders);
+        resizer.applyStyles(
+            styleFunc == null ? DEFAULT_STYLES : styleFunc,
+            hasHeaders
+        );
 
         TableResizer.ResizeResult result = resizer.optimizedWidths();
         widths = result.columnWidths();

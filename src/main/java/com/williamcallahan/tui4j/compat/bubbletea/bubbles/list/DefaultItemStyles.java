@@ -11,6 +11,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
 @Deprecated(since = "0.3.0")
 public class DefaultItemStyles extends com.williamcallahan.tui4j.compat.bubbles.list.DefaultItemStyles {
 
+    /**
+     * Creates the default item styles shim.
+     */
     @Deprecated(since = "0.3.0")
     public DefaultItemStyles() {
         super();

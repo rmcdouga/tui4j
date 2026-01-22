@@ -1,7 +1,8 @@
 package com.williamcallahan.tui4j.compat.lipgloss.tree;
 
 /**
- * Port of github.com/charmbracelet/lipgloss/tree/tree.go (Leaf).
+ * Port of Lip Gloss leaf nodes.
+ * Upstream: lipgloss/tree/tree.go
  */
 public class Leaf implements Node {
 
@@ -9,15 +10,29 @@ public class Leaf implements Node {
     private boolean hidden;
     private Node nodeValue;
 
+    /**
+     * Creates a leaf with a string value.
+     *
+     * @param value leaf value
+     */
     public Leaf(String value) {
         this.value = value;
     }
 
+    /**
+     * Creates a leaf with a value and visibility.
+     *
+     * @param value leaf value
+     * @param hidden whether the leaf is hidden
+     */
     public Leaf(Object value, boolean hidden) {
         setValue(value);
         setHidden(hidden);
     }
 
+    /**
+     * Creates an empty leaf.
+     */
     public Leaf() {
     }
 
@@ -39,11 +54,23 @@ public class Leaf implements Node {
         return hidden;
     }
 
+    /**
+     * Sets whether this leaf is hidden.
+     *
+     * @param hidden hidden state
+     * @return this leaf for chaining
+     */
     public Leaf setHidden(boolean hidden) {
         this.hidden = hidden;
         return this;
     }
 
+    /**
+     * Sets the leaf value, accepting nested nodes.
+     *
+     * @param value leaf value or child node
+     * @return this leaf for chaining
+     */
     public Leaf setValue(Object value) {
         if (value instanceof Node node) {
             this.nodeValue = node;

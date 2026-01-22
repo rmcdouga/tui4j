@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 
 /**
  * Port of Bubbles list.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * Upstream: bubbles/list/list.go
  */
 public class List
     implements Model, com.williamcallahan.tui4j.compat.bubbles.help.KeyMap
@@ -88,14 +88,37 @@ public class List
     private java.util.List<FilteredItem> currentPageItems;
     private ItemDelegate itemDelegate;
 
+    /**
+     * Creates a list backed by a static array of items.
+     *
+     * @param items list items
+     * @param width list width
+     * @param height list height
+     */
     public List(Item[] items, int width, int height) {
         this(items, new DefaultDelegate(), width, height);
     }
 
+    /**
+     * Creates a list backed by a static array of items with a custom delegate.
+     *
+     * @param items list items
+     * @param delegate item delegate
+     * @param width list width
+     * @param height list height
+     */
     public List(Item[] items, ItemDelegate delegate, int width, int height) {
         setup(new DefaultDataSource(this, items), delegate, width, height);
     }
 
+    /**
+     * Creates a list backed by a data source and delegate.
+     *
+     * @param dataSource list data source
+     * @param delegate item delegate
+     * @param width list width
+     * @param height list height
+     */
     public List(
         ListDataSource dataSource,
         ItemDelegate delegate,
@@ -105,6 +128,13 @@ public class List
         setup(dataSource, delegate, width, height);
     }
 
+    /**
+     * Creates a list backed by a data source.
+     *
+     * @param dataSource list data source
+     * @param width list width
+     * @param height list height
+     */
     public List(ListDataSource dataSource, int width, int height) {
         this(dataSource, new DefaultDelegate(), width, height);
     }
@@ -161,10 +191,21 @@ public class List
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns the current data source.
+     *
+     * @return list data source
+     */
     public ListDataSource dataSource() {
         return dataSource;
     }
 
+    /**
+     * Refreshes the current page, optionally running callbacks after refresh.
+     *
+     * @param postRefresh callbacks to run after refresh
+     * @return refresh command
+     */
     public Command refresh(Runnable... postRefresh) {
         return fetchCurrentPageItems(
             Stream.concat(
@@ -202,10 +243,21 @@ public class List
         }
     }
 
+    /**
+     * Sets whether filtering only applies when accepted.
+     *
+     * @param filterOnAcceptOnly {@code true} to require accept
+     */
     public void setFilterOnAcceptOnly(boolean filterOnAcceptOnly) {
         this.filterOnAcceptOnly = filterOnAcceptOnly;
     }
 
+    /**
+     * Enables or disables filtering.
+     *
+     * @param filteringEnabled {@code true} to enable filtering
+     * @return command to reset filtering when disabling
+     */
     public Command setFilteringEnabled(boolean filteringEnabled) {
         this.filteringEnabled = filteringEnabled;
         if (!filteringEnabled) {
@@ -214,25 +266,53 @@ public class List
         return null;
     }
 
+    /**
+     * Returns whether filtering is enabled.
+     *
+     * @return {@code true} when filtering is enabled
+     */
     public boolean filteringEnabled() {
         return filteringEnabled;
     }
 
+    /**
+     * Sets the list title.
+     *
+     * @param title title text
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Sets whether the title is shown.
+     *
+     * @param showTitle {@code true} to show the title
+     * @return command to refresh items
+     */
     public Command setShowTitle(boolean showTitle) {
         this.showTitle = showTitle;
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Sets the filter text and refreshes items.
+     *
+     * @param filter filter text
+     * @return command to refresh items
+     */
     public Command setFilterText(String filter) {
         this.filterState = FilterState.Filtering;
         this.filterInput.setValue(filter);
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Sets the filter state and refreshes items.
+     *
+     * @param filterState new filter state
+     * @return command to refresh items
+     */
     public Command setFilterState(FilterState filterState) {
         this.paginator.setPage(0);
         this.cursor = 0;
@@ -243,74 +323,156 @@ public class List
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns whether the title is shown.
+     *
+     * @return {@code true} when the title is shown
+     */
     public boolean showTitle() {
         return showTitle;
     }
 
+    /**
+     * Sets whether the filter input is shown.
+     *
+     * @param showFilter {@code true} to show the filter input
+     */
     public void setShowFilter(boolean showFilter) {
         this.showFilter = showFilter;
         updatePagination();
     }
 
+    /**
+     * Returns whether the filter input is shown.
+     *
+     * @return {@code true} when the filter input is shown
+     */
     public boolean showFilter() {
         return showFilter;
     }
 
+    /**
+     * Sets whether the status bar is shown.
+     *
+     * @param showStatusBar {@code true} to show the status bar
+     */
     public void setShowStatusBar(boolean showStatusBar) {
         this.showStatusBar = showStatusBar;
         updatePagination();
     }
 
+    /**
+     * Returns whether the status bar is shown.
+     *
+     * @return {@code true} when the status bar is shown
+     */
     public boolean showStatusBar() {
         return showStatusBar;
     }
 
+    /**
+     * Sets the singular and plural names used in the status bar.
+     *
+     * @param singular singular item name
+     * @param plural plural item name
+     */
     public void setStatusBarItemName(String singular, String plural) {
         this.itemNameSingular = singular;
         this.itemNamePlural = plural;
     }
 
+    /**
+     * Returns the singular item name used in the status bar.
+     *
+     * @return singular item name
+     */
     public String itemNameSingular() {
         return itemNameSingular;
     }
 
+    /**
+     * Returns the plural item name used in the status bar.
+     *
+     * @return plural item name
+     */
     public String itemNamePlural() {
         return itemNamePlural;
     }
 
+    /**
+     * Sets whether pagination is shown.
+     *
+     * @param showPagination {@code true} to show pagination
+     */
     public void setShowPagination(boolean showPagination) {
         this.showPagination = showPagination;
         updatePagination();
     }
 
+    /**
+     * Returns whether pagination is shown.
+     *
+     * @return {@code true} when pagination is shown
+     */
     public boolean showPagination() {
         return showPagination;
     }
 
+    /**
+     * Sets whether the help view is shown.
+     *
+     * @param showHelp {@code true} to show help
+     * @return command to refresh items
+     */
     public Command setShowHelp(boolean showHelp) {
         this.showHelp = showHelp;
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns whether the help view is shown.
+     *
+     * @return {@code true} when help is shown
+     */
     public boolean showHelp() {
         return showHelp;
     }
 
+    /**
+     * Selects the item at the given index.
+     *
+     * @param index absolute item index
+     * @return command to refresh items
+     */
     public Command select(int index) {
         this.paginator.setPage(index / paginator.perPage());
         this.cursor = index & paginator.perPage();
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Resets the selected index to the first item.
+     */
     public void resetSelected() {
         select(0);
     }
 
+    /**
+     * Sets the item delegate and refreshes items.
+     *
+     * @param itemDelegate item delegate
+     * @return command to refresh items
+     */
     public Command setItemDelegate(ItemDelegate itemDelegate) {
         this.itemDelegate = itemDelegate;
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Returns the currently selected item, if any.
+     *
+     * @return selected item or {@code null}
+     */
     public Item selectedItem() {
         int i = index();
         java.util.List<FilteredItem> visibleItems = visibleItems();
@@ -339,14 +501,29 @@ public class List
         return all.items();
     }
 
+    /**
+     * Returns the absolute index of the cursor within the full list.
+     *
+     * @return absolute cursor index
+     */
     public int index() {
         return paginator.page() * paginator.perPage() + cursor;
     }
 
+    /**
+     * Returns the cursor position within the current page.
+     *
+     * @return cursor index within the page
+     */
     public int cursor() {
         return cursor;
     }
 
+    /**
+     * Advances to the next page if available.
+     *
+     * @return command to refresh items, or {@code null} if no change
+     */
     public Command nextPage() {
         if (!paginator.onLastPage()) {
             paginator.nextPage();
@@ -356,6 +533,11 @@ public class List
         return null;
     }
 
+    /**
+     * Moves to the previous page if available.
+     *
+     * @return command to refresh items, or {@code null} if no change
+     */
     public Command prevPage() {
         if (paginator.page() > 0) {
             paginator.prevPage();
@@ -365,49 +547,101 @@ public class List
         return null;
     }
 
+    /**
+     * Returns the current filter state.
+     *
+     * @return filter state
+     */
     public FilterState filterState() {
         return filterState;
     }
 
+    /**
+     * Returns the current filter value.
+     *
+     * @return filter value
+     */
     public String filterValue() {
         return filterInput.value();
     }
 
+    /**
+     * Returns whether the list is currently accepting filter input.
+     *
+     * @return {@code true} when filtering input is active
+     */
     public boolean settingFilter() {
         return this.filterState == FilterState.Filtering;
     }
 
+    /**
+     * Returns whether a filter has been applied.
+     *
+     * @return {@code true} when filtered
+     */
     public boolean isFiltered() {
         return this.filterState == FilterState.FilterApplied;
     }
 
+    /**
+     * Returns the list width.
+     *
+     * @return width in columns
+     */
     public int width() {
         return width;
     }
 
+    /**
+     * Returns the list height.
+     *
+     * @return height in rows
+     */
     public int height() {
         return height;
     }
 
+    /**
+     * Sets the spinner type used while fetching items.
+     *
+     * @param spinnerType spinner type
+     */
     public void setSpinnerType(SpinnerType spinnerType) {
         spinner.setType(spinnerType);
     }
 
+    /**
+     * Starts the spinner tick loop.
+     *
+     * @return spinner tick command
+     */
     public Command startSpinner() {
         this.showSpinner = true;
         return spinner::tick;
     }
 
+    /**
+     * Stops the spinner.
+     */
     public void stopSpinner() {
         this.showSpinner = false;
     }
 
+    /**
+     * Disables quit keybindings for this list.
+     */
     public void disableQuitKeybindings() {
         this.disableQuitKeybindings = true;
         keys.quit().setEnabled(false);
         keys.forceQuit().setEnabled(false);
     }
 
+    /**
+     * Sets a temporary status message.
+     *
+     * @param status status message text
+     * @return command that clears the message after the lifetime
+     */
     public Command newStatusMessage(String status) {
         this.statusMessage = status;
 
@@ -441,10 +675,22 @@ public class List
         };
     }
 
+    /**
+     * Sets the lifetime for status messages.
+     *
+     * @param statusMessageLifetime message lifetime
+     */
     public void setStatusMessageLifetime(Duration statusMessageLifetime) {
         this.statusMessageLifetime = statusMessageLifetime;
     }
 
+    /**
+     * Sets the list dimensions and refreshes items.
+     *
+     * @param width list width
+     * @param height list height
+     * @return command to refresh items
+     */
     public Command setSize(int width, int height) {
         int promptWidth = Size.width(
             styles.title().render(filterInput.prompt())
@@ -461,14 +707,31 @@ public class List
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Sets the list width.
+     *
+     * @param width list width
+     * @return command to refresh items
+     */
     public Command setWidth(int width) {
         return setSize(width, height);
     }
 
+    /**
+     * Sets the list height.
+     *
+     * @param height list height
+     * @return command to refresh items
+     */
     public Command setHeight(int height) {
         return setSize(width, height);
     }
 
+    /**
+     * Resets filtering to the unfiltered state.
+     *
+     * @return command to refresh items, or {@code null} if unchanged
+     */
     protected Command resetFiltering() {
         if (filterState == FilterState.Unfiltered) {
             return null;
@@ -480,6 +743,9 @@ public class List
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Updates enabled state of keybindings based on list state.
+     */
     protected void updateKeybindings() {
         if (filterState == FilterState.Filtering || fetchingItems) {
             keys.cursorUp().setEnabled(false);
@@ -714,6 +980,11 @@ public class List
         }
     }
 
+    /**
+     * Moves the cursor up by one row, paging as needed.
+     *
+     * @return command to refresh items, or {@code null} if no change
+     */
     public Command cursorUp() {
         this.cursor--;
         if (cursor < 0) {
@@ -745,6 +1016,11 @@ public class List
         return null;
     }
 
+    /**
+     * Moves the cursor down by one row, paging as needed.
+     *
+     * @return command to refresh items, or {@code null} if no change
+     */
     public Command cursorDown() {
         int itemsOnPage = visibleItems().size();
         this.cursor++;
@@ -1131,16 +1407,31 @@ public class List
         return kb.toArray(new Binding[0][]);
     }
 
+    /**
+     * Returns the current list styles.
+     *
+     * @return list styles
+     */
     public Styles styles() {
         return styles;
     }
 
+    /**
+     * Sets additional short help key bindings.
+     *
+     * @param additionalShortHelpKeyMap supplier for extra bindings
+     */
     public void setAdditionalShortHelpKeys(
         Supplier<Binding[]> additionalShortHelpKeyMap
     ) {
         this.additionalShortHelpKeyMap = additionalShortHelpKeyMap;
     }
 
+    /**
+     * Sets additional full help key bindings.
+     *
+     * @param additionalFullHelpKeyMap supplier for extra bindings
+     */
     public void setAdditionalFullHelpKeys(
         Supplier<Binding[]> additionalFullHelpKeyMap
     ) {

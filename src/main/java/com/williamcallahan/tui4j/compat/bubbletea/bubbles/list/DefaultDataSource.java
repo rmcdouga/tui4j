@@ -13,6 +13,12 @@ import java.util.LinkedList;
 @Deprecated(since = "0.3.0")
 public class DefaultDataSource extends com.williamcallahan.tui4j.compat.bubbles.list.DefaultDataSource {
 
+    /**
+     * Creates a default data source for the legacy list.
+     *
+     * @param list list component
+     * @param items initial items
+     */
     @Deprecated(since = "0.3.0")
     public DefaultDataSource(List list, Item... items) {
         super(list, items);

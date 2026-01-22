@@ -13,4 +13,9 @@ import java.util.Locale;
 @Deprecated(since = "0.3.0")
 public class FuzzyFilter extends com.williamcallahan.tui4j.compat.bubbles.list.fuzzy.FuzzyFilter {
 
+    /**
+     * Creates a fuzzy filter shim.
+     */
+    public FuzzyFilter() {
+    }
 }

@@ -2,15 +2,14 @@ package com.williamcallahan.tui4j.compat.bubbles.table;
 
 import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.ansi.Truncate;
+import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
+import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
-import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,10 +135,43 @@ public class Table implements Model, KeyMap {
 
     @Override
     public String view() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(headersView()).append("\n");
-        sb.append(contentView());
-        return sb.toString();
+        String header = headersView();
+        String content = contentView();
+
+        List<String> lines = new ArrayList<>();
+        String[] headerLines = header.split("\n", -1);
+        for (String line : headerLines) {
+            lines.add(line);
+        }
+        if (!content.isEmpty()) {
+            String[] contentLines = content.split("\n", -1);
+            for (String line : contentLines) {
+                lines.add(line);
+            }
+        }
+
+        int contentWidth = 0;
+        for (String line : lines) {
+            contentWidth = Math.max(
+                contentWidth,
+                TextWidth.measureCellWidth(line)
+            );
+        }
+        int fillWidth = Math.min(width, contentWidth);
+
+        int missingLines = height - lines.size();
+        if (missingLines > 0) {
+            String padding = " ".repeat(Math.max(0, fillWidth));
+            for (int i = 0; i < missingLines; i++) {
+                lines.add(padding);
+            }
+        }
+
+        String result = String.join("\n", lines);
+        if (columns.isEmpty() && rows.isEmpty()) {
+            return result + "\n";
+        }
+        return result;
     }
 
     private String headersView() {
@@ -150,9 +182,9 @@ public class Table implements Model, KeyMap {
             }
             String truncated = Truncate.truncate(col.title(), col.width(), "…");
             String rendered = Style.newStyle()
-                    .width(col.width())
-                    .inline(true)
-                    .render(truncated);
+                .width(col.width())
+                .inline(true)
+                .render(truncated);
             headers.add(styles.header().render(rendered));
         }
         return joinHorizontal(headers.toArray(new String[0]));
@@ -185,9 +217,9 @@ public class Table implements Model, KeyMap {
             String cellValue = row.at(i);
             String truncated = Truncate.truncate(cellValue, col.width(), "…");
             String rendered = Style.newStyle()
-                    .width(col.width())
-                    .inline(true)
-                    .render(truncated);
+                .width(col.width())
+                .inline(true)
+                .render(truncated);
             cells.add(styles.cell().render(rendered));
         }
 
@@ -233,18 +265,27 @@ public class Table implements Model, KeyMap {
     }
 
     private void updateViewport() {
-        int viewportHeight = height - headersView().split("\n").length;
+        int viewportHeight = Math.max(0, height - headerHeight());
 
         if (cursor >= 0) {
             start = clamp(cursor - viewportHeight, 0, cursor);
         } else {
             start = 0;
         }
-        end = clamp(cursor + viewportHeight + 1, cursor, rows.size());
+        end = clamp(cursor + viewportHeight, cursor, rows.size());
     }
 
     private int clamp(int value, int low, int high) {
         return Math.max(low, Math.min(value, high));
+    }
+
+    /**
+     * Returns the number of header lines rendered for the current columns and styles.
+     *
+     * @return header line count
+     */
+    private int headerHeight() {
+        return Math.max(1, headersView().split("\n", -1).length);
     }
 
     public boolean focused() {
@@ -344,7 +385,7 @@ public class Table implements Model, KeyMap {
     }
 
     private int viewportHeight() {
-        return Math.max(1, height - 1);
+        return Math.max(1, height - headerHeight());
     }
 
     public void gotoTop() {

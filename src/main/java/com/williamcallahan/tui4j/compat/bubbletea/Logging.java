@@ -26,8 +26,18 @@ public final class Logging {
      */
     public interface LogOptionsSetter {
 
+        /**
+         * Sets the output stream for logging.
+         *
+         * @param output output stream
+         */
         void setOutput(OutputStream output);
 
+        /**
+         * Sets the prefix used for log messages.
+         *
+         * @param prefix prefix text
+         */
         void setPrefix(String prefix);
     }
 

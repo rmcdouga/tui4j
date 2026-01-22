@@ -33,21 +33,32 @@ public enum ColorProfile {
      * @param color color string
      * @return terminal color, or null when parsing fails
      */
-    public com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color(String color) {
+    public com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color(
+        String color
+    ) {
         if (color == null || color.isBlank()) {
             return null;
         }
         com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor terminalColor;
 
         if (color.startsWith("#")) {
-            terminalColor = new com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor(color);
+            terminalColor =
+                new com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor(
+                    color
+                );
         } else {
             try {
                 int colorCode = Integer.parseInt(color);
                 if (colorCode < 16) {
-                    terminalColor = new com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor(colorCode);
+                    terminalColor =
+                        new com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor(
+                            colorCode
+                        );
                 } else {
-                    terminalColor = new com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color(colorCode);
+                    terminalColor =
+                        new com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color(
+                            colorCode
+                        );
                 }
             } catch (NumberFormatException e) {
                 return null;
@@ -64,11 +75,13 @@ public enum ColorProfile {
      * @param terminalColor terminal color
      * @return compatible terminal color
      */
-    public com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor convert(TerminalColor terminalColor) {
+    public com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor convert(
+        TerminalColor terminalColor
+    ) {
         if (terminalColor == null) {
             return null;
         }
-        return convertCanonical(terminalColor.toCanonical());
+        return convertCanonical(terminalColor);
     }
 
     private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor convertCanonical(
@@ -78,14 +91,23 @@ public enum ColorProfile {
             return new com.williamcallahan.tui4j.compat.lipgloss.color.NoColor();
         }
 
-        if (terminalColor instanceof com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor) {
+        if (
+            terminalColor instanceof
+                com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor
+        ) {
             return terminalColor;
-        } else if (terminalColor instanceof com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color ansi256Color) {
+        } else if (
+            terminalColor instanceof
+                com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color ansi256Color
+        ) {
             if (this == ANSI) {
                 return ansi256Color.toANSIColor();
             }
             return terminalColor;
-        } else if (terminalColor instanceof com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor rgbColor) {
+        } else if (
+            terminalColor instanceof
+                com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor rgbColor
+        ) {
             if (this != TrueColor) {
                 com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color ansi256Color =
                     rgbColor.toANSI256Color();

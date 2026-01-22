@@ -14,6 +14,9 @@ import java.util.List;
 @Deprecated(since = "0.3.0")
 public class Help extends com.williamcallahan.tui4j.compat.bubbles.help.Help {
 
+    /**
+     * Creates a help renderer shim.
+     */
     @Deprecated(since = "0.3.0")
     public Help() {
         super();

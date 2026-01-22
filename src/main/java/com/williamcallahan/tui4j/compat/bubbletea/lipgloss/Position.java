@@ -6,7 +6,7 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
  * <p>
  * Lip Gloss: position.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public final class Position {
     private final com.williamcallahan.tui4j.compat.lipgloss.Position delegate;
 
@@ -26,7 +26,7 @@ public final class Position {
      *
      * @param value position value (0.0-1.0)
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public Position(double value) {
         this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.Position(value);
     }

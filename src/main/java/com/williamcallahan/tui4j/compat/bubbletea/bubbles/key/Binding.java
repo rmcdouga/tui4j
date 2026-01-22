@@ -9,6 +9,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 @Deprecated(since = "0.3.0")
 public class Binding extends com.williamcallahan.tui4j.compat.bubbles.key.Binding {
 
+    /**
+     * Creates a legacy binding with the provided options.
+     *
+     * @param opts binding options
+     */
     @Deprecated(since = "0.3.0")
     public Binding(BindingOption... opts) {
         super(opts);

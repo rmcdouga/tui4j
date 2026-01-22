@@ -3,6 +3,7 @@ package com.williamcallahan.tui4j.compat.lipgloss.table;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.williamcallahan.tui4j.compat.lipgloss.Borders;
+import com.williamcallahan.tui4j.compat.lipgloss.Join;
 import com.williamcallahan.tui4j.compat.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
@@ -13,10 +14,6 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -65,7 +62,7 @@ class TableTest {
 
     @BeforeEach
     void setUp() {
-        Renderer.defaultRenderer().setColorProfile(ColorProfile.TrueColor);
+        Renderer.defaultRenderer().setColorProfile(ColorProfile.Ascii);
     }
 
     @Test
@@ -310,10 +307,14 @@ class TableTest {
     void testTableUnsetHeaderSeparator() {
         Table table = Table.create()
             .border(Borders.normalBorder())
-            .borderHeader(false)
             .styleFunc(TABLE_STYLE)
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .rows(languageRows());
+            .rows(languageRows())
+            .borderHeader(false)
+            .borderTop(false)
+            .borderBottom(false)
+            .borderLeft(false)
+            .borderRight(false);
 
         assertGolden("TestTableUnsetHeaderSeparator", table.render());
     }
@@ -453,36 +454,57 @@ class TableTest {
 
     @Test
     void testTableWidthSmartCrop() {
+        String[][] rows = new String[][] {
+            { "Kini", "40", "New York" },
+            { "Eli", "30", "London" },
+            { "Iris", "20", "Paris" },
+        };
         Table table = Table.create()
-            .width(50)
+            .width(25)
             .styleFunc(TABLE_STYLE)
             .border(Borders.normalBorder())
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .rows(languageRows());
+            .headers("Name", "Age of Person", "Location")
+            .rows(rows);
 
         assertGolden("TestTableWidthSmartCrop", table.render());
     }
 
     @Test
     void testTableWidthSmartCropExtensive() {
+        String[][] rows = new String[][] {
+            { "Chinese", "您好", "你好" },
+            { "Japanese", "こんにちは", "やあ" },
+            { "Arabic", "أهلين", "أهلا" },
+            { "Russian", "Здравствуйте", "Привет" },
+            { "Spanish", "Hola", "¿Qué tal?" },
+            { "English", "You look absolutely fabulous.", "How's it going?" },
+        };
         Table table = Table.create()
-            .width(10)
+            .width(18)
             .styleFunc(TABLE_STYLE)
-            .border(Borders.normalBorder())
+            .border(Borders.thickBorder())
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .rows(languageRows());
+            .wrap(false)
+            .rows(rows);
 
         assertGolden("TestTableWidthSmartCropExtensive", table.render());
     }
 
     @Test
     void testTableWidthSmartCropTiny() {
+        String[][] rows = new String[][] {
+            { "Chinese", "您好", "你好" },
+            { "Japanese", "こんにちは", "やあ" },
+            { "Russian", "Здравствуйте", "Привет" },
+            { "Spanish", "Hola", "¿Qué tal?" },
+            { "English", "You look absolutely fabulous.", "How's it going?" },
+        };
         Table table = Table.create()
             .width(1)
             .styleFunc(TABLE_STYLE)
             .border(Borders.normalBorder())
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .rows(languageRows());
+            .rows(rows);
 
         assertGolden("TestTableWidthSmartCropTiny", table.render());
     }
@@ -526,7 +548,9 @@ class TableTest {
             .item("Russian", "Zdravstvuyte", "Privet")
             .item("Spanish", "Hola", "¿Qué tal?");
 
-        Filter filter = new Filter(data).filter(index -> index % 2 == 0);
+        Filter filter = new Filter(data).filter(row ->
+            !data.at(row, 0).equals("French")
+        );
 
         Table table = Table.create()
             .border(Borders.normalBorder())
@@ -546,7 +570,9 @@ class TableTest {
             .item("Russian", "Zdravstvuyte", "Privet")
             .item("Spanish", "Hola", "¿Qué tal?");
 
-        Filter filter = new Filter(data).filter(index -> index % 2 != 0);
+        Filter filter = new Filter(data).filter(row ->
+            data.at(row, 0).equals("French")
+        );
 
         Table table = Table.create()
             .border(Borders.normalBorder())
@@ -559,15 +585,20 @@ class TableTest {
 
     @Test
     void testTableANSI() {
+        String code =
+            "\u001B[31mC\u001B[0m\u001B[32mo\u001B[0m\u001B[34md\u001B[0m\u001B[33me\u001B[0m";
+        String[][] rows = new String[][] {
+            { "Apple", "Red", "\u001B[31m31\u001B[0m" },
+            { "Lime", "Green", "\u001B[32m32\u001B[0m" },
+            { "Banana", "Yellow", "\u001B[33m33\u001B[0m" },
+            { "Blueberry", "Blue", "\u001B[34m34\u001B[0m" },
+        };
         Table table = Table.create()
+            .width(29)
             .border(Borders.normalBorder())
             .styleFunc(TABLE_STYLE)
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .row("Chinese", "Nǐn hǎo", "Nǐ hǎo")
-            .row("French", "Bonjour", "Salut")
-            .row("Japanese", "こんにちは", "やあ")
-            .row("Russian", "Zdravstvuyte", "Privet")
-            .row("Spanish", "Hola", "¿Qué tal?");
+            .headers("Fruit", "Color", code)
+            .rows(rows);
 
         assertGolden("TestTableANSI", table.render());
     }
@@ -579,7 +610,7 @@ class TableTest {
             .styleFunc(TABLE_STYLE)
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
             .rows(languageRows())
-            .height(8);
+            .height(9);
 
         assertGolden("TestTableHeightExact", table.render());
     }
@@ -591,7 +622,7 @@ class TableTest {
             .styleFunc(TABLE_STYLE)
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
             .rows(languageRows())
-            .height(20);
+            .height(100);
 
         assertGolden("TestTableHeightExtra", table.render());
     }
@@ -603,7 +634,7 @@ class TableTest {
             .styleFunc(TABLE_STYLE)
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
             .rows(languageRows())
-            .height(5);
+            .height(8);
 
         assertGolden("TestTableHeightShrink", table.render());
     }
@@ -613,9 +644,13 @@ class TableTest {
         Table table = Table.create()
             .border(Borders.normalBorder())
             .styleFunc(TABLE_STYLE)
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .rows(languageRows())
-            .height(2);
+            .headers("ID", "LANGUAGE", "FORMAL", "INFORMAL")
+            .row("1", "Chinese", "Nǐn hǎo", "Nǐ hǎo")
+            .row("2", "French", "Bonjour", "Salut")
+            .row("3", "Japanese", "こんにちは", "やあ")
+            .row("4", "Russian", "Zdravstvuyte", "Privet")
+            .row("5", "Spanish", "Hola", "¿Qué tal?")
+            .height(0);
 
         assertGolden("TestTableHeightMinimum", table.render());
     }
@@ -626,8 +661,8 @@ class TableTest {
             .border(Borders.normalBorder())
             .styleFunc(TABLE_STYLE)
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .rows(languageRows())
-            .height(3);
+            .row("Chinese", "Nǐn hǎo", "Nǐ hǎo")
+            .height(0);
 
         assertGolden("TestTableHeightMinimumShowData", table.render());
     }
@@ -639,7 +674,7 @@ class TableTest {
             .styleFunc(TABLE_STYLE)
             .headers("LANGUAGE", "FORMAL", "INFORMAL")
             .rows(languageRows())
-            .height(5)
+            .height(8)
             .offset(1);
 
         assertGolden("TestTableHeightWithOffset", table.render());
@@ -647,44 +682,44 @@ class TableTest {
 
     @Test
     void testStyleFunc() {
-        Table table = Table.create()
-            .border(Borders.normalBorder())
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .styleFunc((row, col) -> {
-                if (row == Table.HEADER_ROW) {
+        Renderer.defaultRenderer().setColorProfile(ColorProfile.TrueColor);
+        Object[][] tests = new Object[][] {
+            {
+                "RightAlignedTextWithMargins",
+                (StyleFunc) (row, col) -> {
+                    if (row == Table.HEADER_ROW) {
+                        return Style.newStyle().align(Position.Center);
+                    }
+                    return Style.newStyle().margin(0, 1).align(Position.Right);
+                },
+            },
+            {
+                "MarginAndPaddingSet",
+                (StyleFunc) (row, col) -> {
+                    if (row == Table.HEADER_ROW) {
+                        return Style.newStyle().align(Position.Center);
+                    }
                     return Style.newStyle()
-                        .padding(0, 1)
-                        .align(Position.Center);
-                }
-                if (col == 0) {
-                    return Style.newStyle()
-                        .padding(0, 1)
-                        .margin(0, 1)
-                        .align(Position.Right);
-                }
-                return Style.newStyle().padding(0, 1);
-            })
-            .rows(languageRows());
+                        .padding(1)
+                        .margin(1)
+                        .align(Position.Right)
+                        .background(Color.color("#874bfc"));
+                },
+            },
+        };
 
-        assertGolden(
-            "TestStyleFunc/RightAlignedTextWithMargins",
-            table.render()
-        );
+        for (Object[] test : tests) {
+            String name = (String) test[0];
+            StyleFunc styleFunc = (StyleFunc) test[1];
 
-        Table padded = Table.create()
-            .border(Borders.normalBorder())
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .styleFunc((row, col) -> {
-                if (row == Table.HEADER_ROW) {
-                    return Style.newStyle()
-                        .padding(1, 2)
-                        .align(Position.Center);
-                }
-                return Style.newStyle().padding(1, 2);
-            })
-            .rows(languageRows());
+            Table table = Table.create()
+                .border(Borders.normalBorder())
+                .headers("LANGUAGE", "FORMAL", "INFORMAL")
+                .styleFunc(styleFunc)
+                .rows(languageRows());
 
-        assertGolden("TestStyleFunc/MarginAndPaddingSet", padded.render());
+            assertGolden("TestStyleFunc/" + name, table.render());
+        }
     }
 
     @Test
@@ -1103,68 +1138,90 @@ class TableTest {
     void testBorderStyles() {
         String[][] rows = languageRows();
 
-        Map<String, Border> borders = Map.of(
-            "NormalBorder",
-            Borders.normalBorder(),
-            "RoundedBorder",
-            Borders.roundedBorder(),
-            "BlockBorder",
-            Borders.blockBorder(),
-            "ThickBorder",
-            Borders.thickBorder(),
-            "HiddenBorder",
-            Borders.hiddenBorder(),
-            "MarkdownBorder",
-            Borders.markdownBorder(),
-            "ASCIIBorder",
-            Borders.asciiBorder()
-        );
+        Object[][] tests = new Object[][] {
+            { "NormalBorder", Borders.normalBorder(), true },
+            { "RoundedBorder", Borders.roundedBorder(), true },
+            { "BlockBorder", Borders.blockBorder(), true },
+            { "ThickBorder", Borders.thickBorder(), true },
+            { "HiddenBorder", Borders.hiddenBorder(), true },
+            { "MarkdownBorder", Borders.markdownBorder(), false },
+            { "ASCIIBorder", Borders.asciiBorder(), true },
+        };
 
-        for (Map.Entry<String, Border> entry : borders.entrySet()) {
+        for (Object[] test : tests) {
+            String name = (String) test[0];
+            Border border = (Border) test[1];
+            boolean topBottomBorders = (boolean) test[2];
+
             Table table = Table.create()
-                .border(entry.getValue())
+                .border(border)
                 .styleFunc(TABLE_STYLE)
                 .headers("LANGUAGE", "FORMAL", "INFORMAL")
-                .rows(rows);
+                .rows(rows)
+                .borderTop(topBottomBorders)
+                .borderBottom(topBottomBorders);
 
-            assertGolden("TestBorderStyles/" + entry.getKey(), table.render());
+            assertGolden("TestBorderStyles/" + name, table.render());
         }
     }
 
     @Test
     void testWrapPreStyledContent() {
-        Style headerStyle = Style.newStyle()
-            .padding(0, 1)
-            .align(Position.Center);
-        Style cellStyle = Style.newStyle().padding(0, 1);
-
+        Renderer.defaultRenderer().setColorProfile(ColorProfile.TrueColor);
+        String[] headers = new String[] { "Package", "Version", "Link" };
+        String[][] data = new String[][] {
+            {
+                "sourcegit",
+                "0.19",
+                Join.joinHorizontal(
+                    Position.Left,
+                    Style.newStyle()
+                        .foreground(Color.color("#31BB71"))
+                        .render(
+                            "https://aur.archlinux.org/packages/sourcegit-bin"
+                        )
+                ),
+            },
+            {},
+            { "Welcome", "いらっしゃいませ", "مرحباً", "환영", "欢迎" },
+            { "Goodbye", "さようなら", "مع السلامة", "안녕히 가세요", "再见" },
+        };
         Table table = Table.create()
-            .border(Borders.normalBorder())
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .styleFunc((row, col) ->
-                row == Table.HEADER_ROW ? headerStyle : cellStyle
-            )
-            .rows(languageRows())
-            .width(30);
+            .headers(headers)
+            .rows(data)
+            .width(80)
+            .wrap(true);
 
         assertGolden("TestWrapPreStyledContent", table.render());
     }
 
     @Test
     void testWrapStyleFuncContent() {
-        Style headerStyle = Style.newStyle()
-            .padding(0, 1)
-            .align(Position.Center);
-        Style cellStyle = Style.newStyle().padding(0, 1);
-
+        Renderer.defaultRenderer().setColorProfile(ColorProfile.TrueColor);
+        String[] headers = new String[] { "Package", "Version", "Link" };
+        String[][] data = new String[][] {
+            {
+                "sourcegit",
+                "0.19",
+                "https://aur.archlinux.org/packages/sourcegit-bin",
+            },
+            { "Welcome", "いらっしゃいませ", "مرحباً" },
+            { "Goodbye", "さようなら", "مع السلامة" },
+        };
         Table table = Table.create()
-            .border(Borders.normalBorder())
-            .headers("LANGUAGE", "FORMAL", "INFORMAL")
-            .styleFunc((row, col) ->
-                row == Table.HEADER_ROW ? headerStyle : cellStyle
-            )
-            .rows(languageRows())
-            .width(30);
+            .headers(headers)
+            .rows(data)
+            .styleFunc((row, col) -> {
+                if (row == Table.HEADER_ROW) {
+                    return Style.newStyle();
+                }
+                if (data[row][col].contains("https://")) {
+                    return Style.newStyle().foreground(Color.color("#31BB71"));
+                }
+                return Style.newStyle();
+            })
+            .width(60)
+            .wrap(true);
 
         assertGolden("TestWrapStyleFuncContent", table.render());
     }
