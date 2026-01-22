@@ -18,6 +18,12 @@ public class UrlOpener {
     private static final String ARGS_OPEN_WIN = "url.dll,FileProtocolHandler";
 
     /**
+     * Creates a URL opener helper instance.
+     */
+    public UrlOpener() {
+    }
+
+    /**
      * Opens a URL in the system's default browser.
      *
      * @param url the URL to open

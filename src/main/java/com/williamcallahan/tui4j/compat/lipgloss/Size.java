@@ -11,6 +11,12 @@ import com.williamcallahan.tui4j.ansi.TextWidth;
 public class Size {
 
     /**
+     * Creates a size helper instance.
+     */
+    public Size() {
+    }
+
+    /**
      * Handles width for this component.
      *
      * @param input input

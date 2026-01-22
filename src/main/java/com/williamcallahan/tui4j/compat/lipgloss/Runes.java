@@ -11,6 +11,12 @@ import java.util.Set;
 public class Runes {
 
     /**
+     * Creates a runes helper instance.
+     */
+    public Runes() {
+    }
+
+    /**
      * Handles style runes for this component.
      *
      * @param input input

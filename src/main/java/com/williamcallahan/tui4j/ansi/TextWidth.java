@@ -13,6 +13,12 @@ import java.util.Objects;
 public class TextWidth {
 
     /**
+     * Creates a TextWidth helper instance.
+     */
+    public TextWidth() {
+    }
+
+    /**
      * Returns the display width of a string in terminal cells.
      * ANSI escape codes are ignored and wide characters are accounted for.
      *

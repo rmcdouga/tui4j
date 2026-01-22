@@ -27,6 +27,12 @@ public class TextWrapper {
 
     private static final String NBSP = "\u00A0";  // Non-breaking space
 
+    /**
+     * Creates a text wrapper instance.
+     */
+    public TextWrapper() {
+    }
+
     private int limit;
     private int curWidth;
     private int wordLen;
