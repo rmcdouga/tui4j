@@ -6,27 +6,38 @@ package com.williamcallahan.tui4j.compat.x.ansi.parser;
  */
 public enum Action {
     /** No-op / Ignore input. */
+ */
     NONE,
     /** Reset parser state. */
+ */
     CLEAR,
     /** Collect intermediate bytes. */
+ */
     COLLECT,
     /** Collect prefix/marker bytes. */
+ */
     PREFIX,
     /** Dispatch a control sequence. */
+ */
     DISPATCH,
     /** Execute a control character. */
+ */
     EXECUTE,
     /** Start of a data string. */
+ */
     START,
     /** Put into the data string. */
+ */
     PUT,
     /** Collect parameter bytes. */
+ */
     PARAM,
     /** Print a glyph. */
+ */
     PRINT;
 
     /** Alias for NONE - ignore input. */
+ */
     public static final Action IGNORE = NONE;
 
     /**

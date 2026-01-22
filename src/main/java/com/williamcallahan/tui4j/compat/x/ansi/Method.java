@@ -6,8 +6,10 @@ package com.williamcallahan.tui4j.compat.x.ansi;
  */
 public enum Method {
     /** Use wcwidth for width calculation (wide characters and runes). */
+ */
     WC_WIDTH,
     /** Use grapheme clustering for width calculation (handles emojis and ZWJ sequences). */
+ */
     GRAPHEME_WIDTH;
 
     /**

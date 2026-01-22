@@ -13,6 +13,9 @@ import java.util.Objects;
  * Port of github.com/charmbracelet/x/ansi (width.go Strip function)
  */
 public final class Strip {
+    /**
+     * Creates Strip to keep this component ready for use.
+     */
     private Strip() {}
 
     /**
