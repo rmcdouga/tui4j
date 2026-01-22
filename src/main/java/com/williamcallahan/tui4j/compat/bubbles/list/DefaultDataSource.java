@@ -9,7 +9,9 @@ import java.util.LinkedList;
 
 /**
  * Port of Bubbles default data source.
- * Bubbles: bubbles/list/list.go
+ * Bubbles: list/list.go.
+ * <p>
+ * Bubbles: filepicker/hidden_windows.go.
  */
 public class DefaultDataSource implements ListDataSource {
 
@@ -85,6 +87,14 @@ public class DefaultDataSource implements ListDataSource {
         return items == null || items.isEmpty();
     }
 
+    /**
+     * Handles fetch items for this component.
+     *
+     * @param page page
+     * @param perPage per page
+     * @param filterValue filter value
+     * @return result
+     */
     @Override
     public FetchedItems fetchItems(int page, int perPage, String filterValue) {
         java.util.List<FilteredItem> filteredItems;
@@ -130,6 +140,11 @@ public class DefaultDataSource implements ListDataSource {
         return new FetchedItems(filteredItems.subList(offset, toIndex), matchedItems, totalItems, totalPages);
     }
 
+    /**
+     * Handles all items as filtered items for this component.
+     *
+     * @return result
+     */
     private java.util.List<FilteredItem> allItemsAsFilteredItems() {
         return items.stream().map(FilteredItem::new).toList();
     }

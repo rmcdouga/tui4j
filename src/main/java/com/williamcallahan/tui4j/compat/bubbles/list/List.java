@@ -39,6 +39,8 @@ import static com.williamcallahan.tui4j.compat.bubbles.list.DefaultItemStyles.EL
 /**
  * Port of Bubbles list.
  * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * <p>
+ * Bubbles: list/list.go.
  */
 public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.help.KeyMap {
 
@@ -87,6 +89,30 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     private ItemDelegate itemDelegate;
 
     /**
+     * Posts a status timeout message after the configured delay.
+     */
+    private static final class StatusTimeoutTask extends TimerTask {
+        private final BlockingQueue<StatusMessageTimeoutMessage> queue;
+
+        /**
+         * Creates a task that signals the status timeout.
+         *
+         * @param queue queue receiving the timeout message
+         */
+        private StatusTimeoutTask(BlockingQueue<StatusMessageTimeoutMessage> queue) {
+            this.queue = queue;
+        }
+
+        /**
+         * Enqueues the timeout message when the timer fires.
+         */
+        @Override
+        public void run() {
+            queue.offer(new StatusMessageTimeoutMessage());
+        }
+    }
+
+    /**
      * Creates a new list with the given items and dimensions.
      *
      * @param items list items
@@ -132,6 +158,14 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         this(dataSource, new DefaultDelegate(), width, height);
     }
 
+    /**
+     * Updates the up.
+     *
+     * @param dataSource data source
+     * @param delegate delegate
+     * @param width width
+     * @param height height
+     */
     private void setup(ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
         this.dataSource = dataSource;
         this.currentPageItems = new ArrayList<>();
@@ -170,6 +204,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         paginator.setType(Type.Dots);
     }
 
+    /**
+     * Supplies the initial command for the model.
+     *
+     * @return initial command
+     */
     @Override
     public Command init() {
         paginator.setActiveDot(styles.activePaginationDot().render());
@@ -201,6 +240,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
                         Stream.of(this::keepCursorInBounds)).toArray(Runnable[]::new));
     }
 
+    /**
+     * Handles fetch current page items for this component.
+     *
+     * @param postFetch post fetch
+     * @return result
+     */
     private Command fetchCurrentPageItems(Runnable... postFetch) {
         this.fetchingItems = true;
         updateKeybindings();
@@ -217,6 +262,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
                         postFetch));
     }
 
+    /**
+     * Handles update filter for this component.
+     *
+     * @return result
+     */
     private Command updateFilter() {
         if (fetchingItems) {
             filterInput.blur();
@@ -625,12 +675,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         statusMessageTimer = new Timer();
         return () -> {
             BlockingQueue<StatusMessageTimeoutMessage> queue = new ArrayBlockingQueue<>(1);
-            statusMessageTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    queue.offer(new StatusMessageTimeoutMessage());
-                }
-            }, statusMessageLifetime.toMillis());
+            statusMessageTimer.schedule(new StatusTimeoutTask(queue), statusMessageLifetime.toMillis());
 
             try {
                 return queue.take();
@@ -755,6 +800,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         }
     }
 
+    /**
+     * Handles hide status message for this component.
+     */
     private void hideStatusMessage() {
         this.statusMessage = "";
 
@@ -764,6 +812,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         }
     }
 
+    /**
+     * Handles update pagination for this component.
+     *
+     * @return whether date pagination
+     */
     boolean updatePagination() {
         int index = index();
         int availHeight = this.height;
@@ -796,6 +849,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return false;
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @return next model state and command
+     */
     @Override
     public UpdateResult<List> update(Message msg) {
         java.util.List<Command> commands = new LinkedList<>();
@@ -842,6 +901,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return UpdateResult.from(this, batch(commands));
     }
 
+    /**
+     * Handles handle browsing for this component.
+     *
+     * @param msg msg
+     * @return result
+     */
     private Command handleBrowsing(Message msg) {
         java.util.List<Command> commands = new LinkedList<>();
 
@@ -890,6 +955,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return batch(commands);
     }
 
+    /**
+     * Handles goto start for this component.
+     *
+     * @return result
+     */
     private Command gotoStart() {
         if (paginator.onFirstPage()) {
             return null;
@@ -900,6 +970,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Handles goto end for this component.
+     *
+     * @return result
+     */
     private Command gotoEnd() {
         if (paginator.onLastPage()) {
             return null;
@@ -909,6 +984,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems(this::keepCursorInBounds);
     }
 
+    /**
+     * Handles cursor left for this component.
+     *
+     * @return result
+     */
     private Command cursorLeft() {
         if (paginator.onFirstPage()) {
             return null;
@@ -917,6 +997,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems();
     }
 
+    /**
+     * Handles cursor right for this component.
+     *
+     * @return result
+     */
     private Command cursorRight() {
         if (paginator.onLastPage()) {
             return null;
@@ -925,6 +1010,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return fetchCurrentPageItems(this::keepCursorInBounds);
     }
 
+    /**
+     * Handles keep cursor in bounds for this component.
+     */
     private void keepCursorInBounds() {
         int itemsOnPage = visibleItems().size();
         if (cursor > itemsOnPage - 1) {
@@ -995,6 +1083,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return null;
     }
 
+    /**
+     * Handles handle filtering for this component.
+     *
+     * @param msg msg
+     * @return result
+     */
     private Command handleFiltering(Message msg) {
         java.util.List<Command> commands = new LinkedList<>();
 
@@ -1042,6 +1136,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return batch(commands);
     }
 
+    /**
+     * Renders the model view for display.
+     *
+     * @return rendered view
+     */
     @Override
     public String view() {
         java.util.List<String> sections = new ArrayList<>();
@@ -1085,6 +1184,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return VerticalJoinDecorator.joinVertical(Position.Left, sections.toArray(new String[0]));
     }
 
+    /**
+     * Handles title view for this component.
+     *
+     * @return result
+     */
     private String titleView() {
         StringBuilder view = new StringBuilder();
         Style titleBarStyle = styles.titleBar().copy();
@@ -1124,6 +1228,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return view.toString();
     }
 
+    /**
+     * Handles status view for this component.
+     *
+     * @return result
+     */
     private String statusView() {
         StringBuilder status = new StringBuilder();
         int visibleItems = visibleItems().size();
@@ -1167,6 +1276,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return styles.statusBar().render(status.toString());
     }
 
+    /**
+     * Handles pagination view for this component.
+     *
+     * @return result
+     */
     private String paginationView() {
         Style style = styles.paginationStyle().copy();
         if (itemDelegate.spacing() == 0 && style.topMargin() == 0) {
@@ -1187,6 +1301,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return style.render(view);
     }
 
+    /**
+     * Handles populated view for this component.
+     *
+     * @return result
+     */
     private String populatedView() {
         java.util.List<FilteredItem> items = visibleItems();
 
@@ -1217,14 +1336,30 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return b.toString();
     }
 
+    /**
+     * Handles help view for this component.
+     *
+     * @return result
+     */
     private String helpView() {
         return styles.helpStyle().render(help.render(this));
     }
 
+    /**
+     * Handles spinner view for this component.
+     *
+     * @return result
+     */
     private String spinnerView() {
         return spinner.view();
     }
 
+    /**
+     * Handles count enabled bindings for this component.
+     *
+     * @param groups groups
+     * @return result
+     */
     private int countEnabledBindings(Binding[][] groups) {
         int count = 0;
         for (Binding[] group : groups) {
@@ -1237,6 +1372,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return count;
     }
 
+    /**
+     * Handles short help for this component.
+     *
+     * @return result
+     */
     @Override
     public Binding[] shortHelp() {
         java.util.List<Binding> kb = new LinkedList<>(Arrays.asList(
@@ -1267,6 +1407,11 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return kb.toArray(new Binding[0]);
     }
 
+    /**
+     * Handles full help for this component.
+     *
+     * @return result
+     */
     @Override
     public Binding[][] fullHelp() {
         java.util.List<Binding[]> kb = new LinkedList<>();

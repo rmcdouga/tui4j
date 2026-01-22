@@ -13,9 +13,14 @@ import java.util.Locale;
  * Port of charmbracelet/bubbles list/list.go DefaultFilter function.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/list/list.go">bubbles/list/list.go</a>
+ * <p>
+ * Bubbles: list/list.go.
  */
 public class FuzzyFilter {
 
+    /**
+     * Creates FuzzyFilter to keep this component ready for use.
+     */
     private FuzzyFilter() {}
 
     /**
@@ -41,6 +46,14 @@ public class FuzzyFilter {
         return filter(term, targets, false);
     }
 
+    /**
+     * Handles filter for this component.
+     *
+     * @param term term
+     * @param targets targets
+     * @param sort sort
+     * @return result
+     */
     private static Rank[] filter(String term, String[] targets, boolean sort) {
         FuzzyScore fuzzyScore = new FuzzyScore(Locale.ENGLISH);
 
@@ -68,6 +81,13 @@ public class FuzzyFilter {
         return ranks.toArray(new Rank[0]);
     }
 
+    /**
+     * Reports whether valid match.
+     *
+     * @param term term
+     * @param target target
+     * @return whether valid match
+     */
     private static boolean isValidMatch(String term, String target) {
         int termIndex = 0;
         for (int i = 0; i < target.length() && termIndex < term.length(); i++) {
@@ -79,6 +99,13 @@ public class FuzzyFilter {
         return termIndex == term.length();
     }
 
+    /**
+     * Handles find matched indexes for this component.
+     *
+     * @param term term
+     * @param target target
+     * @return result
+     */
     private static int[] findMatchedIndexes(String term, String target) {
         List<Integer> matchedIndexes = new ArrayList<>();
         int termIndex = 0;

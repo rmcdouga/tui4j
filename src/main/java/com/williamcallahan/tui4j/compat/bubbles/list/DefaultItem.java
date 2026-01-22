@@ -2,7 +2,9 @@ package com.williamcallahan.tui4j.compat.bubbles.list;
 
 /**
  * Port of Bubbles default item contract.
- * Bubbles: bubbles/list/defaultitem.go
+ * Bubbles: list/defaultitem.go.
+ * <p>
+ * Bubbles: filepicker/hidden_windows.go.
  */
 public interface DefaultItem extends Item {
 

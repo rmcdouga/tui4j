@@ -12,7 +12,9 @@ import java.util.LinkedList;
 
 /**
  * Port of Bubbles default delegate.
- * Bubbles: bubbles/list/defaultitem.go
+ * Bubbles: list/defaultitem.go.
+ * <p>
+ * Bubbles: filepicker/hidden_windows.go.
  */
 public class DefaultDelegate implements ItemDelegate, KeyMap {
 
@@ -34,6 +36,14 @@ public class DefaultDelegate implements ItemDelegate, KeyMap {
         this.spacing = 1;
     }
 
+    /**
+     * Handles render for this component.
+     *
+     * @param output output
+     * @param list list
+     * @param index index
+     * @param filteredItem filtered item
+     */
     @Override
     public void render(StringBuilder output, List list, int index, FilteredItem filteredItem) {
         String title = "";
@@ -100,6 +110,13 @@ public class DefaultDelegate implements ItemDelegate, KeyMap {
         output.append(title);
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @param listModel list model
+     * @return next model state and command
+     */
     @Override
     public Command update(Message msg, List listModel) {
         if (updateFunction == null) {
@@ -108,11 +125,21 @@ public class DefaultDelegate implements ItemDelegate, KeyMap {
         return updateFunction.update(msg, listModel);
     }
 
+    /**
+     * Handles height for this component.
+     *
+     * @return result
+     */
     @Override
     public int height() {
         return height;
     }
 
+    /**
+     * Handles spacing for this component.
+     *
+     * @return result
+     */
     @Override
     public int spacing() {
         return spacing;
@@ -163,6 +190,11 @@ public class DefaultDelegate implements ItemDelegate, KeyMap {
         this.fullHelpFunc = fullHelpFunc;
     }
 
+    /**
+     * Handles short help for this component.
+     *
+     * @return result
+     */
     @Override
     public Binding[] shortHelp() {
         if (shortHelpFunc != null) {
@@ -171,6 +203,11 @@ public class DefaultDelegate implements ItemDelegate, KeyMap {
         return new Binding[0];
     }
 
+    /**
+     * Handles full help for this component.
+     *
+     * @return result
+     */
     @Override
     public Binding[][] fullHelp() {
         if (fullHelpFunc != null) {

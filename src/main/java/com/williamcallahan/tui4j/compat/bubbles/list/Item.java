@@ -6,6 +6,8 @@ package com.williamcallahan.tui4j.compat.bubbles.list;
  * Port of charmbracelet/bubbles list/list.go Item interface.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/list/list.go">bubbles/list/list.go</a>
+ * <p>
+ * Bubbles: list/list.go.
  */
 public interface Item {
 

@@ -5,6 +5,8 @@ import java.util.List;
 /**
  * Port of Bubbles match.
  * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * <p>
+ * Bubbles: list/list.go.
  */
 public class Match {
     private String str;

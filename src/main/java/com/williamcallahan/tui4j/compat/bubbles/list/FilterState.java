@@ -6,6 +6,8 @@ package com.williamcallahan.tui4j.compat.bubbles.list;
  * Port of charmbracelet/bubbles list/list.go FilterState type.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/list/list.go">bubbles/list/list.go</a>
+ * <p>
+ * Bubbles: list/list.go.
  */
 public enum FilterState {
     /** No filter is currently set. */
@@ -17,10 +19,20 @@ public enum FilterState {
 
     private final String stateName;
 
+    /**
+     * Creates FilterState to keep this component ready for use.
+     *
+     * @param stateName state name
+     */
     FilterState(String stateName) {
         this.stateName = stateName;
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return stateName;

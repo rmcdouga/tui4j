@@ -1,21 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbles.list;
 
 /**
- * Function for filtering list items by a search term.
+ * Port of the list filter function contract.
+ * Upstream: github.com/charmbracelet/bubbles/list (FilterFunc)
  * <p>
- * Port of charmbracelet/bubbles list/list.go FilterFunc type.
- *
- * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/list/list.go">bubbles/list/list.go</a>
+ * Bubbles: list/list.go.
  */
 @FunctionalInterface
 public interface FilterFunction {
 
     /**
-     * Applies the filter to the given targets.
+     * Handles apply for this component.
      *
-     * @param term the search term
-     * @param targets the strings to filter against
-     * @return ranked results for matching items
+     * @param term term
+     * @param targets targets
+     * @return result
      */
     Rank[] apply(String term, String[] targets);
 }

@@ -180,11 +180,21 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
         return forceQuit;
     }
 
+    /**
+     * Handles short help for this component.
+     *
+     * @return result
+     */
     @Override
     public Binding[] shortHelp() {
         return new Binding[] { cursorUp, cursorDown };
     }
 
+    /**
+     * Handles full help for this component.
+     *
+     * @return result
+     */
     @Override
     public Binding[][] fullHelp() {
         return new Binding[][] {
