@@ -9,10 +9,10 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.help.Help;
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
-import com.williamcallahan.tui4j.compat.bubbles.stopwatch.ResetMsg;
-import com.williamcallahan.tui4j.compat.bubbles.stopwatch.StartStopMsg;
+import com.williamcallahan.tui4j.compat.bubbles.stopwatch.ResetMessage;
+import com.williamcallahan.tui4j.compat.bubbles.stopwatch.StartStopMessage;
 import com.williamcallahan.tui4j.compat.bubbles.stopwatch.Stopwatch;
-import com.williamcallahan.tui4j.compat.bubbles.stopwatch.TickMsg;
+import com.williamcallahan.tui4j.compat.bubbles.stopwatch.TickMessage;
 
 import java.time.Duration;
 
@@ -43,17 +43,17 @@ public class StopwatchExample implements Model {
 
     @Override
     public UpdateResult<? extends Model> update(Message msg) {
-        if (msg instanceof TickMsg || msg instanceof StartStopMsg) {
+        if (msg instanceof TickMessage || msg instanceof StartStopMessage) {
             UpdateResult<Stopwatch> updateResult = stopwatch.update(msg);
             this.stopwatch = updateResult.model();
-            if (msg instanceof StartStopMsg startStopMsg) {
+            if (msg instanceof StartStopMessage startStopMsg) {
                 keys.stop().setEnabled(stopwatch.running());
                 keys.start().setEnabled(!stopwatch.running());
             }
             return UpdateResult.from(this, updateResult.command());
         }
 
-        if (msg instanceof ResetMsg) {
+        if (msg instanceof ResetMessage) {
             UpdateResult<Stopwatch> updateResult = stopwatch.update(msg);
             this.stopwatch = updateResult.model();
             return UpdateResult.from(this, updateResult.command());
@@ -65,13 +65,13 @@ public class StopwatchExample implements Model {
                 return UpdateResult.from(this, Command.quit());
             }
             if (Binding.matches(keyPressMessage, keys.start())) {
-                return update(new StartStopMsg(stopwatch.id(), true));
+                return update(new StartStopMessage(stopwatch.id(), true));
             }
             if (Binding.matches(keyPressMessage, keys.stop())) {
-                return update(new StartStopMsg(stopwatch.id(), false));
+                return update(new StartStopMessage(stopwatch.id(), false));
             }
             if (Binding.matches(keyPressMessage, keys.reset())) {
-                return update(new ResetMsg(stopwatch.id()));
+                return update(new ResetMessage(stopwatch.id()));
             }
         }
 

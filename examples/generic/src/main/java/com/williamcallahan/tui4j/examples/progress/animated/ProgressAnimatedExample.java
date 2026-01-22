@@ -8,7 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.WindowSizeMessage;
-import com.williamcallahan.tui4j.compat.bubbles.progress.FrameMsg;
+import com.williamcallahan.tui4j.compat.bubbles.progress.FrameMessage;
 import com.williamcallahan.tui4j.compat.bubbles.progress.Progress;
 
 import java.time.Duration;
@@ -57,7 +57,7 @@ public class ProgressAnimatedExample implements Model {
             return new UpdateResult<>(this, Command.batch(tickCmd(), cmd));
         }
 
-        if (msg instanceof FrameMsg frameMsg) {
+        if (msg instanceof FrameMessage frameMsg) {
             UpdateResult<Progress> result = progress.update(msg);
             this.progress = result.model();
             return UpdateResult.from(this, result.command());

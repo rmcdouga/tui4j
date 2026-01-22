@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbles.progress.FrameMsg;
+import com.williamcallahan.tui4j.compat.bubbles.progress.FrameMessage;
 import com.williamcallahan.tui4j.compat.bubbles.progress.Progress;
 
 import java.time.Duration;
@@ -85,7 +85,7 @@ public class ProgressDownloadExample implements Model {
             }
         }
 
-        if (msg instanceof FrameMsg frameMsg) {
+        if (msg instanceof FrameMessage frameMsg) {
             UpdateResult<? extends Model> updateResult = progressBar.update(msg);
             return UpdateResult.from(this, updateResult.command());
         }

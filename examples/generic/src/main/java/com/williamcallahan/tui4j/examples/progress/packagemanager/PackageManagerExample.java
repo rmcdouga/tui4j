@@ -7,7 +7,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Program;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.message.QuitMessage;
-import com.williamcallahan.tui4j.compat.bubbles.progress.FrameMsg;
+import com.williamcallahan.tui4j.compat.bubbles.progress.FrameMessage;
 import com.williamcallahan.tui4j.compat.bubbles.progress.Progress;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
@@ -107,7 +107,7 @@ public class PackageManagerExample implements Model {
             }
         }
 
-        if (msg instanceof FrameMsg frameMsg) {
+        if (msg instanceof FrameMessage frameMsg) {
             UpdateResult<? extends Model> updateResult = overallProgress.update(msg);
             UpdateResult<? extends Model> spinnerResult = spinner.update(msg);
             Command combinedCmd = Command.batch(updateResult.command(), spinnerResult.command());
