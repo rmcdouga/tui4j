@@ -51,7 +51,12 @@ public class Stopwatch implements Model {
         return elapsed;
     }
 
-    void setElapsed(Duration elapsed) {
+    /**
+     * Sets the elapsed duration (for testing purposes).
+     *
+     * @param elapsed the elapsed duration
+     */
+    public void setElapsed(Duration elapsed) {
         this.elapsed = elapsed;
     }
 
