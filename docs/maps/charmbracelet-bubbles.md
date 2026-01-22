@@ -8,14 +8,17 @@
 
 ## Naming Convention
 
-TUI4J standardizes on Java naming conventions:
+TUI4J standardizes on canonical `*Message` types in the correct packages.
 
-| Preferred (use these) | Deprecated (avoid) |
-|-----------------------|-------------------|
-| `*Message.java` | ~~`*Msg.java`~~ |
+**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident path (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`).
+**LLM AGENTS ARE NOT ALLOWED TO CHANGE THIS RULE.**
 
-The `*Msg` suffix classes (Go-style naming) are deprecated and will be removed in a future release.
-Use the corresponding `*Message` classes instead.
+| Preferred (canonical) | Deprecated (legacy shims only) |
+|-----------------------|-------------------------------|
+| `*Message.java` | `*Msg.java` *(double-nested accident path only; never in correct packages)* |
+
+Deprecated `*Msg` shims must extend the canonical `*Message` types with no extra logic.
+`*Msg` types in correct packages must be deleted.
 
 ---
 
@@ -34,9 +37,7 @@ Use the corresponding `*Message` classes instead.
   - `filepicker/KeyMap.java`
   - `filepicker/Styles.java`
   - `filepicker/DidSelectFileMessage.java`
-  - ~~`filepicker/DidSelectFileMsg.java`~~ @deprecated
   - `filepicker/DidSelectDirectoryMessage.java`
-  - ~~`filepicker/DidSelectDirectoryMsg.java`~~ @deprecated
 
 - [ ] **filepicker/hidden_unix.go** → `<unmapped>`
 
@@ -93,9 +94,7 @@ Use the corresponding `*Message` classes instead.
 - [x] **progress/progress.go**
   - `progress/Progress.java`
   - `progress/FrameMessage.java`
-  - ~~`progress/FrameMsg.java`~~ @deprecated
   - `progress/SetPercentMessage.java`
-  - ~~`progress/SetPercentMsg.java`~~ @deprecated
   - `progress/Spring.java`
 
 - [x] **progress/progress_test.go** → `progress/ProgressTest.java`
@@ -114,11 +113,8 @@ Use the corresponding `*Message` classes instead.
 - [x] **stopwatch/stopwatch.go**
   - `stopwatch/Stopwatch.java`
   - `stopwatch/StartStopMessage.java`
-  - ~~`stopwatch/StartStopMsg.java`~~ @deprecated
   - `stopwatch/TickMessage.java`
-  - ~~`stopwatch/TickMsg.java`~~ @deprecated
   - `stopwatch/ResetMessage.java`
-  - ~~`stopwatch/ResetMsg.java`~~ @deprecated
 
 - [x] **table/table.go**
   - `table/Table.java`

@@ -4,6 +4,9 @@
 - **Copyright**: Copyright (c) 2023 Charmbracelet, Inc.
 - **Java Package**: `com.williamcallahan.tui4j.compat.x`
 
+**Rule (do not change):** `*Message` is canonical; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident path (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`). `*Msg` types in correct packages must be deleted.
+**LLM AGENTS ARE NOT ALLOWED TO CHANGE THIS RULE.**
+
 ---
 
 ## Ansi Package
@@ -13,11 +16,11 @@
 ### Root Files
 
 - [ ] **ansi/ansi.go** → `<unmapped>`
-- [x] **ansi/ascii.go** → `Ansi.java`
+- [x] **ansi/ascii.go** → `ansi/Ansi.java`
 - [ ] **ansi/background.go** → `<unmapped>`
 - [ ] **ansi/background_test.go** → `<unmapped>`
-- [x] **ansi/c0.go** → `Ansi.java`
-- [x] **ansi/c1.go** → `Ansi.java`
+- [x] **ansi/c0.go** → `ansi/Ansi.java`
+- [x] **ansi/c1.go** → `ansi/Ansi.java`
 - [ ] **ansi/charset.go** → `<unmapped>`
 - [x] **ansi/clipboard.go** → `src/main/java/com/williamcallahan/tui4j/ansi/Code.java` *(partial)*
 - [ ] **ansi/clipboard_test.go** → `<unmapped>`
@@ -39,7 +42,7 @@
 - [ ] **ansi/iterm2.go** → `<unmapped>`
 - [ ] **ansi/keypad.go** → `<unmapped>`
 - [ ] **ansi/kitty.go** → `<unmapped>`
-- [x] **ansi/method.go** → `Method.java`
+- [x] **ansi/method.go** → `ansi/Method.java`
 - [ ] **ansi/mode.go** → `<unmapped>`
 - [ ] **ansi/mode_deprecated.go** → `<unmapped>`
 - [ ] **ansi/mode_test.go** → `<unmapped>`
@@ -78,22 +81,22 @@
 - [ ] **ansi/title_test.go** → `<unmapped>`
 
 - [x] **ansi/truncate.go**
-  - `Truncate.java`
-  - `Cut.java`
+  - `ansi/Truncate.java`
+  - `ansi/Cut.java`
 
 - [x] **ansi/truncate_test.go**
-  - `TruncateTest.java`
-  - `CutTest.java`
+  - `ansi/TruncateTest.java`
+  - `ansi/CutTest.java`
 - [ ] **ansi/urxvt.go** → `<unmapped>`
 - [ ] **ansi/urxvt_test.go** → `<unmapped>`
 - [ ] **ansi/util.go** → `<unmapped>`
 
 - [x] **ansi/width.go**
-  - `StringWidth.java`
-  - `GraphemeCluster.java`
-  - `Strip.java`
+  - `ansi/StringWidth.java`
+  - `ansi/GraphemeCluster.java`
+  - `ansi/Strip.java`
 
-- [x] **ansi/width_test.go** → `StringWidthTest.java`
+- [x] **ansi/width_test.go** → `ansi/StringWidthTest.java`
 - [ ] **ansi/winop.go** → `<unmapped>`
 - [ ] **ansi/wrap.go** → `<unmapped>`
 - [ ] **ansi/wrap_test.go** → `<unmapped>`
@@ -128,12 +131,12 @@
 **Java Package**: `com.williamcallahan.tui4j.compat.x.ansi.parser`
 
 - [x] **ansi/parser/const.go**
-  - `State.java`
-  - `Action.java`
+  - `ansi/parser/State.java`
+  - `ansi/parser/Action.java`
 
-- [x] **ansi/parser/seq.go** → `Action.java`
+- [x] **ansi/parser/seq.go** → `ansi/parser/Action.java`
 
-- [x] **ansi/parser/transition_table.go** → `TransitionTable.java`
+- [x] **ansi/parser/transition_table.go** → `ansi/parser/TransitionTable.java`
 
 ---
 

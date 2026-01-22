@@ -8,14 +8,17 @@
 
 ## Naming Convention
 
-TUI4J standardizes on Java naming conventions:
+TUI4J standardizes on canonical `*Message` types in the correct packages.
 
-| Preferred (use these) | Deprecated (avoid) |
-|-----------------------|-------------------|
-| `*Message.java` | ~~`*Msg.java`~~ |
+**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident path (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`).
+**LLM AGENTS ARE NOT ALLOWED TO CHANGE THIS RULE.**
 
-The `*Msg` suffix classes (Go-style naming) are deprecated and will be removed in a future release.
-Use the corresponding `*Message` classes instead.
+| Preferred (canonical) | Deprecated (legacy shims only) |
+|-----------------------|-------------------------------|
+| `*Message.java` | `*Msg.java` *(double-nested accident path only; never in correct packages)* |
+
+Deprecated `*Msg` shims must extend the canonical `*Message` types with no extra logic.
+`*Msg` types in correct packages must be deleted.
 
 ---
 
@@ -26,33 +29,23 @@ Use the corresponding `*Message` classes instead.
 - [x] **commands.go**
   - `Command.java`
   - `BatchMessage.java`
-  - ~~`BatchMsg.java`~~ @deprecated
   - `SequenceMessage.java`
-  - ~~`SequenceMsg.java`~~ @deprecated
   - `SetWindowTitleMessage.java`
-  - ~~`SetWindowTitleMsg.java`~~ @deprecated
   - `OpenUrlMessage.java`
-  - ~~`OpenUrlMsg.java`~~ @deprecated
   - `CopyToClipboardMessage.java`
-  - ~~`CopyToClipboardMsg.java`~~ @deprecated
   - `ReadClipboardMessage.java`
-  - ~~`ReadClipboardMsg.java`~~ @deprecated
 
 - [x] **commands_test.go** → `CommandsParityTest.java`
 
 - [x] **exec.go**
   - `ExecProcessMessage.java`
-  - ~~`ExecProcessMsg.java`~~ @deprecated
   - `ExecCompletedMessage.java`
-  - ~~`ExecCompletedMsg.java`~~ @deprecated
 
 - [x] **exec_test.go** → `ExecTest.java`
 
 - [x] **focus.go**
   - `FocusMessage.java`
-  - ~~`FocusMsg.java`~~ @deprecated
   - `BlurMessage.java`
-  - ~~`BlurMsg.java`~~ @deprecated
 
 - [x] **inputreader_other.go**
   - `input/InputHandler.java`
@@ -68,13 +61,9 @@ Use the corresponding `*Message` classes instead.
   - `input/key/KeyNames.java`
   - `input/key/KeyAliases.java`
   - `KeyPressMessage.java`
-  - ~~`KeyMsg.java`~~ @deprecated
   - `PasteMessage.java`
-  - ~~`PasteMsg.java`~~ @deprecated
   - `UnknownInputByteMessage.java`
-  - ~~`UnknownInputByteMsg.java`~~ @deprecated
   - `UnknownSequenceMessage.java`
-  - ~~`UnknownSequenceMsg.java`~~ @deprecated
 
 - [x] **key_other.go** → `input/NewInputHandler.java`
 
@@ -92,7 +81,6 @@ Use the corresponding `*Message` classes instead.
 
 - [x] **mouse.go**
   - `input/MouseMessage.java`
-  - ~~`input/MouseMsg.java`~~ @deprecated
   - `input/MouseButton.java`
   - `input/MouseAction.java`
 
@@ -110,33 +98,18 @@ Use the corresponding `*Message` classes instead.
 
 - [x] **screen.go**
   - `WindowSizeMessage.java`
-  - ~~`WindowSizeMsg.java`~~ @deprecated
   - `ClearScreenMessage.java`
-  - ~~`ClearScreenMsg.java`~~ @deprecated
   - `EnterAltScreenMessage.java`
-  - ~~`EnterAltScreenMsg.java`~~ @deprecated
-  - ~~`EnterAltScreen.java`~~ @deprecated
   - `ExitAltScreenMessage.java`
-  - ~~`ExitAltScreenMsg.java`~~ @deprecated
-  - ~~`ExitAltScreen.java`~~ @deprecated
   - `EnableBracketedPasteMessage.java`
-  - ~~`EnableBracketedPasteMsg.java`~~ @deprecated
   - `DisableBracketedPasteMessage.java`
-  - ~~`DisableBracketedPasteMsg.java`~~ @deprecated
   - `EnableMouseCellMotionMessage.java`
-  - ~~`EnableMouseCellMotionMsg.java`~~ @deprecated
   - `EnableMouseAllMotionMessage.java`
-  - ~~`EnableMouseAllMotionMsg.java`~~ @deprecated
   - `DisableMouseMessage.java`
-  - ~~`DisableMouseMsg.java`~~ @deprecated
   - `CheckWindowSizeMessage.java`
-  - ~~`CheckWindowSizeMsg.java`~~ @deprecated
   - `ResetMouseCursorMessage.java`
-  - ~~`ResetMouseCursorMsg.java`~~ @deprecated
   - `SetMouseCursorPointerMessage.java`
-  - ~~`SetMouseCursorPointerMsg.java`~~ @deprecated
   - `SetMouseCursorTextMessage.java`
-  - ~~`SetMouseCursorTextMsg.java`~~ @deprecated
 
 - [x] **screen_test.go** → `ScreenTest.java`
 
@@ -147,7 +120,6 @@ Use the corresponding `*Message` classes instead.
 - [x] **standard_renderer.go**
   - `render/StandardRenderer.java`
   - `PrintLineMessage.java`
-  - ~~`PrintLineMsg.java`~~ @deprecated
 
 - [x] **tea.go**
   - `Program.java`
@@ -156,14 +128,10 @@ Use the corresponding `*Message` classes instead.
   - `MessageShim.java`
   - `UpdateResult.java`
   - `QuitMessage.java`
-  - ~~`QuitMsg.java`~~ @deprecated
   - `SuspendMessage.java`
-  - ~~`SuspendMsg.java`~~ @deprecated
   - `ResumeMessage.java`
-  - ~~`ResumeMsg.java`~~ @deprecated
   - `ProgramException.java`
   - `ErrorMessage.java`
-  - ~~`ErrorMsg.java`~~ @deprecated
 
 - [x] **tea_init.go** → `Program.java`
 
