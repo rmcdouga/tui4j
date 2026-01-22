@@ -28,6 +28,11 @@ import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
 @Deprecated(since = "0.3.0")
 public class TextInput extends com.williamcallahan.tui4j.compat.bubbles.textinput.TextInput {
 
+    /**
+     * Creates a text input with default settings.
+     *
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.textinput.TextInput#TextInput()} instead.
+     */
     @Deprecated(since = "0.3.0")
     public TextInput() {
         super();

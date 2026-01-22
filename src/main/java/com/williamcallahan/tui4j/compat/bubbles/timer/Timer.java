@@ -32,14 +32,28 @@ public class Timer implements Model {
     private int tag;
     private boolean running;
 
+    /**
+     * Creates a timer with default timeout and interval.
+     */
     public Timer() {
         this(DEFAULT_TIMEOUT, DEFAULT_INTERVAL);
     }
 
+    /**
+     * Creates a timer with the specified timeout and default interval.
+     *
+     * @param timeout countdown duration
+     */
     public Timer(Duration timeout) {
         this(timeout, DEFAULT_INTERVAL);
     }
 
+    /**
+     * Creates a timer with the specified timeout and interval.
+     *
+     * @param timeout countdown duration
+     * @param interval tick interval
+     */
     public Timer(Duration timeout, Duration interval) {
         this.timeout = timeout;
         this.interval = interval;
@@ -47,30 +61,65 @@ public class Timer implements Model {
         this.id = nextId();
     }
 
+    /**
+     * Returns the timer ID.
+     *
+     * @return timer ID
+     */
     public int id() {
         return id;
     }
 
+    /**
+     * Returns the remaining timeout.
+     *
+     * @return remaining duration
+     */
     public Duration timeout() {
         return timeout;
     }
 
+    /**
+     * Sets the timeout duration.
+     *
+     * @param timeout duration to set
+     */
     public void setTimeout(Duration timeout) {
         this.timeout = timeout;
     }
 
+    /**
+     * Returns the tick interval.
+     *
+     * @return tick interval
+     */
     public Duration interval() {
         return interval;
     }
 
+    /**
+     * Sets the tick interval.
+     *
+     * @param interval interval to set
+     */
     public void setInterval(Duration interval) {
         this.interval = interval;
     }
 
+    /**
+     * Returns whether the timer is running.
+     *
+     * @return true if running
+     */
     public boolean running() {
         return !timedout() && running;
     }
 
+    /**
+     * Returns whether the timer has timed out.
+     *
+     * @return true if timed out
+     */
     public boolean timedout() {
         return timeout.isZero() || timeout.isNegative();
     }
@@ -113,14 +162,29 @@ public class Timer implements Model {
         return formatDuration(timeout);
     }
 
+    /**
+     * Starts the timer.
+     *
+     * @return start command
+     */
     public Command start() {
         return startStop(true);
     }
 
+    /**
+     * Stops the timer.
+     *
+     * @return stop command
+     */
     public Command stop() {
         return startStop(false);
     }
 
+    /**
+     * Toggles the timer running state.
+     *
+     * @return toggle command
+     */
     public Command toggle() {
         return startStop(!running());
     }

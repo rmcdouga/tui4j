@@ -63,6 +63,10 @@ public class TextInput implements Model {
     private char[][] suggestions;
     private char[][] matchedSuggestions;
     private int currentSuggestionIndex;
+
+    /**
+     * Creates a text input with default settings.
+     */
     public TextInput() {
         this.prompt = "> ";
         this.echoCharacter = '*';
@@ -87,22 +91,47 @@ public class TextInput implements Model {
         this.pos = 0;
     }
 
+    /**
+     * Sets the prompt string.
+     *
+     * @param prompt prompt to display
+     */
     public void setPrompt(String prompt) {
         this.prompt = prompt;
     }
 
+    /**
+     * Returns the prompt string.
+     *
+     * @return prompt
+     */
     public String prompt() {
         return prompt;
     }
 
+    /**
+     * Sets the prompt style.
+     *
+     * @param promptStyle style for the prompt
+     */
     public void setPromptStyle(Style promptStyle) {
         this.promptStyle = promptStyle;
     }
 
+    /**
+     * Sets the text style.
+     *
+     * @param textStyle style for the text
+     */
     public void setTextStyle(Style textStyle) {
         this.textStyle = textStyle;
     }
 
+    /**
+     * Sets the input value.
+     *
+     * @param value value to set
+     */
     public void setValue(String value) {
         char[] sanitized = sanitizer.sanitize(value.toCharArray());
         if (validateFunction != null) {
@@ -126,50 +155,97 @@ public class TextInput implements Model {
         handleOverflow();
     }
 
+    /**
+     * Returns the input value.
+     *
+     * @return input value
+     */
     public String value() {
         return String.valueOf(value);
     }
 
+    /**
+     * Returns whether the input is empty.
+     *
+     * @return true if empty
+     */
     public boolean isEmpty() {
         return value == null || value.length == 0;
     }
 
+    /**
+     * Returns the cursor position.
+     *
+     * @return cursor position
+     */
     public int position() {
         return pos;
     }
 
+    /**
+     * Sets the cursor position.
+     *
+     * @param position position to set
+     */
     public void setCursor(int position) {
         this.pos = clamp(position, 0, value.length);
         handleOverflow();
     }
 
+    /**
+     * Moves the cursor to the start.
+     */
     public void cursorStart() {
         setCursor(0);
     }
 
+    /**
+     * Moves the cursor to the end.
+     */
     public void cursorEnd() {
         setCursor(value.length);
     }
 
+    /**
+     * Returns whether the input is focused.
+     *
+     * @return true if focused
+     */
     public boolean isFocused() {
         return focus;
     }
 
+    /**
+     * Focuses the input.
+     *
+     * @return cursor focus command
+     */
     public Command focus() {
         this.focus = true;
         return cursor.focus();
     }
 
+    /**
+     * Removes focus from the input.
+     */
     public void blur() {
         this.focus = false;
         cursor.blur();
     }
 
+    /**
+     * Clears the input value and resets the cursor.
+     */
     public void reset() {
         this.value = new char[0];
         setCursor(0);
     }
 
+    /**
+     * Sets the available suggestions.
+     *
+     * @param suggestions suggestions to set
+     */
     public void setSuggestions(String[] suggestions) {
         this.suggestions = new char[suggestions.length][];
         for (int i = 0; i < suggestions.length; i++) {
@@ -544,6 +620,11 @@ public class TextInput implements Model {
         return UpdateResult.from(this, batch(commands.toArray(new Command[0])));
     }
 
+    /**
+     * Pastes from clipboard (not yet implemented).
+     *
+     * @return null
+     */
     public Message paste() {
         // TODO implement clipboard paste!
         return null;
@@ -604,6 +685,11 @@ public class TextInput implements Model {
         return promptStyle.render(prompt) + v;
     }
 
+    /**
+     * Renders the placeholder view.
+     *
+     * @return placeholder view
+     */
     public String placeholderView() {
         String v = "";
         Style style = placeholderStyle.copy().inline(true);
@@ -642,10 +728,21 @@ public class TextInput implements Model {
         return promptStyle.render(prompt) + v;
     }
 
+    /**
+     * Returns a cursor blink message.
+     *
+     * @return blink message
+     */
     public static Message blink() {
         return Cursor.blink();
     }
 
+    /**
+     * Renders the completion view.
+     *
+     * @param offset offset into the suggestion
+     * @return completion view
+     */
     public String completionView(int offset) {
         char[] value = this.value;
         Style style = placeholderStyle.copy().inline(true);
@@ -667,6 +764,9 @@ public class TextInput implements Model {
         return matchedSuggestions.length > 0;
     }
 
+    /**
+     * Moves to the next suggestion.
+     */
     public void nextSuggestion() {
         this.currentSuggestionIndex = currentSuggestionIndex + 1;
         if (currentSuggestionIndex > matchedSuggestions.length) {
@@ -674,6 +774,9 @@ public class TextInput implements Model {
         }
     }
 
+    /**
+     * Moves to the previous suggestion.
+     */
     public void previousSuggestion() {
         this.currentSuggestionIndex = currentSuggestionIndex - 1;
         if (currentSuggestionIndex < 0) {
@@ -681,6 +784,9 @@ public class TextInput implements Model {
         }
     }
 
+    /**
+     * Updates the matched suggestions based on current input.
+     */
     public void updateSuggestions() {
         if (!showSuggestions) {
             return;
@@ -717,18 +823,38 @@ public class TextInput implements Model {
         return suggestions;
     }
 
+    /**
+     * Returns all available suggestions.
+     *
+     * @return available suggestions
+     */
     public String[] availableSuggestions() {
         return getSuggestions(suggestions);
     }
 
+    /**
+     * Returns suggestions matching the current input.
+     *
+     * @return matched suggestions
+     */
     public String[] matchedSuggestions() {
         return getSuggestions(matchedSuggestions);
     }
 
+    /**
+     * Returns the current suggestion index.
+     *
+     * @return suggestion index
+     */
     public int currentSuggestionIndex() {
         return currentSuggestionIndex;
     }
 
+    /**
+     * Returns the current suggestion.
+     *
+     * @return current suggestion
+     */
     public String currentSuggestion() {
         if (currentSuggestionIndex >= matchedSuggestions.length) {
             return "";
@@ -745,30 +871,65 @@ public class TextInput implements Model {
         }
     }
 
+    /**
+     * Enables or disables suggestions.
+     *
+     * @param showSuggestions true to show suggestions
+     */
     public void setShowSuggestions(boolean showSuggestions) {
         this.showSuggestions = showSuggestions;
     }
 
+    /**
+     * Sets the placeholder text.
+     *
+     * @param placeholder placeholder to display when empty
+     */
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
     }
 
+    /**
+     * Sets the input width.
+     *
+     * @param width width in cells
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Sets the character limit.
+     *
+     * @param charLimit maximum characters, 0 for unlimited
+     */
     public void setCharLimit(int charLimit) {
         this.charLimit = charLimit;
     }
 
+    /**
+     * Sets the echo mode.
+     *
+     * @param echoMode echo mode to set
+     */
     public void setEchoMode(EchoMode echoMode) {
         this.echoMode = echoMode;
     }
 
+    /**
+     * Sets the echo character for password mode.
+     *
+     * @param echoCharacter character to display
+     */
     public void setEchoCharacter(char echoCharacter) {
         this.echoCharacter = echoCharacter;
     }
 
+    /**
+     * Returns the cursor.
+     *
+     * @return cursor
+     */
     public Cursor cursor() {
         return cursor;
     }

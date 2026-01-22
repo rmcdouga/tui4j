@@ -11,6 +11,12 @@ public class TextLines {
     private int widestLineLength;
     private String[] lines;
 
+    /**
+     * Creates text lines from a string.
+     *
+     * @param text text to split into lines
+     * @return text lines instance
+     */
     public static TextLines fromText(String text) {
         return new TextLines(text);
     }
@@ -30,10 +36,20 @@ public class TextLines {
         }
     }
 
+    /**
+     * Returns the width of the widest line in cells.
+     *
+     * @return widest line width
+     */
     public int widestLineLength() {
         return widestLineLength;
     }
 
+    /**
+     * Returns the lines as an array.
+     *
+     * @return array of lines
+     */
     public String[] lines() {
         return lines;
     }
