@@ -35,6 +35,9 @@ import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
  */
 public class Textarea implements Model {
 
+    /**
+     * Styling configuration for the textarea.
+     */
     public static class Style {
         private com.williamcallahan.tui4j.compat.lipgloss.Style base;
         private com.williamcallahan.tui4j.compat.lipgloss.Style cursorLine;
@@ -45,6 +48,9 @@ public class Textarea implements Model {
         private com.williamcallahan.tui4j.compat.lipgloss.Style prompt;
         private com.williamcallahan.tui4j.compat.lipgloss.Style text;
 
+        /**
+         * Creates default textarea styles.
+         */
         public Style() {
             this.base = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
             this.cursorLine = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
@@ -56,107 +62,233 @@ public class Textarea implements Model {
             this.text = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
         }
 
+        /**
+         * Sets the base style.
+         *
+         * @param base base style
+         * @return this style
+         */
         public Style base(com.williamcallahan.tui4j.compat.lipgloss.Style base) {
             this.base = base;
             return this;
         }
 
+        /**
+         * Sets the cursor line style.
+         *
+         * @param cursorLine cursor line style
+         * @return this style
+         */
         public Style cursorLine(com.williamcallahan.tui4j.compat.lipgloss.Style cursorLine) {
             this.cursorLine = cursorLine;
             return this;
         }
 
+        /**
+         * Sets the cursor line number style.
+         *
+         * @param cursorLineNumber cursor line number style
+         * @return this style
+         */
         public Style cursorLineNumber(com.williamcallahan.tui4j.compat.lipgloss.Style cursorLineNumber) {
             this.cursorLineNumber = cursorLineNumber;
             return this;
         }
 
+        /**
+         * Sets the end of buffer style.
+         *
+         * @param endOfBuffer end of buffer style
+         * @return this style
+         */
         public Style endOfBuffer(com.williamcallahan.tui4j.compat.lipgloss.Style endOfBuffer) {
             this.endOfBuffer = endOfBuffer;
             return this;
         }
 
+        /**
+         * Sets the line number style.
+         *
+         * @param lineNumber line number style
+         * @return this style
+         */
         public Style lineNumber(com.williamcallahan.tui4j.compat.lipgloss.Style lineNumber) {
             this.lineNumber = lineNumber;
             return this;
         }
 
+        /**
+         * Sets the placeholder style.
+         *
+         * @param placeholder placeholder style
+         * @return this style
+         */
         public Style placeholder(com.williamcallahan.tui4j.compat.lipgloss.Style placeholder) {
             this.placeholder = placeholder;
             return this;
         }
 
+        /**
+         * Sets the prompt style.
+         *
+         * @param prompt prompt style
+         * @return this style
+         */
         public Style prompt(com.williamcallahan.tui4j.compat.lipgloss.Style prompt) {
             this.prompt = prompt;
             return this;
         }
 
+        /**
+         * Sets the text style.
+         *
+         * @param text text style
+         * @return this style
+         */
         public Style text(com.williamcallahan.tui4j.compat.lipgloss.Style text) {
             this.text = text;
             return this;
         }
 
+        /**
+         * Returns the base style.
+         *
+         * @return base style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style base() {
             return base;
         }
 
+        /**
+         * Returns the cursor line style.
+         *
+         * @return cursor line style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style cursorLine() {
             return cursorLine;
         }
 
+        /**
+         * Returns the cursor line number style.
+         *
+         * @return cursor line number style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style cursorLineNumber() {
             return cursorLineNumber;
         }
 
+        /**
+         * Returns the end of buffer style.
+         *
+         * @return end of buffer style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style endOfBuffer() {
             return endOfBuffer;
         }
 
+        /**
+         * Returns the line number style.
+         *
+         * @return line number style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style lineNumber() {
             return lineNumber;
         }
 
+        /**
+         * Returns the placeholder style.
+         *
+         * @return placeholder style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style placeholder() {
             return placeholder;
         }
 
+        /**
+         * Returns the prompt style.
+         *
+         * @return prompt style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style prompt() {
             return prompt;
         }
 
+        /**
+         * Returns the text style.
+         *
+         * @return text style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style text() {
             return text;
         }
 
+        /**
+         * Returns the computed cursor line style with inheritance.
+         *
+         * @return computed cursor line style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedCursorLine() {
             return cursorLine.inherit(base).inline(true);
         }
 
+        /**
+         * Returns the computed cursor line number style with inheritance.
+         *
+         * @return computed cursor line number style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedCursorLineNumber() {
             return cursorLineNumber.inherit(cursorLine).inherit(base).inline(true);
         }
 
+        /**
+         * Returns the computed end of buffer style with inheritance.
+         *
+         * @return computed end of buffer style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedEndOfBuffer() {
             return endOfBuffer.inherit(base).inline(true);
         }
 
+        /**
+         * Returns the computed line number style with inheritance.
+         *
+         * @return computed line number style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedLineNumber() {
             return lineNumber.inherit(base).inline(true);
         }
 
+        /**
+         * Returns the computed placeholder style with inheritance.
+         *
+         * @return computed placeholder style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedPlaceholder() {
             return placeholder.inherit(base).inline(true);
         }
 
+        /**
+         * Returns the computed prompt style with inheritance.
+         *
+         * @return computed prompt style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedPrompt() {
             return prompt.inherit(base).inline(true);
         }
 
+        /**
+         * Returns the computed text style with inheritance.
+         *
+         * @return computed text style
+         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedText() {
             return text.inherit(base).inline(true);
         }
     }
 
+    /**
+     * Key bindings for textarea navigation and editing.
+     */
     public static class KeyMap {
         private Binding characterBackward;
         private Binding characterForward;
@@ -181,6 +313,9 @@ public class Textarea implements Model {
         private Binding capitalizeWordForward;
         private Binding transposeCharacterBackward;
 
+        /**
+         * Creates default key bindings.
+         */
         public KeyMap() {
             this.characterBackward = new Binding(Binding.withKeys("left", "ctrl+b"), Binding.withHelp("left", "character backward"));
             this.characterForward = new Binding(Binding.withKeys("right", "ctrl+f"), Binding.withHelp("right", "character forward"));
@@ -206,95 +341,208 @@ public class Textarea implements Model {
             this.transposeCharacterBackward = new Binding(Binding.withKeys("ctrl+t"), Binding.withHelp("ctrl+t", "transpose character backward"));
         }
 
+        /**
+         * Returns the character backward binding.
+         *
+         * @return character backward binding
+         */
         public Binding characterBackward() {
             return characterBackward;
         }
 
+        /**
+         * Returns the character forward binding.
+         *
+         * @return character forward binding
+         */
         public Binding characterForward() {
             return characterForward;
         }
 
+        /**
+         * Returns the delete after cursor binding.
+         *
+         * @return delete after cursor binding
+         */
         public Binding deleteAfterCursor() {
             return deleteAfterCursor;
         }
 
+        /**
+         * Returns the delete before cursor binding.
+         *
+         * @return delete before cursor binding
+         */
         public Binding deleteBeforeCursor() {
             return deleteBeforeCursor;
         }
 
+        /**
+         * Returns the delete character backward binding.
+         *
+         * @return delete character backward binding
+         */
         public Binding deleteCharacterBackward() {
             return deleteCharacterBackward;
         }
 
+        /**
+         * Returns the delete character forward binding.
+         *
+         * @return delete character forward binding
+         */
         public Binding deleteCharacterForward() {
             return deleteCharacterForward;
         }
 
+        /**
+         * Returns the delete word backward binding.
+         *
+         * @return delete word backward binding
+         */
         public Binding deleteWordBackward() {
             return deleteWordBackward;
         }
 
+        /**
+         * Returns the delete word forward binding.
+         *
+         * @return delete word forward binding
+         */
         public Binding deleteWordForward() {
             return deleteWordForward;
         }
 
+        /**
+         * Returns the insert newline binding.
+         *
+         * @return insert newline binding
+         */
         public Binding insertNewline() {
             return insertNewline;
         }
 
+        /**
+         * Returns the line end binding.
+         *
+         * @return line end binding
+         */
         public Binding lineEnd() {
             return lineEnd;
         }
 
+        /**
+         * Returns the line next binding.
+         *
+         * @return line next binding
+         */
         public Binding lineNext() {
             return lineNext;
         }
 
+        /**
+         * Returns the line previous binding.
+         *
+         * @return line previous binding
+         */
         public Binding linePrevious() {
             return linePrevious;
         }
 
+        /**
+         * Returns the line start binding.
+         *
+         * @return line start binding
+         */
         public Binding lineStart() {
             return lineStart;
         }
 
+        /**
+         * Returns the paste binding.
+         *
+         * @return paste binding
+         */
         public Binding paste() {
             return paste;
         }
 
+        /**
+         * Returns the word backward binding.
+         *
+         * @return word backward binding
+         */
         public Binding wordBackward() {
             return wordBackward;
         }
 
+        /**
+         * Returns the word forward binding.
+         *
+         * @return word forward binding
+         */
         public Binding wordForward() {
             return wordForward;
         }
 
+        /**
+         * Returns the input begin binding.
+         *
+         * @return input begin binding
+         */
         public Binding inputBegin() {
             return inputBegin;
         }
 
+        /**
+         * Returns the input end binding.
+         *
+         * @return input end binding
+         */
         public Binding inputEnd() {
             return inputEnd;
         }
 
+        /**
+         * Returns the uppercase word forward binding.
+         *
+         * @return uppercase word forward binding
+         */
         public Binding uppercaseWordForward() {
             return uppercaseWordForward;
         }
 
+        /**
+         * Returns the lowercase word forward binding.
+         *
+         * @return lowercase word forward binding
+         */
         public Binding lowercaseWordForward() {
             return lowercaseWordForward;
         }
 
+        /**
+         * Returns the capitalize word forward binding.
+         *
+         * @return capitalize word forward binding
+         */
         public Binding capitalizeWordForward() {
             return capitalizeWordForward;
         }
 
+        /**
+         * Returns the transpose character backward binding.
+         *
+         * @return transpose character backward binding
+         */
         public Binding transposeCharacterBackward() {
             return transposeCharacterBackward;
         }
     }
 
+    /**
+     * Information about the current line and cursor position.
+     */
     public static class LineInfo {
         private int width;
         private int charWidth;
@@ -304,9 +552,23 @@ public class Textarea implements Model {
         private int rowOffset;
         private int charOffset;
 
+        /**
+         * Creates an empty line info.
+         */
         public LineInfo() {
         }
 
+        /**
+         * Creates line info with the specified values.
+         *
+         * @param width line width in characters
+         * @param charWidth line width in cells
+         * @param height number of wrapped lines
+         * @param startColumn starting column of the wrapped line
+         * @param columnOffset cursor column within the wrapped line
+         * @param rowOffset wrapped line index within the logical line
+         * @param charOffset cursor position in cells from line start
+         */
         public LineInfo(int width, int charWidth, int height, int startColumn, int columnOffset, int rowOffset, int charOffset) {
             this.width = width;
             this.charWidth = charWidth;
@@ -317,64 +579,141 @@ public class Textarea implements Model {
             this.charOffset = charOffset;
         }
 
+        /**
+         * Returns the line width in characters.
+         *
+         * @return width in characters
+         */
         public int width() {
             return width;
         }
 
+        /**
+         * Returns the line width in cells.
+         *
+         * @return width in cells
+         */
         public int charWidth() {
             return charWidth;
         }
 
+        /**
+         * Returns the number of wrapped lines.
+         *
+         * @return wrapped line count
+         */
         public int height() {
             return height;
         }
 
+        /**
+         * Returns the starting column of the wrapped line.
+         *
+         * @return start column
+         */
         public int startColumn() {
             return startColumn;
         }
 
+        /**
+         * Returns the cursor column within the wrapped line.
+         *
+         * @return column offset
+         */
         public int columnOffset() {
             return columnOffset;
         }
 
+        /**
+         * Returns the wrapped line index within the logical line.
+         *
+         * @return row offset
+         */
         public int rowOffset() {
             return rowOffset;
         }
 
+        /**
+         * Returns the cursor position in cells from line start.
+         *
+         * @return character offset
+         */
         public int charOffset() {
             return charOffset;
         }
 
+        /**
+         * Sets the line width in characters.
+         *
+         * @param width width in characters
+         * @return this line info
+         */
         public LineInfo width(int width) {
             this.width = width;
             return this;
         }
 
+        /**
+         * Sets the line width in cells.
+         *
+         * @param charWidth width in cells
+         * @return this line info
+         */
         public LineInfo charWidth(int charWidth) {
             this.charWidth = charWidth;
             return this;
         }
 
+        /**
+         * Sets the number of wrapped lines.
+         *
+         * @param height wrapped line count
+         * @return this line info
+         */
         public LineInfo height(int height) {
             this.height = height;
             return this;
         }
 
+        /**
+         * Sets the starting column of the wrapped line.
+         *
+         * @param startColumn start column
+         * @return this line info
+         */
         public LineInfo startColumn(int startColumn) {
             this.startColumn = startColumn;
             return this;
         }
 
+        /**
+         * Sets the cursor column within the wrapped line.
+         *
+         * @param columnOffset column offset
+         * @return this line info
+         */
         public LineInfo columnOffset(int columnOffset) {
             this.columnOffset = columnOffset;
             return this;
         }
 
+        /**
+         * Sets the wrapped line index within the logical line.
+         *
+         * @param rowOffset row offset
+         * @return this line info
+         */
         public LineInfo rowOffset(int rowOffset) {
             this.rowOffset = rowOffset;
             return this;
         }
 
+        /**
+         * Sets the cursor position in cells from line start.
+         *
+         * @param charOffset character offset
+         * @return this line info
+         */
         public LineInfo charOffset(int charOffset) {
             this.charOffset = charOffset;
             return this;
@@ -412,6 +751,9 @@ public class Textarea implements Model {
     private Sanitizer sanitizer;
     private int lineNumberWidth;
 
+    /**
+     * Creates a textarea with default settings.
+     */
     public Textarea() {
         this.prompt = "| ";
         this.placeholder = "";
@@ -1181,6 +1523,11 @@ public class Textarea implements Model {
         setCursor(value.get(row).length);
     }
 
+    /**
+     * Returns information about the current line and cursor position.
+     *
+     * @return line info
+     */
     public LineInfo lineInfo() {
         List<char[]> grid = wrap(value.get(row), width);
 
@@ -1316,6 +1663,11 @@ public class Textarea implements Model {
         return lines;
     }
 
+    /**
+     * Returns the textarea content as a string.
+     *
+     * @return text content
+     */
     public String value() {
         if (value == null || value.isEmpty()) {
             return "";
@@ -1331,19 +1683,39 @@ public class Textarea implements Model {
         return sb.toString();
     }
 
+    /**
+     * Sets the textarea content.
+     *
+     * @param value text to set
+     */
     public void setValue(String value) {
         reset();
         insertString(value);
     }
 
+    /**
+     * Inserts a string at the cursor position.
+     *
+     * @param s string to insert
+     */
     public void insertString(String s) {
         insertRunesFromUserInput(s.toCharArray());
     }
 
+    /**
+     * Inserts a character at the cursor position.
+     *
+     * @param r character to insert
+     */
     public void insertRune(char r) {
         insertRunesFromUserInput(new char[]{r});
     }
 
+    /**
+     * Returns the content length in cells.
+     *
+     * @return length
+     */
     public int length() {
         int l = 0;
         for (char[] rowChars : value) {
@@ -1352,30 +1724,54 @@ public class Textarea implements Model {
         return l + value.size() - 1;
     }
 
+    /**
+     * Returns the number of lines.
+     *
+     * @return line count
+     */
     public int lineCount() {
         return value.size();
     }
 
+    /**
+     * Returns the current line index.
+     *
+     * @return line index
+     */
     public int line() {
         return row;
     }
 
+    /**
+     * Focuses the textarea.
+     */
     public void focus() {
         focus = true;
         style = focusedStyle;
         cursor.focus();
     }
 
+    /**
+     * Removes focus from the textarea.
+     */
     public void blur() {
         focus = false;
         style = blurredStyle;
         cursor.blur();
     }
 
+    /**
+     * Returns whether the textarea is focused.
+     *
+     * @return true if focused
+     */
     public boolean focused() {
         return focus;
     }
 
+    /**
+     * Clears the textarea content and resets the cursor.
+     */
     public void reset() {
         value = new ArrayList<>();
         value.add(new char[0]);
@@ -1384,10 +1780,20 @@ public class Textarea implements Model {
         setCursor(0);
     }
 
+    /**
+     * Sets the textarea width.
+     *
+     * @param w width in cells
+     */
     public void setWidth(int w) {
         this.width = w;
     }
 
+    /**
+     * Sets the textarea height.
+     *
+     * @param h height in lines
+     */
     public void setHeight(int h) {
         if (maxHeight > 0) {
             this.height = clamp(h, MIN_HEIGHT, maxHeight);
@@ -1396,55 +1802,120 @@ public class Textarea implements Model {
         }
     }
 
+    /**
+     * Sets the prompt string.
+     *
+     * @param prompt prompt to display
+     */
     public void setPrompt(String prompt) {
         this.prompt = prompt;
         this.promptWidth = TextWidth.measureCellWidth(prompt);
     }
 
+    /**
+     * Sets the placeholder text.
+     *
+     * @param placeholder placeholder to display when empty
+     */
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
     }
 
+    /**
+     * Enables or disables line numbers.
+     *
+     * @param showLineNumbers true to show line numbers
+     */
     public void setShowLineNumbers(boolean showLineNumbers) {
         this.showLineNumbers = showLineNumbers;
     }
 
+    /**
+     * Sets the character limit.
+     *
+     * @param charLimit maximum characters, 0 for unlimited
+     */
     public void setCharLimit(int charLimit) {
         this.charLimit = charLimit;
     }
 
+    /**
+     * Sets the maximum height.
+     *
+     * @param maxHeight maximum height in lines
+     */
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
     }
 
+    /**
+     * Sets the maximum width.
+     *
+     * @param maxWidth maximum width in cells
+     */
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
     }
 
+    /**
+     * Sets the end of buffer character.
+     *
+     * @param endOfBufferCharacter character to display at end of buffer
+     */
     public void setEndOfBufferCharacter(char endOfBufferCharacter) {
         this.endOfBufferCharacter = endOfBufferCharacter;
     }
 
+    /**
+     * Returns the current style.
+     *
+     * @return current style
+     */
     public Style style() {
         return style;
     }
 
+    /**
+     * Returns the focused style.
+     *
+     * @return focused style
+     */
     public Style focusedStyle() {
         return focusedStyle;
     }
 
+    /**
+     * Returns the blurred style.
+     *
+     * @return blurred style
+     */
     public Style blurredStyle() {
         return blurredStyle;
     }
 
+    /**
+     * Returns the cursor.
+     *
+     * @return cursor
+     */
     public Cursor cursor() {
         return cursor;
     }
 
+    /**
+     * Returns the textarea width.
+     *
+     * @return width in cells
+     */
     public int width() {
         return width;
     }
 
+    /**
+     * Returns the textarea height.
+     *
+     * @return height in lines
+     */
     public int height() {
         return height;
     }

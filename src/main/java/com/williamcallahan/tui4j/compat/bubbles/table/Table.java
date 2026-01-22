@@ -75,6 +75,12 @@ public class Table implements Model, KeyMap {
         return this;
     }
 
+    /**
+     * Sets the rows from a list.
+     *
+     * @param rows row data
+     * @return this table
+     */
     public Table rows(List<Row> rows) {
         this.rows = rows;
         if (cursor > rows.size() - 1) {
@@ -84,36 +90,72 @@ public class Table implements Model, KeyMap {
         return this;
     }
 
+    /**
+     * Sets the rows from varargs.
+     *
+     * @param rows row data
+     * @return this table
+     */
     public Table rows(Row... rows) {
         this.rows = List.of(rows);
         updateViewport();
         return this;
     }
 
+    /**
+     * Sets the table height.
+     *
+     * @param height height in lines
+     * @return this table
+     */
     public Table height(int height) {
         this.height = height;
         updateViewport();
         return this;
     }
 
+    /**
+     * Sets the table width.
+     *
+     * @param width width in cells
+     * @return this table
+     */
     public Table width(int width) {
         this.width = width;
         updateViewport();
         return this;
     }
 
+    /**
+     * Sets whether the table is focused.
+     *
+     * @param focused true if focused
+     * @return this table
+     */
     public Table focused(boolean focused) {
         this.focused = focused;
         updateViewport();
         return this;
     }
 
+    /**
+     * Sets the table styles.
+     *
+     * @param styles styles to set
+     * @return this table
+     */
     public Table styles(Styles styles) {
         this.styles = styles;
         updateViewport();
         return this;
     }
 
+    /**
+     * Sets the key bindings.
+     *
+     * @param keys key bindings to set
+     * @return this table
+     */
     public Table keyMap(Keys keys) {
         this.keys = keys;
         return this;
@@ -308,6 +350,11 @@ public class Table implements Model, KeyMap {
         return Math.max(1, headersView().split("\n", -1).length);
     }
 
+    /**
+     * Returns whether the table is focused.
+     *
+     * @return true if focused
+     */
     public boolean focused() {
         return focused;
     }
@@ -438,6 +485,11 @@ public class Table implements Model, KeyMap {
         updateViewport();
     }
 
+    /**
+     * Moves the cursor up by n rows.
+     *
+     * @param n number of rows to move
+     */
     public void moveUp(int n) {
         cursor = clamp(cursor - n, 0, Math.max(0, rows.size() - 1));
         if (start == 0) {
@@ -450,6 +502,11 @@ public class Table implements Model, KeyMap {
         updateViewport();
     }
 
+    /**
+     * Moves the cursor down by n rows.
+     *
+     * @param n number of rows to move
+     */
     public void moveDown(int n) {
         cursor = clamp(cursor + n, 0, Math.max(0, rows.size() - 1));
         updateViewport();
@@ -469,14 +526,26 @@ public class Table implements Model, KeyMap {
         return Math.max(1, height - headerHeight());
     }
 
+    /**
+     * Moves the cursor to the first row.
+     */
     public void gotoTop() {
         moveUp(cursor);
     }
 
+    /**
+     * Moves the cursor to the last row.
+     */
     public void gotoBottom() {
         moveDown(rows.size());
     }
 
+    /**
+     * Populates the table from a delimited string.
+     *
+     * @param value text with rows separated by newlines
+     * @param separator column delimiter
+     */
     public void fromValues(String value, String separator) {
         List<Row> rows = new ArrayList<>();
         String[] lines = value.split("\n");
@@ -487,10 +556,20 @@ public class Table implements Model, KeyMap {
         setRows(rows);
     }
 
+    /**
+     * Returns the table styles.
+     *
+     * @return styles
+     */
     public Styles styles() {
         return styles;
     }
 
+    /**
+     * Returns the key bindings.
+     *
+     * @return key bindings
+     */
     public Keys keyMap() {
         return keys;
     }
