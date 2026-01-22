@@ -104,7 +104,7 @@ sourceSets {
     val examplesBubbletea by creating {
         java.srcDir("examples/bubbletea/src/main/java")
         resources.srcDir("examples/bubbletea/src/main/resources")
-        java.srcDir("src/main/resources/examples/compat/bubble-tea")
+        java.srcDir("src/main/resources/examples/compat/bubbletea")
 
         bubbleteaExampleProjectDirs.forEach { dir ->
             java.addIfExists(dir.resolve("src/main/java"))
