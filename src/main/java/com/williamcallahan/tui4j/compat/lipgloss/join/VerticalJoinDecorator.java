@@ -7,9 +7,18 @@ import com.williamcallahan.tui4j.compat.lipgloss.Position;
 /**
  * Port of Lip Gloss vertical join decorator.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: join.go.
  */
 public class VerticalJoinDecorator {
 
+    /**
+     * Handles join vertical for this component.
+     *
+     * @param position position
+     * @param strings strings
+     * @return result
+     */
     public static String joinVertical(Position position, String... strings) {
         if (strings.length == 0) {
             return "";

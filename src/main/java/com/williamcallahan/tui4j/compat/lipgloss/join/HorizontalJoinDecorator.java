@@ -15,9 +15,14 @@ import static com.williamcallahan.tui4j.compat.lipgloss.Position.Top;
  * Port of charmbracelet/lipgloss join.go JoinHorizontal function.
  *
  * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/join.go">lipgloss/join.go</a>
+ * <p>
+ * Lipgloss: join.go.
  */
 public class HorizontalJoinDecorator {
 
+    /**
+     * Creates HorizontalJoinDecorator to keep this component ready for use.
+     */
     private HorizontalJoinDecorator() {}
 
     /**

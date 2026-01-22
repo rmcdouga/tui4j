@@ -3,6 +3,8 @@ package com.williamcallahan.tui4j.compat.lipgloss.border;
 /**
  * Port of Lip Gloss standard border.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: borders.go.
  */
 public class StandardBorder {
 
