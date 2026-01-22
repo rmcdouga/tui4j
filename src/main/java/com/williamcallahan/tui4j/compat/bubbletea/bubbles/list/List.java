@@ -33,7 +33,6 @@ import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
-import static com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.DefaultItemStyles.ELLIPSIS;
 
 /**
  * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.List} instead.

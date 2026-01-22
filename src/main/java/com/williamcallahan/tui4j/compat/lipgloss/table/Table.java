@@ -557,7 +557,12 @@ public class Table {
         }
 
         for (int i = 0; i < cells.size(); i++) {
-            cells.set(i, cells.get(i).replaceAll("\n$", ""));
+            // Match Go's strings.TrimRight(cell, "\n") - removes ALL trailing newlines
+            String cell = cells.get(i);
+            while (cell.endsWith("\n")) {
+                cell = cell.substring(0, cell.length() - 1);
+            }
+            cells.set(i, cell);
         }
 
         s
