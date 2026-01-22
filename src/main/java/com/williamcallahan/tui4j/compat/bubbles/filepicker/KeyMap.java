@@ -8,6 +8,8 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
  * Port of charmbracelet/bubbles filepicker/filepicker.go KeyMap type.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
+ * <p>
+ * Bubbles: filepicker/filepicker.go.
  */
 public class KeyMap {
 

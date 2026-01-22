@@ -27,6 +27,8 @@ import java.util.logging.Logger;
  * Port of charmbracelet/bubbles filepicker/filepicker.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
+ * <p>
+ * Bubbles: filepicker/filepicker.go.
  */
 public class FilePicker implements Model {
 
@@ -84,6 +86,11 @@ public class FilePicker implements Model {
         this.readErrors = new ArrayList<>();
     }
 
+    /**
+     * Handles generate id for this component.
+     *
+     * @return result
+     */
     private int generateId() {
         return nextId.getAndIncrement();
     }
@@ -97,6 +104,13 @@ public class FilePicker implements Model {
         return readDir(this.currentDirectory, this.showHidden);
     }
 
+    /**
+     * Handles read dir for this component.
+     *
+     * @param directory directory
+     * @param showHidden show hidden
+     * @return result
+     */
     private Command readDir(String directory, boolean showHidden) {
         return () -> {
             try {
@@ -133,6 +147,12 @@ public class FilePicker implements Model {
         };
     }
 
+    /**
+     * Reports whether not dir.
+     *
+     * @param p p
+     * @return whether not dir
+     */
     private static boolean isNotDir(Path p) {
         try {
             return !Files.isDirectory(p);
@@ -143,6 +163,12 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Returns the permissions.
+     *
+     * @param p p
+     * @return result
+     */
     private static String getPermissions(Path p) throws IOException {
         try {
             return Files.getPosixFilePermissions(p).toString();
@@ -151,6 +177,62 @@ public class FilePicker implements Model {
             return (Files.isReadable(p) ? "r" : "-")
                     + (Files.isWritable(p) ? "w" : "-")
                     + (Files.isExecutable(p) ? "x" : "-");
+        }
+    }
+
+    /**
+     * Builds the path for a directory entry in the current directory.
+     *
+     * @param entry entry
+     * @return entry path
+     */
+    private Path entryPath(DirEntry entry) {
+        return Paths.get(this.currentDirectory, entry.name());
+    }
+
+    /**
+     * Resolves symlink targets relative to the current directory.
+     *
+     * @param entry entry
+     * @return resolved target path
+     * @throws IOException when the symlink cannot be read
+     */
+    private Path resolveSymlink(DirEntry entry) throws IOException {
+        Path linkPath = entryPath(entry);
+        Path symlinkTarget = Files.readSymbolicLink(linkPath);
+        return linkPath.getParent().resolve(symlinkTarget).normalize();
+    }
+
+    /**
+     * Reports whether an entry is a directory, resolving symlinks.
+     *
+     * @param entry entry
+     * @return whether the entry is a directory
+     * @throws IOException when symlink resolution fails
+     */
+    private boolean isDirectoryEntry(DirEntry entry) throws IOException {
+        if (!entry.isSymlink()) {
+            return entry.isDir();
+        }
+        return Files.isDirectory(resolveSymlink(entry));
+    }
+
+    /**
+     * Builds the display suffix for symlink targets.
+     *
+     * @param entry entry
+     * @return suffix for symlink targets or empty string
+     */
+    private String symlinkSuffix(DirEntry entry) {
+        if (!entry.isSymlink()) {
+            return "";
+        }
+        try {
+            Path symlinkTarget = Files.readSymbolicLink(entryPath(entry));
+            return " \u2192 " + symlinkTarget;
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Failed to resolve symlink for " + entry.name(), e);
+            return "";
         }
     }
 
@@ -179,6 +261,12 @@ public class FilePicker implements Model {
         this.max = this.height - 1;
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @return next model state and command
+     */
     @Override
     public UpdateResult<FilePicker> update(Message msg) {
         if (msg instanceof KeyPressMessage keyPressMessage) {
@@ -203,6 +291,12 @@ public class FilePicker implements Model {
         return UpdateResult.from(this);
     }
 
+    /**
+     * Handles handle key press for this component.
+     *
+     * @param keyPressMessage key press message
+     * @return result
+     */
     private UpdateResult<FilePicker> handleKeyPress(KeyPressMessage keyPressMessage) {
         if (handleNavigation(keyPressMessage)) {
             return UpdateResult.from(this);
@@ -226,6 +320,12 @@ public class FilePicker implements Model {
         return UpdateResult.from(this);
     }
 
+    /**
+     * Handles handle navigation for this component.
+     *
+     * @param keyPressMessage key press message
+     * @return whether ndle navigation
+     */
     private boolean handleNavigation(KeyPressMessage keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.goToTop())) {
             this.selected = 0;
@@ -296,29 +396,28 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Handles handle open for this component.
+     *
+     * @param keyPressMessage key press message
+     * @return result
+     */
     private UpdateResult<FilePicker> handleOpen(KeyPressMessage keyPressMessage) {
         if (this.files.isEmpty()) {
             return UpdateResult.from(this);
         }
 
         DirEntry f = this.files.get(this.selected);
-        boolean isDir = f.isDir();
-        boolean isSymlink = f.isSymlink();
-
-        if (isSymlink) {
-            try {
-                Path linkPath = Paths.get(this.currentDirectory, f.name());
-                Path symlinkTarget = Files.readSymbolicLink(linkPath);
-                Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
-                isDir = Files.isDirectory(resolved);
-            } catch (IOException e) {
-                return UpdateResult.from(this, () -> new ErrorMessage(e));
-            }
+        boolean isDir;
+        try {
+            isDir = isDirectoryEntry(f);
+        } catch (IOException e) {
+            return UpdateResult.from(this, () -> new ErrorMessage(e));
         }
 
         if ((!isDir && this.fileAllowed) || (isDir && this.dirAllowed)) {
             if (Binding.matches(keyPressMessage, keyMap.select())) {
-                this.path = Paths.get(this.currentDirectory, f.name()).toString();
+                this.path = entryPath(f).toString();
             }
         }
 
@@ -326,7 +425,7 @@ public class FilePicker implements Model {
             return UpdateResult.from(this);
         }
 
-        this.currentDirectory = Paths.get(this.currentDirectory, f.name()).toString();
+        this.currentDirectory = entryPath(f).toString();
         this.selectedStack.push(this.selected);
         this.minStack.push(this.min);
         this.maxStack.push(this.max);
@@ -336,6 +435,11 @@ public class FilePicker implements Model {
         return UpdateResult.from(this, readDir(this.currentDirectory, this.showHidden));
     }
 
+    /**
+     * Renders the model view for display.
+     *
+     * @return rendered view
+     */
     @Override
     public String view() {
         StringBuilder sb = new StringBuilder();
@@ -366,6 +470,14 @@ public class FilePicker implements Model {
         return sb.toString();
     }
 
+    /**
+     * Handles render row for this component.
+     *
+     * @param i i
+     * @param f f
+     * @param disabled disabled
+     * @return result
+     */
     private String renderRow(int i, DirEntry f, boolean disabled) {
         StringBuilder sb = new StringBuilder();
         if (this.selected == i) {
@@ -376,16 +488,7 @@ public class FilePicker implements Model {
             if (this.showSize) {
                 selectedBuilder.append(formatSize(f.size()));
             }
-            selectedBuilder.append(" ").append(f.name());
-
-            if (f.isSymlink()) {
-                try {
-                    Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
-                    selectedBuilder.append(" → ").append(symlinkPath);
-                } catch (IOException e) {
-                    logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
-                }
-            }
+            selectedBuilder.append(" ").append(f.name()).append(symlinkSuffix(f));
 
             if (disabled) {
                 sb.append(this.styles.disabledCursor().render(this.cursorChar));
@@ -409,15 +512,7 @@ public class FilePicker implements Model {
 
         sb.append(this.styles.cursor().render(" "));
 
-        String fileName = style.render(f.name());
-        if (f.isSymlink()) {
-            try {
-                Path symlinkPath = Files.readSymbolicLink(Paths.get(this.currentDirectory, f.name()));
-                fileName += " → " + symlinkPath;
-            } catch (IOException e) {
-                logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
-            }
-        }
+        String fileName = style.render(f.name()) + symlinkSuffix(f);
 
         if (this.showPermissions) {
             sb.append(" ").append(this.styles.permission().render(f.permissions()));
@@ -430,6 +525,12 @@ public class FilePicker implements Model {
         return sb.toString();
     }
 
+    /**
+     * Handles format size for this component.
+     *
+     * @param bytes bytes
+     * @return result
+     */
     private String formatSize(long bytes) {
         if (bytes < 1024) {
             return bytes + " B";
@@ -442,6 +543,12 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Handles can select for this component.
+     *
+     * @param file file
+     * @return whether n select
+     */
     private boolean canSelect(String file) {
         if (this.allowedTypes.isEmpty()) {
             return true;
@@ -481,23 +588,16 @@ public class FilePicker implements Model {
             }
 
             DirEntry f = this.files.get(this.selected);
-            boolean isDir = f.isDir();
-            boolean isSymlink = f.isSymlink();
-
-            if (isSymlink) {
-                try {
-                    Path linkPath = Paths.get(this.currentDirectory, f.name());
-                    Path symlinkTarget = Files.readSymbolicLink(linkPath);
-                    Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
-                    isDir = Files.isDirectory(resolved);
-                } catch (IOException e) {
-                    logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
-                    return false;
-                }
+            boolean isDir;
+            try {
+                isDir = isDirectoryEntry(f);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
+                return false;
             }
 
             if ((!isDir && this.fileAllowed) || (isDir && this.dirAllowed)) {
-                this.path = Paths.get(this.currentDirectory, f.name()).toString();
+                this.path = entryPath(f).toString();
                 return true;
             }
         }
@@ -521,22 +621,12 @@ public class FilePicker implements Model {
             }
 
             DirEntry f = this.files.get(this.selected);
-            boolean isDir = f.isDir();
-
-            // Handle symlinks - resolve to check if target is a directory
-            if (f.isSymlink()) {
-                try {
-                    Path linkPath = Paths.get(this.currentDirectory, f.name());
-                    Path symlinkTarget = Files.readSymbolicLink(linkPath);
-                    Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
-                    isDir = Files.isDirectory(resolved);
-                } catch (IOException e) {
-                    logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
-                    return false;
-                }
+            try {
+                return isDirectoryEntry(f);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Failed to resolve symlink for " + f.name(), e);
+                return false;
             }
-
-            return isDir;
         }
         return false;
     }
@@ -758,20 +848,42 @@ public class FilePicker implements Model {
      * @param isSymlink whether the entry is a symlink
      * @param size entry size in bytes
      * @param permissions entry permissions string
+     * <p>
+     * Bubbles: filepicker/filepicker.go.
      */
     public record DirEntry(String name, boolean isDir, boolean isSymlink, long size, String permissions) {
     }
 
+    /**
+     * Compatibility port of ReadDirMessage to preserve upstream behavior.
+     * <p>
+     * Bubbles: filepicker/filepicker.go.
+     */
     private record ReadDirMessage(int id, List<DirEntry> entries, List<String> errors) implements Message {
     }
 
+    /**
+     * Compatibility port of Stack to preserve upstream behavior.
+     * <p>
+     * Bubbles: filepicker/filepicker.go.
+     */
     private static class Stack {
         private final List<Integer> items = new ArrayList<>();
 
+        /**
+         * Handles push for this component.
+         *
+         * @param item item
+         */
         public void push(int item) {
             this.items.add(item);
         }
 
+        /**
+         * Handles pop for this component.
+         *
+         * @return result
+         */
         public int pop() {
             if (this.items.isEmpty()) {
                 return 0;
@@ -781,6 +893,11 @@ public class FilePicker implements Model {
             return result;
         }
 
+        /**
+         * Handles length for this component.
+         *
+         * @return result
+         */
         public int length() {
             return this.items.size();
         }

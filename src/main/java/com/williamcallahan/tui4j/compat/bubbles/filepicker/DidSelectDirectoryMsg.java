@@ -1,41 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbles.filepicker;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-
 /**
- * Message sent when a directory is selected in the file picker.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link DidSelectDirectoryMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Bubbles: bubbles/filepicker/filepicker.go
- *
- * @deprecated Use {@link DidSelectDirectoryMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
+ * Bubbles: filepicker/filepicker.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class DidSelectDirectoryMsg implements Message {
-
-    private final DidSelectDirectoryMessage message;
+public class DidSelectDirectoryMsg extends DidSelectDirectoryMessage {
 
     /**
-     * Creates a directory selection message.
-     *
-     * @param path selected directory path
-     * @deprecated Use {@link DidSelectDirectoryMessage#DidSelectDirectoryMessage(String)} instead.
+     * @deprecated Compatibility alias for legacy *Msg naming; use {@link DidSelectDirectoryMessage} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public DidSelectDirectoryMsg(String path) {
-        this.message = new DidSelectDirectoryMessage(path);
-    }
-
-    /**
-     * Returns the selected directory path.
-     *
-     * @return the selected directory path
-     * @deprecated Use {@link DidSelectDirectoryMessage#path()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String path() {
-        return message.path();
+        super(path);
     }
 }

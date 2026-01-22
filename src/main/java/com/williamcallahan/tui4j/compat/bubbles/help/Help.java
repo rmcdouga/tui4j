@@ -14,6 +14,8 @@ import java.util.List;
  * Port of charmbracelet/bubbles help/help.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/help/help.go">bubbles/help/help.go</a>
+ * <p>
+ * Bubbles: help/help.go.
  */
 public class Help {
 
@@ -56,6 +58,12 @@ public class Help {
         return shortHelpView(keyMap.shortHelp());
     }
 
+    /**
+     * Handles full help view for this component.
+     *
+     * @param groups groups
+     * @return result
+     */
     private String fullHelpView(Binding[][] groups) {
         if (groups.length == 0) {
             return "";
@@ -115,6 +123,12 @@ public class Help {
         );
     }
 
+    /**
+     * Handles should render column for this component.
+     *
+     * @param group group
+     * @return whether ould render column
+     */
     private boolean shouldRenderColumn(Binding[] group) {
         for (Binding binding : group) {
             if (binding.isEnabled()) {
@@ -124,6 +138,12 @@ public class Help {
         return false;
     }
 
+    /**
+     * Handles short help view for this component.
+     *
+     * @param bindings bindings
+     * @return result
+     */
     private String shortHelpView(Binding[] bindings) {
         if (bindings == null || bindings.length == 0) {
             return "";
@@ -167,6 +187,13 @@ public class Help {
         return b.toString();
     }
 
+    /**
+     * Handles should add item for this component.
+     *
+     * @param totalWidth total width
+     * @param width width
+     * @return result
+     */
     private Result shouldAddItem(int totalWidth, int width) {
         String tail = "";
         if (this.width > 0 && totalWidth+width > this.width) {
@@ -204,6 +231,11 @@ public class Help {
     public boolean showAll() {
         return showAll;
     }
+    /**
+     * Compatibility port of Result to preserve upstream behavior.
+     * <p>
+     * Bubbles: help/help.go.
+     */
     record Result(boolean ok, String tail) {
 
 
