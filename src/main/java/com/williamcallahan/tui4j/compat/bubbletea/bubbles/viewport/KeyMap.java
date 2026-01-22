@@ -9,4 +9,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.viewport;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class KeyMap extends com.williamcallahan.tui4j.compat.bubbles.viewport.KeyMap {
+    /**
+     * Creates a viewport key map shim.
+     */
+    public KeyMap() {
+        super();
+    }
 }

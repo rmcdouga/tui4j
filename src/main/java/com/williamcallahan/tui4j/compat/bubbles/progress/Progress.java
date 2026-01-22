@@ -190,6 +190,10 @@ public class Progress implements Model {
 
     /**
      * Configures a color gradient for the filled portion of the bar.
+     *
+     * @param colorA starting color
+     * @param colorB ending color
+     * @return updated progress instance
      */
     public Progress withGradient(String colorA, String colorB) {
         return setRamp(colorA, colorB, false);

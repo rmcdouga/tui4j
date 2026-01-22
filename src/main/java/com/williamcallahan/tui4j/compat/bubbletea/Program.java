@@ -300,6 +300,8 @@ public class Program {
 
     /**
      * While selecting, translate wheel events into selection motion updates.
+     *
+     * @return this program for chaining
      */
     public Program withMouseSelectionExtendOnScroll() {
         this.extendSelectionOnScroll = true;
@@ -311,6 +313,8 @@ public class Program {
      * edge.
      * <p>
      * tui4j extension; no Bubble Tea equivalent.
+     *
+     * @return this program for chaining
      */
     public Program withMouseSelectionAutoScroll() {
         // Auto-scroll is implemented by emitting wheel events while selecting, so we
@@ -329,6 +333,10 @@ public class Program {
      * Configure selection auto-scroll behavior.
      * <p>
      * tui4j extension; no Bubble Tea equivalent.
+     *
+     * @param edgeRows number of rows from the edge that trigger auto-scroll
+     * @param intervalMs interval in milliseconds between auto-scroll steps
+     * @return this program for chaining
      */
     public Program withMouseSelectionAutoScroll(int edgeRows, int intervalMs) {
         this.extendSelectionOnScroll = true;
@@ -343,6 +351,8 @@ public class Program {
 
     /**
      * Manage the mouse cursor during selection (OSC 22).
+     *
+     * @return this program for chaining
      */
     public Program withMouseSelectionCursor() {
         this.manageMouseSelectionCursor = true;
@@ -352,6 +362,8 @@ public class Program {
     /**
      * Manage the mouse cursor when hovering non-whitespace text (OSC 22).
      * Requires mouse motion events (e.g. {@link #withMouseAllMotion()}).
+     *
+     * @return this program for chaining
      */
     public Program withMouseHoverTextCursor() {
         this.hoverTextCursorEnabled = true;
@@ -361,6 +373,8 @@ public class Program {
     /**
      * When enabled, emits {@link MouseClickMessage} on press/release clicks.
      * tui4j extension; no Bubble Tea equivalent.
+     *
+     * @return this program for chaining
      */
     public Program withMouseClicks() {
         this.mouseClicksEnabled = true;
