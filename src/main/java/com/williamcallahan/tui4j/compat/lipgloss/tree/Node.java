@@ -3,6 +3,8 @@ package com.williamcallahan.tui4j.compat.lipgloss.tree;
 /**
  * Port of Lip Gloss node.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: tree/tree.go.
  */
 public interface Node {
 

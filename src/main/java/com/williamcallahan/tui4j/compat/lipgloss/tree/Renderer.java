@@ -14,18 +14,31 @@ import java.util.List;
  * <p>
  * Port of `lipgloss/tree`.
  * Handles the visual hierarchy, indentation, and joining of tree nodes.
+ * <p>
+ * Lipgloss: tree/renderer.go.
  */
 public class Renderer {
     private TreeStyle style;
     private TreeEnumerator enumerator;
     private TreeIndenter indenter;
 
+    /**
+     * Creates Renderer to keep this component ready for use.
+     */
     public Renderer() {
         this.style = new TreeStyle();
         this.enumerator = new TreeEnumerator.DefaultEnumerator();
         this.indenter = new TreeIndenter.DefaultIndenter();
     }
 
+    /**
+     * Handles render for this component.
+     *
+     * @param node node
+     * @param root root
+     * @param prefix prefix
+     * @return result
+     */
     public String render(Node node, boolean root, String prefix) {
         if (node.isHidden()) {
             return "";
@@ -115,14 +128,29 @@ public class Renderer {
         return String.join("\n", strings);
     }
 
+    /**
+     * Handles style for this component.
+     *
+     * @return result
+     */
     public TreeStyle style() {
         return style;
     }
 
+    /**
+     * Updates the enumerator.
+     *
+     * @param enumerator enumerator
+     */
     public void setEnumerator(TreeEnumerator enumerator) {
         this.enumerator = enumerator;
     }
 
+    /**
+     * Updates the indenter.
+     *
+     * @param indenter indenter
+     */
     public void setIndenter(TreeIndenter indenter) {
         this.indenter = indenter;
     }

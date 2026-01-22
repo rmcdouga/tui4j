@@ -2,6 +2,8 @@ package com.williamcallahan.tui4j.compat.lipgloss.tree;
 
 /**
  * Port of github.com/charmbracelet/lipgloss/tree/tree.go (Leaf).
+ * <p>
+ * Lipgloss: tree/tree.go.
  */
 public class Leaf implements Node {
 
@@ -35,11 +37,21 @@ public class Leaf implements Node {
     public Leaf() {
     }
 
+    /**
+     * Handles value for this component.
+     *
+     * @return result
+     */
     @Override
     public String value() {
         return value;
     }
 
+    /**
+     * Handles children for this component.
+     *
+     * @return result
+     */
     @Override
     public Children children() {
         if (nodeValue != null) {
@@ -48,6 +60,11 @@ public class Leaf implements Node {
         return new NodeChildren();
     }
 
+    /**
+     * Reports whether hidden.
+     *
+     * @return whether hidden
+     */
     @Override
     public boolean isHidden() {
         return hidden;
@@ -81,6 +98,11 @@ public class Leaf implements Node {
         return this;
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return value;

@@ -6,11 +6,15 @@ package com.williamcallahan.tui4j.compat.lipgloss.tree;
  * Port of charmbracelet/lipgloss tree/children.go Filter type.
  *
  * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/tree/children.go">lipgloss/tree/children.go</a>
+ * <p>
+ * Lipgloss: tree/children.go.
  */
 public class Filter implements Children {
 
     /**
      * Predicate function for filtering tree nodes by index.
+     * <p>
+     * Lipgloss: tree/children.go.
      */
     public interface FilterFunction {
         /**
@@ -34,6 +38,12 @@ public class Filter implements Children {
         this.data = data;
     }
 
+    /**
+     * Handles at for this component.
+     *
+     * @param index index
+     * @return result
+     */
     @Override
     public Node at(int index) {
         int j = 0;
@@ -60,16 +70,33 @@ public class Filter implements Children {
         return this;
     }
 
+    /**
+     * Handles remove for this component.
+     *
+     * @param index index
+     * @return result
+     */
     @Override
     public Children remove(int index) {
         throw new UnsupportedOperationException("Filter is a read-only view");
     }
 
+    /**
+     * Handles append for this component.
+     *
+     * @param child child
+     * @return result
+     */
     @Override
     public Children append(Node child) {
         throw new UnsupportedOperationException("Filter is a read-only view");
     }
 
+    /**
+     * Handles length for this component.
+     *
+     * @return result
+     */
     @Override
     public int length() {
         int j = 0;

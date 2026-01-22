@@ -11,6 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * <p>
  * Port of github.com/charmbracelet/lipgloss/tree/tree.go.
  * Represents a node in a tree that can be rendered as a nested list.
+ * <p>
+ * Lipgloss: tree/tree.go.
  */
 public class Tree implements Node {
 
@@ -22,25 +24,54 @@ public class Tree implements Node {
     private boolean rendererSet;
     private ReentrantLock rendererLock = new ReentrantLock();
 
+    /**
+     * Reports whether hidden.
+     *
+     * @return whether hidden
+     */
     @Override
     public boolean isHidden() {
         return this.hidden;
     }
 
+    /**
+     * Handles hide for this component.
+     *
+     * @return result
+     */
     public Tree hide() {
         this.hidden = true;
         return this;
     }
 
+    /**
+     * Handles hide for this component.
+     *
+     * @param hide hide
+     * @return result
+     */
     public Tree hide(boolean hide) {
         this.hidden = hide;
         return this;
     }
 
+    /**
+     * Updates the hidden.
+     *
+     * @param hidden hidden
+     * @return result
+     */
     public Tree setHidden(boolean hidden) {
         return hide(hidden);
     }
 
+    /**
+     * Handles offset for this component.
+     *
+     * @param start start
+     * @param end end
+     * @return result
+     */
     public Tree offset(int start, int end) {
         int newStart = start;
         int newEnd = end;
@@ -63,11 +94,21 @@ public class Tree implements Node {
         return this;
     }
 
+    /**
+     * Handles value for this component.
+     *
+     * @return result
+     */
     @Override
     public String value() {
         return this.value;
     }
 
+    /**
+     * Updates the value.
+     *
+     * @param value value
+     */
     private void setValue(String value) {
         this.value = value;
     }
@@ -103,6 +144,13 @@ public class Tree implements Node {
         return this;
     }
 
+    /**
+     * Handles ensure parent for this component.
+     *
+     * @param nodes nodes
+     * @param item item
+     * @return result
+     */
     private EnsureParentResult ensureParent(Children nodes, Tree item) {
         int nodesLength = nodes.length();
         if ((item.value() != null && !item.value().isEmpty()) || nodesLength == 0) {
@@ -123,6 +171,11 @@ public class Tree implements Node {
         return new EnsureParentResult(item, -1);
     }
 
+    /**
+     * Handles ensure renderer for this component.
+     *
+     * @return result
+     */
     private Renderer ensureRenderer() {
         rendererLock.lock();
         try {
@@ -136,11 +189,23 @@ public class Tree implements Node {
         }
     }
 
+    /**
+     * Handles enumerator style for this component.
+     *
+     * @param style style
+     * @return result
+     */
     public Tree enumeratorStyle(Style style) {
         ensureRenderer().style().setEnumeratorFunction((children, index) -> style);
         return this;
     }
 
+    /**
+     * Handles enumerator style func for this component.
+     *
+     * @param function function
+     * @return result
+     */
     public Tree enumeratorStyleFunc(StyleFunction function) {
         StyleFunction fn = function;
         if (fn == null) {
@@ -150,16 +215,34 @@ public class Tree implements Node {
         return this;
     }
 
+    /**
+     * Handles root style for this component.
+     *
+     * @param style style
+     * @return result
+     */
     public Tree rootStyle(Style style) {
         ensureRenderer().style().setRootStyle(style);
         return this;
     }
 
+    /**
+     * Handles item style for this component.
+     *
+     * @param style style
+     * @return result
+     */
     public Tree itemStyle(Style style) {
         ensureRenderer().style().setItemFunction((children, index) -> style);
         return this;
     }
 
+    /**
+     * Handles item style func for this component.
+     *
+     * @param function function
+     * @return result
+     */
     public Tree itemStyleFunc(StyleFunction function) {
         StyleFunction fn = function;
         if (fn == null) {
@@ -169,30 +252,67 @@ public class Tree implements Node {
         return this;
     }
 
+    /**
+     * Handles enumerator for this component.
+     *
+     * @param enumerator enumerator
+     * @return result
+     */
     public Tree enumerator(TreeEnumerator enumerator) {
         ensureRenderer().setEnumerator(enumerator);
         return this;
     }
 
+    /**
+     * Handles indenter for this component.
+     *
+     * @param indenter indenter
+     * @return result
+     */
     public Tree indenter(TreeIndenter indenter) {
         ensureRenderer().setIndenter(indenter);
         return this;
     }
 
+    /**
+     * Handles with root for this component.
+     *
+     * @param root root
+     * @return result
+     */
     public static Tree withRoot(Object root) {
         Tree tree = new Tree();
         return tree.root(root);
     }
 
+    /**
+     * Handles new leaf for this component.
+     *
+     * @param value value
+     * @param hidden hidden
+     * @return result
+     */
     public static Leaf newLeaf(Object value, boolean hidden) {
         return new Leaf(value, hidden);
     }
 
+    /**
+     * Updates the value.
+     *
+     * @param value value
+     * @return result
+     */
     public Tree setValue(Object value) {
         setValue(String.valueOf(value));
         return this;
     }
 
+    /**
+     * Handles root for this component.
+     *
+     * @param root root
+     * @return result
+     */
     public Tree root(Object root) {
         switch (root) {
             case Tree tree -> {
@@ -206,6 +326,11 @@ public class Tree implements Node {
         return this;
     }
 
+    /**
+     * Handles children for this component.
+     *
+     * @return result
+     */
     @Override
     public Children children() {
         List<Node> children = new ArrayList<>();
@@ -216,6 +341,11 @@ public class Tree implements Node {
     }
 
 
+    /**
+     * Handles renderer for this component.
+     *
+     * @return result
+     */
     Renderer renderer() {
         return renderer;
     }
@@ -227,6 +357,11 @@ public class Tree implements Node {
         return ensureRenderer().render(this, true, "");
     }
 
+    /**
+     * Compatibility port of EnsureParentResult to preserve upstream behavior.
+     * <p>
+     * Lipgloss: tree/tree.go.
+     */
     private record EnsureParentResult(Tree tree, int whatever) {
     }
 }

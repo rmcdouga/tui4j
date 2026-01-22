@@ -16,6 +16,8 @@ import java.util.List;
  * <p>
  * Port of github.com/charmbracelet/lipgloss/table/table.go.
  * Renders structured data in a grid with customizable borders, headers, and cell styling.
+ * <p>
+ * Lipgloss: table/table.go.
  */
 public class Table {
 
@@ -47,12 +49,22 @@ public class Table {
     private int[] widths;
     private int[] heights;
 
+    /**
+     * Creates Table to keep this component ready for use.
+     *
+     * @param renderer renderer
+     */
     public Table(Renderer renderer) {
         this.border = createDefaultBorder();
         this.borderStyle = Style.newStyle();
         this.data = new StringData();
     }
 
+    /**
+     * Creates default border for this component.
+     *
+     * @return result
+     */
     private Border createDefaultBorder() {
         return new Border(
                 " ", " ", " ", " ",
@@ -61,15 +73,33 @@ public class Table {
         );
     }
 
+    /**
+     * Creates a value for this component.
+     *
+     * @return result
+     */
     public static Table create() {
         return new Table(Renderer.defaultRenderer());
     }
 
+    /**
+     * Handles style func for this component.
+     *
+     * @param styleFunc style func
+     * @return result
+     */
     public Table styleFunc(StyleFunc styleFunc) {
         this.styleFunc = styleFunc;
         return this;
     }
 
+    /**
+     * Handles style for this component.
+     *
+     * @param row row
+     * @param col col
+     * @return result
+     */
     Style style(int row, int col) {
         if (styleFunc == null) {
             return Style.newStyle();
@@ -77,6 +107,12 @@ public class Table {
         return styleFunc.apply(row, col);
     }
 
+    /**
+     * Handles data for this component.
+     *
+     * @param data data
+     * @return result
+     */
     public Table data(Data data) {
         if (data == null) {
             throw new IllegalArgumentException("data cannot be null");
@@ -85,6 +121,12 @@ public class Table {
         return this;
     }
 
+    /**
+     * Handles rows for this component.
+     *
+     * @param rows rows
+     * @return result
+     */
     public Table rows(String[]... rows) {
         if (data instanceof StringData stringData) {
             for (String[] row : rows) {
@@ -94,6 +136,12 @@ public class Table {
         return this;
     }
 
+    /**
+     * Handles row for this component.
+     *
+     * @param row row
+     * @return result
+     */
     public Table row(String... row) {
         if (data instanceof StringData stringData) {
             stringData.append(row);
@@ -101,6 +149,11 @@ public class Table {
         return this;
     }
 
+    /**
+     * Handles clear rows for this component.
+     *
+     * @return result
+     */
     public Table clearRows() {
         if (data instanceof StringData stringData) {
             stringData.clear();
@@ -110,6 +163,12 @@ public class Table {
         return this;
     }
 
+    /**
+     * Handles headers for this component.
+     *
+     * @param headers headers
+     * @return result
+     */
     public Table headers(String... headers) {
         for (String header : headers) {
             this.headers.add(header);
@@ -117,67 +176,145 @@ public class Table {
         return this;
     }
 
+    /**
+     * Handles border for this component.
+     *
+     * @param border border
+     * @return result
+     */
     public Table border(Border border) {
         this.border = border;
         return this;
     }
 
+    /**
+     * Handles border top for this component.
+     *
+     * @param borderTop border top
+     * @return result
+     */
     public Table borderTop(boolean borderTop) {
         this.borderTop = borderTop;
         return this;
     }
 
+    /**
+     * Handles border bottom for this component.
+     *
+     * @param borderBottom border bottom
+     * @return result
+     */
     public Table borderBottom(boolean borderBottom) {
         this.borderBottom = borderBottom;
         return this;
     }
 
+    /**
+     * Handles border left for this component.
+     *
+     * @param borderLeft border left
+     * @return result
+     */
     public Table borderLeft(boolean borderLeft) {
         this.borderLeft = borderLeft;
         return this;
     }
 
+    /**
+     * Handles border right for this component.
+     *
+     * @param borderRight border right
+     * @return result
+     */
     public Table borderRight(boolean borderRight) {
         this.borderRight = borderRight;
         return this;
     }
 
+    /**
+     * Handles border header for this component.
+     *
+     * @param borderHeader border header
+     * @return result
+     */
     public Table borderHeader(boolean borderHeader) {
         this.borderHeader = borderHeader;
         return this;
     }
 
+    /**
+     * Handles border column for this component.
+     *
+     * @param borderColumn border column
+     * @return result
+     */
     public Table borderColumn(boolean borderColumn) {
         this.borderColumn = borderColumn;
         return this;
     }
 
+    /**
+     * Handles border row for this component.
+     *
+     * @param borderRow border row
+     * @return result
+     */
     public Table borderRow(boolean borderRow) {
         this.borderRow = borderRow;
         return this;
     }
 
+    /**
+     * Handles border style for this component.
+     *
+     * @param borderStyle border style
+     * @return result
+     */
     public Table borderStyle(Style borderStyle) {
         this.borderStyle = borderStyle;
         return this;
     }
 
+    /**
+     * Handles width for this component.
+     *
+     * @param width width
+     * @return result
+     */
     public Table width(int width) {
         this.width = width;
         return this;
     }
 
+    /**
+     * Handles height for this component.
+     *
+     * @param height height
+     * @return result
+     */
     public Table height(int height) {
         this.height = height;
         this.useManualHeight = true;
         return this;
     }
 
+    /**
+     * Handles offset for this component.
+     *
+     * @param offset offset
+     * @return result
+     */
     public Table offset(int offset) {
         this.offset = offset;
         return this;
     }
 
+    /**
+     * Handles wrap for this component.
+     *
+     * @param wrap wrap
+     * @return result
+     */
     public Table wrap(boolean wrap) {
         this.wrap = wrap;
         return this;
@@ -243,6 +380,11 @@ public class Table {
                 .render(sb.toString());
     }
 
+    /**
+     * Handles compute height for this component.
+     *
+     * @return result
+     */
     private int computeHeight() {
         boolean hasHeaders = !headers.isEmpty();
         int sumHeights = 0;
@@ -254,6 +396,11 @@ public class Table {
                 boolToInt(borderHeader) + data.rows() * boolToInt(borderRow);
     }
 
+    /**
+     * Handles compute width for this component.
+     *
+     * @return result
+     */
     private int computeWidth() {
         int totalWidth = 0;
         for (int w : widths) {
@@ -271,10 +418,21 @@ public class Table {
         return totalWidth;
     }
 
+    /**
+     * Handles bool to int for this component.
+     *
+     * @param b b
+     * @return result
+     */
     private int boolToInt(boolean b) {
         return b ? 1 : 0;
     }
 
+    /**
+     * Handles construct top border for this component.
+     *
+     * @return result
+     */
     private String constructTopBorder() {
         StringBuilder s = new StringBuilder();
         if (borderLeft) {
@@ -292,6 +450,11 @@ public class Table {
         return s.toString();
     }
 
+    /**
+     * Handles construct bottom border for this component.
+     *
+     * @return result
+     */
     private String constructBottomBorder() {
         StringBuilder s = new StringBuilder();
         if (borderLeft) {
@@ -309,6 +472,11 @@ public class Table {
         return s.toString();
     }
 
+    /**
+     * Handles construct headers for this component.
+     *
+     * @return result
+     */
     private String constructHeaders() {
         int headerHeight = heights[0];
 
@@ -357,6 +525,12 @@ public class Table {
         return s.toString();
     }
 
+    /**
+     * Handles construct rows for this component.
+     *
+     * @param availableLines available lines
+     * @return result
+     */
     private String constructRows(int availableLines) {
         StringBuilder sb = new StringBuilder();
 
@@ -381,6 +555,13 @@ public class Table {
         return sb.toString();
     }
 
+    /**
+     * Handles construct row for this component.
+     *
+     * @param index index
+     * @param isOverflow is overflow
+     * @return result
+     */
     private String constructRow(int index, boolean isOverflow) {
         StringBuilder s = new StringBuilder();
 
@@ -448,6 +629,12 @@ public class Table {
         return s.toString();
     }
 
+    /**
+     * Handles join horizontal for this component.
+     *
+     * @param parts parts
+     * @return result
+     */
     private String joinHorizontal(String... parts) {
         if (parts.length == 0) {
             return "";
@@ -481,6 +668,14 @@ public class Table {
         return result.toString();
     }
 
+    /**
+     * Handles truncate cell for this component.
+     *
+     * @param cell cell
+     * @param rowIndex row index
+     * @param colIndex col index
+     * @return result
+     */
     private String truncateCell(String cell, int rowIndex, int colIndex) {
         boolean hasHeaders = !headers.isEmpty();
         int rowHeight = heights[rowIndex + boolToInt(hasHeaders)];
@@ -491,6 +686,9 @@ public class Table {
         return Truncate.truncate(cell, length, "…");
     }
 
+    /**
+     * Handles resize for this component.
+     */
     private void resize() {
         int numCols = Math.max(headers.size(), data != null ? data.columns() : 0);
         calculateWidths(numCols);
@@ -498,6 +696,11 @@ public class Table {
         adjustWidthsForConstraint(numCols);
     }
 
+    /**
+     * Handles calculate widths for this component.
+     *
+     * @param numCols num cols
+     */
     private void calculateWidths(int numCols) {
         widths = new int[numCols];
         for (int c = 0; c < numCols; c++) {
@@ -528,6 +731,11 @@ public class Table {
         }
     }
 
+    /**
+     * Handles calculate heights for this component.
+     *
+     * @param numCols num cols
+     */
     private void calculateHeights(int numCols) {
         heights = new int[data.rows() + boolToInt(!headers.isEmpty())];
         for (int r = 0; r < data.rows(); r++) {
@@ -569,6 +777,11 @@ public class Table {
         }
     }
 
+    /**
+     * Handles adjust widths for constraint for this component.
+     *
+     * @param numCols num cols
+     */
     private void adjustWidthsForConstraint(int numCols) {
         if (width > 0) {
             int availableWidth = width;
@@ -608,6 +821,11 @@ public class Table {
         }
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return render();

@@ -34,6 +34,13 @@ public final class Filter implements Data {
         return this;
     }
 
+    /**
+     * Handles at for this component.
+     *
+     * @param row row
+     * @param cell cell
+     * @return result
+     */
     @Override
     public String at(int row, int cell) {
         int index = 0;
@@ -48,6 +55,11 @@ public final class Filter implements Data {
         return "";
     }
 
+    /**
+     * Handles rows for this component.
+     *
+     * @return result
+     */
     @Override
     public int rows() {
         int count = 0;
@@ -59,6 +71,11 @@ public final class Filter implements Data {
         return count;
     }
 
+    /**
+     * Handles columns for this component.
+     *
+     * @return result
+     */
     @Override
     public int columns() {
         return data.columns();
