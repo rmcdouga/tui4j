@@ -46,6 +46,14 @@ public class MainViewModel implements Model {
     private int width;
     private int height;
 
+    /**
+     * Creates MainViewModel to keep example ready for use.
+     *
+     * @param removeBookViewModel remove book view model
+     * @param bookItemDelegateFactory book item delegate factory
+     * @param bookDataSource book data source
+     * @param booksGenerator books generator
+     */
     public MainViewModel(RemoveBookViewModel removeBookViewModel,
                          BookItemDelegateFactory bookItemDelegateFactory,
                          BookDataSource bookDataSource,
@@ -73,6 +81,11 @@ public class MainViewModel implements Model {
         this.booksGenerator = booksGenerator;
     }
 
+    /**
+     * Supplies the initial command for the model.
+     *
+     * @return initial command
+     */
     @Override
     public Command init() {
         return Command.batch(
@@ -81,11 +94,22 @@ public class MainViewModel implements Model {
         );
     }
 
+    /**
+     * Handles generate books for example.
+     *
+     * @return result
+     */
     private Message generateBooks() {
         booksGenerator.generateBooks(1000);
         return new BooksGenerated();
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @return next model state and command
+     */
     @Override
     public UpdateResult<? extends Model> update(Message msg) {
         if (msg instanceof WindowSizeMessage windowSizeMessage) {
@@ -134,6 +158,11 @@ public class MainViewModel implements Model {
         return UpdateResult.from(this, list.update(msg).command());
     }
 
+    /**
+     * Renders the model view for display.
+     *
+     * @return rendered view
+     */
     @Override
     public String view() {
         if (!booksGenerated) {
@@ -146,10 +175,20 @@ public class MainViewModel implements Model {
         );
     }
 
+    /**
+     * Handles list view for example.
+     *
+     * @return result
+     */
     private String listView() {
         return list.view();
     }
 
+    /**
+     * Handles details view for example.
+     *
+     * @return result
+     */
     private String detailsView() {
         if (choosenItem == null) {
             return noSelectionStyle.render("- choose a book -");
@@ -170,6 +209,9 @@ public class MainViewModel implements Model {
         );
     }
 
+    /**
+     * Support type for the Spring example.
+     */
     record BooksGenerated() implements Message {
 
     }

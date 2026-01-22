@@ -13,6 +13,12 @@ import org.springframework.data.repository.query.Param;
  */
 public interface BookRepository extends JpaRepository<Book, Long> {
 
+    /**
+     * Handles find by title is containing for example.
+     *
+     * @param @Param("title" @param("title"
+     * @return result
+     */
     @Query(name = "Book.findByTitleIsContaining")
     Page<Book> findByTitleIsContaining(@Param("title") String title, Pageable pageable);
 }

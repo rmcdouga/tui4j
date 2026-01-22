@@ -23,6 +23,14 @@ public class BookDataSource implements ListDataSource {
 
     private final BookRepository bookRepository;
 
+    /**
+     * Handles fetch items for example.
+     *
+     * @param page page
+     * @param perPage per page
+     * @param filterValue filter value
+     * @return result
+     */
     @Override
     public FetchedItems fetchItems(int page, int perPage, String filterValue) {
         try {
@@ -40,6 +48,14 @@ public class BookDataSource implements ListDataSource {
                 filterValue);
     }
 
+    /**
+     * Handles fetched items for example.
+     *
+     * @param filteredBooks filtered books
+     * @param allItems all items
+     * @param filterValue filter value
+     * @return result
+     */
     private static FetchedItems fetchedItems(Page<Book> filteredBooks, long allItems, String filterValue) {
         return new FetchedItems(
                 filteredBooks
@@ -53,6 +69,13 @@ public class BookDataSource implements ListDataSource {
         );
     }
 
+    /**
+     * Handles find matched indexes for example.
+     *
+     * @param title title
+     * @param filterValue filter value
+     * @return result
+     */
     private static int[] findMatchedIndexes(String title, String filterValue) {
         if (filterValue == null || filterValue.isEmpty()) {
             return new int[0];

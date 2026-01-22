@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfiguration {
 
+    /**
+     * Handles faker for example.
+     *
+     * @return result
+     */
     @Bean
     public Faker faker() {
         return new Faker();

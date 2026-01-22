@@ -3,6 +3,9 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
+import com.williamcallahan.tui4j.message.OpenUrlMessage;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

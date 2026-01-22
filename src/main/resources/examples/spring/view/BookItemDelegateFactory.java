@@ -12,11 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookItemDelegateFactory {
 
+    /**
+     * Support type for the Spring example.
+     */
     public static class DelegateKeyMap implements KeyMap {
 
         private final Binding remove;
         private final Binding choose;
 
+        /**
+         * Creates DelegateKeyMap to keep example ready for use.
+         */
         public DelegateKeyMap() {
             this.remove = new Binding(
                     Binding.withKeys("x"),
@@ -28,6 +34,11 @@ public class BookItemDelegateFactory {
             );
         }
 
+        /**
+         * Handles short help for example.
+         *
+         * @return result
+         */
         @Override
         public Binding[] shortHelp() {
             return new Binding[]{
@@ -36,6 +47,11 @@ public class BookItemDelegateFactory {
             };
         }
 
+        /**
+         * Handles full help for example.
+         *
+         * @return result
+         */
         @Override
         public Binding[][] fullHelp() {
             return new Binding[][]{
@@ -43,15 +59,31 @@ public class BookItemDelegateFactory {
             };
         }
 
+        /**
+         * Handles remove for example.
+         *
+         * @return result
+         */
         public Binding remove() {
             return remove;
         }
 
+        /**
+         * Handles choose for example.
+         *
+         * @return result
+         */
         public Binding choose() {
             return choose;
         }
     }
 
+    /**
+     * Handles new bok item delegate for example.
+     *
+     * @param keyMap key map
+     * @return result
+     */
     public DefaultDelegate newBokItemDelegate(DelegateKeyMap keyMap) {
         DefaultDelegate defaultDelegate = new DefaultDelegate();
         defaultDelegate.setShortHelpFunc(keyMap::shortHelp);

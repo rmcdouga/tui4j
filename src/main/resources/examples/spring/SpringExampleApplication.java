@@ -10,6 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SpringExampleApplication {
 
+    /**
+     * Runs the example program.
+     *
+     * @param args args
+     */
     public static void main(String[] args) {
         SpringApplication.run(SpringExampleApplication.class, args);
     }

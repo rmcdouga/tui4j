@@ -19,6 +19,11 @@ public class BooksGenerator {
     private final Faker faker;
     private final BookRepository bookRepository;
 
+    /**
+     * Handles generate books for example.
+     *
+     * @param booksCount books count
+     */
     @Transactional
     public void generateBooks(int booksCount) {
         for (int i = 0; i < booksCount; i++) {

@@ -13,10 +13,20 @@ public class Tui4jCommandLineRunner implements CommandLineRunner {
 
     private final MainViewModel tui4jApplication;
 
+    /**
+     * Creates Tui4jCommandLineRunner to keep example ready for use.
+     *
+     * @param tui4jApplication tui4j application
+     */
     public Tui4jCommandLineRunner(MainViewModel tui4jApplication) {
         this.tui4jApplication = tui4jApplication;
     }
 
+    /**
+     * Handles run for example.
+     *
+     * @param args args
+     */
     @Override
     public void run(String... args) throws Exception {
         new Program(tui4jApplication)

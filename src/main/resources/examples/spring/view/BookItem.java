@@ -16,11 +16,21 @@ public class BookItem implements DefaultItem {
 
     private final Book book;
 
+    /**
+     * Handles title for example.
+     *
+     * @return result
+     */
     @Override
     public String title() {
         return book.getTitle();
     }
 
+    /**
+     * Handles authors for example.
+     *
+     * @return result
+     */
     public String authors() {
         StringBuilder authorsString = new StringBuilder();
 
@@ -35,19 +45,39 @@ public class BookItem implements DefaultItem {
         return authorsString.toString();
     }
 
+    /**
+     * Handles book for example.
+     *
+     * @return result
+     */
     public Book book() {
         return book;
     }
 
+    /**
+     * Returns the description.
+     *
+     * @return result
+     */
     public String getDescription() {
         return book.getDescription();
     }
 
+    /**
+     * Handles description for example.
+     *
+     * @return result
+     */
     @Override
     public String description() {
         return book.getSynopsis();
     }
 
+    /**
+     * Handles filter value for example.
+     *
+     * @return result
+     */
     @Override
     public String filterValue() {
         return book.getTitle();

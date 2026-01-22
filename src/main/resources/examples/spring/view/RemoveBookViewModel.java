@@ -38,6 +38,11 @@ public class RemoveBookViewModel implements Model, KeyMap {
     private final Binding back;
     private Help help;
 
+    /**
+     * Creates RemoveBookViewModel to keep example ready for use.
+     *
+     * @param bookRepository book repository
+     */
     public RemoveBookViewModel(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
         this.help = new Help();
@@ -57,6 +62,15 @@ public class RemoveBookViewModel implements Model, KeyMap {
         this.back = new Binding(Binding.withKeys("esc"), Binding.withHelp("esc", "go back"));
     }
 
+    /**
+     * Handles prepare for example.
+     *
+     * @param previousModel previous model
+     * @param book book
+     * @param width width
+     * @param height height
+     * @return result
+     */
     public Model prepare(Model previousModel, Book book, int width, int height) {
         this.previousModel = previousModel;
         this.book = book;
@@ -65,11 +79,22 @@ public class RemoveBookViewModel implements Model, KeyMap {
         return this;
     }
 
+    /**
+     * Supplies the initial command for the model.
+     *
+     * @return initial command
+     */
     @Override
     public Command init() {
         return null;
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @return next model state and command
+     */
     @Override
     public UpdateResult<? extends Model> update(Message msg) {
         if (msg instanceof KeyPressMessage keyPressMessage) {
@@ -85,6 +110,11 @@ public class RemoveBookViewModel implements Model, KeyMap {
         return UpdateResult.from(this);
     }
 
+    /**
+     * Handles remove book for example.
+     *
+     * @return result
+     */
     private Command removeBook() {
         return () -> {
             Long bookId = book.getId();
@@ -95,6 +125,11 @@ public class RemoveBookViewModel implements Model, KeyMap {
         };
     }
 
+    /**
+     * Renders the model view for display.
+     *
+     * @return rendered view
+     */
     @Override
     public String view() {
         return PlacementDecorator.place(
@@ -117,6 +152,11 @@ public class RemoveBookViewModel implements Model, KeyMap {
         );
     }
 
+    /**
+     * Handles short help for example.
+     *
+     * @return result
+     */
     @Override
     public Binding[] shortHelp() {
         return new Binding[]{
@@ -125,6 +165,11 @@ public class RemoveBookViewModel implements Model, KeyMap {
         };
     }
 
+    /**
+     * Handles full help for example.
+     *
+     * @return result
+     */
     @Override
     public Binding[][] fullHelp() {
         return new Binding[][]{
