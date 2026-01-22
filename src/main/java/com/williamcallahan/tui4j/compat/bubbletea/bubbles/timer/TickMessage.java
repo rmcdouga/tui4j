@@ -8,7 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * <p>
  * Bubbles: timer/timer.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class TickMessage implements Message {
     private final com.williamcallahan.tui4j.compat.bubbles.timer.TickMessage delegate;
 
@@ -19,7 +19,7 @@ public class TickMessage implements Message {
      * @param timeout whether this tick hit the timeout
      * @param tag timer tag
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public TickMessage(int id, boolean timeout, int tag) {
         this.delegate = new com.williamcallahan.tui4j.compat.bubbles.timer.TickMessage(id, timeout, tag);
     }

@@ -8,7 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * <p>
  * Bubbles: timer/timer.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class TimeoutMessage implements Message {
     private final com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage delegate;
 
@@ -17,7 +17,7 @@ public class TimeoutMessage implements Message {
      *
      * @param id timer id
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public TimeoutMessage(int id) {
         this.delegate = new com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage(id);
     }

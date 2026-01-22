@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * <p>
  * Bubbles: spinner/spinner.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class TickMessage implements Message {
     private final com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage delegate;
 
@@ -21,7 +21,7 @@ public class TickMessage implements Message {
      * @param tag spinner tag
      * @param id spinner id
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public TickMessage(LocalDateTime time, int tag, int id) {
         this.delegate = new com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage(time, tag, id);
     }

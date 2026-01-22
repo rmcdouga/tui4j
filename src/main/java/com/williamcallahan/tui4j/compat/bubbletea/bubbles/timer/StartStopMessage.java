@@ -8,7 +8,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * <p>
  * Bubbles: timer/timer.go.
  */
-@Deprecated(since = "0.3.0", forRemoval = true)
+@Deprecated(since = "0.3.0")
 public class StartStopMessage implements Message {
     private final com.williamcallahan.tui4j.compat.bubbles.timer.StartStopMessage delegate;
 
@@ -18,7 +18,7 @@ public class StartStopMessage implements Message {
      * @param id timer id
      * @param running whether the timer should run
      */
-    @Deprecated(since = "0.3.0", forRemoval = true)
+    @Deprecated(since = "0.3.0")
     public StartStopMessage(int id, boolean running) {
         this.delegate = new com.williamcallahan.tui4j.compat.bubbles.timer.StartStopMessage(id, running);
     }
