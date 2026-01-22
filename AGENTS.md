@@ -15,10 +15,15 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 - FUN1 Keep functions small and focused; one responsibility per function.
 - DRY1 Remove duplication; reuse existing utilities instead of rewriting logic.
 - ERR1 Use exceptions for exceptional cases; avoid defensive checks on trusted inputs.
-- CMT1 Comments and Javadocs only when they add clarity; avoid academic tags like @author/@since/@version.
+- CMT1 Comments must add clarity; Javadocs are required and must be concise; avoid academic tags except required @deprecated/@since.
+- JDC1 Javadocs are required on every file, class, and method; keep them clean, succinct, modern, and standards-compliant; explain why as much as what.
+- JDC2 For compat ports, Javadocs must include the full upstream relative source path for the 1:1 port reference.
+- JDC3 Deprecations require both @Deprecated and a Javadoc @deprecated tag that clearly states why (upstream vs compat) and points to the designated successor class/method; include since/@since when required.
 - FMT1 Keep formatting and style consistent with the surrounding file.
 - TST1 Update or add tests when behavior changes; do not change behavior without coverage.
 - DEP1 Avoid unnecessary dependencies and unused code.
+- DPR1 No @deprecated imports; this rule may not be suppressed.
+- DPR2 Deprecated code must be a thin shim extending its successor.
 
 ## Details
 
@@ -28,10 +33,15 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 - FUN1 Split large methods; reduce branching and nested blocks when it improves readability.
 - DRY1 Replace repeated logic with a shared function, utility, or existing helper.
 - ERR1 Do not add guard clauses or try/catch in trusted codepaths unless required by the surrounding code or error model.
-- CMT1 Keep documentation short and direct; explain why, not what; keep Javadocs concise and human.
+- CMT1 Keep documentation short and direct; explain why as much as what; avoid academic tags except required @deprecated/@since.
+- JDC1 Every file, class, and method must have standards-compliant Javadoc with concise, modern syntax.
+- JDC2 Compat port Javadocs must include the full upstream relative path for the 1:1 source file being ported.
+- JDC3 Deprecations must use @Deprecated and a Javadoc @deprecated tag with a clear reason (upstream vs compat) and a mandatory pointer to the successor class/method; include since/@since when required.
 - FMT1 Follow existing spacing, imports, and ordering; avoid style changes unrelated to the task.
 - TST1 Prefer fast, focused tests; keep tests aligned with the public contract.
 - DEP1 Remove unused imports, dependencies, and dead code.
+- DPR1 Never import @deprecated classes/methods; this rule may not be suppressed.
+- DPR2 Use the thinnest possible DRY-compliant shim extending the successor canonical replacement.
 
 ## Project-Specific
 
