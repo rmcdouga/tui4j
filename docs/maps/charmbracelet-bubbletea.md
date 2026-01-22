@@ -109,34 +109,34 @@ Use the corresponding `*Message` classes instead.
 - [x] **renderer.go** → `render/Renderer.java`
 
 - [x] **screen.go**
-  - `WindowSizeMsg.java`
-  - ~~`WindowSizeMessage.java`~~ @deprecated
-  - `ClearScreenMsg.java`
-  - ~~`ClearScreenMessage.java`~~ @deprecated
-  - `EnterAltScreenMsg.java`
-  - ~~`EnterAltScreenMessage.java`~~ @deprecated
+  - `WindowSizeMessage.java`
+  - ~~`WindowSizeMsg.java`~~ @deprecated
+  - `ClearScreenMessage.java`
+  - ~~`ClearScreenMsg.java`~~ @deprecated
+  - `EnterAltScreenMessage.java`
+  - ~~`EnterAltScreenMsg.java`~~ @deprecated
   - ~~`EnterAltScreen.java`~~ @deprecated
-  - `ExitAltScreenMsg.java`
-  - ~~`ExitAltScreenMessage.java`~~ @deprecated
+  - `ExitAltScreenMessage.java`
+  - ~~`ExitAltScreenMsg.java`~~ @deprecated
   - ~~`ExitAltScreen.java`~~ @deprecated
-  - `EnableBracketedPasteMsg.java`
-  - ~~`EnableBracketedPasteMessage.java`~~ @deprecated
-  - `DisableBracketedPasteMsg.java`
-  - ~~`DisableBracketedPasteMessage.java`~~ @deprecated
-  - `EnableMouseCellMotionMsg.java`
-  - ~~`EnableMouseCellMotionMessage.java`~~ @deprecated
-  - `EnableMouseAllMotionMsg.java`
-  - ~~`EnableMouseAllMotionMessage.java`~~ @deprecated
-  - `DisableMouseMsg.java`
-  - ~~`DisableMouseMessage.java`~~ @deprecated
-  - `CheckWindowSizeMsg.java`
-  - ~~`CheckWindowSizeMessage.java`~~ @deprecated
-  - `ResetMouseCursorMsg.java`
-  - ~~`ResetMouseCursorMessage.java`~~ @deprecated
-  - `SetMouseCursorPointerMsg.java`
-  - ~~`SetMouseCursorPointerMessage.java`~~ @deprecated
-  - `SetMouseCursorTextMsg.java`
-  - ~~`SetMouseCursorTextMessage.java`~~ @deprecated
+  - `EnableBracketedPasteMessage.java`
+  - ~~`EnableBracketedPasteMsg.java`~~ @deprecated
+  - `DisableBracketedPasteMessage.java`
+  - ~~`DisableBracketedPasteMsg.java`~~ @deprecated
+  - `EnableMouseCellMotionMessage.java`
+  - ~~`EnableMouseCellMotionMsg.java`~~ @deprecated
+  - `EnableMouseAllMotionMessage.java`
+  - ~~`EnableMouseAllMotionMsg.java`~~ @deprecated
+  - `DisableMouseMessage.java`
+  - ~~`DisableMouseMsg.java`~~ @deprecated
+  - `CheckWindowSizeMessage.java`
+  - ~~`CheckWindowSizeMsg.java`~~ @deprecated
+  - `ResetMouseCursorMessage.java`
+  - ~~`ResetMouseCursorMsg.java`~~ @deprecated
+  - `SetMouseCursorPointerMessage.java`
+  - ~~`SetMouseCursorPointerMsg.java`~~ @deprecated
+  - `SetMouseCursorTextMessage.java`
+  - ~~`SetMouseCursorTextMsg.java`~~ @deprecated
 
 - [x] **screen_test.go** → `ScreenTest.java`
 
@@ -146,8 +146,8 @@ Use the corresponding `*Message` classes instead.
 
 - [x] **standard_renderer.go**
   - `render/StandardRenderer.java`
-  - `PrintLineMsg.java`
-  - ~~`PrintLineMessage.java`~~ @deprecated
+  - `PrintLineMessage.java`
+  - ~~`PrintLineMsg.java`~~ @deprecated
 
 - [x] **tea.go**
   - `Program.java`
@@ -155,15 +155,15 @@ Use the corresponding `*Message` classes instead.
   - `Message.java`
   - `MessageShim.java`
   - `UpdateResult.java`
-  - `QuitMsg.java`
-  - ~~`QuitMessage.java`~~ @deprecated
-  - `SuspendMsg.java`
-  - ~~`SuspendMessage.java`~~ @deprecated
-  - `ResumeMsg.java`
-  - ~~`ResumeMessage.java`~~ @deprecated
+  - `QuitMessage.java`
+  - ~~`QuitMsg.java`~~ @deprecated
+  - `SuspendMessage.java`
+  - ~~`SuspendMsg.java`~~ @deprecated
+  - `ResumeMessage.java`
+  - ~~`ResumeMsg.java`~~ @deprecated
   - `ProgramException.java`
-  - `ErrorMsg.java`
-  - ~~`ErrorMessage.java`~~ @deprecated
+  - `ErrorMessage.java`
+  - ~~`ErrorMsg.java`~~ @deprecated
 
 - [x] **tea_init.go** → `Program.java`
 

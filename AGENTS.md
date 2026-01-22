@@ -23,7 +23,7 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 - TST1 Update or add tests when behavior changes; do not change behavior without coverage.
 - DEP1 Avoid unnecessary dependencies and unused code.
 - DPR1 No @deprecated imports; this rule may not be suppressed.
-- DPR2 Deprecated code must be a thin shim extending its successor.
+- DPR2 Deprecated code must be a thin shim extending its successor; no aliases, fallbacks, or alternate implementations.
 
 ## Details
 
@@ -41,7 +41,7 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 - TST1 Prefer fast, focused tests; keep tests aligned with the public contract.
 - DEP1 Remove unused imports, dependencies, and dead code.
 - DPR1 Never import @deprecated classes/methods; this rule may not be suppressed.
-- DPR2 Use the thinnest possible DRY-compliant shim extending the successor canonical replacement.
+- DPR2 Use the thinnest possible DRY-compliant shim extending the successor canonical replacement; no aliases, fallbacks, or alternate implementations allowed.
 
 ## Project-Specific
 
@@ -86,6 +86,15 @@ When porting or comparing behavior, consult these Charm repositories:
 - **JLine 3** (org.jline): terminal I/O, raw mode, key parsing — https://github.com/jline/jline3
 - **ICU4J** (com.ibm.icu): Unicode text width, grapheme clusters — https://github.com/unicode-org/icu
 - **Apache Commons Text**: text utilities — https://github.com/apache/commons-text
+
+### Deprecation Policy
+- DPR3 **docs/maps/*.md** is the source of truth for canonical vs deprecated designations.
+- DPR4 Canonical classes are standalone implementations; deprecated shims ONLY extend them.
+- DPR5 Naming: `*Message` = canonical, `*Msg` = deprecated shim (extends the `*Message` variant).
+- DPR6 Deprecated shims must be thin wrappers: constructor calls `super(...)`, no additional logic.
+- DPR7 Canonical classes NEVER import, reference, or depend on deprecated types.
+- DPR8 No aliases, fallbacks, or alternate implementations—one canonical source of truth per concept.
+- DPR9 `@SuppressWarnings("removal")` is forbidden; fix the root cause instead.
 
 ### Porting Guidelines
 - Check STATUS.md for current porting progress before implementing new bubbles.
