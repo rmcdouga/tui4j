@@ -6,8 +6,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
-import com.williamcallahan.tui4j.compat.bubbletea.ErrorMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.ErrorMessage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 /**
  * File selection bubble.
  * <p>
- * Port of `bubbles/filepicker`.
+ * Port of github.com/charmbracelet/bubbles/filepicker/filepicker.go.
  * Allows navigating the filesystem and selecting files or directories.
  */
 public class FilePicker implements Model {
@@ -61,6 +61,9 @@ public class FilePicker implements Model {
     private static final AtomicInteger nextId = new AtomicInteger(1);
     private List<String> readErrors;
 
+    /**
+     * Creates a file picker with default configuration.
+     */
     public FilePicker() {
         this.id = generateId();
         this.currentDirectory = ".";
@@ -85,6 +88,11 @@ public class FilePicker implements Model {
         this.readErrors = new ArrayList<>();
     }
 
+    /**
+     * Returns a unique instance identifier.
+     *
+     * @return unique id for this picker
+     */
     private int generateId() {
         return nextId.getAndIncrement();
     }
@@ -92,12 +100,21 @@ public class FilePicker implements Model {
     /**
      * Returns a command to populate the file list from the current directory.
      * Respects showHidden rules.
+     *
+     * @return command that reads the current directory
      */
     @Override
     public Command init() {
         return readDir(this.currentDirectory, this.showHidden);
     }
 
+    /**
+     * Builds a command that reads the directory contents.
+     *
+     * @param directory directory to read
+     * @param showHidden whether to include hidden entries
+     * @return command that emits a read directory message
+     */
     private Command readDir(String directory, boolean showHidden) {
         return () -> {
             try {
@@ -129,11 +146,17 @@ public class FilePicker implements Model {
                 }
                 return new ReadDirMessage(this.id, entries, errors);
             } catch (IOException e) {
-                return new ErrorMsg(e);
+                return new ErrorMessage(e);
             }
         };
     }
 
+    /**
+     * Returns true when the path is not a directory.
+     *
+     * @param p path to test
+     * @return true when the path is not a directory
+     */
     private static boolean isNotDir(Path p) {
         try {
             return !Files.isDirectory(p);
@@ -144,6 +167,13 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Returns a permissions string for the path.
+     *
+     * @param p path to inspect
+     * @return permissions string
+     * @throws IOException when permissions cannot be read
+     */
     private static String getPermissions(Path p) throws IOException {
         try {
             return Files.getPosixFilePermissions(p).toString();
@@ -155,6 +185,11 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Sets the maximum visible rows for the picker.
+     *
+     * @param height height in rows
+     */
     public void setHeight(int height) {
         this.height = height;
         if (this.max > this.height - 1) {
@@ -162,6 +197,12 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Sets terminal size for layout calculations.
+     *
+     * @param width terminal width in columns
+     * @param height terminal height in rows
+     */
     public void setTerminalSize(int width, int height) {
         if (this.autoHeight) {
             this.height = height - MARGIN_BOTTOM;
@@ -169,9 +210,15 @@ public class FilePicker implements Model {
         this.max = this.height - 1;
     }
 
+    /**
+     * Updates the picker with a message.
+     *
+     * @param msg message to handle
+     * @return updated model and optional command
+     */
     @Override
     public UpdateResult<FilePicker> update(Message msg) {
-        if (msg instanceof KeyMsg keyMsg) {
+        if (msg instanceof KeyPressMessage keyMsg) {
             return handleKeyPress(keyMsg);
         } else if (msg instanceof ReadDirMessage readDirMsg) {
             if (readDirMsg.id() != this.id) {
@@ -185,7 +232,7 @@ public class FilePicker implements Model {
             this.min = Math.min(this.min, this.selected);
             this.max = Math.min(lastIndex, Math.max(0, this.min + this.height - 1));
             return UpdateResult.from(this);
-        } else if (msg instanceof ErrorMsg errorMsg) {
+        } else if (msg instanceof ErrorMessage errorMsg) {
             logger.log(Level.WARNING, "File picker failed to read directory", errorMsg.error());
             return UpdateResult.from(this);
         }
@@ -193,7 +240,13 @@ public class FilePicker implements Model {
         return UpdateResult.from(this);
     }
 
-    private UpdateResult<FilePicker> handleKeyPress(KeyMsg keyMsg) {
+    /**
+     * Handles key press messages.
+     *
+     * @param keyMsg key press message
+     * @return updated model and optional command
+     */
+    private UpdateResult<FilePicker> handleKeyPress(KeyPressMessage keyMsg) {
         if (handleNavigation(keyMsg)) {
             return UpdateResult.from(this);
         } else if (Binding.matches(keyMsg, keyMap.back())) {
@@ -216,7 +269,13 @@ public class FilePicker implements Model {
         return UpdateResult.from(this);
     }
 
-    private boolean handleNavigation(KeyMsg keyMsg) {
+    /**
+     * Handles navigation key bindings.
+     *
+     * @param keyMsg key press message
+     * @return true when navigation changed state
+     */
+    private boolean handleNavigation(KeyPressMessage keyMsg) {
         if (Binding.matches(keyMsg, keyMap.goToTop())) {
             this.selected = 0;
             this.min = 0;
@@ -286,7 +345,13 @@ public class FilePicker implements Model {
         return false;
     }
 
-    private UpdateResult<FilePicker> handleOpen(KeyMsg keyMsg) {
+    /**
+     * Handles open/select behavior for the current entry.
+     *
+     * @param keyMsg key press message
+     * @return updated model and optional command
+     */
+    private UpdateResult<FilePicker> handleOpen(KeyPressMessage keyMsg) {
         if (this.files.isEmpty()) {
             return UpdateResult.from(this);
         }
@@ -302,7 +367,7 @@ public class FilePicker implements Model {
                 Path resolved = linkPath.getParent().resolve(symlinkTarget).normalize();
                 isDir = Files.isDirectory(resolved);
             } catch (IOException e) {
-                return UpdateResult.from(this, () -> new ErrorMsg(e));
+                return UpdateResult.from(this, () -> new ErrorMessage(e));
             }
         }
 
@@ -326,6 +391,11 @@ public class FilePicker implements Model {
         return UpdateResult.from(this, readDir(this.currentDirectory, this.showHidden));
     }
 
+    /**
+     * Renders the current view.
+     *
+     * @return rendered file picker view
+     */
     @Override
     public String view() {
         StringBuilder sb = new StringBuilder();
@@ -356,6 +426,14 @@ public class FilePicker implements Model {
         return sb.toString();
     }
 
+    /**
+     * Renders a single row for the given entry.
+     *
+     * @param i row index
+     * @param f directory entry
+     * @param disabled whether selection is disabled
+     * @return rendered row
+     */
     private String renderRow(int i, DirEntry f, boolean disabled) {
         StringBuilder sb = new StringBuilder();
         if (this.selected == i) {
@@ -420,6 +498,12 @@ public class FilePicker implements Model {
         return sb.toString();
     }
 
+    /**
+     * Formats bytes into a human-readable size label.
+     *
+     * @param bytes size in bytes
+     * @return formatted size string
+     */
     private String formatSize(long bytes) {
         if (bytes < 1024) {
             return bytes + " B";
@@ -432,6 +516,12 @@ public class FilePicker implements Model {
         }
     }
 
+    /**
+     * Returns true when the file name matches allowed extensions.
+     *
+     * @param file file name to test
+     * @return true if selection is allowed
+     */
     private boolean canSelect(String file) {
         if (this.allowedTypes.isEmpty()) {
             return true;
@@ -445,12 +535,23 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Returns the last selected path.
+     *
+     * @return selected path or {@code null} if none selected
+     */
     public String selectedPath() {
         return this.path;
     }
 
+    /**
+     * Returns true when the message corresponds to selecting a file.
+     *
+     * @param msg message to inspect
+     * @return true when a file was selected
+     */
     public boolean didSelectFile(Message msg) {
-        if (msg instanceof KeyMsg keyMsg) {
+        if (msg instanceof KeyPressMessage keyMsg) {
             if (!Binding.matches(keyMsg, keyMap.select())) {
                 return false;
             }
@@ -483,8 +584,14 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Returns true when the message corresponds to selecting a directory.
+     *
+     * @param msg message to inspect
+     * @return true when a directory was selected
+     */
     public boolean didSelectDirectory(Message msg) {
-        if (msg instanceof KeyMsg keyMsg) {
+        if (msg instanceof KeyPressMessage keyMsg) {
             if (!Binding.matches(keyMsg, keyMap.open())) {
                 return false;
             }
@@ -514,6 +621,11 @@ public class FilePicker implements Model {
         return false;
     }
 
+    /**
+     * Returns the current directory.
+     *
+     * @return current directory
+     */
     public String currentDirectory() {
         return this.currentDirectory;
     }
@@ -521,6 +633,8 @@ public class FilePicker implements Model {
     /**
      * Returns any errors encountered while reading the current directory.
      * Errors are cleared when a new directory is read.
+     *
+     * @return read error messages
      */
     public List<String> readErrors() {
         return List.copyOf(this.readErrors);
@@ -528,94 +642,196 @@ public class FilePicker implements Model {
 
     /**
      * Returns true if there were errors reading the current directory.
+     *
+     * @return true when read errors are present
      */
     public boolean hasReadErrors() {
         return !this.readErrors.isEmpty();
     }
 
+    /**
+     * Sets the current directory for the picker.
+     *
+     * @param directory directory to use
+     */
     public void setCurrentDirectory(String directory) {
         this.currentDirectory = directory;
     }
 
+    /**
+     * Returns the allowed file extensions list.
+     *
+     * @return copy of allowed extensions
+     */
     public List<String> allowedTypes() {
         return new ArrayList<>(this.allowedTypes);
     }
 
+    /**
+     * Sets the allowed file extensions.
+     *
+     * @param types file extensions to allow
+     */
     public void setAllowedTypes(String... types) {
         this.allowedTypes = new ArrayList<>(Arrays.asList(types));
     }
 
+    /**
+     * Returns whether hidden files are shown.
+     *
+     * @return true when hidden files are shown
+     */
     public boolean showHidden() {
         return this.showHidden;
     }
 
+    /**
+     * Sets whether hidden files are shown.
+     *
+     * @param showHidden true to show hidden files
+     */
     public void setShowHidden(boolean showHidden) {
         this.showHidden = showHidden;
     }
 
+    /**
+     * Returns whether directories can be selected.
+     *
+     * @return true when directory selection is allowed
+     */
     public boolean dirAllowed() {
         return this.dirAllowed;
     }
 
+    /**
+     * Sets whether directories can be selected.
+     *
+     * @param dirAllowed true to allow directory selection
+     */
     public void setDirAllowed(boolean dirAllowed) {
         this.dirAllowed = dirAllowed;
     }
 
+    /**
+     * Returns whether files can be selected.
+     *
+     * @return true when file selection is allowed
+     */
     public boolean fileAllowed() {
         return this.fileAllowed;
     }
 
+    /**
+     * Sets whether files can be selected.
+     *
+     * @param fileAllowed true to allow file selection
+     */
     public void setFileAllowed(boolean fileAllowed) {
         this.fileAllowed = fileAllowed;
     }
 
+    /**
+     * Returns whether permissions are shown.
+     *
+     * @return true when permissions are shown
+     */
     public boolean showPermissions() {
         return this.showPermissions;
     }
 
+    /**
+     * Sets whether permissions are shown.
+     *
+     * @param showPermissions true to show permissions
+     */
     public void setShowPermissions(boolean showPermissions) {
         this.showPermissions = showPermissions;
     }
 
+    /**
+     * Returns whether file sizes are shown.
+     *
+     * @return true when file sizes are shown
+     */
     public boolean showSize() {
         return this.showSize;
     }
 
+    /**
+     * Sets whether file sizes are shown.
+     *
+     * @param showSize true to show file sizes
+     */
     public void setShowSize(boolean showSize) {
         this.showSize = showSize;
     }
 
+    /**
+     * Returns the current picker height.
+     *
+     * @return height in rows
+     */
     public int height() {
         return this.height;
     }
 
+    /**
+     * Returns the active styles.
+     *
+     * @return styles configuration
+     */
     public Styles styles() {
         return this.styles;
     }
 
+    /**
+     * Sets the styles used for rendering.
+     *
+     * @param styles styles configuration
+     */
     public void setStyles(Styles styles) {
         this.styles = styles;
     }
 
+    /**
+     * Returns the current key bindings.
+     *
+     * @return key map
+     */
     public KeyMap keyMap() {
         return this.keyMap;
     }
 
+    /**
+     * Sets the key bindings.
+     *
+     * @param keyMap key map
+     */
     public void setKeyMap(KeyMap keyMap) {
         this.keyMap = keyMap;
     }
 
+    /**
+     * Returns the cursor character.
+     *
+     * @return cursor character
+     */
     public String cursorChar() {
         return this.cursorChar;
     }
 
+    /**
+     * Sets the cursor character.
+     *
+     * @param cursorChar cursor character
+     */
     public void setCursorChar(String cursorChar) {
         this.cursorChar = cursorChar;
     }
 
     /**
      * Port of the file picker directory entry model.
-     * Upstream: github.com/charmbracelet/bubbles/filepicker (dirEntry)
+     * Upstream: github.com/charmbracelet/bubbles/filepicker/filepicker.go (dirEntry)
      *
      * @param name entry name
      * @param isDir whether the entry is a directory
@@ -626,16 +842,37 @@ public class FilePicker implements Model {
     public record DirEntry(String name, boolean isDir, boolean isSymlink, long size, String permissions) {
     }
 
+    /**
+     * Port of the file picker read directory message.
+     * Upstream: github.com/charmbracelet/bubbles/filepicker/filepicker.go (readDirMsg)
+     *
+     * @param id picker id
+     * @param entries directory entries
+     * @param errors read errors
+     */
     private record ReadDirMessage(int id, List<DirEntry> entries, List<String> errors) implements Message {
     }
 
+    /**
+     * Simple integer stack for selection history.
+     */
     private static class Stack {
         private final List<Integer> items = new ArrayList<>();
 
+        /**
+         * Pushes an item onto the stack.
+         *
+         * @param item item to push
+         */
         public void push(int item) {
             this.items.add(item);
         }
 
+        /**
+         * Pops an item from the stack.
+         *
+         * @return popped item or {@code 0} when empty
+         */
         public int pop() {
             if (this.items.isEmpty()) {
                 return 0;
@@ -645,6 +882,11 @@ public class FilePicker implements Model {
             return result;
         }
 
+        /**
+         * Returns the number of items on the stack.
+         *
+         * @return stack size
+         */
         public int length() {
             return this.items.size();
         }

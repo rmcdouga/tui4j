@@ -9,7 +9,7 @@ import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
@@ -485,7 +485,7 @@ public class TextInput implements Model {
 
         int oldPos = pos;
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.deleteWordBackward())) {
                 deleteWordBackward();
             } else if (Binding.matches(keyPressMessage, keys.deleteCharacterBackward())) {

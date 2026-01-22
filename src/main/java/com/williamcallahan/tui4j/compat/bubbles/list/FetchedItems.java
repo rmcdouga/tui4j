@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Port of Bubbles fetched items.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * Upstream: github.com/charmbracelet/bubbles/list/list.go
  *
  * @param items fetched items
  * @param matchedItems matched item count
@@ -13,6 +13,9 @@ import java.util.List;
  */
 public record FetchedItems(List<FilteredItem> items, long matchedItems, long totalItems, int totalPages) {
 
+    /**
+     * Creates an empty fetched-items result.
+     */
     public FetchedItems() {
         this(List.of(), 0, 0, 0);
     }

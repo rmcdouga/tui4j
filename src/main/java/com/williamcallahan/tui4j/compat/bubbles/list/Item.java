@@ -2,9 +2,14 @@ package com.williamcallahan.tui4j.compat.bubbles.list;
 
 /**
  * Port of Bubbles item.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * Upstream: github.com/charmbracelet/bubbles/list/list.go
  */
 public interface Item {
 
+    /**
+     * Returns the string used for filtering.
+     *
+     * @return filter value
+     */
     String filterValue();
 }

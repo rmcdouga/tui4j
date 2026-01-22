@@ -79,20 +79,11 @@ public class Stopwatch implements Model {
 
     @Override
     public UpdateResult<Stopwatch> update(Message msg) {
-        if (msg instanceof StartStopMsg startStopMsg) {
-            return handleStartStop(startStopMsg.id(), startStopMsg.running());
-        }
         if (msg instanceof StartStopMessage startStopMessage) {
             return handleStartStop(startStopMessage.id(), startStopMessage.running());
         }
-        if (msg instanceof ResetMsg resetMsg) {
-            return handleReset(resetMsg.id());
-        }
         if (msg instanceof ResetMessage resetMessage) {
             return handleReset(resetMessage.id());
-        }
-        if (msg instanceof TickMsg tickMsg) {
-            return handleTick(tickMsg.id(), tickMsg.tag());
         }
         if (msg instanceof TickMessage tickMessage) {
             return handleTick(tickMessage.id(), tickMessage.tag());
@@ -117,7 +108,7 @@ public class Stopwatch implements Model {
      * @return start command
      */
     public Command start() {
-        return () -> new StartStopMsg(id, true);
+        return () -> new StartStopMessage(id, true);
     }
 
     /**
@@ -126,7 +117,7 @@ public class Stopwatch implements Model {
      * @return stop command
      */
     public Command stop() {
-        return () -> new StartStopMsg(id, false);
+        return () -> new StartStopMessage(id, false);
     }
 
     /**
@@ -135,7 +126,7 @@ public class Stopwatch implements Model {
      * @return reset command
      */
     public Command reset() {
-        return () -> new ResetMsg(id);
+        return () -> new ResetMessage(id);
     }
 
     /**
@@ -144,7 +135,7 @@ public class Stopwatch implements Model {
      * @return toggle command
      */
     public Command toggle() {
-        return () -> new StartStopMsg(id, !running);
+        return () -> new StartStopMessage(id, !running);
     }
 
     private static int nextId() {
@@ -152,7 +143,7 @@ public class Stopwatch implements Model {
     }
 
     private Command tick() {
-        return Command.tick(interval, __ -> new TickMsg(id, tag));
+        return Command.tick(interval, __ -> new TickMessage(id, tag));
     }
 
     private UpdateResult<Stopwatch> handleStartStop(int messageId, boolean shouldRun) {

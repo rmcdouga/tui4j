@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Port of Bubbles help.
- * Bubble Tea: bubbletea/examples/help/main.go
+ * Upstream: github.com/charmbracelet/bubbles/help/help.go
  */
 public class Help {
 
@@ -22,6 +22,9 @@ public class Help {
     private String ellipsis;
     private Styles styles;
 
+    /**
+     * Creates a help renderer with default separators.
+     */
     public Help() {
         this.shortSeparator = " • ";
         this.fullSeparator = "    ";
@@ -30,10 +33,21 @@ public class Help {
         this.styles = new Styles();
     }
 
+    /**
+     * Sets the available width used for layout decisions.
+     *
+     * @param width terminal width in columns
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Renders the help view using the key map.
+     *
+     * @param keyMap key map to render
+     * @return rendered help text
+     */
     public String render(KeyMap keyMap) {
         if (showAll) {
             return fullHelpView(keyMap.fullHelp());
@@ -41,6 +55,12 @@ public class Help {
         return shortHelpView(keyMap.shortHelp());
     }
 
+    /**
+     * Renders the full help view.
+     *
+     * @param groups grouped bindings
+     * @return rendered help text
+     */
     private String fullHelpView(Binding[][] groups) {
         if (groups.length == 0) {
             return "";
@@ -100,6 +120,12 @@ public class Help {
         );
     }
 
+    /**
+     * Returns true when a column contains at least one enabled binding.
+     *
+     * @param group binding group
+     * @return true when the group should render
+     */
     private boolean shouldRenderColumn(Binding[] group) {
         for (Binding binding : group) {
             if (binding.isEnabled()) {
@@ -109,6 +135,12 @@ public class Help {
         return false;
     }
 
+    /**
+     * Renders the short help view.
+     *
+     * @param bindings bindings to render
+     * @return rendered help text
+     */
     private String shortHelpView(Binding[] bindings) {
         if (bindings == null || bindings.length == 0) {
             return "";
@@ -152,6 +184,13 @@ public class Help {
         return b.toString();
     }
 
+    /**
+     * Determines whether the next item fits within the width.
+     *
+     * @param totalWidth current width
+     * @param width next item width
+     * @return result indicating fit and optional tail
+     */
     private Result shouldAddItem(int totalWidth, int width) {
         String tail = "";
         if (this.width > 0 && totalWidth+width > this.width) {
@@ -163,19 +202,39 @@ public class Help {
         return new Result(true, "");
     }
 
+    /**
+     * Sets the separator used between full help columns.
+     *
+     * @param fullSeparator separator string
+     */
     public void setFullSeparator(String fullSeparator) {
         this.fullSeparator = fullSeparator;
     }
 
+    /**
+     * Sets whether to show the full help view.
+     *
+     * @param showAll true to show full help
+     */
     public void setShowAll(boolean showAll) {
         this.showAll = showAll;
     }
 
+    /**
+     * Returns whether the full help view is shown.
+     *
+     * @return true when full help is shown
+     */
     public boolean showAll() {
         return showAll;
     }
+
+    /**
+     * Represents a layout decision for the next help item.
+     *
+     * @param ok whether the item fits
+     * @param tail rendered tail content
+     */
     record Result(boolean ok, String tail) {
-
-
     }
 }

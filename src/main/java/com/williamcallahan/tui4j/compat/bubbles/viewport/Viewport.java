@@ -38,9 +38,8 @@ public class Viewport implements Model {
     private Style style;
 
     /**
-     * @deprecated Deprecated in upstream Bubbles ({@code charmbracelet/bubbles}).
-     *             High performance rendering is deprecated in the upstream viewport model.
-     *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because upstream Bubbles deprecated
+     *             high performance rendering; use the default rendering behavior instead.
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
     @Deprecated(since = "0.3.0")
@@ -578,9 +577,8 @@ public class Viewport implements Model {
     }
 
     /**
-     * @deprecated Deprecated in upstream Bubbles ({@code charmbracelet/bubbles}).
-     *             High performance rendering is deprecated in the upstream viewport model.
-     *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because upstream Bubbles deprecated
+     *             high performance rendering; use the default rendering behavior instead.
      * @return always returns the stored value, but feature has no effect
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */
@@ -590,9 +588,8 @@ public class Viewport implements Model {
     }
 
     /**
-     * @deprecated Deprecated in upstream Bubbles ({@code charmbracelet/bubbles}).
-     *             High performance rendering is deprecated in the upstream viewport model.
-     *             Deprecated since v0.3.0 in tui4j; retained for API compatibility but has no effect.
+     * @deprecated Deprecated in tui4j as of 0.3.0 because upstream Bubbles deprecated
+     *             high performance rendering; use the default rendering behavior instead.
      * @param highPerformanceRendering ignored, feature has no effect
      * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
      */

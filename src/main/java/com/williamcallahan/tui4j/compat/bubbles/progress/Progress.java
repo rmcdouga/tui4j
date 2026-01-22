@@ -234,13 +234,13 @@ public class Progress implements Model {
 
     @Override
     public UpdateResult<Progress> update(Message msg) {
-        if (msg instanceof SetPercentMsg setMsg) {
+        if (msg instanceof SetPercentMessage setMsg) {
             return UpdateResult.from(this, setPercent(setMsg.percent()));
         }
         if (msg instanceof SetPercentMessage setMessage) {
             return UpdateResult.from(this, setPercent(setMessage.percent()));
         }
-        if (msg instanceof FrameMsg frameMsg) {
+        if (msg instanceof FrameMessage frameMsg) {
             return handleFrame(frameMsg.id(), frameMsg.tag());
         }
         if (msg instanceof FrameMessage frameMessage) {
@@ -384,7 +384,7 @@ public class Progress implements Model {
     }
 
     private Command nextFrame() {
-        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMsg(id, tag));
+        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMessage(id, tag));
     }
 
     private UpdateResult<Progress> handleFrame(int frameId, int frameTag) {

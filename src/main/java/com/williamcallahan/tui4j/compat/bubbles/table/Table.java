@@ -9,7 +9,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbles.help.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +111,7 @@ public class Table implements Model, KeyMap {
             return UpdateResult.from(this);
         }
 
-        if (msg instanceof KeyMsg keyPressMessage) {
+        if (msg instanceof KeyPressMessage keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.lineUp())) {
                 moveUp(1);
             } else if (Binding.matches(keyPressMessage, keys.lineDown())) {
