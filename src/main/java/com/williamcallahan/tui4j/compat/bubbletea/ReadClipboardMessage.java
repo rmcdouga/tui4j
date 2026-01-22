@@ -19,10 +19,8 @@ public class ReadClipboardMessage implements Message {
      * @param other other
      * @return whether uals
      */
-    @SuppressWarnings("removal")
-/** {@inheritDoc} */
+    /** {@inheritDoc} */
     @Override
- */
     public boolean equals(Object other) {
         if (this == other) {
             return true;
