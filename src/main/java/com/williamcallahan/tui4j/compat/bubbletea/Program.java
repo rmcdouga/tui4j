@@ -126,6 +126,9 @@ public class Program {
     private int selectionAutoScrollEdgeRows = 1;
     private int selectionAutoScrollIntervalMs = 50;
 
+    private long currentSequenceId = 0;
+    private long lastHandledSequenceId = 0;
+
     public Program(Model initialModel) {
         this(initialModel, (ProgramOption[]) null);
     }
@@ -459,6 +462,15 @@ public class Program {
                     continue;
                 }
                 Message internalMsg = normalizeMessage(msg);
+
+                if (internalMsg instanceof SequencedMessage seqMsg) {
+                    if (seqMsg.sequenceId() < lastHandledSequenceId) {
+                        continue;
+                    }
+                    lastHandledSequenceId = seqMsg.sequenceId();
+                    internalMsg = normalizeMessage(seqMsg.message());
+                }
+
                 if (handleSystemMessage(internalMsg)) {
                     continue;
                 }
@@ -554,13 +566,15 @@ public class Program {
     }
 
     private void handleSequence(Command... commands) {
+        long sequenceId = ++currentSequenceId;
         Arrays.stream(commands)
                 .reduce(
                         CompletableFuture.completedFuture(null),
                         (CompletableFuture<Void> future, Command command) -> future.thenCompose(
-                                __ -> commandExecutor.executeIfPresent(command, this::send, this::sendError)),
-                        (f1, f2) -> f2)
-                .join();
+                                __ -> commandExecutor.executeIfPresent(command, 
+                                        msg -> send(new SequencedMessage(msg, sequenceId)), 
+                                        this::sendError)),
+                        (f1, f2) -> f2);
     }
 
     private void handleOpenUrl(String url) {
