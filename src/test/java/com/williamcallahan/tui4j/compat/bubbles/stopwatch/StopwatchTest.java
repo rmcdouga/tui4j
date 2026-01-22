@@ -32,10 +32,10 @@ class StopwatchTest {
         Stopwatch stopwatch = new Stopwatch();
         assertThat(stopwatch.running()).isFalse();
 
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
         assertThat(stopwatch.running()).isTrue();
 
-        stopwatch.update(new StartStopMsg(stopwatch.id(), false));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), false));
         assertThat(stopwatch.running()).isFalse();
     }
 
@@ -51,7 +51,7 @@ class StopwatchTest {
     @Test
     void testStopCommandDoesNotMutateState() {
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
 
         stopwatch.stop();
 
@@ -61,8 +61,8 @@ class StopwatchTest {
     @Test
     void testResetCommandDoesNotMutateElapsed() {
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
-        stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
+        stopwatch.update(new TickMessage(stopwatch.id(), 0));
 
         stopwatch.reset();
 
@@ -72,17 +72,17 @@ class StopwatchTest {
     @Test
     void testStartStopMessageFromDifferentIdIsIgnored() {
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.update(new StartStopMsg(999, true));
+        stopwatch.update(new StartStopMessage(999, true));
         assertThat(stopwatch.running()).isFalse();
     }
 
     @Test
     void testTickIncrementsElapsed() {
         Stopwatch stopwatch = new Stopwatch(Duration.ofSeconds(1));
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
 
         Duration before = stopwatch.elapsed();
-        stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        stopwatch.update(new TickMessage(stopwatch.id(), 0));
 
         assertThat(stopwatch.elapsed()).isEqualTo(before.plus(Duration.ofSeconds(1)));
     }
@@ -91,7 +91,7 @@ class StopwatchTest {
     void testTickIgnoredWhenStopped() {
         Stopwatch stopwatch = new Stopwatch(Duration.ofSeconds(1));
         Duration before = stopwatch.elapsed();
-        stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        stopwatch.update(new TickMessage(stopwatch.id(), 0));
 
         assertThat(stopwatch.elapsed()).isEqualTo(before);
     }
@@ -99,10 +99,10 @@ class StopwatchTest {
     @Test
     void testTickWithDifferentIdIsIgnored() {
         Stopwatch stopwatch = new Stopwatch(Duration.ofSeconds(1));
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
 
         Duration before = stopwatch.elapsed();
-        stopwatch.update(new TickMsg(999, 0));
+        stopwatch.update(new TickMessage(999, 0));
 
         assertThat(stopwatch.elapsed()).isEqualTo(before);
     }
@@ -110,12 +110,12 @@ class StopwatchTest {
     @Test
     void testTickWithWrongTagIsIgnored() {
         Stopwatch stopwatch = new Stopwatch(Duration.ofSeconds(1));
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
 
-        stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        stopwatch.update(new TickMessage(stopwatch.id(), 0));
         Duration afterFirstTick = stopwatch.elapsed();
 
-        stopwatch.update(new TickMsg(stopwatch.id(), 999));
+        stopwatch.update(new TickMessage(stopwatch.id(), 999));
 
         assertThat(stopwatch.elapsed()).isEqualTo(afterFirstTick);
     }
@@ -123,11 +123,11 @@ class StopwatchTest {
     @Test
     void testResetResetsElapsed() {
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
-        stopwatch.update(new TickMsg(stopwatch.id(), 0));
-        stopwatch.update(new TickMsg(stopwatch.id(), 1));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
+        stopwatch.update(new TickMessage(stopwatch.id(), 0));
+        stopwatch.update(new TickMessage(stopwatch.id(), 1));
 
-        stopwatch.update(new ResetMsg(stopwatch.id()));
+        stopwatch.update(new ResetMessage(stopwatch.id()));
 
         assertThat(stopwatch.elapsed()).isEqualTo(Duration.ZERO);
     }
@@ -135,10 +135,10 @@ class StopwatchTest {
     @Test
     void testResetWithDifferentIdIsIgnored() {
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
-        stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
+        stopwatch.update(new TickMessage(stopwatch.id(), 0));
 
-        stopwatch.update(new ResetMsg(999));
+        stopwatch.update(new ResetMessage(999));
 
         assertThat(stopwatch.elapsed()).isEqualTo(Duration.ofSeconds(1));
     }
@@ -146,15 +146,15 @@ class StopwatchTest {
     @Test
     void testTagIncrementsOnTick() {
         Stopwatch stopwatch = new Stopwatch(Duration.ofMillis(100));
-        stopwatch.update(new StartStopMsg(stopwatch.id(), true));
+        stopwatch.update(new StartStopMessage(stopwatch.id(), true));
 
-        UpdateResult<Stopwatch> result1 = stopwatch.update(new TickMsg(stopwatch.id(), 0));
+        UpdateResult<Stopwatch> result1 = stopwatch.update(new TickMessage(stopwatch.id(), 0));
         assertThat(result1.command()).isNotNull();
 
-        stopwatch.update(new TickMsg(stopwatch.id(), 1));
-        UpdateResult<Stopwatch> result2 = stopwatch.update(new TickMsg(stopwatch.id(), 2));
+        stopwatch.update(new TickMessage(stopwatch.id(), 1));
+        UpdateResult<Stopwatch> result2 = stopwatch.update(new TickMessage(stopwatch.id(), 2));
 
-        TickMsg tickMsg = (TickMsg) result2.command().execute();
+        TickMessage tickMsg = (TickMessage) result2.command().execute();
         assertThat(tickMsg.tag()).isEqualTo(3);
     }
 

@@ -117,7 +117,7 @@ class ProgressTest {
         progress.setPercent(0.5);
         int currentTag = progress.tag();
 
-        FrameMsg frameMsg = new FrameMsg(progress.id(), currentTag);
+        FrameMessage frameMsg = new FrameMessage(progress.id(), currentTag);
         UpdateResult<Progress> result = progress.update(frameMsg);
 
         assertThat(result.model()).isEqualTo(progress);
@@ -130,7 +130,7 @@ class ProgressTest {
         progress.setPercent(0.5);
         double beforePercentShown = progress.percentShown();
 
-        FrameMsg frameMsg = new FrameMsg(-1, progress.tag());
+        FrameMessage frameMsg = new FrameMessage(-1, progress.tag());
         UpdateResult<Progress> result = progress.update(frameMsg);
 
         assertThat(progress.percentShown()).isEqualTo(beforePercentShown);
@@ -142,7 +142,7 @@ class ProgressTest {
         progress.setPercent(0.5);
         double beforePercentShown = progress.percentShown();
 
-        FrameMsg frameMsg = new FrameMsg(progress.id(), -1);
+        FrameMessage frameMsg = new FrameMessage(progress.id(), -1);
         UpdateResult<Progress> result = progress.update(frameMsg);
 
         assertThat(progress.percentShown()).isEqualTo(beforePercentShown);
@@ -164,7 +164,7 @@ class ProgressTest {
         progress.setPercent(1.0);
 
         for (int i = 0; i < 60; i++) {
-            FrameMsg frameMsg = new FrameMsg(progress.id(), progress.tag());
+            FrameMessage frameMsg = new FrameMessage(progress.id(), progress.tag());
             progress.update(frameMsg);
         }
 
@@ -195,7 +195,7 @@ class ProgressTest {
         progress.setPercent(0.5);
 
         while (progress.isAnimating()) {
-            FrameMsg frameMsg = new FrameMsg(progress.id(), progress.tag());
+            FrameMessage frameMsg = new FrameMessage(progress.id(), progress.tag());
             progress.update(frameMsg);
         }
 

@@ -1,10 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
-import com.williamcallahan.tui4j.compat.bubbletea.CopyToClipboardMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.OpenUrlMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ResetMouseCursorMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorPointerMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorTextMessage;
+import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
+import com.williamcallahan.tui4j.message.OpenUrlMessage;
+import com.williamcallahan.tui4j.message.ResetMouseCursorMessage;
+import com.williamcallahan.tui4j.message.SetMouseCursorPointerMessage;
+import com.williamcallahan.tui4j.message.SetMouseCursorTextMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

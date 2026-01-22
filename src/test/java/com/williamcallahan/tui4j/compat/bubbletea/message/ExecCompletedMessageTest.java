@@ -1,5 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.message;
 
+import com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

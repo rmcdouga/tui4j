@@ -111,11 +111,28 @@ class ListTest {
         applyMessage(list, command.execute());
     }
 
+    private static final int MAX_RECURSION_DEPTH = 100;
+    private static int recursionDepth = 0;
+
     private static void applyMessage(List list, Message msg) {
         if (msg == null) {
             return;
         }
 
+        // Guard against infinite loops in test (real Program handles this async)
+        if (recursionDepth++ > MAX_RECURSION_DEPTH) {
+            recursionDepth = 0;
+            return;
+        }
+
+        try {
+            applyMessageInner(list, msg);
+        } finally {
+            recursionDepth--;
+        }
+    }
+
+    private static void applyMessageInner(List list, Message msg) {
         // Avoid infinite spinner ticks in unit tests (they're time-based in real programs).
         if (msg instanceof com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage) {
             return;
@@ -136,13 +153,13 @@ class ListTest {
         }
 
         // Also handle the legacy message forms that may be emitted internally.
-        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.BatchMsg batchMsg) {
+        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.BatchMessage batchMsg) {
             for (Command c : batchMsg.commands()) {
                 applyCommand(list, c);
             }
             return;
         }
-        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.SequenceMsg sequenceMsg) {
+        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage sequenceMsg) {
             for (Command c : sequenceMsg.commands()) {
                 applyCommand(list, c);
             }

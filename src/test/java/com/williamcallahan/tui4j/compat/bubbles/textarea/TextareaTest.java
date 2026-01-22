@@ -134,7 +134,7 @@ class TextareaTest {
 
         for (int i = 0; i < 10; i++) {
             textarea.insertString("Line " + i);
-            textarea.update(new com.williamcallahan.tui4j.compat.bubbletea.KeyMsg(
+            textarea.update(new com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage(
                 new com.williamcallahan.tui4j.compat.bubbletea.input.key.Key(
                     com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType.keyCR
                 )
