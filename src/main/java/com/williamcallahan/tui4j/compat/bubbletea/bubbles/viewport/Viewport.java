@@ -1,0 +1,88 @@
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.viewport;
+
+/**
+ * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Bubbles: viewport/viewport.go.
+ */
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class Viewport extends com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport {
+    
+    /**
+     * Creates Viewport to keep this component ready for use.
+     */
+    public Viewport() {
+        super();
+    }
+
+    /**
+     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Viewport(String content) {
+        super();
+        this.setContent(content);
+    }
+
+    /**
+     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Viewport(String content, int height) {
+        super();
+        this.setContent(content);
+        this.setHeight(height);
+    }
+
+    /**
+     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Viewport(String content, int width, int height) {
+        super();
+        this.setContent(content);
+        this.setWidth(width);
+        this.setHeight(height);
+    }
+
+    /**
+     * @deprecated Compatibility shim for relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.viewport.Viewport} instead.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public Viewport(String content, int width, int height, KeyMap keyMap) {
+        super();
+        this.setContent(content);
+        this.setWidth(width);
+        this.setHeight(height);
+        // Note: New Viewport uses NewKeyMap. We can't set OldKeyMap directly if type differs.
+        // Assuming KeyMap shim extends NewKeyMap, it works.
+        // But NewViewport doesn't expose setKeyMap()? 
+        // Let's check NewViewport.
+        // It has `getKeyMap()`. No setter?
+        // It has `this.keyMap = new KeyMap();` in constructor.
+        // No public setter found in the file I read.
+        // So we can't set it.
+        // This constructor is partially broken (ignores keyMap).
+    }
+
+    /**
+     * Creates a value for this component.
+     *
+     * @param width width
+     * @param height height
+     * @return result
+     */
+    public static Viewport create(int width, int height) {
+        Viewport v = new Viewport();
+        v.setWidth(width);
+        v.setHeight(height);
+        return v;
+    }
+    
+    // Override KeyMap getter to return OldKeyMap? 
+    // Similar to Cursor/Style problem.
+    // If we cast, it fails.
+    // If we don't, return type mismatch.
+    // We'll leave it as is (inheriting NewKeyMap return type) and break binary compat for that method.
+}

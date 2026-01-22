@@ -1,9 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
 /**
- * @deprecated Use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Children} instead.
- *             This interface has been moved as part of the Lip Gloss package restructuring.
+ * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Children}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lip Gloss: tree/children.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public interface Children extends com.williamcallahan.tui4j.compat.lipgloss.tree.Children {
-}
+public interface Children
+    extends com.williamcallahan.tui4j.compat.lipgloss.tree.Children {}

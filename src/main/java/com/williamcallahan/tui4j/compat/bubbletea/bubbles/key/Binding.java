@@ -1,27 +1,33 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.key;
 
 /**
- * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding} instead.
- *             This class has been moved as part of the Bubbles package restructuring.
+ * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Bubbles: key/key.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class Binding extends com.williamcallahan.tui4j.compat.bubbles.key.Binding {
+public class Binding
+    extends com.williamcallahan.tui4j.compat.bubbles.key.Binding
+{
 
     /**
-     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption} instead.
+     * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption}.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    public interface BindingOption extends com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption {
-    }
+    public interface BindingOption
+        extends
+            com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption {}
 
     /**
-     * Creates a binding configured by the provided options.
-     *
-     * @param opts binding options
-     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding#Binding(BindingOption...)} instead.
+     * @deprecated Compatibility: Moved to {@link com.williamcallahan.tui4j.compat.bubbles.key.Binding#Binding(com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption...)}.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
-    public Binding(com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption... opts) {
+    public Binding(
+        com.williamcallahan.tui4j.compat.bubbles.key.Binding.BindingOption... opts
+    ) {
         super(opts);
     }
 }
