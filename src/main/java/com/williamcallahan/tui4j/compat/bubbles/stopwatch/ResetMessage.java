@@ -5,9 +5,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 /**
  * Message sent to reset the stopwatch.
  * <p>
- * Bubbles: bubbles/stopwatch/stopwatch.go
+ * Bubbles: stopwatch/stopwatch.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/stopwatch/stopwatch.go">bubbles/stopwatch/stopwatch.go</a>
+ * <p>
+ * Bubbles: filepicker/hidden_windows.go.
  */
 public class ResetMessage implements Message {
     private final int id;

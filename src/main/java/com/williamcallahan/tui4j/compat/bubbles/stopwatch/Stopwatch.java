@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Stopwatch bubble component.
  * Port of charmbracelet/bubbles/stopwatch.
+ * <p>
+ * Bubbles: stopwatch/stopwatch.go.
  */
 public class Stopwatch implements Model {
 
@@ -32,10 +34,18 @@ public class Stopwatch implements Model {
     private int tag;
     private boolean running;
 
+    /**
+     * Creates Stopwatch to keep this component ready for use.
+     */
     public Stopwatch() {
         this(DEFAULT_INTERVAL);
     }
 
+    /**
+     * Creates Stopwatch to keep this component ready for use.
+     *
+     * @param interval interval
+     */
     public Stopwatch(Duration interval) {
         this.elapsed = Duration.ZERO;
         this.interval = interval;
@@ -43,37 +53,77 @@ public class Stopwatch implements Model {
         this.id = nextId();
     }
 
+    /**
+     * Handles id for this component.
+     *
+     * @return result
+     */
     public int id() {
         return id;
     }
 
+    /**
+     * Handles elapsed for this component.
+     *
+     * @return result
+     */
     public Duration elapsed() {
         return elapsed;
     }
 
+    /**
+     * Updates the elapsed.
+     *
+     * @param elapsed elapsed
+     */
     void setElapsed(Duration elapsed) {
         this.elapsed = elapsed;
     }
 
+    /**
+     * Handles interval for this component.
+     *
+     * @return result
+     */
     public Duration interval() {
         return interval;
     }
 
+    /**
+     * Updates the interval.
+     *
+     * @param interval interval
+     */
     public void setInterval(Duration interval) {
         this.interval = interval;
     }
 
+    /**
+     * Handles running for this component.
+     *
+     * @return whether nning
+     */
     public boolean running() {
         return running;
     }
 
+    /**
+     * Supplies the initial command for the model.
+     *
+     * @return initial command
+     */
     @Override
     public Command init() {
         return start();
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @param msg msg
+     * @return next model state and command
+     */
     @Override
-    @SuppressWarnings({"deprecation", "removal"})
     public UpdateResult<Stopwatch> update(Message msg) {
         if (msg instanceof StartStopMsg startStopMsg) {
             return handleStartStop(startStopMsg.id(), startStopMsg.running());
@@ -135,14 +185,31 @@ public class Stopwatch implements Model {
         return () -> new StartStopMessage(id, !running);
     }
 
+    /**
+     * Handles next id for this component.
+     *
+     * @return result
+     */
     private static int nextId() {
         return LAST_ID.incrementAndGet();
     }
 
+    /**
+     * Handles tick for this component.
+     *
+     * @return result
+     */
     private Command tick() {
         return Command.tick(interval, __ -> new TickMessage(id, tag));
     }
 
+    /**
+     * Handles handle start stop for this component.
+     *
+     * @param messageId message id
+     * @param shouldRun should run
+     * @return result
+     */
     private UpdateResult<Stopwatch> handleStartStop(int messageId, boolean shouldRun) {
         if (messageId != 0 && messageId != id) {
             return UpdateResult.from(this);
@@ -154,6 +221,12 @@ public class Stopwatch implements Model {
         return UpdateResult.from(this);
     }
 
+    /**
+     * Handles handle reset for this component.
+     *
+     * @param messageId message id
+     * @return result
+     */
     private UpdateResult<Stopwatch> handleReset(int messageId) {
         if (messageId != 0 && messageId != id) {
             return UpdateResult.from(this);
@@ -162,6 +235,13 @@ public class Stopwatch implements Model {
         return UpdateResult.from(this);
     }
 
+    /**
+     * Handles handle tick for this component.
+     *
+     * @param messageId message id
+     * @param messageTag message tag
+     * @return result
+     */
     private UpdateResult<Stopwatch> handleTick(int messageId, int messageTag) {
         if (!running || (messageId != 0 && messageId != id)) {
             return UpdateResult.from(this);
