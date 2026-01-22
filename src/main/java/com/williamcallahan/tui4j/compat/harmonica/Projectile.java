@@ -15,6 +15,14 @@ public final class Projectile {
     private Vector acceleration;
     private final double deltaTime;
 
+    /**
+     * Creates Projectile to keep this component ready for use.
+     *
+     * @param deltaTime delta time
+     * @param initialPosition initial position
+     * @param initialVelocity initial velocity
+     * @param initialAcceleration initial acceleration
+     */
     public Projectile(double deltaTime, Point initialPosition, Vector initialVelocity, Vector initialAcceleration) {
         this.deltaTime = deltaTime;
         this.position = initialPosition;
@@ -22,11 +30,25 @@ public final class Projectile {
         this.acceleration = initialAcceleration;
     }
 
+    /**
+     * Handles new projectile for this component.
+     *
+     * @param deltaTime delta time
+     * @param initialPosition initial position
+     * @param initialVelocity initial velocity
+     * @param initialAcceleration initial acceleration
+     * @return result
+     */
     public static Projectile newProjectile(double deltaTime, Point initialPosition, Vector initialVelocity,
                                            Vector initialAcceleration) {
         return new Projectile(deltaTime, initialPosition, initialVelocity, initialAcceleration);
     }
 
+    /**
+     * Applies an incoming message and returns the next model state.
+     *
+     * @return next model state and command
+     */
     public Point update() {
         position = new Point(
                 position.x() + (velocity.x() * deltaTime),
@@ -43,14 +65,29 @@ public final class Projectile {
         return position;
     }
 
+    /**
+     * Handles position for this component.
+     *
+     * @return result
+     */
     public Point position() {
         return position;
     }
 
+    /**
+     * Handles velocity for this component.
+     *
+     * @return result
+     */
     public Vector velocity() {
         return velocity;
     }
 
+    /**
+     * Handles acceleration for this component.
+     *
+     * @return result
+     */
     public Vector acceleration() {
         return acceleration;
     }
