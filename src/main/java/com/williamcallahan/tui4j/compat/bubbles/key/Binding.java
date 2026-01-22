@@ -1,5 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbles.key;
 
+import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 
 /**
@@ -84,11 +85,29 @@ public class Binding {
      * @return true when a key matches
      */
     public boolean matches(KeyPressMessage keyPressMessage) {
+        return matchesKey(keyPressMessage.key());
+    }
+
+    /**
+     * Returns whether the given key press matches this binding.
+     *
+     * @param keyPressMessage key press message
+     * @return true when a key matches
+     * @deprecated Use {@link #matches(KeyPressMessage)} instead.
+     *             tui4j renamed {@code KeyMsg} to {@code KeyPressMessage} in v0.3.0
+     *             as part of standardizing message naming conventions.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public boolean matches(KeyMsg keyPressMessage) {
+        return matchesKey(keyPressMessage.key());
+    }
+
+    private boolean matchesKey(String key) {
         if (keys == null) {
             return false;
         }
         for (String bindingKey : keys) {
-            if (bindingKey.equals(keyPressMessage.key())) {
+            if (bindingKey.equals(key)) {
                 return true;
             }
         }
@@ -124,6 +143,29 @@ public class Binding {
      * @return true when a key matches
      */
     public static boolean matches(KeyPressMessage keyPressMessage, Binding... bindings) {
+        for (Binding binding : bindings) {
+            if (!binding.isEnabled()) {
+                continue;
+            }
+            if (binding.matches(keyPressMessage)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether any enabled binding matches the key press.
+     *
+     * @param keyPressMessage key press message
+     * @param bindings bindings to check
+     * @return true when a key matches
+     * @deprecated Use {@link #matches(KeyPressMessage, Binding...)} instead.
+     *             tui4j renamed {@code KeyMsg} to {@code KeyPressMessage} in v0.3.0
+     *             as part of standardizing message naming conventions.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public static boolean matches(KeyMsg keyPressMessage, Binding... bindings) {
         for (Binding binding : bindings) {
             if (!binding.isEnabled()) {
                 continue;
