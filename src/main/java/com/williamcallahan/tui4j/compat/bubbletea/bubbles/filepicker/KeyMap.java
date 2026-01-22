@@ -8,4 +8,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.filepicker;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class KeyMap extends com.williamcallahan.tui4j.compat.bubbles.filepicker.KeyMap {
+    /**
+     * Creates a file picker key map shim.
+     */
+    public KeyMap() {
+        super();
+    }
 }

@@ -6,12 +6,22 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
  * Bubbles: list/list.go.
  */
 public enum FilterState {
+    /**
+     * No filtering is applied.
+     */
     Unfiltered,
+    /**
+     * Filtering is in progress.
+     */
     Filtering,
+    /**
+     * Filtering has completed with a query.
+     */
     FilterApplied;
 
     /**
      * Converts this deprecated enum value to the canonical enum value.
+     *
      * @return the canonical enum value
      */
     public com.williamcallahan.tui4j.compat.bubbles.list.FilterState toCanonical() {

@@ -14,6 +14,12 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 public class ReadClipboardMessage implements Message {
 
     /**
+     * Creates a clipboard read message.
+     */
+    public ReadClipboardMessage() {
+    }
+
+    /**
      * Handles equals for this component.
      *
      * @param other other

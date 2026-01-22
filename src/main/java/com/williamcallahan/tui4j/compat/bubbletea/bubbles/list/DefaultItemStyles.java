@@ -8,4 +8,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class DefaultItemStyles extends com.williamcallahan.tui4j.compat.bubbles.list.DefaultItemStyles {
+    /**
+     * Creates default item styles shim.
+     */
+    public DefaultItemStyles() {
+        super();
+    }
 }

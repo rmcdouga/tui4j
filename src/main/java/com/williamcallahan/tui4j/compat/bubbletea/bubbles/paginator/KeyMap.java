@@ -11,6 +11,13 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class KeyMap extends com.williamcallahan.tui4j.compat.bubbles.paginator.KeyMap {
     /**
+     * Creates a paginator key map shim.
+     */
+    public KeyMap() {
+        super();
+    }
+
+    /**
      * Handles prev page for this component.
      *
      * @return result

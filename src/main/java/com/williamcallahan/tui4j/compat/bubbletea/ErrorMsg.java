@@ -12,6 +12,8 @@ public class ErrorMsg extends ErrorMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link ErrorMessage} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param reason error cause
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public ErrorMsg(Throwable reason) {
@@ -21,6 +23,8 @@ public class ErrorMsg extends ErrorMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link ErrorMessage} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param reason error message
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public ErrorMsg(String reason) {

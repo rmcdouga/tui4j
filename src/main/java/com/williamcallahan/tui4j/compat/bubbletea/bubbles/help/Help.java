@@ -8,4 +8,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.help;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class Help extends com.williamcallahan.tui4j.compat.bubbles.help.Help {
+    /**
+     * Creates a help shim instance.
+     */
+    public Help() {
+        super();
+    }
 }

@@ -10,4 +10,10 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Bubble Tea: key_windows.go.
  */
 public class QuitMessage implements Message {
+
+    /**
+     * Creates a quit message.
+     */
+    public QuitMessage() {
+    }
 }

@@ -17,6 +17,12 @@ package com.williamcallahan.tui4j.ansi;
  * For new development, prefer the {@code compat.x.ansi} package.
  */
 public class GraphemeTransitions {
+    /**
+     * Creates a legacy grapheme transition helper.
+     */
+    public GraphemeTransitions() {
+    }
+
     // Grapheme cluster parser states
     private static final int GR_ANY = 0;
     private static final int GR_CR = 1;

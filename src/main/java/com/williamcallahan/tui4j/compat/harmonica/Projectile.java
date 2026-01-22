@@ -7,7 +7,14 @@ package com.williamcallahan.tui4j.compat.harmonica;
  */
 public final class Projectile {
 
+    /**
+     * Standard gravity vector used by the simulation.
+     */
     public static final Vector GRAVITY = new Vector(0, -9.81, 0);
+
+    /**
+     * Terminal gravity vector used by the simulation.
+     */
     public static final Vector TERMINAL_GRAVITY = new Vector(0, 9.81, 0);
 
     private Point position;
