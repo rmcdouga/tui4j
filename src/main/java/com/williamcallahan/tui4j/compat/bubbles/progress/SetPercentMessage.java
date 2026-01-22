@@ -5,9 +5,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 /**
  * Message sent to set the progress bar percentage.
  * <p>
- * Bubbles: bubbles/progress/progress.go
+ * Bubbles: progress/progress.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
+ * <p>
+ * Bubbles: filepicker/hidden_windows.go.
  */
 public class SetPercentMessage implements Message {
     private final double percent;

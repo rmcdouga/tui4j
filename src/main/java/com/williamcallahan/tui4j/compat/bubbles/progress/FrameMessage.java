@@ -5,9 +5,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 /**
  * Message sent on each animation frame of a progress bar.
  * <p>
- * Bubbles: bubbles/progress/progress.go
+ * Bubbles: progress/progress.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
+ * <p>
+ * Bubbles: filepicker/hidden_windows.go.
  */
 public class FrameMessage implements Message {
     private final int id;
