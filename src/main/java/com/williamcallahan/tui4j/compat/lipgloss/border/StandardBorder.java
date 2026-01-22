@@ -13,7 +13,7 @@ public class StandardBorder {
     /** Rounded corner border. */
     public static Border RoundedBorder = new Border("─", "─", "│", "│", "╭", "╮", "╰", "╯", "├", "┤", "┼", "┬", "┴");
     /** Solid block border. */
-    public static Border BlockBorder = new Border("█", "█", "█", "█", "█", "█", "█", "█", "", "", "", "", "");
+    public static Border BlockBorder = new Border("█", "█", "█", "█", "█", "█", "█", "█", "█", "█", "█", "█", "█");
     /** Outer half-block border. */
     public static Border OuterHalfBlockBorder = new Border("▀", "▄", "▌", "▐", "▛", "▜", "▙", "▟", "", "", "", "", "");
     /** Inner half-block border. */

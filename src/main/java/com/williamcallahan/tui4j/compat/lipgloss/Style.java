@@ -817,8 +817,8 @@ public class Style implements Cloneable {
             string = AlignmentDecorator.alignTextVertical(string, verticalAlign, height);
         }
 
-        int numLines = string.split("\n", 0).length;
-        if (!(numLines == 0 && width == 0)) {
+        int numLines = (int) string.chars().filter(ch -> ch == '\n').count();
+        if (numLines != 0 || width != 0) {
             AttributedStyle st = new AttributedStyle();
             if (background != null) {
                 st = background.applyAsBackground(st, renderer);

@@ -56,9 +56,9 @@ class RGBAApplyStrategy implements ColorApplyStrategy {
     }
 
     public RGBAApplyStrategy(RGB rgb) {
-        this.r = (int) (rgb.r() * 255);
-        this.g = (int) (rgb.g() * 255);
-        this.b = (int) (rgb.b() * 255);
+        this.r = Math.round(rgb.r() * 255);
+        this.g = Math.round(rgb.g() * 255);
+        this.b = Math.round(rgb.b() * 255);
     }
 
     @Override
