@@ -14,14 +14,14 @@ This is a maintained fork of the original [Latte](https://github.com/flatscrew/l
 <dependency>
     <groupId>com.williamcallahan</groupId>
     <artifactId>tui4j</artifactId>
-    <version>0.2.5</version>
+    <version>0.3.0-PREVIEW</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.williamcallahan:tui4j:0.2.5'
+implementation 'com.williamcallahan:tui4j:0.3.0-PREVIEW'
 ```
 
 ## Quick Start
