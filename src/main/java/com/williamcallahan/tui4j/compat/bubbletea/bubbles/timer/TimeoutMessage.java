@@ -8,24 +8,35 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * <p>
  * Bubbles: timer/timer.go.
  */
-@Deprecated(since = "0.3.0")
-public class TimeoutMessage extends com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class TimeoutMessage implements Message {
+    private final com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage delegate;
+
     /**
-     * Creates TimeoutMessage to keep this component ready for use.
+     * Creates TimeoutMessage.
      *
-     * @param id id
+     * @param id timer id
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public TimeoutMessage(int id) {
-        super(id);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage(id);
     }
 
     /**
-     * Handles id for this component.
+     * Returns the timer id.
      *
-     * @return result
+     * @return timer id
      */
-    @Override
     public int id() {
-        return super.id();
+        return delegate.id();
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical TimeoutMessage
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage toCanonical() {
+        return delegate;
     }
 }

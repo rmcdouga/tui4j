@@ -8,35 +8,45 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * <p>
  * Bubbles: timer/timer.go.
  */
-@Deprecated(since = "0.3.0")
-public class StartStopMessage extends com.williamcallahan.tui4j.compat.bubbles.timer.StartStopMessage {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class StartStopMessage implements Message {
+    private final com.williamcallahan.tui4j.compat.bubbles.timer.StartStopMessage delegate;
+
     /**
-     * Creates StartStopMessage to keep this component ready for use.
+     * Creates StartStopMessage.
      *
-     * @param id id
-     * @param running running
+     * @param id timer id
+     * @param running whether the timer should run
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public StartStopMessage(int id, boolean running) {
-        super(id, running);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.timer.StartStopMessage(id, running);
     }
 
     /**
-     * Handles id for this component.
+     * Returns the timer id.
      *
-     * @return result
+     * @return timer id
      */
-    @Override
     public int id() {
-        return super.id();
+        return delegate.id();
     }
 
     /**
-     * Handles running for this component.
+     * Returns whether the timer should run.
      *
-     * @return whether nning
+     * @return whether running
      */
-    @Override
     public boolean running() {
-        return super.running();
+        return delegate.running();
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical StartStopMessage
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.timer.StartStopMessage toCanonical() {
+        return delegate;
     }
 }

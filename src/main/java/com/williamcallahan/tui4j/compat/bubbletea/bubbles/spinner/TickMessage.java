@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+
 import java.time.LocalDateTime;
 
 /**
@@ -8,16 +10,55 @@ import java.time.LocalDateTime;
  * <p>
  * Bubbles: spinner/spinner.go.
  */
-@Deprecated(since = "0.3.0")
-public class TickMessage extends com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class TickMessage implements Message {
+    private final com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage delegate;
+
     /**
-     * Creates TickMessage to keep this component ready for use.
+     * Creates TickMessage.
      *
-     * @param time time
-     * @param tag tag
-     * @param id id
+     * @param time tick time
+     * @param tag spinner tag
+     * @param id spinner id
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public TickMessage(LocalDateTime time, int tag, int id) {
-        super(time, tag, id);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage(time, tag, id);
+    }
+
+    /**
+     * Returns the tick time.
+     *
+     * @return tick time
+     */
+    public LocalDateTime time() {
+        return delegate.time();
+    }
+
+    /**
+     * Returns the spinner tag.
+     *
+     * @return spinner tag
+     */
+    public int tag() {
+        return delegate.tag();
+    }
+
+    /**
+     * Returns the spinner id.
+     *
+     * @return spinner id
+     */
+    public int id() {
+        return delegate.id();
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical TickMessage
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage toCanonical() {
+        return delegate;
     }
 }
