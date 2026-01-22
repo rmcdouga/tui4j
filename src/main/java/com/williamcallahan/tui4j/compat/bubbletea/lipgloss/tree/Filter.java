@@ -10,7 +10,11 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 public class Filter extends com.williamcallahan.tui4j.compat.lipgloss.tree.Filter {
 
     /**
- */
+     * @deprecated Compatibility shim for relocated type; use
+     *             {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Filter.FilterFunction} instead.
+     *             This transitional shim is temporary and will be removed in an upcoming release.
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public interface FilterFunction
         extends com.williamcallahan.tui4j.compat.lipgloss.tree.Filter.FilterFunction {}
 

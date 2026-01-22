@@ -8,6 +8,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * Bubble Tea: nil_renderer.go.
  */
 public class NilRenderer implements Renderer {
+
+    /**
+     * Creates a renderer that performs no output.
+     */
+    public NilRenderer() {
+    }
+
     /**
      * Handles start for this component.
      */

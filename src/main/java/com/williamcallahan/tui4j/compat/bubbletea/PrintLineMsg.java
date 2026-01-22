@@ -12,6 +12,8 @@ public class PrintLineMsg extends PrintLineMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link PrintLineMessage} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param messageBody line to print
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public PrintLineMsg(String messageBody) {

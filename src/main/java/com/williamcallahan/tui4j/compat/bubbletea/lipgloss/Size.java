@@ -3,6 +3,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
 
 /**
+ * Size helpers with optional color-profile context for Bubble Tea-compatible layouts.
+ * <p>
+ * Lipgloss: size.go.
  */
 public class Size {
     private final ColorProfile profile;

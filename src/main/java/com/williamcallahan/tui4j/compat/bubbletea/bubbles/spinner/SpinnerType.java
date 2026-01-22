@@ -3,6 +3,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner;
 import java.time.Duration;
 
 /**
+ * Spinner shape presets for Bubble Tea-compatible spinners.
+ * <p>
+ * Bubbles: spinner/spinner.go.
  */
 public enum SpinnerType {
 

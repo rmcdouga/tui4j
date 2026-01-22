@@ -1,6 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator;
 
 /**
+ * Paginator types for Bubble Tea-compatible pagination.
+ * <p>
+ * Bubbles: paginator/paginator.go.
  */
 public enum Type {
     Dots,

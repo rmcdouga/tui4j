@@ -9,11 +9,12 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBColor;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBSupplier;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
 import java.io.Writer;
-
-
 import java.util.List;
 
 /**
+ * Terminal output wrapper for Bubble Tea-compatible lipgloss rendering.
+ * <p>
+ * Lipgloss: term/output.go.
  */
 public class Output {
     private final com.williamcallahan.tui4j.compat.lipgloss.Output delegate;

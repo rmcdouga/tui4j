@@ -14,6 +14,8 @@ public class KeyMsg extends KeyPressMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link KeyPressMessage} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param key key input payload
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public KeyMsg(Key key) {

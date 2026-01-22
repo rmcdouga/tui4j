@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Table data adapter for Bubble Tea-compatible table rendering.
+ * <p>
+ * Lipgloss: table/rows.go.
  */
 public class Data implements com.williamcallahan.tui4j.compat.lipgloss.table.Data {
     private final String[] headers;

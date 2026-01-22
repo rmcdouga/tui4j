@@ -6,6 +6,13 @@ package com.williamcallahan.tui4j.compat.bubbletea.input;
  * Bubble Tea: inputreader_other.go.
  */
 public class NoopInputHandler implements InputHandler {
+
+    /**
+     * Creates a no-op input handler.
+     */
+    public NoopInputHandler() {
+    }
+
     /**
      * Handles start for this component.
      */

@@ -9,4 +9,10 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class Keys extends com.williamcallahan.tui4j.compat.bubbles.list.KeyMap {
+    /**
+     * Creates a list key map shim.
+     */
+    public Keys() {
+        super();
+    }
 }

@@ -1,6 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
 /**
+ * Text-line measurement helpers for Bubble Tea-compatible rendering.
+ * <p>
+ * Lipgloss: ranges.go.
  */
 public class TextLines {
     private final com.williamcallahan.tui4j.compat.lipgloss.TextLines delegate;

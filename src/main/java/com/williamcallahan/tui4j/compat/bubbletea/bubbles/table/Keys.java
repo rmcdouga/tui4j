@@ -10,7 +10,13 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
 public class Keys extends com.williamcallahan.tui4j.compat.bubbles.table.Keys {
-    
+    /**
+     * Creates a table key map shim.
+     */
+    public Keys() {
+        super();
+    }
+
     // Removed @Override for methods that don't exist in parent
     /**
      * Handles column for this component.

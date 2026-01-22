@@ -12,6 +12,12 @@ import org.jline.utils.AttributedStyle;
 public class NoColor implements TerminalColor{
 
     /**
+     * Creates a no-op color.
+     */
+    public NoColor() {
+    }
+
+    /**
      * Handles apply as background for this component.
      *
      * @param style style

@@ -12,6 +12,14 @@ public class MouseMsg extends MouseMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param x column position
+     * @param y row position
+     * @param shift whether shift is pressed
+     * @param alt whether alt is pressed
+     * @param ctrl whether ctrl is pressed
+     * @param action mouse action
+     * @param button mouse button
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public MouseMsg(
@@ -29,6 +37,11 @@ public class MouseMsg extends MouseMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage#parseX10MouseEvent} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param col column position
+     * @param row row position
+     * @param button raw button value
+     * @return parsed mouse message
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public static MouseMsg parseX10MouseEvent(int col, int row, int button) {
@@ -38,6 +51,12 @@ public class MouseMsg extends MouseMessage {
     /**
      * @deprecated Compatibility alias for legacy *Msg naming; use {@link MouseMessage#parseSGRMouseEvent} instead.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param button raw button value
+     * @param col column position
+     * @param row row position
+     * @param release whether this is a release event
+     * @return parsed mouse message
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public static MouseMsg parseSGRMouseEvent(

@@ -1,6 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.cursor;
 
 /**
+ * Cursor rendering modes for the Bubble Tea-compatible cursor model.
+ * <p>
+ * Bubbles: cursor/cursor.go.
  */
 public enum CursorMode {
     /** Blinking cursor. */

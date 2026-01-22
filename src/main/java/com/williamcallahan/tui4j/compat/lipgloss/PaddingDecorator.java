@@ -12,6 +12,12 @@ import org.jline.utils.AttributedStyle;
 public class PaddingDecorator {
 
     /**
+     * Creates a padding decorator instance.
+     */
+    public PaddingDecorator() {
+    }
+
+    /**
      * Handles apply padding for this component.
      *
      * @param input input

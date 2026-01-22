@@ -13,6 +13,12 @@ import static com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer
 public class PlacementDecorator {
 
     /**
+     * Creates a placement decorator instance.
+     */
+    public PlacementDecorator() {
+    }
+
+    /**
      * Handles place for this component.
      *
      * @param width width

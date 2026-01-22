@@ -1,6 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.textinput;
 
 /**
+ * Echo modes for Bubble Tea-compatible text input.
+ * <p>
+ * Bubbles: textinput/textinput.go.
  */
 public enum EchoMode {
     /**
