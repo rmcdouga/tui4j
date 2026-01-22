@@ -194,6 +194,9 @@ public interface Command {
     /**
      * @deprecated Compatibility: Moved to {@link #setWindowTitle(String)}.
      * This transitional shim is temporary and will be removed in an upcoming release.
+     *
+     * @param title the title to set
+     * @return the command
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     static Command setWidowTitle(String title) {

@@ -147,9 +147,8 @@ public class Whitespace {
             return null;
         }
         return new com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor() {
-/** {@inheritDoc} */
+            /** {@inheritDoc} */
             @Override
- */
             public org.jline.utils.AttributedStyle applyAsBackground(
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
@@ -157,9 +156,8 @@ public class Whitespace {
                 return color.applyAsBackground(style, Renderer.fromCanonical(renderer));
             }
 
-/** {@inheritDoc} */
+            /** {@inheritDoc} */
             @Override
- */
             public org.jline.utils.AttributedStyle applyAsForeground(
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
