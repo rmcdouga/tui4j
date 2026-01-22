@@ -1,16 +1,19 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.filepicker;
 
 /**
- * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.filepicker.FilePicker} instead.
- * This transitional shim is temporary and will be removed in an upcoming release.
+ * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.filepicker.FilePicker}.
+ * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/filepicker/FilePicker.java}.
  * <p>
  * Bubbles: filepicker/filepicker.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.filepicker.FilePicker}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
 @Deprecated(since = "0.3.0")
 public class FilePicker extends com.williamcallahan.tui4j.compat.bubbles.filepicker.FilePicker {
-    
+
     /**
-     * Creates FilePicker to keep this component ready for use.
+     * Creates a file picker shim.
      */
     public FilePicker() {
         super();
@@ -18,23 +21,14 @@ public class FilePicker extends com.williamcallahan.tui4j.compat.bubbles.filepic
         this.setStyles(Styles.defaultStyles());
     }
 
-    /**
-     * Handles key map for this component.
-     *
-     * @return result
-     */
     @Override
     public KeyMap keyMap() {
         return (KeyMap) super.keyMap();
     }
 
-    /**
-     * Handles styles for this component.
-     *
-     * @return result
-     */
     @Override
     public Styles styles() {
         return (Styles) super.styles();
     }
+
 }
