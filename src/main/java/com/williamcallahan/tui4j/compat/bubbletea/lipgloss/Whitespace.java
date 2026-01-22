@@ -7,8 +7,11 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
  * Lipgloss: whitespace.go.
  *
  * @since 0.3.0
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.Whitespace} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-@SuppressWarnings("removal")
+@Deprecated(since = "0.3.0")
 public class Whitespace {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.Whitespace delegate;
@@ -153,7 +156,7 @@ public class Whitespace {
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
             ) {
-                return color.applyAsBackground(style, Renderer.fromCanonical(renderer));
+                return color.applyAsBackground(style, renderer);
             }
 
             /** {@inheritDoc} */
@@ -162,7 +165,7 @@ public class Whitespace {
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
             ) {
-                return color.applyAsForeground(style, Renderer.fromCanonical(renderer));
+                return color.applyAsForeground(style, renderer);
             }
         };
     }

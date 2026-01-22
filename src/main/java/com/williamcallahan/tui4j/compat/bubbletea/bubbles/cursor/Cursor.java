@@ -7,14 +7,14 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.cursor;
 @Deprecated(since = "0.3.0")
 public class Cursor extends com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor {
 
+    /**
+     * Creates a cursor with default settings.
+     *
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor#Cursor()} instead.
+     */
     @Deprecated(since = "0.3.0")
     public Cursor() {
         super();
-    }
-
-    @Deprecated(since = "0.3.0")
-    public Cursor(com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor delegate) {
-        super(delegate);
     }
 
 }

@@ -1,26 +1,28 @@
 package com.williamcallahan.tui4j.compat.bubbles.list;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Command;
-import com.williamcallahan.tui4j.compat.bubbletea.Message;
-import com.williamcallahan.tui4j.compat.bubbletea.Model;
-import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import static com.williamcallahan.tui4j.compat.bubbles.list.DefaultItemStyles.ELLIPSIS;
+import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
+
 import com.williamcallahan.tui4j.ansi.Truncate;
-import com.williamcallahan.tui4j.compat.lipgloss.Position;
-import com.williamcallahan.tui4j.compat.lipgloss.Size;
-import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbles.help.Help;
-import com.williamcallahan.tui4j.compat.bubbles.list.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
+import com.williamcallahan.tui4j.compat.bubbles.list.KeyMap;
 import com.williamcallahan.tui4j.compat.bubbles.paginator.Paginator;
 import com.williamcallahan.tui4j.compat.bubbles.paginator.Type;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType;
 import com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage;
 import com.williamcallahan.tui4j.compat.bubbles.textinput.TextInput;
-
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.Model;
+import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import com.williamcallahan.tui4j.compat.lipgloss.Position;
+import com.williamcallahan.tui4j.compat.lipgloss.Size;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,14 +36,13 @@ import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
-import static com.williamcallahan.tui4j.compat.bubbles.list.DefaultItemStyles.ELLIPSIS;
-
 /**
  * Port of Bubbles list.
  * Bubble Tea: bubbletea/examples/list-simple/main.go
  */
-public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.help.KeyMap {
+public class List
+    implements Model, com.williamcallahan.tui4j.compat.bubbles.help.KeyMap
+{
 
     private boolean showTitle;
     private boolean showFilter;
@@ -95,7 +96,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         setup(new DefaultDataSource(this, items), delegate, width, height);
     }
 
-    public List(ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
+    public List(
+        ListDataSource dataSource,
+        ItemDelegate delegate,
+        int width,
+        int height
+    ) {
         setup(dataSource, delegate, width, height);
     }
 
@@ -103,7 +109,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         this(dataSource, new DefaultDelegate(), width, height);
     }
 
-    private void setup(ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
+    private void setup(
+        ListDataSource dataSource,
+        ItemDelegate delegate,
+        int width,
+        int height
+    ) {
         this.dataSource = dataSource;
         this.currentPageItems = new ArrayList<>();
         this.filterState = FilterState.Unfiltered;
@@ -156,24 +167,30 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
     public Command refresh(Runnable... postRefresh) {
         return fetchCurrentPageItems(
-                Stream.concat(
-                        Stream.of(postRefresh),
-                        Stream.of(this::keepCursorInBounds)).toArray(Runnable[]::new));
+            Stream.concat(
+                Stream.of(postRefresh),
+                Stream.of(this::keepCursorInBounds)
+            ).toArray(Runnable[]::new)
+        );
     }
 
     private Command fetchCurrentPageItems(Runnable... postFetch) {
         this.fetchingItems = true;
         updateKeybindings();
 
-        return batch(
-                updateFilter(),
-                startSpinner(),
-                () -> new FetchedCurrentPageItems(
-                        dataSource.fetchItems(
-                                paginator.page(),
-                                paginator.perPage(),
-                                filterInput.value()),
-                        postFetch));
+        String filterValue =
+            filterState == FilterState.Unfiltered ? "" : filterInput.value();
+
+        return batch(updateFilter(), startSpinner(), () ->
+            new FetchedCurrentPageItems(
+                dataSource.fetchItems(
+                    paginator.page(),
+                    paginator.perPage(),
+                    filterValue
+                ),
+                postFetch
+            )
+        );
     }
 
     private Command updateFilter() {
@@ -295,16 +312,31 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     }
 
     public Item selectedItem() {
+        int i = index();
         java.util.List<FilteredItem> visibleItems = visibleItems();
 
-        if (cursor < 0 || visibleItems.isEmpty() || visibleItems.size() <= cursor) {
+        if (
+            i < 0 ||
+            visibleItems.isEmpty() ||
+            visibleItems.size() <= i
+        ) {
             return null;
         }
-        return visibleItems.get(cursor).item();
+        return visibleItems.get(i).item();
     }
 
+    /**
+     * Returns all items available to be shown, matching upstream Go behavior.
+     * <p>
+     * When unfiltered, returns all items. When filtering/filtered, returns all matching items.
+     * Note: pagination is only applied for rendering, not for this method.
+     *
+     * @return all visible items
+     */
     public java.util.List<FilteredItem> visibleItems() {
-        return currentPageItems;
+        String filterValue = filterState == FilterState.Unfiltered ? "" : filterInput.value();
+        FetchedItems all = dataSource.fetchItems(0, Integer.MAX_VALUE, filterValue);
+        return all.items();
     }
 
     public int index() {
@@ -385,13 +417,17 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
         statusMessageTimer = new Timer();
         return () -> {
-            BlockingQueue<StatusMessageTimeoutMessage> queue = new ArrayBlockingQueue<>(1);
-            statusMessageTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    queue.offer(new StatusMessageTimeoutMessage());
-                }
-            }, statusMessageLifetime.toMillis());
+            BlockingQueue<StatusMessageTimeoutMessage> queue =
+                new ArrayBlockingQueue<>(1);
+            statusMessageTimer.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        queue.offer(new StatusMessageTimeoutMessage());
+                    }
+                },
+                statusMessageLifetime.toMillis()
+            );
 
             try {
                 return queue.take();
@@ -410,12 +446,16 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     }
 
     public Command setSize(int width, int height) {
-        int promptWidth = Size.width(styles.title().render(filterInput.prompt()));
+        int promptWidth = Size.width(
+            styles.title().render(filterInput.prompt())
+        );
 
         this.width = width;
         this.height = height;
         this.help.setWidth(width);
-        this.filterInput.setWidth(width - promptWidth - Size.width(spinnerView()));
+        this.filterInput.setWidth(
+            width - promptWidth - Size.width(spinnerView())
+        );
         updatePagination();
 
         return fetchCurrentPageItems();
@@ -453,7 +493,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             if (!fetchingItems) {
                 keys.cancelWhileFiltering().setEnabled(true);
             }
-            keys.acceptWhileFiltering().setEnabled(!"".equals(filterInput.value()));
+            keys
+                .acceptWhileFiltering()
+                .setEnabled(!"".equals(filterInput.value()));
             keys.quit().setEnabled(false);
             keys.showFullHelp().setEnabled(false);
             keys.closeFullHelp().setEnabled(false);
@@ -468,7 +510,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             boolean hasPages = paginator.totalPages() > 0;
             keys.nextPage().setEnabled(hasPages);
             keys.prevPage().setEnabled(hasPages);
-            keys.clearFilter().setEnabled(filterState == FilterState.FilterApplied);
+            keys
+                .clearFilter()
+                .setEnabled(filterState == FilterState.FilterApplied);
             keys.cancelWhileFiltering().setEnabled(false);
             keys.acceptWhileFiltering().setEnabled(false);
             keys.quit().setEnabled(!disableQuitKeybindings);
@@ -513,7 +557,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         }
 
         this.cursor = index % paginator.perPage();
-        paginator.setPerPage(Math.max(1, availHeight / (itemDelegate.height() + itemDelegate.spacing())));
+        paginator.setPerPage(
+            Math.max(
+                1,
+                availHeight / (itemDelegate.height() + itemDelegate.spacing())
+            )
+        );
 
         if (paginator.page() >= paginator.totalPages()) {
             paginator.setPage(Math.max(0, paginator.totalPages() - 1));
@@ -533,7 +582,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             if (Binding.matches(keyPressMessage, keys.forceQuit())) {
                 return UpdateResult.from(this, QuitMessage::new);
             }
-        } else if (msg instanceof FetchedCurrentPageItems fetchedCurrentPageItems) {
+        } else if (
+            msg instanceof FetchedCurrentPageItems fetchedCurrentPageItems
+        ) {
             stopSpinner();
             this.fetchingItems = false;
 
@@ -607,8 +658,10 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
                 commands.add(fetchCurrentPageItems(() -> this.cursor = 0));
 
                 return batch(commands);
-            } else if (Binding.matches(keyPressMessage, keys.showFullHelp())
-                    || Binding.matches(keyPressMessage, keys.closeFullHelp())) {
+            } else if (
+                Binding.matches(keyPressMessage, keys.showFullHelp()) ||
+                Binding.matches(keyPressMessage, keys.closeFullHelp())
+            ) {
                 help.setShowAll(!help.showAll());
                 updatePagination();
 
@@ -667,7 +720,10 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             if (paginator.page() == 0) {
                 if (infiniteScrolling) {
                     paginator.setPage(paginator.totalPages() - 1);
-                    return fetchCurrentPageItems(() -> cursor = paginator.itemsOnPage(visibleItems().size()) - 1);
+                    return fetchCurrentPageItems(() ->
+                        cursor =
+                            paginator.itemsOnPage(visibleItems().size()) - 1
+                    );
                 }
 
                 this.cursor = 0;
@@ -676,11 +732,15 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
             if (infiniteScrolling) {
                 paginator.setPage(paginator.totalPages() - 1);
-                return fetchCurrentPageItems(() -> cursor = paginator.itemsOnPage(visibleItems().size()) - 1);
+                return fetchCurrentPageItems(() ->
+                    cursor = paginator.itemsOnPage(visibleItems().size()) - 1
+                );
             }
 
             paginator.prevPage();
-            return fetchCurrentPageItems(() -> cursor = visibleItems().size() - 1);
+            return fetchCurrentPageItems(() ->
+                cursor = visibleItems().size() - 1
+            );
         }
         return null;
     }
@@ -695,8 +755,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
         if (!paginator.onLastPage()) {
             paginator.nextPage();
-            return fetchCurrentPageItems(
-                    () -> cursor = 0);
+            return fetchCurrentPageItems(() -> cursor = 0);
         }
 
         if (cursor > itemsOnPage) {
@@ -707,8 +766,7 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         this.cursor = itemsOnPage - 1;
 
         if (infiniteScrolling) {
-            return fetchCurrentPageItems(
-                    () -> cursor = 0);
+            return fetchCurrentPageItems(() -> cursor = 0);
         }
 
         return null;
@@ -721,12 +779,15 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             if (Binding.matches(keyPressMessage, keys.cancelWhileFiltering())) {
                 resetFiltering();
 
-                commands.add(fetchCurrentPageItems(() -> {
-                    keys.filter().setEnabled(true);
-                    keys.clearFilter().setEnabled(false);
-                }));
-
-            } else if (Binding.matches(keyPressMessage, keys.acceptWhileFiltering())) {
+                commands.add(
+                    fetchCurrentPageItems(() -> {
+                        keys.filter().setEnabled(true);
+                        keys.clearFilter().setEnabled(false);
+                    })
+                );
+            } else if (
+                Binding.matches(keyPressMessage, keys.acceptWhileFiltering())
+            ) {
                 hideStatusMessage();
 
                 if (totalItems > 0) {
@@ -748,15 +809,22 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
         String beforeChange = filterInput.value();
         UpdateResult<TextInput> updateResult = filterInput.update(msg);
-        boolean filterChanged = !Objects.equals(beforeChange, updateResult.model().value());
+        boolean filterChanged = !Objects.equals(
+            beforeChange,
+            updateResult.model().value()
+        );
         this.filterInput = updateResult.model();
         commands.add(updateResult.command());
 
         if (filterChanged && !filterOnAcceptOnly) {
-            commands.add(fetchCurrentPageItems(() -> {
-                keys.acceptWhileFiltering().setEnabled(!filterInput.isEmpty());
-                updatePagination();
-            }));
+            commands.add(
+                fetchCurrentPageItems(() -> {
+                    keys
+                        .acceptWhileFiltering()
+                        .setEnabled(!filterInput.isEmpty());
+                    updatePagination();
+                })
+            );
         }
         return batch(commands);
     }
@@ -790,7 +858,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             availHeight -= Size.height(help);
         }
 
-        String content = Style.newStyle().height(availHeight).render(populatedView());
+        String content = Style.newStyle()
+            .height(availHeight)
+            .render(populatedView());
         sections.add(content);
 
         if (showPagination) {
@@ -801,7 +871,10 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             sections.add(help);
         }
 
-        return VerticalJoinDecorator.joinVertical(Position.Left, sections.toArray(new String[0]));
+        return VerticalJoinDecorator.joinVertical(
+            Position.Left,
+            sections.toArray(new String[0])
+        );
     }
 
     private String titleView() {
@@ -810,12 +883,17 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         String spinnerView = spinnerView();
         int spinnerWidth = Size.width(spinnerView);
         String spinnerLeftGap = " ";
-        boolean spinnerOnLeft = titleBarStyle.leftPadding() >= spinnerWidth + Size.width(spinnerLeftGap) && showSpinner;
+        boolean spinnerOnLeft =
+            titleBarStyle.leftPadding() >=
+                spinnerWidth + Size.width(spinnerLeftGap) &&
+            showSpinner;
 
         if (showSpinner && spinnerOnLeft) {
             view.append(spinnerView).append(spinnerLeftGap);
             int titleBarGap = titleBarStyle.leftPadding();
-            titleBarStyle = titleBarStyle.paddingLeft(titleBarGap - spinnerWidth - Size.width(spinnerLeftGap));
+            titleBarStyle = titleBarStyle.paddingLeft(
+                titleBarGap - spinnerWidth - Size.width(spinnerLeftGap)
+            );
         }
 
         if (showFilter && filterState == FilterState.Filtering) {
@@ -824,16 +902,23 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             view.append(styles.title().render(title));
             if (filterState != FilterState.Filtering) {
                 view.append(" ").append(statusMessage);
-                view = new StringBuilder(Truncate.truncate(view.toString(), width - spinnerWidth, ELLIPSIS));
+                view = new StringBuilder(
+                    Truncate.truncate(
+                        view.toString(),
+                        width - spinnerWidth,
+                        ELLIPSIS
+                    )
+                );
             }
         }
 
         if (showSpinner && !spinnerOnLeft) {
-            int availSpace = width - Size.width(styles.titleBar().render(view.toString()));
+            int availSpace =
+                width - Size.width(styles.titleBar().render(view.toString()));
             if (availSpace > spinnerWidth) {
                 view
-                        .append(" ".repeat(availSpace - spinnerWidth))
-                        .append(spinnerView);
+                    .append(" ".repeat(availSpace - spinnerWidth))
+                    .append(spinnerView);
             }
         }
 
@@ -856,12 +941,16 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
         if (filterState == FilterState.Filtering) {
             if (visibleItems == 0) {
-                status = new StringBuilder(styles.statusEmpty().render("Nothing matched"));
+                status = new StringBuilder(
+                    styles.statusEmpty().render("Nothing matched")
+                );
             } else {
                 status = new StringBuilder(itemsDisplay);
             }
         } else if (totalItems == 0) {
-            status = new StringBuilder(styles.statusEmpty().render("No " + itemNamePlural));
+            status = new StringBuilder(
+                styles.statusEmpty().render("No " + itemNamePlural)
+            );
         } else {
             boolean filtered = filterState == FilterState.FilterApplied;
 
@@ -874,12 +963,19 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             status.append(itemsDisplay);
         }
 
-        if (filterState == FilterState.Filtering || filterState == FilterState.FilterApplied) {
+        if (
+            filterState == FilterState.Filtering ||
+            filterState == FilterState.FilterApplied
+        ) {
             long numFiltered = totalItems - visibleItems;
             if (numFiltered > 0) {
                 status
-                        .append(styles.dividerDot().render())
-                        .append(styles.statusBarFilterCount().render("%d filtered".formatted(numFiltered)));
+                    .append(styles.dividerDot().render())
+                    .append(
+                        styles
+                            .statusBarFilterCount()
+                            .render("%d filtered".formatted(numFiltered))
+                    );
             }
         }
 
@@ -919,7 +1015,12 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         }
 
         for (int i = 0; i < items.size(); i++) {
-            itemDelegate.render(b, this, paginator.page() * paginator.perPage() + i, items.get(i));
+            itemDelegate.render(
+                b,
+                this,
+                paginator.page() * paginator.perPage() + i,
+                items.get(i)
+            );
             if (i != items.size() - 1) {
                 b.append("\n".repeat(itemDelegate.spacing() + 1));
             }
@@ -927,7 +1028,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
         int itemsOnPage = items.size();
         if (itemsOnPage < paginator.perPage()) {
-            int emptyLines = (paginator.perPage() - itemsOnPage) * (itemDelegate.height() + itemDelegate.spacing());
+            int emptyLines =
+                (paginator.perPage() - itemsOnPage) *
+                (itemDelegate.height() + itemDelegate.spacing());
             if (items.isEmpty()) {
                 emptyLines -= itemDelegate.height() - 1; // Edge case adjustment
             }
@@ -958,9 +1061,9 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
 
     @Override
     public Binding[] shortHelp() {
-        java.util.List<Binding> kb = new LinkedList<>(Arrays.asList(
-                keys.cursorUp(),
-                keys.cursorDown()));
+        java.util.List<Binding> kb = new LinkedList<>(
+            Arrays.asList(keys.cursorUp(), keys.cursorDown())
+        );
 
         boolean filtering = filterState == FilterState.Filtering;
         if (!filtering) {
@@ -969,19 +1072,20 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             }
         }
 
-        kb.addAll(Arrays.asList(
+        kb.addAll(
+            Arrays.asList(
                 keys.filter(),
                 keys.clearFilter(),
                 keys.acceptWhileFiltering(),
-                keys.cancelWhileFiltering()));
+                keys.cancelWhileFiltering()
+            )
+        );
 
         if (!filtering && additionalShortHelpKeyMap != null) {
             kb.addAll(Arrays.asList(additionalShortHelpKeyMap.get()));
         }
 
-        kb.addAll(Arrays.asList(
-                keys.quit(),
-                keys.showFullHelp()));
+        kb.addAll(Arrays.asList(keys.quit(), keys.showFullHelp()));
 
         return kb.toArray(new Binding[0]);
     }
@@ -989,14 +1093,16 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     @Override
     public Binding[][] fullHelp() {
         java.util.List<Binding[]> kb = new LinkedList<>();
-        kb.add(new Binding[] {
+        kb.add(
+            new Binding[] {
                 keys.cursorUp(),
                 keys.cursorDown(),
                 keys.nextPage(),
                 keys.prevPage(),
                 keys.goToStart(),
-                keys.goToEnd()
-        });
+                keys.goToEnd(),
+            }
+        );
 
         boolean filtering = filterState == FilterState.Filtering;
         if (!filtering) {
@@ -1005,21 +1111,23 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
             }
         }
 
-        java.util.List<Binding> listLevelBindings = new LinkedList<>(Arrays.asList(
+        java.util.List<Binding> listLevelBindings = new LinkedList<>(
+            Arrays.asList(
                 keys.filter(),
                 keys.clearFilter(),
                 keys.acceptWhileFiltering(),
-                keys.cancelWhileFiltering()));
+                keys.cancelWhileFiltering()
+            )
+        );
 
         if (!filtering && additionalFullHelpKeyMap != null) {
-            listLevelBindings.addAll(Arrays.asList(additionalFullHelpKeyMap.get()));
+            listLevelBindings.addAll(
+                Arrays.asList(additionalFullHelpKeyMap.get())
+            );
         }
 
         kb.add(listLevelBindings.toArray(new Binding[0]));
-        kb.add(new Binding[] {
-                keys.quit(),
-                keys.closeFullHelp()
-        });
+        kb.add(new Binding[] { keys.quit(), keys.closeFullHelp() });
         return kb.toArray(new Binding[0][]);
     }
 
@@ -1027,11 +1135,15 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
         return styles;
     }
 
-    public void setAdditionalShortHelpKeys(Supplier<Binding[]> additionalShortHelpKeyMap) {
+    public void setAdditionalShortHelpKeys(
+        Supplier<Binding[]> additionalShortHelpKeyMap
+    ) {
         this.additionalShortHelpKeyMap = additionalShortHelpKeyMap;
     }
 
-    public void setAdditionalFullHelpKeys(Supplier<Binding[]> additionalFullHelpKeyMap) {
+    public void setAdditionalFullHelpKeys(
+        Supplier<Binding[]> additionalFullHelpKeyMap
+    ) {
         this.additionalFullHelpKeyMap = additionalFullHelpKeyMap;
     }
 }

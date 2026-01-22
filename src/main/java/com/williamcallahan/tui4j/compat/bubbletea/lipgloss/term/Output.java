@@ -1,12 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ANSI256Color;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ANSIColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGB;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBSupplier;
 import java.io.Writer;
 import java.util.List;
 
@@ -14,8 +7,11 @@ import java.util.List;
  * Terminal output wrapper for Bubble Tea-compatible lipgloss rendering.
  * <p>
  * Lipgloss: term/output.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.Output} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-@SuppressWarnings("removal")
+@Deprecated(since = "0.3.0")
 public class Output {
     private final com.williamcallahan.tui4j.compat.lipgloss.Output delegate;
     private final List<String> environment;
@@ -47,8 +43,8 @@ public class Output {
      *
      * @return result
      */
-    public ColorProfile envColorProfile() {
-        return toBubbleteaProfile(delegate.envColorProfile());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile envColorProfile() {
+        return delegate.envColorProfile();
     }
     
     /**
@@ -74,8 +70,8 @@ public class Output {
      *
      * @return background color
      */
-    public com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor backgroundColor() {
-        return toBubbleteaColor(delegate.backgroundColor());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor backgroundColor() {
+        return delegate.backgroundColor();
     }
 
     /**
@@ -87,140 +83,4 @@ public class Output {
         return delegate;
     }
 
-    /**
-     * Maps a canonical color profile to the Bubble Tea enum.
-     *
-     * @param profile canonical color profile
-     * @return bubbletea color profile
-     */
-    private static ColorProfile toBubbleteaProfile(com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile profile) {
-        if (profile == null) {
-            return null;
-        }
-        return ColorProfile.valueOf(profile.name());
-    }
-
-    /**
-     * Maps a canonical terminal color to the Bubble Tea API surface.
-     *
-     * @param color canonical terminal color
-     * @return bubbletea terminal color
-     */
-    private static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor toBubbleteaColor(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
-        if (color == null) {
-            return new NoColor();
-        }
-        if (color instanceof com.williamcallahan.tui4j.compat.lipgloss.color.ANSIColor ansiColor) {
-            return new ANSIColor(ansiColor.value());
-        }
-        if (color instanceof com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color ansi256Color) {
-            return new ANSI256Color(ansi256Color.value());
-        }
-        if (color instanceof com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor rgbColor) {
-            com.williamcallahan.tui4j.compat.lipgloss.color.RGB rgb = rgbColor.rgb();
-            return new RGBColor((int) (rgb.r() * 255.0f), (int) (rgb.g() * 255.0f), (int) (rgb.b() * 255.0f));
-        }
-        if (color instanceof com.williamcallahan.tui4j.compat.lipgloss.color.RGBSupplier rgbSupplier) {
-            return new RGBColorAdapter(rgbSupplier);
-        }
-        return new NoColor();
-    }
-
-    /**
-     * Adapter that exposes a canonical RGB supplier as a Bubble Tea terminal color.
-     */
-    private static final class RGBColorAdapter implements com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor, RGBSupplier {
-        private final com.williamcallahan.tui4j.compat.lipgloss.color.RGBSupplier delegate;
-
-        /**
-         * Creates an adapter for a canonical RGB supplier.
-         *
-         * @param delegate canonical RGB supplier
-         */
-        private RGBColorAdapter(com.williamcallahan.tui4j.compat.lipgloss.color.RGBSupplier delegate) {
-            this.delegate = delegate;
-        }
-
-        /**
-         * Applies the delegate as a background.
-         *
-         * @param style style to update
-         * @param renderer renderer context
-         * @return updated style
-         */
-        @Override
-        public org.jline.utils.AttributedStyle applyAsBackground(
-            org.jline.utils.AttributedStyle style,
-            com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-        ) {
-            return delegate
-                .rgb()
-                .asColorApplyStrategy()
-                .applyForBackground(style);
-        }
-
-        /**
-         * Applies the delegate as a background using the canonical renderer.
-         *
-         * @param style style to update
-         * @param renderer renderer context
-         * @return updated style
-         */
-        @Override
-        public org.jline.utils.AttributedStyle applyAsBackground(
-            org.jline.utils.AttributedStyle style,
-            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
-        ) {
-            return delegate
-                .rgb()
-                .asColorApplyStrategy()
-                .applyForBackground(style);
-        }
-
-        /**
-         * Applies the delegate as a foreground.
-         *
-         * @param style style to update
-         * @param renderer renderer context
-         * @return updated style
-         */
-        @Override
-        public org.jline.utils.AttributedStyle applyAsForeground(
-            org.jline.utils.AttributedStyle style,
-            com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-        ) {
-            return delegate
-                .rgb()
-                .asColorApplyStrategy()
-                .applyForForeground(style);
-        }
-
-        /**
-         * Applies the delegate as a foreground using the canonical renderer.
-         *
-         * @param style style to update
-         * @param renderer renderer context
-         * @return updated style
-         */
-        @Override
-        public org.jline.utils.AttributedStyle applyAsForeground(
-            org.jline.utils.AttributedStyle style,
-            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
-        ) {
-            return delegate
-                .rgb()
-                .asColorApplyStrategy()
-                .applyForForeground(style);
-        }
-
-        /**
-         * Returns the RGB value for the delegate.
-         *
-         * @return RGB value
-         */
-        @Override
-        public RGB rgb() {
-            return RGB.fromCanonical(delegate.rgb());
-        }
-    }
 }

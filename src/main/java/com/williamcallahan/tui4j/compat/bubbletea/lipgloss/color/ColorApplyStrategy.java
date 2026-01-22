@@ -7,7 +7,10 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Lipgloss: color.go.
  *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.ColorApplyStrategy} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public interface ColorApplyStrategy {
     /**
      * Applies this strategy for foreground styling.
@@ -92,7 +95,9 @@ class RGBAApplyStrategy implements ColorApplyStrategy {
      *
      * @param rgb rgb value
      */
-    public RGBAApplyStrategy(RGB rgb) {
+    public RGBAApplyStrategy(
+        com.williamcallahan.tui4j.compat.lipgloss.color.RGB rgb
+    ) {
         this.r = (int) (rgb.r() * 255);
         this.g = (int) (rgb.g() * 255);
         this.b = (int) (rgb.b() * 255);
@@ -134,7 +139,11 @@ class HexColorApplyStrategy implements ColorApplyStrategy {
      * @param hexValue hex color value
      */
     public HexColorApplyStrategy(String hexValue) {
-        this.rgbaApplyStrategy = RGB.fromHexString(hexValue).asColorApplyStrategy();
+        com.williamcallahan.tui4j.compat.lipgloss.color.RGB rgb =
+            com.williamcallahan.tui4j.compat.lipgloss.color.RGB.fromHexString(
+                hexValue
+            );
+        this.rgbaApplyStrategy = new RGBAApplyStrategy(rgb);
     }
 
     /**

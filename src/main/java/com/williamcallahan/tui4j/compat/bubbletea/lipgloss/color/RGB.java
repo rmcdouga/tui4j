@@ -8,7 +8,11 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
  * @param r red channel (0-1)
  * @param g green channel (0-1)
  * @param b blue channel (0-1)
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.RGB} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public record RGB(float r, float g, float b) {
 
     /**
@@ -55,8 +59,8 @@ public record RGB(float r, float g, float b) {
      *
      * @return the ANSI 256 color
      */
-    public ANSI256Color toANSI256Color() {
-        return new ANSI256Color(toCanonical().toANSI256Color().value());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color toANSI256Color() {
+        return toCanonical().toANSI256Color();
     }
 
     /**
@@ -64,9 +68,8 @@ public record RGB(float r, float g, float b) {
      *
      * @return the HSL representation
      */
-    public HSL toHSL() {
-        var canonical = toCanonical().toHSL();
-        return HSL.fromCanonical(canonical);
+    public com.williamcallahan.tui4j.compat.lipgloss.color.HSL toHSL() {
+        return toCanonical().toHSL();
     }
 
     /**
@@ -84,8 +87,8 @@ public record RGB(float r, float g, float b) {
      *
      * @return color apply strategy
      */
-    public ColorApplyStrategy asColorApplyStrategy() {
-        return new RGBAApplyStrategy(this);
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ColorApplyStrategy asColorApplyStrategy() {
+        return toCanonical().asColorApplyStrategy();
     }
 
     /**

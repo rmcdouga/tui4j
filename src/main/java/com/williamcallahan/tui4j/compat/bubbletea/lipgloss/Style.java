@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border;
-
 import java.util.function.Function;
 
 /**
@@ -14,7 +12,6 @@ import java.util.function.Function;
  * in a future release.
  */
 @Deprecated(since = "0.3.0")
-@SuppressWarnings("removal")
 public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
 
     /**
@@ -475,7 +472,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param sides sides to apply
      * @return this style
      */
-    public Style border(Border border, boolean... sides) {
+    public Style border(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border border, boolean... sides) {
         return border(border == null ? null : border.toNew(), sides);
     }
 
@@ -497,7 +494,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
      * @param borderDecoration bubbletea border decoration
      * @return this style
      */
-    public Style borderDecoration(Border borderDecoration) {
+    public Style borderDecoration(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border borderDecoration) {
         super.borderDecoration(borderDecoration == null ? null : borderDecoration.toNew());
         return this;
     }
@@ -831,7 +828,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
             ) {
-                return color.applyAsBackground(style, Renderer.fromCanonical(renderer));
+                return color.applyAsBackground(style, renderer);
             }
 
             /** {@inheritDoc} */
@@ -840,7 +837,7 @@ public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
                 org.jline.utils.AttributedStyle style,
                 com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
             ) {
-                return color.applyAsForeground(style, Renderer.fromCanonical(renderer));
+                return color.applyAsForeground(style, renderer);
             }
         };
     }

@@ -2,7 +2,6 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -69,12 +68,8 @@ public interface Command {
      *
      * @param commands commands to execute
      * @return sequential command
-     * @deprecated Deprecated in tui4j as of 0.3.0 because Bubble Tea deprecated
-     *             {@code Sequentially} in favor of {@code Sequence}; use
-     *             {@link #sequence(Command...)} instead.
      * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
      */
-    @Deprecated(since = "0.3.0")
     static Command sequentially(Command... commands) {
         return () -> {
             if (commands == null) {
@@ -192,13 +187,13 @@ public interface Command {
     }
 
     /**
-     * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link #setWindowTitle(String)}.
-     * This transitional shim is temporary and will be removed in an upcoming release.
+     * Sets the terminal window title.
+     * <p>
+     * Kept as a spelling-compatible alias for {@link #setWindowTitle(String)}.
      *
      * @param title the title to set
      * @return the command
      */
-    @Deprecated(since = "0.3.0")
     static Command setWidowTitle(String title) {
         return setWindowTitle(title);
     }
@@ -207,6 +202,7 @@ public interface Command {
      * Enqueues the current time for timer-based commands.
      */
     final class TimeEnqueueTask extends TimerTask {
+
         private final BlockingQueue<LocalDateTime> queue;
 
         /**

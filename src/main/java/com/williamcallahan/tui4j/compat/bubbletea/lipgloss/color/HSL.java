@@ -10,7 +10,11 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
  * @param l lightness (0-1)
  * @since 0.3.0
  * @see com.williamcallahan.tui4j.compat.lipgloss.color.HSL
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.HSL} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public record HSL(float h, float s, float l) {
 
     /**

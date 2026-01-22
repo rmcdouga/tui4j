@@ -1,6 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
@@ -9,7 +8,11 @@ import org.jline.utils.AttributedStyle;
  * Lipgloss: color.go.
  *
  * @since 0.3.0
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public final class RGBColor implements TerminalColor, RGBSupplier {
 
     private final com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor delegate;
@@ -99,8 +102,8 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      * @return RGB value
      */
     @Override
-    public RGB rgb() {
-        return RGB.fromCanonical(delegate.rgb());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.RGB rgb() {
+        return delegate.rgb();
     }
 
     /**
@@ -108,7 +111,17 @@ public final class RGBColor implements TerminalColor, RGBSupplier {
      *
      * @return ANSI 256 color
      */
-    public ANSI256Color toANSI256Color() {
-        return new ANSI256Color(delegate.toANSI256Color().value());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ANSI256Color toANSI256Color() {
+        return delegate.toANSI256Color();
+    }
+
+    /**
+     * Returns the canonical RGB color delegate.
+     *
+     * @return canonical RGB color
+     */
+    @Override
+    public com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor toCanonical() {
+        return delegate;
     }
 }

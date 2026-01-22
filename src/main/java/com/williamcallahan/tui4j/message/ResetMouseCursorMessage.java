@@ -1,18 +1,11 @@
 package com.williamcallahan.tui4j.message;
 
-/**
- * Requests resetting the mouse cursor to default.
- * <p>
- * Re-export of {@link com.williamcallahan.tui4j.compat.bubbletea.ResetMouseCursorMessage}
- * for convenient access from the tui4j.message package.
- * <p>
- * tui4j extension; no Bubble Tea equivalent.
- */
-public class ResetMouseCursorMessage extends com.williamcallahan.tui4j.compat.bubbletea.ResetMouseCursorMessage {
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
-    /**
-     * Creates a reset mouse cursor message.
-     */
-    public ResetMouseCursorMessage() {
-    }
+/**
+ * Requests resetting the mouse cursor.
+ * tui4j extension; no Bubble Tea equivalent.
+ * tui4j: src/main/java/com/williamcallahan/tui4j/message/ResetMouseCursorMessage.java
+ */
+public record ResetMouseCursorMessage() implements Message {
 }

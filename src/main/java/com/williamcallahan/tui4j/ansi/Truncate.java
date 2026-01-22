@@ -16,8 +16,7 @@ public class Truncate {
     /**
      * Creates a truncate helper instance.
      */
-    public Truncate() {
-    }
+    public Truncate() {}
 
     /**
      * Truncates a string to a given display width, adding a tail if truncated.
@@ -91,12 +90,11 @@ public class Truncate {
     }
 
     /**
-     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a legacy tui4j.ansi compatibility shim; use
-     *             {@link Ansi#utf8ByteLength(byte)} instead.
+     * Returns the UTF-8 byte length for a single byte.
+     *
      * @param b byte to measure
      * @return UTF-8 byte length
      */
-    @Deprecated(since = "0.3.0")
     public static int utf8ByteLen(byte b) {
         return Ansi.utf8ByteLength(b);
     }

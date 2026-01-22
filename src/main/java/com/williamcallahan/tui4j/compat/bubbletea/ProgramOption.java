@@ -145,6 +145,8 @@ public interface ProgramOption {
 
     /**
      * Removes redundant ANSI sequences to produce potentially smaller output.
+     * <p>
+     * Accepted for API compatibility but currently a no-op in tui4j.
      *
      * @return program option
      * @deprecated Deprecated in tui4j as of 0.3.0 because this option is a no-op;

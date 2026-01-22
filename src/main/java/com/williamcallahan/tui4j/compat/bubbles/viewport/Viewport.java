@@ -36,13 +36,6 @@ public class Viewport implements Model {
     private int horizontalStep;
     private int yPosition;
     private Style style;
-
-    /**
-     * @deprecated Deprecated in tui4j as of 0.3.0 because upstream Bubbles deprecated
-     *             high performance rendering; use the default rendering behavior instead.
-     * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
-     */
-    @Deprecated(since = "0.3.0")
     private boolean highPerformanceRendering;
 
     private boolean initialized;
@@ -50,7 +43,7 @@ public class Viewport implements Model {
     private int longestLineWidth;
 
     /**
-     * Creates Viewport to keep this component ready for use.
+     * Creates Viewport with default settings.
      */
     public Viewport() {
         this.width = 0;
@@ -67,6 +60,52 @@ public class Viewport implements Model {
         this.initialized = false;
         this.lines = new ArrayList<>();
         this.longestLineWidth = 0;
+    }
+
+    /**
+     * Creates Viewport with initial content.
+     *
+     * @param content initial text content
+     */
+    public Viewport(String content) {
+        this();
+        setContent(content);
+    }
+
+    /**
+     * Creates Viewport with content and height.
+     *
+     * @param content initial text content
+     * @param height viewport height
+     */
+    public Viewport(String content, int height) {
+        this(content);
+        setHeight(height);
+    }
+
+    /**
+     * Creates Viewport with content and dimensions.
+     *
+     * @param content initial text content
+     * @param width viewport width
+     * @param height viewport height
+     */
+    public Viewport(String content, int width, int height) {
+        this(content, height);
+        setWidth(width);
+    }
+
+    /**
+     * Creates Viewport with content, dimensions, and key bindings.
+     *
+     * @param content initial text content
+     * @param width viewport width
+     * @param height viewport height
+     * @param keyMap custom key bindings
+     */
+    public Viewport(String content, int width, int height, KeyMap keyMap) {
+        this(content, width, height);
+        this.keyMap = keyMap;
     }
 
     /**
@@ -576,24 +615,10 @@ public class Viewport implements Model {
         this.style = style;
     }
 
-    /**
-     * @deprecated Deprecated in tui4j as of 0.3.0 because upstream Bubbles deprecated
-     *             high performance rendering; use the default rendering behavior instead.
-     * @return always returns the stored value, but feature has no effect
-     * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
-     */
-    @Deprecated(since = "0.3.0")
     public boolean isHighPerformanceRendering() {
         return highPerformanceRendering;
     }
 
-    /**
-     * @deprecated Deprecated in tui4j as of 0.3.0 because upstream Bubbles deprecated
-     *             high performance rendering; use the default rendering behavior instead.
-     * @param highPerformanceRendering ignored, feature has no effect
-     * @see <a href="https://github.com/charmbracelet/bubbles/blob/v0.21.0/viewport/viewport.go">bubbles/viewport/viewport.go</a>
-     */
-    @Deprecated(since = "0.3.0")
     public void setHighPerformanceRendering(boolean highPerformanceRendering) {
         this.highPerformanceRendering = highPerformanceRendering;
     }

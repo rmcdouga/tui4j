@@ -15,6 +15,9 @@ public final class MouseSelectionTracker {
 
     /**
      * Update selection state from the latest mouse event.
+     *
+     * @param message mouse message
+     * @return selection update result
      */
     public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         boolean wasSelecting = selecting;
@@ -54,16 +57,14 @@ public final class MouseSelectionTracker {
         );
     }
 
-    public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
-        return update((com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage) message);
-    }
-
+    /**
+     * Alias for update().
+     *
+     * @param message mouse message
+     * @return selection update result
+     */
     public MouseSelectionUpdate onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         return update(message);
-    }
-
-    public void onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
-        update(message);
     }
 
     public boolean isSelecting() {

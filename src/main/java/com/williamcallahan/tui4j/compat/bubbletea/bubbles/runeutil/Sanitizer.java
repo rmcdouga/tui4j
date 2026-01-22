@@ -10,9 +10,16 @@ import java.util.function.Consumer;
 @Deprecated(since = "0.3.0")
 public class Sanitizer extends com.williamcallahan.tui4j.compat.bubbles.runeutil.Sanitizer {
 
+    /**
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.runeutil.Sanitizer#Sanitizer(java.util.function.Consumer[])} instead.
+     */
     @Deprecated(since = "0.3.0")
+    @SafeVarargs
     public Sanitizer(Consumer<Sanitizer>... options) {
-        super(options);
+        super();
+        for (Consumer<Sanitizer> option : options) {
+            option.accept(this);
+        }
     }
 
 }

@@ -18,6 +18,7 @@ import com.williamcallahan.tui4j.input.MouseSelectionUpdate;
 import com.williamcallahan.tui4j.input.MouseTarget;
 import com.williamcallahan.tui4j.input.MouseTargetProvider;
 import com.williamcallahan.tui4j.input.MouseTargets;
+import com.williamcallahan.tui4j.message.SequencedMessage;
 import com.williamcallahan.tui4j.runtime.CommandExecutor;
 import com.williamcallahan.tui4j.runtime.UrlOpener;
 import com.williamcallahan.tui4j.term.TerminalInfo;
@@ -111,15 +112,10 @@ public class Program {
 
     /**
      * Whether ANSI sequence compression is enabled (currently ignored).
-     *
-     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} option, which is deprecated
-     * upstream due to performance overhead. Accepted for API compatibility only.
-     *
-     * @deprecated Deprecated in tui4j as of 0.3.0 because ANSI compression is a no-op;
-     *             omit this option and use the default renderer behavior instead.
-     *             Bubble Tea deprecated {@code WithANSICompressor} due to performance overhead.
+     * <p>
+     * Mirrors Go Bubble Tea's {@code WithANSICompressor()} option and is accepted
+     * for API compatibility only.
      */
-    @Deprecated(since = "0.3.0")
     private boolean ansiCompressor;
 
     private boolean enableAltScreen;
@@ -262,7 +258,9 @@ public class Program {
      */
     private boolean isWindows() {
         String osName = System.getProperty("os.name");
-        return osName != null && osName.toLowerCase(Locale.ROOT).contains("win");
+        return (
+            osName != null && osName.toLowerCase(Locale.ROOT).contains("win")
+        );
     }
 
     /**
@@ -728,7 +726,7 @@ public class Program {
                 );
                 yield true;
             }
-            case com.williamcallahan.tui4j.message.OpenUrlMessage openUrlMessage -> {
+            case OpenUrlMessage openUrlMessage -> {
                 handleOpenUrl(openUrlMessage.url());
                 yield true;
             }
@@ -1344,21 +1342,13 @@ public class Program {
 
     /**
      * Enables ANSI sequence compression to reduce output size.
-     *
-     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} program option, which is
-     * deprecated upstream due to noticeable performance overhead. The Go team plans to optimize
-     * ANSI output automatically in a future release without requiring this option.
-     *
-     * <p>This setter is accepted for API compatibility but has no effect in tui4j.
+     * <p>
+     * Accepted for API compatibility but has no effect in tui4j.
      *
      * @param ansiCompressor whether to enable ANSI compression (ignored)
-     * @deprecated Deprecated in tui4j as of 0.3.0 because ANSI compression is a no-op;
-     *             omit this option and use the default renderer behavior instead.
-     *             Bubble Tea deprecated {@code WithANSICompressor} due to performance overhead.
      * @see <a href="https://pkg.go.dev/github.com/charmbracelet/bubbletea#WithANSICompressor">
      *      bubbletea.WithANSICompressor (Go docs)</a>
      */
-    @Deprecated(since = "0.3.0")
     void setAnsiCompressor(boolean ansiCompressor) {
         setAnsiCompressorInternal(ansiCompressor);
     }

@@ -4,7 +4,11 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
  * Text-line measurement helpers for Bubble Tea-compatible rendering.
  * <p>
  * Lipgloss: ranges.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.TextLines} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public class TextLines {
     private final com.williamcallahan.tui4j.compat.lipgloss.TextLines delegate;
 

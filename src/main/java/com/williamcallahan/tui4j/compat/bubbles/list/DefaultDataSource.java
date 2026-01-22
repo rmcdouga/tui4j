@@ -1,8 +1,7 @@
 package com.williamcallahan.tui4j.compat.bubbles.list;
 
-import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbles.list.fuzzy.FuzzyFilter;
-
+import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -100,26 +99,42 @@ public class DefaultDataSource implements ListDataSource {
             java.util.List<FilteredItem> filterMatches = new LinkedList<>();
             Rank[] ranks = filterFunction.apply(filterValue, targets);
             for (Rank rank : ranks) {
-                filterMatches.add(new FilteredItem(
+                filterMatches.add(
+                    new FilteredItem(
                         rank.getIndex(),
                         items.get(rank.getIndex()),
                         rank.getMatchedIndexes()
-                ));
+                    )
+                );
             }
 
             filteredItems = filterMatches;
         }
 
-        int offset = page * perPage;
-        int toIndex = Math.min(offset + perPage, filteredItems.size());
         long matchedItems = filteredItems.size();
         long totalItems = items.size();
         int totalPages = (int) Math.ceil((double) matchedItems / perPage);
 
-        if (offset >= matchedItems/* && offset - perPage >= 0*/) {
-            offset = offset - perPage;
+        if (matchedItems == 0) {
+            return new FetchedItems(
+                java.util.List.of(),
+                matchedItems,
+                totalItems,
+                totalPages
+            );
         }
-        return new FetchedItems(filteredItems.subList(offset, toIndex), matchedItems, totalItems, totalPages);
+
+        int offset = Math.max(0, page * perPage);
+        if (offset >= matchedItems) {
+            offset = Math.max(0, offset - perPage);
+        }
+        int toIndex = Math.min(offset + perPage, filteredItems.size());
+        return new FetchedItems(
+            filteredItems.subList(offset, toIndex),
+            matchedItems,
+            totalItems,
+            totalPages
+        );
     }
 
     private java.util.List<FilteredItem> allItemsAsFilteredItems() {

@@ -1,8 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term.Output;
-
 import java.util.List;
 
 /**
@@ -11,11 +8,15 @@ import java.util.List;
  * Lipgloss: renderer.go.
  *
  * @since 0.3.0
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.Renderer} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-@SuppressWarnings("removal")
+@Deprecated(since = "0.3.0")
 public class Renderer {
 
-    private static final Renderer DEFAULT_RENDERER = new Renderer(Output.defaultOutput());
+    private static final Renderer DEFAULT_RENDERER =
+        new Renderer(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term.Output.defaultOutput());
 
     private final com.williamcallahan.tui4j.compat.lipgloss.Renderer delegate;
 
@@ -33,7 +34,7 @@ public class Renderer {
      *
      * @param output output destination
      */
-    public Renderer(Output output) {
+    public Renderer(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term.Output output) {
         this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.Renderer(output.toCanonical());
     }
 
@@ -97,8 +98,8 @@ public class Renderer {
      *
      * @return color profile
      */
-    public ColorProfile colorProfile() {
-        return fromCanonical(delegate.colorProfile());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile colorProfile() {
+        return delegate.colorProfile();
     }
 
     /**
@@ -106,7 +107,9 @@ public class Renderer {
      *
      * @param colorProfile color profile
      */
-    public void setColorProfile(ColorProfile colorProfile) {
+    public void setColorProfile(
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile colorProfile
+    ) {
         delegate.setColorProfile(toCanonical(colorProfile));
     }
 
@@ -160,14 +163,9 @@ public class Renderer {
         return delegate.placeHorizontal(width, position, input, Whitespace.toCanonicalOptions(options));
     }
 
-    private static ColorProfile fromCanonical(com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile profile) {
-        if (profile == null) {
-            return null;
-        }
-        return ColorProfile.valueOf(profile.name());
-    }
-
-    private static com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile toCanonical(ColorProfile profile) {
+    private static com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile toCanonical(
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile profile
+    ) {
         if (profile == null) {
             return null;
         }

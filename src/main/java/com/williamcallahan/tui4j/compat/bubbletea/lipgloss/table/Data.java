@@ -7,7 +7,11 @@ import java.util.List;
  * Table data adapter for Bubble Tea-compatible table rendering.
  * <p>
  * Lipgloss: table/rows.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.table.Data} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public class Data implements com.williamcallahan.tui4j.compat.lipgloss.table.Data {
     private final String[] headers;
     private final String[][] rows;

@@ -20,12 +20,15 @@ public final class MouseClickTracker {
     private MouseButton lastClickButton = MouseButton.MouseButtonNone;
     private int lastClickCount = 0;
 
+    /**
+     * Handles a mouse message and returns a click if detected.
+     *
+     * @param message mouse message
+     * @param target target element
+     * @return click message or null
+     */
     public MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target) {
         return handle(message, target, System.currentTimeMillis());
-    }
-
-    public MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target) {
-        return handle((com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage) message, target, System.currentTimeMillis());
     }
 
     MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target, long nowMs) {

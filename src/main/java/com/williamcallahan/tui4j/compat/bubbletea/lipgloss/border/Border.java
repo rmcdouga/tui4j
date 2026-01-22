@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-
 /**
  * Border glyph set for Bubble Tea-compatible rendering.
  *
@@ -20,8 +18,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
  * @param middleBottom middle-bottom glyph
  * <p>
  * Lip Gloss: borders.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.border.Border} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-@SuppressWarnings("removal")
+@Deprecated(since = "0.3.0")
 public record Border(
         String top,
         String bottom,
@@ -121,7 +122,7 @@ public record Border(
         com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor borderRightBackground,
         com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor borderBottomBackground,
         com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor borderLeftBackground,
-        Renderer renderer
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
     ) {
         return toNew().applyBorders(string, hasTop, hasRight, hasBottom, hasLeft,
                 toNew(borderTopForeground),
@@ -180,9 +181,7 @@ public record Border(
             org.jline.utils.AttributedStyle style,
             com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
         ) {
-            com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer legacyRenderer =
-                com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.fromCanonical(renderer);
-            return legacy.applyAsBackground(style, legacyRenderer);
+            return legacy.applyAsBackground(style, renderer);
         }
 
         /**
@@ -197,9 +196,7 @@ public record Border(
             org.jline.utils.AttributedStyle style,
             com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
         ) {
-            com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer legacyRenderer =
-                com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.fromCanonical(renderer);
-            return legacy.applyAsForeground(style, legacyRenderer);
+            return legacy.applyAsForeground(style, renderer);
         }
     }
 }

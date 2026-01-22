@@ -14,9 +14,12 @@ import java.time.LocalDateTime;
 @Deprecated(since = "0.3.0")
 public class Spinner extends com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner {
 
+    /**
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner#Spinner(com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType)} instead.
+     */
     @Deprecated(since = "0.3.0")
     public Spinner(SpinnerType type) {
-        super(type);
+        super(com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType.valueOf(type.name()));
     }
 
 }
