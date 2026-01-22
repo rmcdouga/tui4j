@@ -1,23 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Message sent when the terminal window loses focus.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link BlurMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Bubble Tea: bubbletea/focus.go
- *
- * @deprecated Use {@link BlurMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/focus.go">bubbletea/focus.go</a>
+ * Bubble Tea: focus.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class BlurMsg implements Message {
+public class BlurMsg extends BlurMessage {
 
     /**
-     * Creates a new blur message.
-     * @deprecated Use {@link BlurMessage} instead.
+     * @deprecated Compatibility alias for legacy *Msg naming; use {@link BlurMessage} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public BlurMsg() {
+        super();
     }
 }

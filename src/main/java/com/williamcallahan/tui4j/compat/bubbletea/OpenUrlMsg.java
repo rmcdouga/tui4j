@@ -1,38 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
-import com.williamcallahan.tui4j.message.OpenUrlMessage;
 
 /**
- * Requests opening a URL with the system handler.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link OpenUrlMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * tui4j extension; no Bubble Tea equivalent.
- *
- * @deprecated Use {@link OpenUrlMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
+ * Bubble Tea: commands.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class OpenUrlMsg implements Message {
-
-    private final OpenUrlMessage message;
+public class OpenUrlMsg extends OpenUrlMessage {
 
     /**
-     * Creates an open URL message.
-     *
-     * @param url URL to open
-     * @deprecated Use {@link OpenUrlMessage#OpenUrlMessage(String)} instead.
+     * @deprecated Compatibility alias for legacy *Msg naming; use {@link OpenUrlMessage} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public OpenUrlMsg(String url) {
-        this.message = new OpenUrlMessage(url);
-    }
-
-    /**
-     * Returns the URL to open.
-     *
-     * @return URL string
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String url() {
-        return message.url();
+        super(url);
     }
 }

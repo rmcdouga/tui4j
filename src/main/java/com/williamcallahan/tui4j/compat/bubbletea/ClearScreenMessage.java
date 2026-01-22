@@ -3,9 +3,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 /**
  * Message to clear the terminal screen.
  * <p>
- * Bubble Tea: bubbletea/screen.go
+ * Bubble Tea: screen.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
+ * <p>
+ * Bubble Tea: key_windows.go.
  */
 public class ClearScreenMessage implements Message {
 

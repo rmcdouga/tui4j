@@ -18,6 +18,9 @@ import java.util.logging.StreamHandler;
  */
 public final class Logging {
 
+    /**
+     * Creates Logging to keep this component ready for use.
+     */
     private Logging() {
     }
 
@@ -80,33 +83,45 @@ public final class Logging {
         }
     }
 
+    /**
+     * Compatibility helper for LoggerAdapter to keep API parity.
+     */
     private static final class LoggerAdapter implements LogOptionsSetter {
         private final Logger logger;
         private Handler handler;
         private String prefix = "";
 
+        /**
+         * Creates LoggerAdapter to keep this component ready for use.
+         *
+         * @param logger logger
+         */
         private LoggerAdapter(Logger logger) {
             this.logger = Objects.requireNonNull(logger, "logger");
         }
 
+        /**
+         * Updates the output.
+         *
+         * @param output output
+         */
         @Override
         public synchronized void setOutput(OutputStream output) {
             if (handler != null) {
                 logger.removeHandler(handler); handler.close();
             }
-            StreamHandler streamHandler = new StreamHandler(output, new PrefixedFormatter(prefix)) {
-                @Override
-                public synchronized void publish(LogRecord record) {
-                    super.publish(record);
-                    flush();
-                }
-            };
+            StreamHandler streamHandler = new FlushingStreamHandler(output, new PrefixedFormatter(prefix));
             streamHandler.setLevel(Level.ALL); logger.setLevel(Level.ALL);
             logger.addHandler(streamHandler);
             logger.setUseParentHandlers(false);
             handler = streamHandler;
         }
 
+        /**
+         * Updates the prefix.
+         *
+         * @param prefix prefix
+         */
         @Override
         public synchronized void setPrefix(String prefix) {
             this.prefix = prefix == null ? "" : prefix;
@@ -116,16 +131,56 @@ public final class Logging {
         }
     }
 
+    /**
+     * Compatibility helper for PrefixedFormatter to keep API parity.
+     */
     private static final class PrefixedFormatter extends Formatter {
         private final String prefix;
 
+        /**
+         * Creates PrefixedFormatter to keep this component ready for use.
+         *
+         * @param prefix prefix
+         */
         private PrefixedFormatter(String prefix) {
             this.prefix = prefix == null ? "" : prefix;
         }
 
+        /**
+         * Handles format for this component.
+         *
+         * @param record record
+         * @return result
+         */
         @Override
         public String format(LogRecord record) {
             return prefix + record.getMessage() + System.lineSeparator();
+        }
+    }
+
+    /**
+     * Stream handler that flushes on every published record.
+     */
+    private static final class FlushingStreamHandler extends StreamHandler {
+        /**
+         * Creates a handler that flushes after each message.
+         *
+         * @param output output stream for log records
+         * @param formatter formatter for log records
+         */
+        private FlushingStreamHandler(OutputStream output, Formatter formatter) {
+            super(output, formatter);
+        }
+
+        /**
+         * Publishes the record and flushes the stream immediately.
+         *
+         * @param record log record to publish
+         */
+        @Override
+        public synchronized void publish(LogRecord record) {
+            super.publish(record);
+            flush();
         }
     }
 }

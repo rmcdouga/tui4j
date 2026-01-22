@@ -1,15 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Port of the Bubble Tea resume message.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link ResumeMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Upstream: github.com/charmbracelet/bubbletea (tea.go)
- *
- * @deprecated Use {@link ResumeMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
+ * Bubble Tea: tea.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class ResumeMsg implements Message {
+public class ResumeMsg extends ResumeMessage {
 }

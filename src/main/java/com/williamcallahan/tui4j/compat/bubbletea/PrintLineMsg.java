@@ -1,39 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Requests printing a line above the program output.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link PrintLineMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Bubble Tea: bubbletea/standard_renderer.go
- *
- * @deprecated Use {@link PrintLineMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/standard_renderer.go">bubbletea/standard_renderer.go</a>
+ * Bubble Tea: standard_renderer.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class PrintLineMsg implements Message {
-
-    private final PrintLineMessage message;
+public class PrintLineMsg extends PrintLineMessage {
 
     /**
-     * Creates a print line message.
-     *
-     * @param messageBody line content
-     * @deprecated Use {@link PrintLineMessage#PrintLineMessage(String)} instead.
+     * @deprecated Compatibility alias for legacy *Msg naming; use {@link PrintLineMessage} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public PrintLineMsg(String messageBody) {
-        this.message = new PrintLineMessage(messageBody);
-    }
-
-    /**
-     * Returns the line content.
-     *
-     * @return line content
-     * @deprecated Use {@link PrintLineMessage#messageBody()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public String messageBody() {
-        return message.messageBody();
+        super(messageBody);
     }
 }

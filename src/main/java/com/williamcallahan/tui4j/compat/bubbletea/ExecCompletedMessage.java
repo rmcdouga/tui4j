@@ -3,7 +3,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 /**
  * Message sent when a command execution completes.
  * <p>
- * Bubble Tea: bubbletea/exec.go
+ * Bubble Tea: exec.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
  */

@@ -5,9 +5,11 @@ import java.util.Objects;
 /**
  * Message for bracketed paste events.
  * <p>
- * Bubble Tea: bubbletea/key.go (KeyMsg with Paste=true)
+ * Bubble Tea: key.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
+ * <p>
+ * Bubble Tea: inputreader_windows.go.
  */
 public class PasteMessage implements Message {
 
@@ -31,7 +33,14 @@ public class PasteMessage implements Message {
         return content;
     }
 
+    /**
+     * Handles equals for this component.
+     *
+     * @param other other
+     * @return whether uals
+     */
     @SuppressWarnings("removal")
+/** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -46,11 +55,21 @@ public class PasteMessage implements Message {
         return Objects.equals(content, pasteMessage.content);
     }
 
+    /**
+     * Reports whether h code is present.
+     *
+     * @return whether sh code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(content);
     }
 
+    /**
+     * Handles to string for this component.
+     *
+     * @return result
+     */
     @Override
     public String toString() {
         return "PasteMessage[content=" + content + "]";

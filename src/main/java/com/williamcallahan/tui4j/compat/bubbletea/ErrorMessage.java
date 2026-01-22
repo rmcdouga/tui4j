@@ -3,9 +3,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 /**
  * Reports an error from command execution.
  * <p>
- * Bubble Tea: bubbletea/tea.go
+ * Bubble Tea: tea.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
+ * <p>
+ * Bubble Tea: key_windows.go.
  */
 public class ErrorMessage implements Message {
 

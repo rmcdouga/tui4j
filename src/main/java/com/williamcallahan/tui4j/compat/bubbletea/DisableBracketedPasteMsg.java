@@ -1,21 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Disables bracketed paste mode in the terminal.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link DisableBracketedPasteMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Bubble Tea: bubbletea/screen.go disableBracketedPasteMsg
- *
- * @deprecated Use {@link DisableBracketedPasteMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
+ * Bubble Tea: screen.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class DisableBracketedPasteMsg implements Message {
+public class DisableBracketedPasteMsg extends DisableBracketedPasteMessage {
 
     /**
-     * Creates a new disable bracketed paste message.
+     * @deprecated Compatibility alias for legacy *Msg naming; use {@link DisableBracketedPasteMessage} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public DisableBracketedPasteMsg() {
+        super();
     }
 }

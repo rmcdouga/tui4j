@@ -3,7 +3,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 /**
  * Requests setting the terminal window title.
  * <p>
- * Bubble Tea: bubbletea/commands.go
+ * Bubble Tea: commands.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */

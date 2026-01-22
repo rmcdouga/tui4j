@@ -1,9 +1,8 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
-import com.williamcallahan.tui4j.message.OpenUrlMessage;
-import com.williamcallahan.tui4j.message.CopyToClipboardMessage;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
  * Port of github.com/charmbracelet/bubbletea/commands.go.
  */
 public interface Command {
-
     /**
      * Executes the command and returns a message.
      *
@@ -36,9 +34,10 @@ public interface Command {
      * @return batch command
      */
     static Command batch(Collection<Command> commands) {
-        Command[] filteredCommands = commands.stream()
-                .filter(Objects::nonNull)
-                .toArray(Command[]::new);
+        Command[] filteredCommands = commands
+            .stream()
+            .filter(Objects::nonNull)
+            .toArray(Command[]::new);
         return () -> new BatchMessage(filteredCommands);
     }
 
@@ -50,8 +49,8 @@ public interface Command {
      */
     static Command batch(Command... commands) {
         Command[] filteredCommands = Arrays.stream(commands)
-                .filter(Objects::nonNull)
-                .toArray(Command[]::new);
+            .filter(Objects::nonNull)
+            .toArray(Command[]::new);
         return () -> new BatchMessage(filteredCommands);
     }
 
@@ -70,12 +69,12 @@ public interface Command {
      *
      * @param commands commands to execute
      * @return sequential command
-     * @deprecated Deprecated in upstream Bubble Tea. Use {@link #sequence(Command...)} instead.
-     *             This method will not be removed for API compatibility, but new code should
-     *             use {@code sequence()} which properly returns messages from each command.
+     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
+     *             Go's {@code Sequentially} is deprecated in favor of {@code Sequence}.
+     *             Deprecated since v0.3.0 in tui4j; use {@link #sequence(Command...)} instead.
      * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
      */
-    @Deprecated(since = "0.3.0")
+    @Deprecated(since = "0.3.0", forRemoval = true)
     static Command sequentially(Command... commands) {
         return () -> {
             if (commands == null) {
@@ -101,17 +100,15 @@ public interface Command {
      * @param fn       function to map time to message
      * @return tick command
      */
-    static Command tick(Duration duration, Function<LocalDateTime, Message> fn) {
+    static Command tick(
+        Duration duration,
+        Function<LocalDateTime, Message> fn
+    ) {
         return () -> {
             BlockingQueue<LocalDateTime> queue = new ArrayBlockingQueue<>(1);
             Timer timer = new Timer(true);
 
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    queue.offer(LocalDateTime.now());
-                }
-            }, duration.toMillis());
+            timer.schedule(new TimeEnqueueTask(queue), duration.toMillis());
 
             try {
                 LocalDateTime time = queue.take();
@@ -130,7 +127,10 @@ public interface Command {
      * @param fn function to map time to message
      * @return every command
      */
-    static Command every(Duration duration, Function<LocalDateTime, Message> fn) {
+    static Command every(
+        Duration duration,
+        Function<LocalDateTime, Message> fn
+    ) {
         return () -> {
             long millis = duration.toMillis();
             if (millis <= 0) {
@@ -143,12 +143,7 @@ public interface Command {
 
             BlockingQueue<LocalDateTime> queue = new ArrayBlockingQueue<>(1);
             Timer timer = new Timer(true);
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    queue.offer(LocalDateTime.now());
-                }
-            }, delay);
+            timer.schedule(new TimeEnqueueTask(queue), delay);
 
             try {
                 LocalDateTime time = queue.take();
@@ -167,9 +162,12 @@ public interface Command {
      * @return print line command
      */
     static Command println(Object... arguments) {
-        return () -> new PrintLineMessage(Arrays.stream(arguments)
-                .map(String::valueOf)
-                .collect(Collectors.joining(" ")));
+        return () ->
+            new PrintLineMessage(
+                Arrays.stream(arguments)
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(" "))
+            );
     }
 
     /**
@@ -194,14 +192,36 @@ public interface Command {
     }
 
     /**
-     * @deprecated Use {@link #setWindowTitle(String)} instead (typo fix).
-     *
-     * @param title the title to set
-     * @return the command
+     * @deprecated Compatibility: Moved to {@link #setWindowTitle(String)}.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
-    @Deprecated(forRemoval = true)
+    @Deprecated(since = "0.3.0", forRemoval = true)
     static Command setWidowTitle(String title) {
         return setWindowTitle(title);
+    }
+
+    /**
+     * Enqueues the current time for timer-based commands.
+     */
+    final class TimeEnqueueTask extends TimerTask {
+        private final BlockingQueue<LocalDateTime> queue;
+
+        /**
+         * Creates a timer task that delivers a single timestamp.
+         *
+         * @param queue queue receiving the timestamp
+         */
+        private TimeEnqueueTask(BlockingQueue<LocalDateTime> queue) {
+            this.queue = queue;
+        }
+
+        /**
+         * Delivers the current time to the waiting command.
+         */
+        @Override
+        public void run() {
+            queue.offer(LocalDateTime.now());
+        }
     }
 
     /**
@@ -292,7 +312,7 @@ public interface Command {
      * @return clipboard command
      */
     static Command copyToClipboard(String text) {
-        return () -> new CopyToClipboardMessage(text);
+        return () -> new com.williamcallahan.tui4j.message.CopyToClipboardMessage(text);
     }
 
     /**
@@ -336,7 +356,7 @@ public interface Command {
      * @return open URL command
      */
     static Command openUrl(String url) {
-        return () -> new OpenUrlMessage(url);
+        return () -> new com.williamcallahan.tui4j.message.OpenUrlMessage(url);
     }
 
     /**
@@ -347,9 +367,13 @@ public interface Command {
      * @param errorHandler  error handler
      * @return exec command
      */
-    static Command execProcess(Process process, BiConsumer<Integer, byte[]> outputHandler,
-                               BiConsumer<Integer, byte[]> errorHandler) {
-        return () -> new ExecProcessMessage(process, outputHandler, errorHandler);
+    static Command execProcess(
+        Process process,
+        BiConsumer<Integer, byte[]> outputHandler,
+        BiConsumer<Integer, byte[]> errorHandler
+    ) {
+        return () ->
+            new ExecProcessMessage(process, outputHandler, errorHandler);
     }
 
     /**

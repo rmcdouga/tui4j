@@ -1,15 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Signals that the program should quit.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link QuitMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Bubble Tea: bubbletea/tea.go
- *
- * @deprecated Use {@link QuitMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
+ * Bubble Tea: tea.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class QuitMsg implements Message {
-}
+public class QuitMsg extends QuitMessage {}

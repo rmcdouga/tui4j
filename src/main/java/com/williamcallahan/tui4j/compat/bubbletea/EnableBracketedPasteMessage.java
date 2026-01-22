@@ -5,9 +5,11 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * When enabled, pasted text is wrapped in escape sequences allowing
  * the application to distinguish paste from typed input.
  * <p>
- * Bubble Tea: bubbletea/screen.go enableBracketedPasteMsg
+ * Bubble Tea: screen.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
+ * <p>
+ * Bubble Tea: key_windows.go.
  */
 public class EnableBracketedPasteMessage implements Message {
 

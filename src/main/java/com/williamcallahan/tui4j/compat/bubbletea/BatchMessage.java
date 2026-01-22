@@ -3,7 +3,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 /**
  * Message containing multiple commands to run in batch.
  * <p>
- * Bubble Tea: bubbletea/commands.go
+ * Bubble Tea: commands.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
  */

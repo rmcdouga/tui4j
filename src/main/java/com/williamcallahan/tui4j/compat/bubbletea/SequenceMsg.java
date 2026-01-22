@@ -1,39 +1,20 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Executes commands in order.
+ * @deprecated Compatibility alias for legacy *Msg naming; use {@link SequenceMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
- * Bubble Tea: bubbletea/commands.go
- *
- * @deprecated Use {@link SequenceMessage} instead.
- *             The {@code *Msg} suffix classes are being phased out in favor of
- *             {@code *Message} suffix classes to use idiomatic Java naming conventions.
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
+ * Bubble Tea: commands.go.
  */
 @Deprecated(since = "0.3.0", forRemoval = true)
-public class SequenceMsg implements Message {
-
-    private final SequenceMessage message;
+public class SequenceMsg extends SequenceMessage {
 
     /**
-     * Creates a sequence of commands.
-     *
-     * @param commands commands to execute in order
-     * @deprecated Use {@link SequenceMessage#SequenceMessage(Command...)} instead.
+     * @deprecated Compatibility alias for legacy *Msg naming; use {@link SequenceMessage} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     public SequenceMsg(Command... commands) {
-        this.message = new SequenceMessage(commands);
-    }
-
-    /**
-     * Returns the ordered commands.
-     *
-     * @return commands
-     * @deprecated Use {@link SequenceMessage#commands()} instead.
-     */
-    @Deprecated(since = "0.3.0", forRemoval = true)
-    public Command[] commands() {
-        return message.commands();
+        super(commands);
     }
 }

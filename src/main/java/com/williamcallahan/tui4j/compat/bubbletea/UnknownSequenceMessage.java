@@ -4,6 +4,8 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Message sent when an unrecognized escape sequence is received.
  * <p>
  * tui4j extension; no Bubble Tea equivalent.
+ * <p>
+ * Bubble Tea: key.go.
  */
 public class UnknownSequenceMessage implements Message {
 

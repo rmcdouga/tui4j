@@ -6,6 +6,8 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Port of charmbracelet/bubbletea screen.go exitAltScreenMsg type.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
+ * <p>
+ * Bubble Tea: screen.go.
  */
 public class ExitAltScreenMessage implements Message {
 

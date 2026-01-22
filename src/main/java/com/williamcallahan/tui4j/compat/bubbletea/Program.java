@@ -1,34 +1,27 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
-import com.williamcallahan.tui4j.message.OpenUrlMessage;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.InputHandler;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
-
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.NewInputHandler;
+import com.williamcallahan.tui4j.compat.bubbletea.input.NoopInputHandler;
+import com.williamcallahan.tui4j.compat.bubbletea.input.WindowsInputHandler;
+import com.williamcallahan.tui4j.compat.bubbletea.render.NilRenderer;
+import com.williamcallahan.tui4j.compat.bubbletea.render.Renderer;
+import com.williamcallahan.tui4j.compat.bubbletea.render.StandardRenderer;
 import com.williamcallahan.tui4j.input.MouseClickMessage;
 import com.williamcallahan.tui4j.input.MouseClickTracker;
 import com.williamcallahan.tui4j.input.MouseHoverTextDetector;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 import com.williamcallahan.tui4j.input.MouseSelectionAutoScroller;
 import com.williamcallahan.tui4j.input.MouseSelectionTracker;
 import com.williamcallahan.tui4j.input.MouseSelectionUpdate;
 import com.williamcallahan.tui4j.input.MouseTarget;
 import com.williamcallahan.tui4j.input.MouseTargetProvider;
 import com.williamcallahan.tui4j.input.MouseTargets;
-import com.williamcallahan.tui4j.compat.bubbletea.input.NoopInputHandler;
-import com.williamcallahan.tui4j.compat.bubbletea.input.NewInputHandler;
-import com.williamcallahan.tui4j.compat.bubbletea.render.Renderer;
-import com.williamcallahan.tui4j.compat.bubbletea.render.NilRenderer;
-import com.williamcallahan.tui4j.compat.bubbletea.render.StandardRenderer;
 import com.williamcallahan.tui4j.runtime.CommandExecutor;
 import com.williamcallahan.tui4j.runtime.UrlOpener;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import com.williamcallahan.tui4j.term.jline.JLineTerminalInfoProvider;
-import org.jline.terminal.Size;
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
-import org.jline.utils.InfoCmp;
-import org.jline.utils.Signals;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +40,11 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jline.terminal.Size;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp;
+import org.jline.utils.Signals;
 
 /**
  * Runs the TUI event loop and manages terminal IO.
@@ -55,12 +53,16 @@ import java.util.logging.Logger;
  * Manages the lifecycle of a TUI application, including terminal
  * initialization,
  * event polling, and rendering loops.
+ * <p>
+ * Bubble Tea: tea.go, tea_init.go.
  */
 public class Program {
 
     private static final int DEFAULT_FPS = 60;
     private static final int MAX_FPS = 120;
-    private static final Logger logger = Logger.getLogger(Program.class.getName());
+    private static final Logger logger = Logger.getLogger(
+        Program.class.getName()
+    );
 
     static {
         try {
@@ -72,7 +74,8 @@ public class Program {
 
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final CountDownLatch initLatch = new CountDownLatch(1);
-    private final BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Message> messageQueue =
+        new LinkedBlockingQueue<>();
     private final CommandExecutor commandExecutor;
     private InputHandler inputHandler;
 
@@ -80,8 +83,10 @@ public class Program {
     private volatile Model currentModel;
     private Renderer renderer;
     private Terminal terminal;
-    private final MouseSelectionTracker mouseSelectionTracker = new MouseSelectionTracker();
-    private final MouseHoverTextDetector mouseHoverTextDetector = new MouseHoverTextDetector();
+    private final MouseSelectionTracker mouseSelectionTracker =
+        new MouseSelectionTracker();
+    private final MouseHoverTextDetector mouseHoverTextDetector =
+        new MouseHoverTextDetector();
     private final MouseClickTracker mouseClickTracker = new MouseClickTracker();
     private boolean extendSelectionOnScroll;
     private boolean manageMouseSelectionCursor;
@@ -99,16 +104,19 @@ public class Program {
     private final AtomicBoolean ignoreSignals = new AtomicBoolean(false);
     private boolean withoutBracketedPaste;
     private boolean withoutRenderer;
+
     /**
      * Whether ANSI sequence compression is enabled (currently ignored).
      *
-     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} option, deprecated in
-     * bubbletea v0.19.0 due to performance overhead. Accepted for API compatibility only.
+     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} option, which is deprecated
+     * upstream due to performance overhead. Accepted for API compatibility only.
      *
-     * @deprecated Go Bubble Tea deprecated this in v0.19.0. Has no effect and will be removed.
+     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
+     *             Deprecated since v0.3.0 in tui4j; has no effect and will be removed.
      */
     @Deprecated(since = "0.3.0", forRemoval = true)
     private boolean ansiCompressor;
+
     private boolean enableAltScreen;
     private boolean enableMouseAllMotion;
     private boolean enableMouseCellMotion;
@@ -129,10 +137,21 @@ public class Program {
     private long currentSequenceId = 0;
     private long lastHandledSequenceId = 0;
 
+    /**
+     * Creates Program to keep this component ready for use.
+     *
+     * @param initialModel initial model
+     */
     public Program(Model initialModel) {
         this(initialModel, (ProgramOption[]) null);
     }
 
+    /**
+     * Creates Program to keep this component ready for use.
+     *
+     * @param initialModel initial model
+     * @param options options
+     */
     public Program(Model initialModel, ProgramOption... options) {
         this.currentModel = initialModel;
         this.commandExecutor = new CommandExecutor();
@@ -146,15 +165,21 @@ public class Program {
         initializeTerminal();
     }
 
+    /**
+     * Handles initialize terminal for this component.
+     */
     private void initializeTerminal() {
         try {
             InputStream resolvedInput = resolveInputStream();
             OutputStream resolvedOutput = output == null ? System.out : output;
-            boolean systemTerminal = isSystemTerminal(resolvedInput, resolvedOutput);
+            boolean systemTerminal = isSystemTerminal(
+                resolvedInput,
+                resolvedOutput
+            );
 
             TerminalBuilder builder = TerminalBuilder.builder()
-                    .jni(true)
-                    .system(systemTerminal);
+                .jni(true)
+                .system(systemTerminal);
 
             if (!systemTerminal) {
                 builder.streams(resolvedInput, resolvedOutput);
@@ -167,23 +192,61 @@ public class Program {
 
             // Wire environment to lipgloss for SSH/remote session support
             if (environment != null && !environment.isEmpty()) {
-                com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer().setEnvironment(environment);
+                com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer().setEnvironment(
+                    environment
+                );
             }
 
             if (withoutRenderer) {
                 this.renderer = new NilRenderer();
             } else {
-                this.renderer = new StandardRenderer(terminal, normalizeFps(fps));
+                this.renderer = new StandardRenderer(
+                    terminal,
+                    normalizeFps(fps)
+                );
             }
-            this.inputHandler = inputDisabled ? new NoopInputHandler() : new NewInputHandler(terminal, this::send);
-            this.mouseSelectionAutoScroller = new MouseSelectionAutoScroller(terminal::getHeight, mouseSelectionTracker,
-                    this::send);
+            this.inputHandler = inputDisabled
+                ? new NoopInputHandler()
+                : createInputHandler(terminal);
+            this.mouseSelectionAutoScroller = new MouseSelectionAutoScroller(
+                terminal::getHeight,
+                mouseSelectionTracker,
+                this::send
+            );
             applySelectionAutoScrollConfig();
         } catch (IOException e) {
             throw new ProgramException("Failed to initialize terminal", e);
         }
     }
 
+    /**
+     * Creates the input handler appropriate for the current platform.
+     *
+     * @param terminal terminal to read from
+     * @return input handler
+     */
+    private InputHandler createInputHandler(Terminal terminal) {
+        if (isWindows()) {
+            return new WindowsInputHandler(terminal, this::send);
+        }
+        return new NewInputHandler(terminal, this::send);
+    }
+
+    /**
+     * Determines whether the current runtime is Windows.
+     *
+     * @return true when running on Windows
+     */
+    private boolean isWindows() {
+        String osName = System.getProperty("os.name");
+        return osName != null && osName.toLowerCase(Locale.ROOT).contains("win");
+    }
+
+    /**
+     * Handles with alt screen for this component.
+     *
+     * @return result
+     */
     public Program withAltScreen() {
         enableAltScreen = true;
         if (renderer != null) {
@@ -192,6 +255,11 @@ public class Program {
         return this;
     }
 
+    /**
+     * Handles with report focus for this component.
+     *
+     * @return result
+     */
     public Program withReportFocus() {
         enableReportFocus = true;
         if (renderer != null) {
@@ -200,6 +268,11 @@ public class Program {
         return this;
     }
 
+    /**
+     * Handles with mouse all motion for this component.
+     *
+     * @return result
+     */
     public Program withMouseAllMotion() {
         enableMouseAllMotion = true;
         enableMouseCellMotion = false;
@@ -210,6 +283,11 @@ public class Program {
         return this;
     }
 
+    /**
+     * Handles with mouse cell motion for this component.
+     *
+     * @return result
+     */
     public Program withMouseCellMotion() {
         enableMouseCellMotion = true;
         enableMouseAllMotion = false;
@@ -294,6 +372,26 @@ public class Program {
      * Takes control of the terminal until the model returns a {@link QuitMessage}.
      */
     public void run() {
+        runInternal();
+    }
+
+    /**
+     * Blocks the calling thread and returns the final model state.
+     * <p>
+     * tui4j extension; no Bubble Tea equivalent because the Java {@code run()} API is void.
+     *
+     * @return final model state
+     */
+    public Model runWithFinalModel() {
+        return runInternal();
+    }
+
+    /**
+     * Runs the program and returns the final model state.
+     *
+     * @return final model state
+     */
+    private Model runInternal() {
         if (!isRunning.compareAndSet(false, true)) {
             throw new IllegalStateException("Program is already running!");
         }
@@ -322,8 +420,8 @@ public class Program {
             // execute init command
             Command initCommand = currentModel.init();
             commandExecutor
-                    .executeIfPresent(initCommand, this::send, this::sendError)
-                    .thenRun(initLatch::countDown);
+                .executeIfPresent(initCommand, this::send, this::sendError)
+                .thenRun(initLatch::countDown);
 
             // render the initial view
             renderer.write(currentModel.view());
@@ -343,8 +441,15 @@ public class Program {
         if (lastError != null) {
             throw new ProgramException(lastError);
         }
+        return finalModel;
     }
 
+    /**
+     * Handles cleanup for this component.
+     *
+     * @param renderFinalView render final view
+     * @param finalModel final model
+     */
     private void cleanup(boolean renderFinalView, Model finalModel) {
         // stop reading keyboard input
         inputHandler.stop();
@@ -402,6 +507,9 @@ public class Program {
         }
     }
 
+    /**
+     * Handles handle termination signals for this component.
+     */
     private void handleTerminationSignals() {
         if (withoutSignalHandler) {
             return;
@@ -410,16 +518,27 @@ public class Program {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(
+                QuitMessage::new,
+                this::send,
+                this::sendError
+            );
         });
         Signals.register("TERM", () -> {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(QuitMessage::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(
+                QuitMessage::new,
+                this::send,
+                this::sendError
+            );
         });
     }
 
+    /**
+     * Handles handle suspend signals for this component.
+     */
     private void handleSuspendSignals() {
         if (withoutSignalHandler) {
             return;
@@ -428,22 +547,47 @@ public class Program {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(SuspendMessage::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(
+                SuspendMessage::new,
+                this::send,
+                this::sendError
+            );
         });
         Signals.register("CONT", () -> {
             if (ignoreSignals.get()) {
                 return;
             }
-            commandExecutor.executeIfPresent(ResumeMessage::new, this::send, this::sendError);
+            commandExecutor.executeIfPresent(
+                ResumeMessage::new,
+                this::send,
+                this::sendError
+            );
         });
     }
 
+    /**
+     * Handles handle terminal resize for this component.
+     */
     private void handleTerminalResize() {
-        Signals.register("WINCH",
-                () -> commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError));
-        commandExecutor.executeIfPresent(CheckWindowSizeMessage::new, this::send, this::sendError);
+        Signals.register("WINCH", () ->
+            commandExecutor.executeIfPresent(
+                CheckWindowSizeMessage::new,
+                this::send,
+                this::sendError
+            )
+        );
+        commandExecutor.executeIfPresent(
+            CheckWindowSizeMessage::new,
+            this::send,
+            this::sendError
+        );
     }
 
+    /**
+     * Handles event loop for this component.
+     *
+     * @return result
+     */
     private Model eventLoop() {
         while (isRunning.get()) {
             Message msg;
@@ -494,19 +638,29 @@ public class Program {
                 // process internal messages for the renderer
                 renderer.handleMessage(internalMsg);
 
-                UpdateResult<? extends Model> updateResult = currentModel.update(msg);
+                UpdateResult<? extends Model> updateResult =
+                    currentModel.update(msg);
 
                 currentModel = updateResult.model();
                 renderer.notifyModelChanged();
-                commandExecutor.executeIfPresent(updateResult.command(), this::send, this::sendError);
+                commandExecutor.executeIfPresent(
+                    updateResult.command(),
+                    this::send,
+                    this::sendError
+                );
 
                 renderer.write(currentModel.view());
             }
-
         }
         return currentModel;
     }
 
+    /**
+     * Handles handle system message for this component.
+     *
+     * @param msg msg
+     * @return whether ndle system message
+     */
     private boolean handleSystemMessage(Message msg) {
         return switch (msg) {
             case ClearScreenMessage ignored -> {
@@ -530,10 +684,14 @@ public class Program {
                 yield true;
             }
             case CheckWindowSizeMessage ignored -> {
-                commandExecutor.executeIfPresent(this::checkSize, this::send, this::sendError);
+                commandExecutor.executeIfPresent(
+                    this::checkSize,
+                    this::send,
+                    this::sendError
+                );
                 yield true;
             }
-            case OpenUrlMessage openUrlMessage -> {
+            case com.williamcallahan.tui4j.message.OpenUrlMessage openUrlMessage -> {
                 handleOpenUrl(openUrlMessage.url());
                 yield true;
             }
@@ -553,6 +711,12 @@ public class Program {
         };
     }
 
+    /**
+     * Handles normalize message for this component.
+     *
+     * @param msg msg
+     * @return result
+     */
     private Message normalizeMessage(Message msg) {
         if (msg instanceof MessageShim shim) {
             return shim.toMessage();
@@ -560,23 +724,47 @@ public class Program {
         return msg;
     }
 
+    /**
+     * Handles handle batch for this component.
+     *
+     * @param commands commands
+     */
     private void handleBatch(Command... commands) {
-        Arrays.stream(commands)
-                .forEach(command -> commandExecutor.executeIfPresent(command, this::send, this::sendError));
+        Arrays.stream(commands).forEach(command ->
+            commandExecutor.executeIfPresent(
+                command,
+                this::send,
+                this::sendError
+            )
+        );
     }
 
+    /**
+     * Handles handle sequence for this component.
+     *
+     * @param commands commands
+     */
     private void handleSequence(Command... commands) {
         long sequenceId = ++currentSequenceId;
-        Arrays.stream(commands)
-                .reduce(
-                        CompletableFuture.completedFuture(null),
-                        (CompletableFuture<Void> future, Command command) -> future.thenCompose(
-                                __ -> commandExecutor.executeIfPresent(command, 
-                                        msg -> send(new SequencedMessage(msg, sequenceId)), 
-                                        this::sendError)),
-                        (f1, f2) -> f2);
+        Arrays.stream(commands).reduce(
+            CompletableFuture.completedFuture(null),
+            (CompletableFuture<Void> future, Command command) ->
+                future.thenCompose(__ ->
+                    commandExecutor.executeIfPresent(
+                        command,
+                        msg -> send(new SequencedMessage(msg, sequenceId)),
+                        this::sendError
+                    )
+                ),
+            (f1, f2) -> f2
+        );
     }
 
+    /**
+     * Handles handle open url for this component.
+     *
+     * @param url url
+     */
     private void handleOpenUrl(String url) {
         boolean success = UrlOpener.open(url);
         if (!success) {
@@ -584,10 +772,20 @@ public class Program {
         }
     }
 
+    /**
+     * Handles handle mouse selection tracking for this component.
+     *
+     * @param mouseMessage mouse message
+     */
     private void handleMouseSelectionTracking(MouseMessage mouseMessage) {
-        MouseSelectionUpdate selectionUpdate = mouseSelectionTracker.update(mouseMessage);
+        MouseSelectionUpdate selectionUpdate = mouseSelectionTracker.update(
+            mouseMessage
+        );
 
-        if (extendSelectionOnScroll && selectionUpdate.selectionScrollUpdate() != null) {
+        if (
+            extendSelectionOnScroll &&
+            selectionUpdate.selectionScrollUpdate() != null
+        ) {
             send(selectionUpdate.selectionScrollUpdate());
         }
 
@@ -611,13 +809,20 @@ public class Program {
                 return;
             }
 
-            if (mouseMessage.getAction() == MouseAction.MouseActionMotion
-                    || mouseMessage.getAction() == MouseAction.MouseActionPress) {
+            if (
+                mouseMessage.getAction() == MouseAction.MouseActionMotion ||
+                mouseMessage.getAction() == MouseAction.MouseActionPress
+            ) {
                 setMouseSelectionCursorText();
             }
         }
     }
 
+    /**
+     * Handles handle mouse hover cursor for this component.
+     *
+     * @param mouseMessage mouse message
+     */
     private void handleMouseHoverCursor(MouseMessage mouseMessage) {
         if (!hoverTextCursorEnabled) {
             return;
@@ -628,16 +833,19 @@ public class Program {
         if (mouseMessage.isWheel()) {
             return;
         }
-        if (mouseMessage.getAction() != MouseAction.MouseActionMotion
-                && mouseMessage.getAction() != MouseAction.MouseActionPress
-                && mouseMessage.getAction() != MouseAction.MouseActionRelease) {
+        if (
+            mouseMessage.getAction() != MouseAction.MouseActionMotion &&
+            mouseMessage.getAction() != MouseAction.MouseActionPress &&
+            mouseMessage.getAction() != MouseAction.MouseActionRelease
+        ) {
             return;
         }
 
         boolean overText = mouseHoverTextDetector.isHoveringText(
-                currentModel.view(),
-                mouseMessage.column(),
-                mouseMessage.row());
+            currentModel.view(),
+            mouseMessage.column(),
+            mouseMessage.row()
+        );
 
         if (overText && !hoverTextCursorActive) {
             renderer.setMouseCursorText();
@@ -648,6 +856,9 @@ public class Program {
         }
     }
 
+    /**
+     * Updates the mouse selection cursor text.
+     */
     private void setMouseSelectionCursorText() {
         if (mouseSelectionCursorActive) {
             return;
@@ -656,6 +867,9 @@ public class Program {
         mouseSelectionCursorActive = true;
     }
 
+    /**
+     * Handles reset mouse selection cursor for this component.
+     */
     private void resetMouseSelectionCursor() {
         if (!mouseSelectionCursorActive) {
             return;
@@ -664,43 +878,84 @@ public class Program {
         mouseSelectionCursorActive = false;
     }
 
+    /**
+     * Handles handle mouse click tracking for this component.
+     *
+     * @param mouseMessage mouse message
+     */
     private void handleMouseClickTracking(MouseMessage mouseMessage) {
         if (!mouseClicksEnabled) {
             return;
         }
         MouseTarget target = resolveMouseTarget(mouseMessage);
-        MouseClickMessage clickMessage = mouseClickTracker.handle(mouseMessage, target);
+        MouseClickMessage clickMessage = mouseClickTracker.handle(
+            mouseMessage,
+            target
+        );
         if (clickMessage != null) {
             send(clickMessage);
         }
     }
 
+    /**
+     * Handles resolve mouse target for this component.
+     *
+     * @param mouseMessage mouse message
+     * @return result
+     */
     private MouseTarget resolveMouseTarget(MouseMessage mouseMessage) {
         if (!(currentModel instanceof MouseTargetProvider provider)) {
             return null;
         }
-        return MouseTargets.hitTest(provider.mouseTargets(), mouseMessage.column(), mouseMessage.row());
+        return MouseTargets.hitTest(
+            provider.mouseTargets(),
+            mouseMessage.column(),
+            mouseMessage.row()
+        );
     }
 
+    /**
+     * Handles check size for this component.
+     *
+     * @return result
+     */
     private Message checkSize() {
         Size size = terminal.getSize();
         return new WindowSizeMessage(size.getColumns(), size.getRows());
     }
 
+    /**
+     * Handles send error for this component.
+     *
+     * @param error error
+     */
     private void sendError(Throwable error) {
         send(new ErrorMessage(error));
     }
 
+    /**
+     * Handles send for this component.
+     *
+     * @param msg msg
+     */
     public void send(Message msg) {
         if (isRunning.get() && msg != null) {
             messageQueue.offer(msg);
         }
     }
 
+    /**
+     * Reports whether running.
+     *
+     * @return whether running
+     */
     public boolean isRunning() {
         return isRunning.get();
     }
 
+    /**
+     * Handles wait for init for this component.
+     */
     public void waitForInit() {
         try {
             initLatch.await();
@@ -709,6 +964,9 @@ public class Program {
         }
     }
 
+    /**
+     * Handles disable mouse for this component.
+     */
     private void disableMouse() {
         renderer.disableMouseSGRMode();
         renderer.disableMouseNormalTracking();
@@ -716,30 +974,45 @@ public class Program {
         renderer.disableMouseAllMotion();
     }
 
+    /**
+     * Handles execute process for this component.
+     *
+     * @param execProcessMessage exec process message
+     */
     private void executeProcess(ExecProcessMessage execProcessMessage) {
         // Run synchronously to block the event loop, matching Bubble Tea's behavior
         Process process = execProcessMessage.process();
-        BiConsumer<Integer, byte[]> outputHandler = execProcessMessage.outputHandler();
-        BiConsumer<Integer, byte[]> errorHandler = execProcessMessage.errorHandler();
+        BiConsumer<Integer, byte[]> outputHandler =
+            execProcessMessage.outputHandler();
+        BiConsumer<Integer, byte[]> errorHandler =
+            execProcessMessage.errorHandler();
 
         suspend();
 
         try {
             // Drain stdout/stderr concurrently to prevent deadlock from filled buffers
-            CompletableFuture<byte[]> stdoutFuture = CompletableFuture.supplyAsync(() -> {
-                try {
-                    return process.getInputStream().readAllBytes();
-                } catch (IOException e) {
-                    throw new UncheckedIOException("Failed to read stdout", e);
-                }
-            });
-            CompletableFuture<byte[]> stderrFuture = CompletableFuture.supplyAsync(() -> {
-                try {
-                    return process.getErrorStream().readAllBytes();
-                } catch (IOException e) {
-                    throw new UncheckedIOException("Failed to read stderr", e);
-                }
-            });
+            CompletableFuture<byte[]> stdoutFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return process.getInputStream().readAllBytes();
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(
+                            "Failed to read stdout",
+                            e
+                        );
+                    }
+                });
+            CompletableFuture<byte[]> stderrFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try {
+                        return process.getErrorStream().readAllBytes();
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(
+                            "Failed to read stderr",
+                            e
+                        );
+                    }
+                });
 
             int exitCode = process.waitFor();
 
@@ -765,6 +1038,9 @@ public class Program {
         }
     }
 
+    /**
+     * Handles suspend for this component.
+     */
     private void suspend() {
         if (isSuspended) {
             return;
@@ -775,6 +1051,9 @@ public class Program {
         terminal.pause();
     }
 
+    /**
+     * Handles resume for this component.
+     */
     private void resume() {
         if (!isSuspended) {
             return;
@@ -786,6 +1065,9 @@ public class Program {
         isSuspended = false;
     }
 
+    /**
+     * Handles apply startup options for this component.
+     */
     private void applyStartupOptions() {
         if (enableAltScreen && !renderer.altScreen()) {
             renderer.enterAltScreen();
@@ -805,6 +1087,9 @@ public class Program {
         }
     }
 
+    /**
+     * Handles install cancel signal for this component.
+     */
     private void installCancelSignal() {
         if (cancelSignal == null) {
             return;
@@ -812,13 +1097,25 @@ public class Program {
         cancelSignal.whenComplete((result, error) -> send(new QuitMessage()));
     }
 
+    /**
+     * Handles apply selection auto scroll config for this component.
+     */
     private void applySelectionAutoScrollConfig() {
         if (!selectionAutoScrollEnabled || mouseSelectionAutoScroller == null) {
             return;
         }
-        mouseSelectionAutoScroller.configure(selectionAutoScrollEdgeRows, selectionAutoScrollIntervalMs);
+        mouseSelectionAutoScroller.configure(
+            selectionAutoScrollEdgeRows,
+            selectionAutoScrollIntervalMs
+        );
     }
 
+    /**
+     * Handles normalize fps for this component.
+     *
+     * @param value value
+     * @return result
+     */
     private int normalizeFps(int value) {
         if (value < 1) {
             return DEFAULT_FPS;
@@ -826,6 +1123,11 @@ public class Program {
         return Math.min(value, MAX_FPS);
     }
 
+    /**
+     * Handles resolve input stream for this component.
+     *
+     * @return result
+     */
     private InputStream resolveInputStream() throws IOException {
         InputStream resolved = input;
         if (useInputTTY) {
@@ -838,18 +1140,36 @@ public class Program {
         return resolved;
     }
 
-    private boolean isSystemTerminal(InputStream resolvedInput, OutputStream resolvedOutput) {
+    /**
+     * Reports whether system terminal.
+     *
+     * @param resolvedInput resolved input
+     * @param resolvedOutput resolved output
+     * @return whether system terminal
+     */
+    private boolean isSystemTerminal(
+        InputStream resolvedInput,
+        OutputStream resolvedOutput
+    ) {
         if (useInputTTY) {
             return false;
         }
         boolean inputIsSystem = resolvedInput == System.in;
-        boolean outputIsSystem = resolvedOutput == System.out || resolvedOutput == System.err;
+        boolean outputIsSystem =
+            resolvedOutput == System.out || resolvedOutput == System.err;
         return inputIsSystem && outputIsSystem;
     }
 
+    /**
+     * Handles open input tty for this component.
+     *
+     * @return result
+     */
     private InputStream openInputTTY() throws IOException {
         InputStream tty = null;
-        String osName = System.getProperty("os.name", "").toLowerCase(Locale.ROOT);
+        String osName = System.getProperty("os.name", "").toLowerCase(
+            Locale.ROOT
+        );
         if (osName.contains("win")) {
             tty = new FileInputStream("CONIN$");
         } else {
@@ -859,49 +1179,96 @@ public class Program {
         return tty;
     }
 
+    /**
+     * Handles close opened input for this component.
+     */
     private void closeOpenedInput() {
         if (openedInput == null || openedInput == System.in) {
             return;
         }
         try {
             openedInput.close();
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
+    /**
+     * Updates the output.
+     *
+     * @param output output
+     */
     void setOutput(OutputStream output) {
         this.output = output;
     }
 
+    /**
+     * Updates the input.
+     *
+     * @param input input
+     */
     void setInput(InputStream input) {
         this.input = input;
         this.inputDisabled = input == null;
     }
 
+    /**
+     * Updates the input tty.
+     *
+     * @param useInputTTY use input tty
+     */
     void setInputTTY(boolean useInputTTY) {
         this.useInputTTY = useInputTTY;
     }
 
+    /**
+     * Updates the environment.
+     *
+     * @param environment environment
+     */
     void setEnvironment(List<String> environment) {
         this.environment = environment;
     }
 
+    /**
+     * Updates the without signal handler.
+     *
+     * @param withoutSignalHandler without signal handler
+     */
     void setWithoutSignalHandler(boolean withoutSignalHandler) {
         this.withoutSignalHandler = withoutSignalHandler;
     }
 
+    /**
+     * Updates the without catch panics.
+     *
+     * @param withoutCatchPanics without catch panics
+     */
     void setWithoutCatchPanics(boolean withoutCatchPanics) {
         this.withoutCatchPanics = withoutCatchPanics;
     }
 
+    /**
+     * Updates the ignore signals.
+     *
+     * @param ignoreSignals ignore signals
+     */
     void setIgnoreSignals(boolean ignoreSignals) {
         this.ignoreSignals.set(ignoreSignals);
     }
 
+    /**
+     * Updates the without bracketed paste.
+     *
+     * @param withoutBracketedPaste without bracketed paste
+     */
     void setWithoutBracketedPaste(boolean withoutBracketedPaste) {
         this.withoutBracketedPaste = withoutBracketedPaste;
     }
 
+    /**
+     * Updates the without renderer.
+     *
+     * @param withoutRenderer without renderer
+     */
     void setWithoutRenderer(boolean withoutRenderer) {
         this.withoutRenderer = withoutRenderer;
     }
@@ -909,15 +1276,15 @@ public class Program {
     /**
      * Enables ANSI sequence compression to reduce output size.
      *
-     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} program option, which was
-     * deprecated in bubbletea v0.19.0 due to noticeable performance overhead. The Go team plans
-     * to optimize ANSI output automatically in a future release without requiring this option.
+     * <p>This mirrors Go Bubble Tea's {@code WithANSICompressor()} program option, which is
+     * deprecated upstream due to noticeable performance overhead. The Go team plans to optimize
+     * ANSI output automatically in a future release without requiring this option.
      *
      * <p>This setter is accepted for API compatibility but has no effect in tui4j.
      *
      * @param ansiCompressor whether to enable ANSI compression (ignored)
-     * @deprecated Go Bubble Tea deprecated {@code WithANSICompressor()} in v0.19.0 due to
-     *             performance issues. This option has no effect and will be removed.
+     * @deprecated Deprecated in upstream Bubble Tea ({@code charmbracelet/bubbletea}).
+     *             Deprecated since v0.3.0 in tui4j; this option has no effect and will be removed.
      * @see <a href="https://pkg.go.dev/github.com/charmbracelet/bubbletea#WithANSICompressor">
      *      bubbletea.WithANSICompressor (Go docs)</a>
      */
@@ -926,6 +1293,11 @@ public class Program {
         setAnsiCompressorInternal(ansiCompressor);
     }
 
+    /**
+     * Updates the ansi compressor internal.
+     *
+     * @param ansiCompressor ansi compressor
+     */
     void setAnsiCompressorInternal(boolean ansiCompressor) {
         if (this.ansiCompressor == ansiCompressor) {
             return;
@@ -933,14 +1305,29 @@ public class Program {
         this.ansiCompressor = ansiCompressor;
     }
 
+    /**
+     * Updates the filter.
+     *
+     * @param filter filter
+     */
     void setFilter(BiFunction<Model, Message, Message> filter) {
         this.filter = filter;
     }
 
+    /**
+     * Updates the fps.
+     *
+     * @param fps fps
+     */
     void setFps(int fps) {
         this.fps = fps;
     }
 
+    /**
+     * Updates the cancel signal.
+     *
+     * @param cancelSignal cancel signal
+     */
     void setCancelSignal(CompletableFuture<?> cancelSignal) {
         this.cancelSignal = cancelSignal;
     }
