@@ -2,14 +2,14 @@ package com.williamcallahan.tui4j.ansi;
 
 import com.williamcallahan.tui4j.compat.x.ansi.Ansi;
 import com.williamcallahan.tui4j.compat.x.ansi.Strip;
-
 import java.util.Objects;
 
 /**
  * ANSI-aware text truncation and cutting utilities.
  * <p>
- * Re-exports functionality from the canonical port at
- * {@link com.williamcallahan.tui4j.compat.x.ansi}.
+ * This class re-exports ANSI manipulation functionality from the canonical port at
+ * {@code com.williamcallahan.tui4j.compat.x.ansi}, providing a simpler import path
+ * for common operations while directing users to the upstream location for the full API.
  */
 public class Truncate {
 
@@ -26,7 +26,11 @@ public class Truncate {
     public static String truncate(String input, int length, String tail) {
         Objects.requireNonNull(input, "input");
         Objects.requireNonNull(tail, "tail");
-        return com.williamcallahan.tui4j.compat.x.ansi.Truncate.truncate(input, length, tail);
+        return com.williamcallahan.tui4j.compat.x.ansi.Truncate.truncate(
+            input,
+            length,
+            tail
+        );
     }
 
     /**
@@ -42,7 +46,11 @@ public class Truncate {
     public static String truncateLeft(String input, int n, String prefix) {
         Objects.requireNonNull(input, "input");
         Objects.requireNonNull(prefix, "prefix");
-        return com.williamcallahan.tui4j.compat.x.ansi.Truncate.truncateLeft(input, n, prefix);
+        return com.williamcallahan.tui4j.compat.x.ansi.Truncate.truncateLeft(
+            input,
+            n,
+            prefix
+        );
     }
 
     /**
@@ -57,7 +65,11 @@ public class Truncate {
      */
     public static String cut(String input, int left, int right) {
         Objects.requireNonNull(input, "input");
-        return com.williamcallahan.tui4j.compat.x.ansi.Cut.cut(input, left, right);
+        return com.williamcallahan.tui4j.compat.x.ansi.Cut.cut(
+            input,
+            left,
+            right
+        );
     }
 
     /**
@@ -73,13 +85,10 @@ public class Truncate {
     }
 
     /**
-     * Returns the expected byte length of a UTF-8 sequence given its first byte.
-     *
-     * @param b the first byte of a UTF-8 sequence
-     * @return the expected byte length (1-4)
-     * @deprecated Use {@link Ansi#utf8ByteLength(byte)} instead
+     * @deprecated Compatibility shim for legacy tui4j.ansi API; use
+     *             {@link Ansi#utf8ByteLength(byte)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public static int utf8ByteLen(byte b) {
         return Ansi.utf8ByteLength(b);
     }

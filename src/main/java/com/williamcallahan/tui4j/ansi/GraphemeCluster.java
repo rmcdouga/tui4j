@@ -7,12 +7,24 @@ import java.util.Arrays;
 /**
  * Grapheme cluster parsing utilities for Unicode text segmentation.
  * <p>
- * Delegates to charmbracelet/x ansi/width.go grapheme cluster implementation.
- *
- * @see <a href="https://github.com/charmbracelet/x/blob/main/ansi/width.go">x/ansi/width.go</a>
+ * This class wraps the canonical grapheme cluster implementation with tui4j-specific
+ * parsing logic that tracks parser state between clusters and returns remaining byte data.
+ * <p>
+ * <b>Difference from canonical port:</b>
+ * <ul>
+ *   <li>Returns {@code GraphemeResult} with {@code rest} (remaining bytes after cluster)</li>
+ *   <li>Tracks parser state transitions (UTF8 ↔ GROUND) between grapheme clusters</li>
+ *   <li>Uses legacy {@code ansi.State} enum for compatibility</li>
+ * </ul>
+ * <p>
+ * <b>Canonical port:</b> {@link com.williamcallahan.tui4j.compat.x.ansi.GraphemeCluster}
+ * Port of: <a href="https://github.com/charmbracelet/x/blob/main/ansi/width.go">x/ansi/width.go</a>
  */
 public class GraphemeCluster {
 
+    /**
+     * Creates GraphemeCluster to keep this component ready for use.
+     */
     private GraphemeCluster() {}
 
     /**

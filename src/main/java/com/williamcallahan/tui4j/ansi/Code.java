@@ -43,6 +43,11 @@ public enum Code {
 
     private final String value;
 
+    /**
+     * Creates Code to keep this component ready for use.
+     *
+     * @param value value
+     */
     Code(String value) {
         this.value = value;
     }
