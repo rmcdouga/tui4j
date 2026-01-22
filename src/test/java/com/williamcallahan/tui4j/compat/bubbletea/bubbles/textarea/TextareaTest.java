@@ -233,7 +233,7 @@ class TextareaTest {
 
     @Test
     void testKeyMapClass() {
-        Textarea.KeyMap keyMap = new Textarea.KeyMap();
+        com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.KeyMap keyMap = new com.williamcallahan.tui4j.compat.bubbles.textarea.Textarea.KeyMap();
 
         assertTrue(keyMap.characterForward() != null, "characterForward binding should not be null");
         assertTrue(keyMap.characterBackward() != null, "characterBackward binding should not be null");

@@ -26,43 +26,43 @@ class ProgressTest {
 
     @Test
     void testWithWidth() {
-        Progress progress = new Progress().withWidth(80);
+        var progress = new Progress().withWidth(80);
         assertThat(progress.width()).isEqualTo(80);
     }
 
     @Test
     void testWithFullCharacter() {
-        Progress progress = new Progress().withFull('#');
+        var progress = new Progress().withFull('#');
         assertThat(progress.full()).isEqualTo('#');
     }
 
     @Test
     void testWithEmptyCharacter() {
-        Progress progress = new Progress().withEmpty('-');
+        var progress = new Progress().withEmpty('-');
         assertThat(progress.empty()).isEqualTo('-');
     }
 
     @Test
     void testWithFullColor() {
-        Progress progress = new Progress().withFullColor("#ff0000");
+        var progress = new Progress().withFullColor("#ff0000");
         assertThat(progress.fullColor()).isEqualTo("#ff0000");
     }
 
     @Test
     void testWithEmptyColor() {
-        Progress progress = new Progress().withEmptyColor("#0000ff");
+        var progress = new Progress().withEmptyColor("#0000ff");
         assertThat(progress.emptyColor()).isEqualTo("#0000ff");
     }
 
     @Test
     void testWithoutPercentage() {
-        Progress progress = new Progress().withoutPercentage();
+        var progress = new Progress().withoutPercentage();
         assertThat(progress.showPercentage()).isFalse();
     }
 
     @Test
     void testWithPercentFormat() {
-        Progress progress = new Progress().withPercentFormat(" %5.1f%%");
+        var progress = new Progress().withPercentFormat(" %5.1f%%");
         assertThat(progress.percentFormat()).isEqualTo(" %5.1f%%");
     }
 
@@ -118,7 +118,7 @@ class ProgressTest {
         int currentTag = progress.tag();
 
         FrameMsg frameMsg = new FrameMsg(progress.id(), currentTag);
-        UpdateResult<Progress> result = progress.update(frameMsg);
+        UpdateResult<?> result = progress.update(frameMsg);
 
         assertThat(result.model()).isEqualTo(progress);
         assertThat(result.command()).isNotNull();
@@ -131,7 +131,7 @@ class ProgressTest {
         double beforePercentShown = progress.percentShown();
 
         FrameMsg frameMsg = new FrameMsg(-1, progress.tag());
-        UpdateResult<Progress> result = progress.update(frameMsg);
+        UpdateResult<?> result = progress.update(frameMsg);
 
         assertThat(progress.percentShown()).isEqualTo(beforePercentShown);
     }
@@ -143,14 +143,14 @@ class ProgressTest {
         double beforePercentShown = progress.percentShown();
 
         FrameMsg frameMsg = new FrameMsg(progress.id(), -1);
-        UpdateResult<Progress> result = progress.update(frameMsg);
+        UpdateResult<?> result = progress.update(frameMsg);
 
         assertThat(progress.percentShown()).isEqualTo(beforePercentShown);
     }
 
     @Test
     void testViewWithZeroPercent() {
-        Progress progress = new Progress().withWidth(10).withoutPercentage();
+        var progress = new Progress().withWidth(10).withoutPercentage();
         String view = progress.view();
 
         assertThat(view).isNotNull();
@@ -160,7 +160,7 @@ class ProgressTest {
 
     @Test
     void testViewWithFullPercent() {
-        Progress progress = new Progress().withWidth(10).withoutPercentage();
+        var progress = new Progress().withWidth(10).withoutPercentage();
         progress.setPercent(1.0);
 
         for (int i = 0; i < 60; i++) {
@@ -177,14 +177,14 @@ class ProgressTest {
 
     @Test
     void testWithDefaultGradient() {
-        Progress progress = new Progress().withDefaultGradient();
+        var progress = new Progress().withDefaultGradient();
 
         assertThat(progress.percentShown()).isEqualTo(0.0);
     }
 
     @Test
     void testWithScaledGradient() {
-        Progress progress = new Progress().withScaledGradient("#ff0000", "#00ff00");
+        var progress = new Progress().withScaledGradient("#ff0000", "#00ff00");
 
         assertThat(progress.percentShown()).isEqualTo(0.0);
     }
@@ -210,7 +210,7 @@ class ProgressTest {
 
     @Test
     void testViewAsWithPercentage() {
-        Progress progress = new Progress().withWidth(10).withShowPercentage(true);
+        var progress = new Progress().withWidth(10).withShowPercentage(true);
         progress.setColorProfile(ColorProfile.ANSI256);
 
         String view = progress.viewAs(0.5);

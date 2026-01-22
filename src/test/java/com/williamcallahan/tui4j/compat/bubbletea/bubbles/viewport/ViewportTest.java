@@ -383,7 +383,7 @@ public class ViewportTest {
     @Test
     public void testKeyMap() {
         Viewport viewport = Viewport.create(80, 5);
-        Viewport.KeyMap keyMap = viewport.getKeyMap();
+        com.williamcallahan.tui4j.compat.bubbles.viewport.KeyMap keyMap = viewport.getKeyMap();
 
         assertNotNull(keyMap);
         assertNotNull(keyMap.pageDown());
