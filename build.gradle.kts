@@ -79,336 +79,101 @@ java {
 sourceSets {
     val main by getting
 
-    fun findExampleProjectDirs(rootPath: String): List<File> =
-        file(rootPath)
-            .listFiles()
-            ?.filter { it.isDirectory }
-            .orEmpty()
-
-    fun org.gradle.api.file.SourceDirectorySet.addIfExists(dir: File) {
-        if (dir.exists()) {
-            srcDir(dir)
-        }
+    val examplesGeneric by creating {
+        java.srcDir("examples/generic/src/main/java")
+        resources.srcDir("examples/generic/src/main/resources")
+        compileClasspath += main.output + configurations["examplesGenericCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesGenericRuntimeClasspath"]
     }
 
-    // Examples organized by upstream Charmbracelet repo:
-    // - examples/bubbletea/ - Bubble Tea framework examples
-    // - examples/bubbles/   - Bubbles component examples
-    // - examples/lipgloss/  - Lipgloss styling examples
-    // - examples/harmonica/ - Harmonica animation examples
-    // - examples/x/         - x/ansi experimental examples
-    // - examples/spring/    - Spring integration (not a Charm repo)
-
-    val bubbleteaExampleProjectDirs = findExampleProjectDirs("examples/bubbletea")
-
-    val examplesBubbletea by creating {
-        java.srcDir("examples/bubbletea/src/main/java")
-        resources.srcDir("examples/bubbletea/src/main/resources")
-        java.srcDir("src/main/resources/examples/compat/bubbletea")
-
-        bubbleteaExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/main/java"))
-            resources.addIfExists(dir.resolve("src/main/resources"))
-        }
-
-        compileClasspath += main.output + configurations["examplesBubbleteaCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesBubbleteaRuntimeClasspath"]
-    }
-
-    // Source sets for each Charmbracelet repo
-    val bubblesExampleProjectDirs = findExampleProjectDirs("examples/bubbles")
-    val examplesBubbles by creating {
-        java.srcDir("examples/bubbles/src/main/java")
-        resources.srcDir("examples/bubbles/src/main/resources")
-        bubblesExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/main/java"))
-            resources.addIfExists(dir.resolve("src/main/resources"))
-        }
-        compileClasspath += main.output + configurations["examplesBubblesCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesBubblesRuntimeClasspath"]
-    }
-
-    val lipglossExampleProjectDirs = findExampleProjectDirs("examples/lipgloss")
-    val examplesLipgloss by creating {
-        java.srcDir("examples/lipgloss/src/main/java")
-        resources.srcDir("examples/lipgloss/src/main/resources")
-        lipglossExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/main/java"))
-            resources.addIfExists(dir.resolve("src/main/resources"))
-        }
-        compileClasspath += main.output + configurations["examplesLipglossCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesLipglossRuntimeClasspath"]
-    }
-
-    val harmonicaExampleProjectDirs = findExampleProjectDirs("examples/harmonica")
-    val examplesHarmonica by creating {
-        java.srcDir("examples/harmonica/src/main/java")
-        resources.srcDir("examples/harmonica/src/main/resources")
-        harmonicaExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/main/java"))
-            resources.addIfExists(dir.resolve("src/main/resources"))
-        }
-        compileClasspath += main.output + configurations["examplesHarmonicaCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesHarmonicaRuntimeClasspath"]
-    }
-
-    val xExampleProjectDirs = findExampleProjectDirs("examples/x")
-    val examplesX by creating {
-        java.srcDir("examples/x/src/main/java")
-        resources.srcDir("examples/x/src/main/resources")
-        xExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/main/java"))
-            resources.addIfExists(dir.resolve("src/main/resources"))
-        }
-        compileClasspath += main.output + configurations["examplesXCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesXRuntimeClasspath"]
-    }
-
-    val examplesSpringIntegration by creating {
+    val examplesSpring by creating {
         java.srcDir("examples/spring/src/main/java")
         resources.srcDir("examples/spring/src/main/resources")
-        java.srcDir("src/main/resources/examples/spring")
-        compileClasspath += main.output + configurations["examplesSpringIntegrationCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesSpringIntegrationRuntimeClasspath"]
+        compileClasspath += main.output + configurations["examplesSpringCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesSpringRuntimeClasspath"]
     }
 
-    val examplesBubbleteaTest by creating {
-        java.srcDir("examples/bubbletea/src/test/java")
-        resources.srcDir("examples/bubbletea/src/test/resources")
-
-        bubbleteaExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/test/java"))
-            resources.addIfExists(dir.resolve("src/test/resources"))
-        }
-
-        compileClasspath += main.output + examplesBubbletea.output + configurations["examplesBubbleteaTestCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesBubbleteaTestRuntimeClasspath"]
+    val examplesGenericTest by creating {
+        java.srcDir("examples/generic/src/test/java")
+        resources.srcDir("examples/generic/src/test/resources")
+        compileClasspath += main.output + examplesGeneric.output + configurations["examplesGenericTestCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesGenericTestRuntimeClasspath"]
     }
 
-    val examplesBubblesTest by creating {
-        java.srcDir("examples/bubbles/src/test/java")
-        resources.srcDir("examples/bubbles/src/test/resources")
-
-        bubblesExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/test/java"))
-            resources.addIfExists(dir.resolve("src/test/resources"))
-        }
-
-        compileClasspath += main.output + examplesBubbles.output + configurations["examplesBubblesTestCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesBubblesTestRuntimeClasspath"]
-    }
-
-    val examplesLipglossTest by creating {
-        java.srcDir("examples/lipgloss/src/test/java")
-        resources.srcDir("examples/lipgloss/src/test/resources")
-
-        lipglossExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/test/java"))
-            resources.addIfExists(dir.resolve("src/test/resources"))
-        }
-
-        compileClasspath += main.output + examplesLipgloss.output + configurations["examplesLipglossTestCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesLipglossTestRuntimeClasspath"]
-    }
-
-    val examplesHarmonicaTest by creating {
-        java.srcDir("examples/harmonica/src/test/java")
-        resources.srcDir("examples/harmonica/src/test/resources")
-
-        harmonicaExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/test/java"))
-            resources.addIfExists(dir.resolve("src/test/resources"))
-        }
-
-        compileClasspath += main.output + examplesHarmonica.output + configurations["examplesHarmonicaTestCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesHarmonicaTestRuntimeClasspath"]
-    }
-
-    val examplesXTest by creating {
-        java.srcDir("examples/x/src/test/java")
-        resources.srcDir("examples/x/src/test/resources")
-
-        xExampleProjectDirs.forEach { dir ->
-            java.addIfExists(dir.resolve("src/test/java"))
-            resources.addIfExists(dir.resolve("src/test/resources"))
-        }
-
-        compileClasspath += main.output + examplesX.output + configurations["examplesXTestCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesXTestRuntimeClasspath"]
-    }
-
-    val examplesSpringIntegrationTest by creating {
+    val examplesSpringTest by creating {
         java.srcDir("examples/spring/src/test/java")
         resources.srcDir("examples/spring/src/test/resources")
-        compileClasspath += main.output + examplesSpringIntegration.output + configurations["examplesSpringIntegrationTestCompileClasspath"]
-        runtimeClasspath += output + compileClasspath + configurations["examplesSpringIntegrationTestRuntimeClasspath"]
+        compileClasspath += main.output + examplesSpring.output + configurations["examplesSpringTestCompileClasspath"]
+        runtimeClasspath += output + compileClasspath + configurations["examplesSpringTestRuntimeClasspath"]
     }
 }
 
 tasks.register("examplesClasses") {
     group = "build"
     description = "Compiles all example source sets."
-    dependsOn(
-        "examplesBubbleteaClasses",
-        "examplesBubblesClasses",
-        "examplesLipglossClasses",
-        "examplesHarmonicaClasses",
-        "examplesXClasses",
-        "examplesSpringIntegrationClasses"
-    )
+    dependsOn("examplesGenericClasses", "examplesSpringClasses")
 }
 
 tasks.named<Test>("test") {
     dependsOn("examplesClasses")
-    dependsOn(
-        "examplesBubbleteaTest",
-        "examplesBubblesTest",
-        "examplesLipglossTest",
-        "examplesHarmonicaTest",
-        "examplesXTest",
-        "examplesSpringIntegrationTest"
-    )
+    dependsOn("examplesGenericTest", "examplesSpringTest")
 }
 
-tasks.named<JavaCompile>("compileExamplesSpringIntegrationJava") {
-    options.annotationProcessorPath = configurations["examplesSpringIntegrationAnnotationProcessor"]
+tasks.named<JavaCompile>("compileExamplesSpringJava") {
+    options.annotationProcessorPath = configurations["examplesSpringAnnotationProcessor"]
 }
 
 dependencies {
-    "examplesBubbleteaImplementation"(sourceSets.main.get().output)
-    "examplesBubbleteaImplementation"(libs.com.squareup.okhttp3.okhttp)
-    configurations["examplesBubbleteaRuntimeClasspath"].extendsFrom(
-        configurations.api.get(),
-        configurations.runtimeClasspath.get()
-    )
+    "examplesGenericImplementation"(sourceSets.main.get().output)
+    "examplesGenericImplementation"(libs.com.squareup.okhttp3.okhttp)
+configurations["examplesGenericRuntimeClasspath"].extendsFrom(
+    configurations.api.get(),
+    configurations.runtimeClasspath.get()
+)
 
-    "examplesBubblesImplementation"(sourceSets.main.get().output)
-    configurations["examplesBubblesRuntimeClasspath"].extendsFrom(
-        configurations.api.get(),
-        configurations.runtimeClasspath.get()
-    )
-
-    "examplesLipglossImplementation"(sourceSets.main.get().output)
-    configurations["examplesLipglossRuntimeClasspath"].extendsFrom(
-        configurations.api.get(),
-        configurations.runtimeClasspath.get()
-    )
-
-    "examplesHarmonicaImplementation"(sourceSets.main.get().output)
-    configurations["examplesHarmonicaRuntimeClasspath"].extendsFrom(
-        configurations.api.get(),
-        configurations.runtimeClasspath.get()
-    )
-
-    "examplesXImplementation"(sourceSets.main.get().output)
-    configurations["examplesXRuntimeClasspath"].extendsFrom(
-        configurations.api.get(),
-        configurations.runtimeClasspath.get()
-    )
-
-    "examplesSpringIntegrationImplementation"(platform("org.springframework.boot:spring-boot-dependencies:3.5.9"))
-    "examplesSpringIntegrationImplementation"(sourceSets.main.get().output)
-    "examplesSpringIntegrationImplementation"(libs.org.springframework.boot.spring.boot.starter.data.jpa) {
+    "examplesSpringImplementation"(platform("org.springframework.boot:spring-boot-dependencies:3.5.9"))
+    "examplesSpringImplementation"(sourceSets.main.get().output)
+    "examplesSpringImplementation"(libs.org.springframework.boot.spring.boot.starter.data.jpa) {
         exclude(group = "org.yaml", module = "snakeyaml")
     }
-    "examplesSpringIntegrationImplementation"(libs.com.github.javafaker.javafaker) {
+    "examplesSpringImplementation"(libs.com.github.javafaker.javafaker) {
         exclude(group = "org.yaml", module = "snakeyaml")
     }
-    "examplesSpringIntegrationImplementation"("org.yaml:snakeyaml:2.3@jar")
-    "examplesSpringIntegrationRuntimeOnly"(libs.com.h2database.h2)
-    "examplesSpringIntegrationCompileOnly"(libs.org.projectlombok.lombok)
-    "examplesSpringIntegrationAnnotationProcessor"(libs.org.projectlombok.lombok)
+    "examplesSpringImplementation"("org.yaml:snakeyaml:2.3@jar")
+    "examplesSpringRuntimeOnly"(libs.com.h2database.h2)
+    "examplesSpringCompileOnly"(libs.org.projectlombok.lombok)
+    "examplesSpringAnnotationProcessor"(libs.org.projectlombok.lombok)
 }
 
-configurations["examplesBubbleteaTestImplementation"].extendsFrom(
-    configurations["examplesBubbleteaImplementation"],
+configurations["examplesGenericTestImplementation"].extendsFrom(
+    configurations["examplesGenericImplementation"],
     configurations["testImplementation"]
 )
-configurations["examplesBubbleteaTestRuntimeOnly"].extendsFrom(
-    configurations["examplesBubbleteaRuntimeOnly"],
+configurations["examplesGenericTestRuntimeOnly"].extendsFrom(
+    configurations["examplesGenericRuntimeOnly"],
     configurations["testRuntimeOnly"]
 )
-configurations["examplesBubblesTestImplementation"].extendsFrom(
-    configurations["examplesBubblesImplementation"],
+configurations["examplesSpringTestImplementation"].extendsFrom(
+    configurations["examplesSpringImplementation"],
     configurations["testImplementation"]
 )
-configurations["examplesBubblesTestRuntimeOnly"].extendsFrom(
-    configurations["examplesBubblesRuntimeOnly"],
-    configurations["testRuntimeOnly"]
-)
-configurations["examplesLipglossTestImplementation"].extendsFrom(
-    configurations["examplesLipglossImplementation"],
-    configurations["testImplementation"]
-)
-configurations["examplesLipglossTestRuntimeOnly"].extendsFrom(
-    configurations["examplesLipglossRuntimeOnly"],
-    configurations["testRuntimeOnly"]
-)
-configurations["examplesHarmonicaTestImplementation"].extendsFrom(
-    configurations["examplesHarmonicaImplementation"],
-    configurations["testImplementation"]
-)
-configurations["examplesHarmonicaTestRuntimeOnly"].extendsFrom(
-    configurations["examplesHarmonicaRuntimeOnly"],
-    configurations["testRuntimeOnly"]
-)
-configurations["examplesXTestImplementation"].extendsFrom(
-    configurations["examplesXImplementation"],
-    configurations["testImplementation"]
-)
-configurations["examplesXTestRuntimeOnly"].extendsFrom(
-    configurations["examplesXRuntimeOnly"],
-    configurations["testRuntimeOnly"]
-)
-configurations["examplesSpringIntegrationTestImplementation"].extendsFrom(
-    configurations["examplesSpringIntegrationImplementation"],
-    configurations["testImplementation"]
-)
-configurations["examplesSpringIntegrationTestRuntimeOnly"].extendsFrom(
-    configurations["examplesSpringIntegrationRuntimeOnly"],
+configurations["examplesSpringTestRuntimeOnly"].extendsFrom(
+    configurations["examplesSpringRuntimeOnly"],
     configurations["testRuntimeOnly"]
 )
 
-tasks.register<Test>("examplesBubbleteaTest") {
-    description = "Runs tests for Bubble Tea examples."
+tasks.register<Test>("examplesGenericTest") {
+    description = "Runs tests for examples/generic."
     group = "verification"
-    testClassesDirs = sourceSets["examplesBubbleteaTest"].output.classesDirs
-    classpath = sourceSets["examplesBubbleteaTest"].runtimeClasspath
+    testClassesDirs = sourceSets["examplesGenericTest"].output.classesDirs
+    classpath = sourceSets["examplesGenericTest"].runtimeClasspath
 }
 
-tasks.register<Test>("examplesBubblesTest") {
-    description = "Runs tests for Bubbles examples."
+tasks.register<Test>("examplesSpringTest") {
+    description = "Runs tests for examples/spring."
     group = "verification"
-    testClassesDirs = sourceSets["examplesBubblesTest"].output.classesDirs
-    classpath = sourceSets["examplesBubblesTest"].runtimeClasspath
-}
-
-tasks.register<Test>("examplesLipglossTest") {
-    description = "Runs tests for Lipgloss examples."
-    group = "verification"
-    testClassesDirs = sourceSets["examplesLipglossTest"].output.classesDirs
-    classpath = sourceSets["examplesLipglossTest"].runtimeClasspath
-}
-
-tasks.register<Test>("examplesHarmonicaTest") {
-    description = "Runs tests for Harmonica examples."
-    group = "verification"
-    testClassesDirs = sourceSets["examplesHarmonicaTest"].output.classesDirs
-    classpath = sourceSets["examplesHarmonicaTest"].runtimeClasspath
-}
-
-tasks.register<Test>("examplesXTest") {
-    description = "Runs tests for x/ansi examples."
-    group = "verification"
-    testClassesDirs = sourceSets["examplesXTest"].output.classesDirs
-    classpath = sourceSets["examplesXTest"].runtimeClasspath
-}
-
-tasks.register<Test>("examplesSpringIntegrationTest") {
-    description = "Runs tests for Spring integration examples."
-    group = "verification"
-    testClassesDirs = sourceSets["examplesSpringIntegrationTest"].output.classesDirs
-    classpath = sourceSets["examplesSpringIntegrationTest"].runtimeClasspath
+    testClassesDirs = sourceSets["examplesSpringTest"].output.classesDirs
+    classpath = sourceSets["examplesSpringTest"].runtimeClasspath
 }
 
 tasks.withType<Test>().configureEach {
@@ -456,36 +221,38 @@ tasks.register<Jar>("examplesJar") {
         attributes["Main-Class"] = "com.williamcallahan.tui4j.examples.ExamplesRunner"
     }
 
-    from(sourceSets["examplesBubbletea"].output)
-    from(sourceSets["examplesBubbles"].output)
-    from(sourceSets["examplesLipgloss"].output)
-    from(sourceSets["examplesHarmonica"].output)
-    from(sourceSets["examplesX"].output)
-    from(sourceSets["examplesSpringIntegration"].output)
+    from(sourceSets["examplesGeneric"].output)
+    from(sourceSets["examplesSpring"].output)
     from(sourceSets.main.get().output)
 
-    val examplesRuntimeClasspaths = listOf(
-        configurations["examplesBubbleteaRuntimeClasspath"],
-        configurations["examplesBubblesRuntimeClasspath"],
-        configurations["examplesLipglossRuntimeClasspath"],
-        configurations["examplesHarmonicaRuntimeClasspath"],
-        configurations["examplesXRuntimeClasspath"],
-        configurations["examplesSpringIntegrationRuntimeClasspath"]
-    )
+    val genericRuntimeClasspath = configurations["examplesGenericRuntimeClasspath"]
+    val springRuntimeClasspath = configurations["examplesSpringRuntimeClasspath"]
 
-    examplesRuntimeClasspaths.forEach { runtimeClasspath ->
-        runtimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
-            from(zipTree(file)) {
-                exclude("META-INF/MANIFEST.MF")
-                exclude("META-INF/INDEX.LIST")
-                exclude("META-INF/io.netty.versions.properties")
-                exclude("META-INF/DEPENDENCIES")
-                exclude("META-INF/LICENSE")
-                exclude("META-INF/NOTICE")
-                exclude("META-INF/*.SF")
-                exclude("META-INF/*.DSA")
-                exclude("META-INF/*.RSA")
-            }
+    genericRuntimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
+        from(zipTree(file)) {
+            exclude("META-INF/MANIFEST.MF")
+            exclude("META-INF/INDEX.LIST")
+            exclude("META-INF/io.netty.versions.properties")
+            exclude("META-INF/DEPENDENCIES")
+            exclude("META-INF/LICENSE")
+            exclude("META-INF/NOTICE")
+            exclude("META-INF/*.SF")
+            exclude("META-INF/*.DSA")
+            exclude("META-INF/*.RSA")
+        }
+    }
+
+    springRuntimeClasspath.filter { it.isFile && it.name.endsWith(".jar") }.forEach { file ->
+        from(zipTree(file)) {
+            exclude("META-INF/MANIFEST.MF")
+            exclude("META-INF/INDEX.LIST")
+            exclude("META-INF/io.netty.versions.properties")
+            exclude("META-INF/DEPENDENCIES")
+            exclude("META-INF/LICENSE")
+            exclude("META-INF/NOTICE")
+            exclude("META-INF/*.SF")
+            exclude("META-INF/*.DSA")
+            exclude("META-INF/*.RSA")
         }
     }
 }
@@ -496,32 +263,28 @@ tasks.register("copyAllExampleJars") {
     dependsOn("examplesJar")
 
     val jarPath = layout.buildDirectory.get().dir("libs").file("tui4j-examples.jar").asFile
-
-    // Dynamically find all example subdirectories that have src/main/java
-    val exampleRoots = listOf(
-        file("${projectDir}/examples/bubbletea"),
-        file("${projectDir}/examples/bubbles"),
-        file("${projectDir}/examples/lipgloss"),
-        file("${projectDir}/examples/harmonica"),
-        file("${projectDir}/examples/x"),
+    val exampleDirs = listOf(
+        file("${projectDir}/examples/generic"),
+        file("${projectDir}/examples/generic/table-resize"),
+        file("${projectDir}/examples/generic/autocomplete"),
+        file("${projectDir}/examples/generic/debounce"),
+        file("${projectDir}/examples/generic/file-picker"),
+        file("${projectDir}/examples/generic/prevent-quit"),
+        file("${projectDir}/examples/generic/progress-static"),
+        file("${projectDir}/examples/generic/progress-animated"),
+        file("${projectDir}/examples/generic/progress-download"),
+        file("${projectDir}/examples/generic/package-manager"),
+        file("${projectDir}/examples/generic/spinners"),
+        file("${projectDir}/examples/generic/tabs"),
+        file("${projectDir}/examples/generic/tui-daemon-combo"),
         file("${projectDir}/examples/spring")
     )
 
     doLast {
-        exampleRoots.forEach { root ->
-            if (root.exists()) {
-                // Copy to root
-                project.copy {
-                    from(jarPath)
-                    into(root)
-                }
-                // Copy to each subdirectory that has src/main/java
-                root.listFiles()?.filter { it.isDirectory && it.resolve("src/main/java").exists() }?.forEach { subdir ->
-                    project.copy {
-                        from(jarPath)
-                        into(subdir)
-                    }
-                }
+        exampleDirs.forEach { dir ->
+            project.copy {
+                from(jarPath)
+                into(dir)
             }
         }
     }
