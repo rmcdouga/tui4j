@@ -72,7 +72,7 @@ See the [Tutorial](docs/tutorial.md) for a complete walkthrough.
 
 ![Demo](assets/demo-tape.gif)
 
-See all the [examples](examples) including lists, text inputs, spinners, and more:
+See all the [examples](src/main/resources/examples/compat) including lists, text inputs, spinners, and more:
 
 ![Conway's Game of Life](assets/conway-tape.gif)
 

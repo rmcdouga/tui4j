@@ -23,7 +23,7 @@ Use the corresponding `*Message` classes instead.
 
 ### Root
 
-- [ ] **commands.go**
+- [x] **commands.go**
   - `Command.java`
   - `BatchMessage.java`
   - ~~`BatchMsg.java`~~ @deprecated
@@ -38,31 +38,31 @@ Use the corresponding `*Message` classes instead.
   - `ReadClipboardMessage.java`
   - ~~`ReadClipboardMsg.java`~~ @deprecated
 
-- [ ] **commands_test.go** → `<unmapped>`
+- [x] **commands_test.go** → `CommandsParityTest.java`
 
-- [ ] **exec.go**
+- [x] **exec.go**
   - `ExecProcessMessage.java`
   - ~~`ExecProcessMsg.java`~~ @deprecated
   - `ExecCompletedMessage.java`
   - ~~`ExecCompletedMsg.java`~~ @deprecated
 
-- [ ] **exec_test.go** → `<unmapped>`
+- [x] **exec_test.go** → `ExecTest.java`
 
-- [ ] **focus.go**
+- [x] **focus.go**
   - `FocusMessage.java`
   - ~~`FocusMsg.java`~~ @deprecated
   - `BlurMessage.java`
   - ~~`BlurMsg.java`~~ @deprecated
 
-- [ ] **inputreader_other.go**
+- [x] **inputreader_other.go**
   - `input/InputHandler.java`
   - `input/NewInputHandler.java`
   - `input/OldLaggyInputHandler.java`
   - `input/NoopInputHandler.java`
 
-- [ ] **inputreader_windows.go** → `<unmapped>`
+- [x] **inputreader_windows.go** → `input/WindowsInputHandler.java`
 
-- [ ] **key.go**
+- [x] **key.go**
   - `input/key/Key.java`
   - `input/key/KeyType.java`
   - `input/key/KeyNames.java`
@@ -76,39 +76,39 @@ Use the corresponding `*Message` classes instead.
   - `UnknownSequenceMessage.java`
   - ~~`UnknownSequenceMsg.java`~~ @deprecated
 
-- [ ] **key_other.go** → `<unmapped>`
+- [x] **key_other.go** → `input/NewInputHandler.java`
 
-- [ ] **key_sequences.go**
+- [x] **key_sequences.go**
   - `input/key/Sequences.java`
   - `input/key/ExtendedSequences.java`
 
-- [ ] **key_test.go** → `<unmapped>`
+- [x] **key_test.go** → `input/key/KeyTest.java`
 
-- [ ] **key_windows.go** → `<unmapped>`
+- [x] **key_windows.go** → `input/WindowsInputHandler.java`
 
-- [ ] **logging.go** → `Logging.java`
+- [x] **logging.go** → `Logging.java`
 
-- [ ] **logging_test.go** → `<unmapped>`
+- [x] **logging_test.go** → `LoggingTest.java`
 
-- [ ] **mouse.go**
+- [x] **mouse.go**
   - `input/MouseMessage.java`
   - ~~`input/MouseMsg.java`~~ @deprecated
   - `input/MouseButton.java`
   - `input/MouseAction.java`
 
-- [ ] **mouse_test.go** → `<unmapped>`
+- [x] **mouse_test.go** → `input/MouseTest.java`
 
-- [ ] **nil_renderer.go** → `render/NilRenderer.java`
+- [x] **nil_renderer.go** → `render/NilRenderer.java`
 
-- [ ] **nil_renderer_test.go** → `<unmapped>`
+- [x] **nil_renderer_test.go** → `render/NilRendererTest.java`
 
-- [ ] **options.go** → `ProgramOption.java`
+- [x] **options.go** → `ProgramOption.java`
 
-- [ ] **options_test.go** → `<unmapped>`
+- [x] **options_test.go** → `ProgramOptionsTest.java`
 
-- [ ] **renderer.go** → `render/Renderer.java`
+- [x] **renderer.go** → `render/Renderer.java`
 
-- [ ] **screen.go**
+- [x] **screen.go**
   - `WindowSizeMessage.java`
   - ~~`WindowSizeMsg.java`~~ @deprecated
   - `ClearScreenMessage.java`
@@ -119,6 +119,10 @@ Use the corresponding `*Message` classes instead.
   - `ExitAltScreenMessage.java`
   - ~~`ExitAltScreenMsg.java`~~ @deprecated
   - `ExitAltScreen.java`
+  - `EnableBracketedPasteMessage.java`
+  - ~~`EnableBracketedPasteMsg.java`~~ @deprecated
+  - `DisableBracketedPasteMessage.java`
+  - ~~`DisableBracketedPasteMsg.java`~~ @deprecated
   - `EnableMouseCellMotionMessage.java`
   - ~~`EnableMouseCellMotionMsg.java`~~ @deprecated
   - `EnableMouseAllMotionMessage.java`
@@ -134,18 +138,18 @@ Use the corresponding `*Message` classes instead.
   - `SetMouseCursorTextMessage.java`
   - ~~`SetMouseCursorTextMsg.java`~~ @deprecated
 
-- [ ] **screen_test.go** → `<unmapped>`
+- [x] **screen_test.go** → `ScreenTest.java`
 
-- [ ] **signals_unix.go** → `Program.java`
+- [x] **signals_unix.go** → `Program.java`
 
-- [ ] **signals_windows.go** → `Program.java`
+- [x] **signals_windows.go** → `Program.java`
 
-- [ ] **standard_renderer.go**
+- [x] **standard_renderer.go**
   - `render/StandardRenderer.java`
   - `PrintLineMessage.java`
   - ~~`PrintLineMsg.java`~~ @deprecated
 
-- [ ] **tea.go**
+- [x] **tea.go**
   - `Program.java`
   - `Model.java`
   - `Message.java`
@@ -161,77 +165,109 @@ Use the corresponding `*Message` classes instead.
   - `ErrorMessage.java`
   - ~~`ErrorMsg.java`~~ @deprecated
 
-- [ ] **tea_init.go** → `<unmapped>`
+- [x] **tea_init.go** → `Program.java`
 
-- [ ] **tea_test.go** → `<unmapped>`
+- [x] **tea_test.go** → `TeaTest.java`
 
-- [ ] **tty.go** → `Program.java`
+- [x] **tty.go** → `Program.java`
 
-- [ ] **tty_unix.go** → `Program.java`
+- [x] **tty_unix.go** → `Program.java`
 
-- [ ] **tty_windows.go** → `Program.java`
+- [x] **tty_windows.go** → `Program.java`
 
 ---
 
 ### Tutorials
 
-- [ ] **tutorials/basics/main.go** → `<unmapped>`
-- [ ] **tutorials/commands/main.go** → `<unmapped>`
+- [x] **tutorials/basics/main.go** → `src/main/resources/examples/compat/bubbletea/tutorials/basics/BasicsTutorialExample.java`
+- [x] **tutorials/commands/main.go** → `src/main/resources/examples/compat/bubbletea/tutorials/commands/CommandsTutorialExample.java`
 
 ---
 
 ### Examples
 
-- [ ] **examples/altscreen-toggle/main.go** → `examples/.../AltScreenToggleExample.java`
-- [ ] **examples/autocomplete/main.go** → `examples/.../AutocompleteExample.java`
-- [ ] **examples/cellbuffer/main.go** → `examples/.../CellExample.java`
-- [ ] **examples/chat/main.go** → `examples/.../ChatExample.java`
-- [ ] **examples/composable-views/main.go** → `examples/.../ComposableViewsExample.java`
-- [ ] **examples/credit-card-form/main.go** → `examples/.../CreditCardFormExample.java`
-- [ ] **examples/debounce/main.go** → `examples/.../DebounceExample.java`
-- [ ] **examples/exec/main.go** → `examples/.../ExecExample.java`
-- [ ] **examples/eyes/main.go** → `<unmapped>`
-- [ ] **examples/file-picker/main.go** → `examples/.../FilePickerExample.java`
-- [ ] **examples/focus-blur/main.go** → `examples/.../FocusBlurExample.java`
-- [ ] **examples/fullscreen/main.go** → `examples/.../FullscreenExample.java`
-- [ ] **examples/glamour/main.go** → `<unmapped>`
-- [ ] **examples/help/main.go** → `examples/.../HelpExample.java`
-- [ ] **examples/http/main.go** → `examples/.../HttpExample.java`
-- [ ] **examples/list-default/main.go** → `examples/.../ListDefaultExample.java`
-- [ ] **examples/list-fancy/delegate.go** → `examples/.../Delegate.java`
-- [ ] **examples/list-fancy/main.go** → `examples/.../ListFancyExample.java`
-- [ ] **examples/list-fancy/randomitems.go** → `examples/.../RandomItemGenerator.java`
-- [ ] **examples/list-simple/main.go** → `examples/.../ListSimpleExample.java`
-- [ ] **examples/mouse/main.go** → `examples/.../MouseExample.java`
-- [ ] **examples/package-manager/main.go** → `examples/.../PackageManagerExample.java`
-- [ ] **examples/package-manager/packages.go** → `examples/.../PackageManagerExample.java`
-- [ ] **examples/pager/main.go** → `examples/.../PagerExample.java`
-- [ ] **examples/paginator/main.go** → `examples/.../PaginatorExample.java`
-- [ ] **examples/pipe/main.go** → `examples/.../PipeExample.java`
-- [ ] **examples/prevent-quit/main.go** → `examples/.../PreventQuitExample.java`
-- [ ] **examples/progress-animated/main.go** → `examples/.../ProgressAnimatedExample.java`
-- [ ] **examples/progress-download/main.go** → `examples/.../ProgressDownloadExample.java`
-- [ ] **examples/progress-download/tui.go** → `examples/.../ProgressDownloadExample.java`
-- [ ] **examples/progress-static/main.go** → `examples/.../ProgressStaticExample.java`
-- [ ] **examples/realtime/main.go** → `examples/.../RealtimeExample.java`
-- [ ] **examples/result/main.go** → `<unmapped>`
-- [ ] **examples/send-msg/main.go** → `examples/.../SendMsgExample.java`
-- [ ] **examples/sequence/main.go** → `examples/.../SequenceExample.java`
-- [ ] **examples/set-window-title/main.go** → `examples/.../SetWindowTitleExample.java`
-- [ ] **examples/simple/main.go** → `examples/.../SimpleExample.java`
-- [ ] **examples/simple/main_test.go** → `<unmapped>`
-- [ ] **examples/spinner/main.go** → `examples/.../SpinnerExample.java`
-- [ ] **examples/spinners/main.go** → `examples/.../SpinnersExample.java`
-- [ ] **examples/split-editors/main.go** → `examples/.../SplitEditorsExample.java`
-- [ ] **examples/stopwatch/main.go** → `examples/.../StopwatchExample.java`
-- [ ] **examples/suspend/main.go** → `examples/.../SuspendExample.java`
-- [ ] **examples/table-resize/main.go** → `examples/.../TableResizeExample.java`
-- [ ] **examples/table/main.go** → `examples/.../TableExample.java`
-- [ ] **examples/tabs/main.go** → `examples/.../TabsExample.java`
-- [ ] **examples/textarea/main.go** → `examples/.../TextareaExample.java`
-- [ ] **examples/textinput/main.go** → `examples/.../TextInputExample.java`
-- [ ] **examples/textinputs/main.go** → `examples/.../TextInputsExample.java`
-- [ ] **examples/timer/main.go** → `examples/.../TimerExample.java`
-- [ ] **examples/tui-daemon-combo/main.go** → `examples/.../DaemonComboExample.java`
-- [ ] **examples/views/main.go** → `examples/.../ViewsExample.java`
-- [ ] **examples/window-size/main.go** → `examples/.../WindowSizeExample.java`
+- [x] **examples/altscreen-toggle/main.go** → `src/main/resources/examples/compat/bubbletea/altscreentoggle/AltScreenToggleExample.java`
+- [x] **examples/autocomplete/main.go** → `src/main/resources/examples/compat/bubbletea/autocomplete/AutocompleteExample.java`
+- [x] **examples/cellbuffer/main.go** → `src/main/resources/examples/compat/bubbletea/cellbuffer/CellExample.java`
+- [x] **examples/chat/main.go** → `src/main/resources/examples/compat/bubbletea/chat/ChatExample.java`
+- [x] **examples/composable-views/main.go** → `src/main/resources/examples/compat/bubbletea/composableviews/ComposableViewsExample.java`
+- [x] **examples/credit-card-form/main.go** → `src/main/resources/examples/compat/bubbletea/creditcardform/CreditCardFormExample.java`
+- [x] **examples/debounce/main.go** → `src/main/resources/examples/compat/bubbletea/debounce/DebounceExample.java`
+- [x] **examples/exec/main.go** → `src/main/resources/examples/compat/bubbletea/exec/ExecExample.java`
+- [x] **examples/eyes/main.go** → `src/main/resources/examples/compat/bubbletea/eyes/EyesExample.java`
+- [x] **examples/file-picker/main.go** → `src/main/resources/examples/compat/bubbletea/filepicker/FilePickerExample.java`
+- [x] **examples/focus-blur/main.go** → `src/main/resources/examples/compat/bubbletea/focusblur/FocusBlurExample.java`
+- [x] **examples/fullscreen/main.go** → `src/main/resources/examples/compat/bubbletea/fullscreen/FullscreenExample.java`
+- [x] **examples/glamour/main.go** → `src/main/resources/examples/compat/bubbletea/glamour/GlamourExample.java`
+  - Note: Glamour is not ported; Java example renders raw markdown in a viewport.
+- [x] **examples/help/main.go** → `src/main/resources/examples/compat/bubbletea/help/HelpExample.java`
+- [x] **examples/http/main.go** → `src/main/resources/examples/compat/bubbletea/http/HttpExample.java`
+- [x] **examples/list-default/main.go** → `src/main/resources/examples/compat/bubbletea/listdefault/ListDefaultExample.java`
+- [x] **examples/list-fancy/delegate.go** → `src/main/resources/examples/compat/bubbletea/listfancy/Delegate.java`
+- [x] **examples/list-fancy/main.go** → `src/main/resources/examples/compat/bubbletea/listfancy/ListFancyExample.java`
+  - `src/main/resources/examples/compat/bubbletea/listfancy/FancyItem.java`
+  - `src/main/resources/examples/compat/bubbletea/listfancy/Keys.java`
+  - `src/main/resources/examples/compat/bubbletea/listfancy/Styles.java`
+- [x] **examples/list-fancy/randomitems.go** → `src/main/resources/examples/compat/bubbletea/listfancy/RandomItemGenerator.java`
+- [x] **examples/list-simple/main.go** → `src/main/resources/examples/compat/bubbletea/listsimple/ListSimpleExample.java`
+- [x] **examples/mouse/main.go** → `src/main/resources/examples/compat/bubbletea/mouse/MouseExample.java`
+- [x] **examples/package-manager/main.go** → `src/main/resources/examples/compat/bubbletea/progress/packagemanager/PackageManagerExample.java`
+- [x] **examples/package-manager/packages.go** → `src/main/resources/examples/compat/bubbletea/progress/packagemanager/PackageManagerExample.java`
+- [x] **examples/pager/main.go** → `src/main/resources/examples/compat/bubbletea/pager/PagerExample.java`
+- [x] **examples/paginator/main.go** → `src/main/resources/examples/compat/bubbletea/paginator/PaginatorExample.java`
+- [x] **examples/pipe/main.go** → `src/main/resources/examples/compat/bubbletea/pipe/PipeExample.java`
+- [x] **examples/prevent-quit/main.go** → `src/main/resources/examples/compat/bubbletea/preventquit/PreventQuitExample.java`
+- [x] **examples/progress-animated/main.go** → `src/main/resources/examples/compat/bubbletea/progress/animated/ProgressAnimatedExample.java`
+- [x] **examples/progress-download/main.go** → `src/main/resources/examples/compat/bubbletea/progress/download/ProgressDownloadExample.java`
+- [x] **examples/progress-download/tui.go** → `src/main/resources/examples/compat/bubbletea/progress/download/ProgressDownloadExample.java`
+- [x] **examples/progress-static/main.go** → `src/main/resources/examples/compat/bubbletea/progress/staticview/ProgressStaticExample.java`
+- [x] **examples/realtime/main.go** → `src/main/resources/examples/compat/bubbletea/realtime/RealtimeExample.java`
+  - `src/main/resources/examples/compat/bubbletea/realtime/RealtimeMsg.java`
+- [x] **examples/result/main.go** → `src/main/resources/examples/compat/bubbletea/result/ResultExample.java`
+- [x] **examples/send-msg/main.go** → `src/main/resources/examples/compat/bubbletea/sendmsg/SendMsgExample.java`
+  - `src/main/resources/examples/compat/bubbletea/sendmsg/SendMsg.java`
+- [x] **examples/sequence/main.go** → `src/main/resources/examples/compat/bubbletea/sequence/SequenceExample.java`
+- [x] **examples/set-window-title/main.go** → `src/main/resources/examples/compat/bubbletea/setwindowtitle/SetWindowTitleExample.java`
+- [x] **examples/simple/main.go** → `src/main/resources/examples/compat/bubbletea/simple/SimpleExample.java`
+  - `src/main/resources/examples/compat/bubbletea/simple/TickMessage.java`
+- [x] **examples/simple/main_test.go** → `src/test/java/com/williamcallahan/tui4j/compat/bubbletea/examples/SimpleExampleTest.java`
+- [x] **examples/spinner/main.go** → `src/main/resources/examples/compat/bubbletea/spinner/SpinnerExample.java`
+- [x] **examples/spinners/main.go** → `src/main/resources/examples/compat/bubbletea/spinners/SpinnersExample.java`
+- [x] **examples/split-editors/main.go** → `src/main/resources/examples/compat/bubbletea/split/SplitEditorsExample.java`
+- [x] **examples/stopwatch/main.go** → `src/main/resources/examples/compat/bubbletea/stopwatch/StopwatchExample.java`
+- [x] **examples/suspend/main.go** → `src/main/resources/examples/compat/bubbletea/suspend/SuspendExample.java`
+- [x] **examples/table-resize/main.go** → `src/main/resources/examples/compat/bubbletea/tableresize/TableResizeExample.java`
+- [x] **examples/table/main.go** → `src/main/resources/examples/compat/bubbletea/table/TableExample.java`
+- [x] **examples/tabs/main.go** → `src/main/resources/examples/compat/bubbletea/tabs/TabsExample.java`
+- [x] **examples/textarea/main.go** → `src/main/resources/examples/compat/bubbletea/textarea/TextareaExample.java`
+- [x] **examples/textinput/main.go** → `src/main/resources/examples/compat/bubbletea/textinput/TextInputExample.java`
+- [x] **examples/textinputs/main.go** → `src/main/resources/examples/compat/bubbletea/textinputs/TextInputsExample.java`
+- [x] **examples/timer/main.go** → `src/main/resources/examples/compat/bubbletea/timer/TimerExample.java`
+- [x] **examples/tui-daemon-combo/main.go** → `src/main/resources/examples/compat/bubbletea/tuidemoncombo/DaemonComboExample.java`
+- [x] **examples/views/main.go** → `src/main/resources/examples/compat/bubbletea/views/ViewsExample.java`
+- [x] **examples/window-size/main.go** → `src/main/resources/examples/compat/bubbletea/windowsize/WindowSizeExample.java`
+
+---
+
+### TUI4J Extensions (No Upstream Equivalent)
+
+- [x] `src/main/resources/examples/compat/bubbletea/BorderTest.java`
+- [x] `src/main/resources/examples/compat/bubbletea/ExamplesRunner.java`
+- [x] `src/main/resources/examples/compat/bubbletea/conway/Conway.java`
+- [x] `src/main/resources/examples/compat/bubbletea/conway/ConwayGame.java`
+- [x] `src/main/resources/examples/compat/bubbletea/counter/CounterExample.java`
+- [x] `src/main/resources/examples/compat/bubbletea/counter/CounterMsg.java`
+- [x] `src/main/resources/examples/compat/bubbletea/cursor/CursorExample.java`
+- [x] `src/main/resources/examples/compat/bubbletea/demo/Demo.java`
+- [x] `src/main/resources/examples/compat/bubbletea/error/ErrorExample.java`
+- [x] `src/main/resources/examples/compat/bubbletea/fireworks/Fireworks.java`
+- [x] `src/main/resources/examples/compat/bubbletea/progress/staticbar/ProgressStaticExample.java`
+- [x] `src/main/resources/examples/compat/bubbletea/terminfo/TermInfoExample.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/Block.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/GameOverMessage.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/Grid.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/Position.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/TetrisGame.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/Tetromino.java`
+- [x] `src/main/resources/examples/compat/bubbletea/tetris/TetrominoInstance.java`
+- [x] `src/main/resources/examples/compat/bubbletea/width/WidthExample.java`

@@ -8,17 +8,17 @@
 
 ## Source File Mappings
 
-- [ ] **harmonica.go**
+- [x] **harmonica.go**
   - `package-info.java`
 
-- [ ] **projectile.go**
+- [x] **projectile.go**
   - `Projectile.java`
   - `Point.java`
   - `Vector.java`
 
-- [ ] **projectile_test.go** → `<unmapped>`
+- [x] **projectile_test.go** → `ProjectileTest.java`
 
-- [ ] **spring.go** → `Spring.java`
+- [x] **spring.go** → `Spring.java`
 
 ---
 

@@ -1,6 +1,6 @@
 # TUI4J Tutorial
 
-This tutorial walks through building a simple coffee ordering application using TUI4J's Elm Architecture pattern. The complete source code is available in the [examples directory](https://github.com/WilliamAGH/tui4j/tree/main/examples/generic/src/main/java/com/williamcallahan/tui4j/examples/demo).
+This tutorial walks through building a simple coffee ordering application using TUI4J's Elm Architecture pattern. The complete source code is available in the [examples directory](../src/main/resources/examples/compat/bubbletea/demo/Demo.java).
 
 ## The Elm Architecture
 
@@ -161,6 +161,6 @@ public static void main(String[] args) {
 
 ## Next Steps
 
-- Explore the [examples](https://github.com/WilliamAGH/tui4j/tree/main/examples) for more complex applications
+- Explore the [examples](../src/main/resources/examples/compat) for more complex applications
 - Check [STATUS.md](https://github.com/WilliamAGH/tui4j/blob/main/STATUS.md) for porting status from Bubble Tea
 - See [Brief](https://github.com/WilliamAGH/brief) for a real-world TUI4J application

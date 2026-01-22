@@ -13,13 +13,13 @@
 ### Root Files
 
 - [ ] **ansi/ansi.go** → `<unmapped>`
-- [ ] **ansi/ascii.go** → `Ansi.java`
+- [x] **ansi/ascii.go** → `Ansi.java`
 - [ ] **ansi/background.go** → `<unmapped>`
 - [ ] **ansi/background_test.go** → `<unmapped>`
-- [ ] **ansi/c0.go** → `Ansi.java`
-- [ ] **ansi/c1.go** → `Ansi.java`
+- [x] **ansi/c0.go** → `Ansi.java`
+- [x] **ansi/c1.go** → `Ansi.java`
 - [ ] **ansi/charset.go** → `<unmapped>`
-- [ ] **ansi/clipboard.go** → `Code.java` *(partial)*
+- [ ] **ansi/clipboard.go** → `<unmapped>`
 - [ ] **ansi/clipboard_test.go** → `<unmapped>`
 - [ ] **ansi/color.go** → `<unmapped>`
 - [ ] **ansi/color_test.go** → `<unmapped>`
@@ -39,7 +39,7 @@
 - [ ] **ansi/iterm2.go** → `<unmapped>`
 - [ ] **ansi/keypad.go** → `<unmapped>`
 - [ ] **ansi/kitty.go** → `<unmapped>`
-- [ ] **ansi/method.go** → `Method.java`
+- [x] **ansi/method.go** → `Method.java`
 - [ ] **ansi/mode.go** → `<unmapped>`
 - [ ] **ansi/mode_deprecated.go** → `<unmapped>`
 - [ ] **ansi/mode_test.go** → `<unmapped>`
@@ -63,7 +63,7 @@
 - [ ] **ansi/parser_test.go** → `<unmapped>`
 - [ ] **ansi/passthrough.go** → `<unmapped>`
 - [ ] **ansi/passthrough_test.go** → `<unmapped>`
-- [ ] **ansi/paste.go** → `Code.java` *(partial)*
+- [ ] **ansi/paste.go** → `<unmapped>`
 - [ ] **ansi/progress.go** → `<unmapped>`
 - [ ] **ansi/progress_test.go** → `<unmapped>`
 - [ ] **ansi/reset.go** → `<unmapped>`
@@ -77,21 +77,23 @@
 - [ ] **ansi/title.go** → `<unmapped>`
 - [ ] **ansi/title_test.go** → `<unmapped>`
 
-- [ ] **ansi/truncate.go**
+- [x] **ansi/truncate.go**
   - `Truncate.java`
   - `Cut.java`
 
-- [ ] **ansi/truncate_test.go** → `<unmapped>`
+- [x] **ansi/truncate_test.go**
+  - `TruncateTest.java`
+  - `CutTest.java`
 - [ ] **ansi/urxvt.go** → `<unmapped>`
 - [ ] **ansi/urxvt_test.go** → `<unmapped>`
 - [ ] **ansi/util.go** → `<unmapped>`
 
-- [ ] **ansi/width.go**
+- [x] **ansi/width.go**
   - `StringWidth.java`
   - `GraphemeCluster.java`
   - `Strip.java`
 
-- [ ] **ansi/width_test.go** → `<unmapped>`
+- [x] **ansi/width_test.go** → `StringWidthTest.java`
 - [ ] **ansi/winop.go** → `<unmapped>`
 - [ ] **ansi/wrap.go** → `<unmapped>`
 - [ ] **ansi/wrap_test.go** → `<unmapped>`
@@ -125,13 +127,13 @@
 
 **Java Package**: `com.williamcallahan.tui4j.compat.x.ansi.parser`
 
-- [ ] **ansi/parser/const.go**
+- [x] **ansi/parser/const.go**
   - `State.java`
   - `Action.java`
 
-- [ ] **ansi/parser/seq.go** → `Action.java`
+- [x] **ansi/parser/seq.go** → `Action.java`
 
-- [ ] **ansi/parser/transition_table.go** → `TransitionTable.java`
+- [x] **ansi/parser/transition_table.go** → `TransitionTable.java`
 
 ---
 
