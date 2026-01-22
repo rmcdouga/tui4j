@@ -709,9 +709,6 @@ public class List implements Model, com.williamcallahan.tui4j.compat.bubbles.hel
     }
 
     /**
-     * Updates the key bindings based on the current state.
-     */
-    /**
      * Updates key bindings based on the current state.
      */
     protected void updateKeybindings() {

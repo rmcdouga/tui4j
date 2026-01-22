@@ -201,6 +201,8 @@ public interface Renderer {
 
     /**
      * Processes a message that might affect the renderer state (e.g. window resize).
+     *
+     * @param msg message that may affect renderer state
      */
     void handleMessage(Message msg);
 }

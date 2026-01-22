@@ -64,16 +64,20 @@ public final class Logging {
      */
     public static FileOutputStream logToFileWith(String path, String prefix, LogOptionsSetter log) throws IOException {
         FileOutputStream file = new FileOutputStream(Path.of(path).toFile(), true);
-        log.setOutput(file);
-
-        if (prefix != null && !prefix.isEmpty()) {
-            char last = prefix.charAt(prefix.length() - 1);
-            if (!Character.isWhitespace(last)) {
-                prefix = prefix + " ";
+        try {
+            log.setOutput(file);
+            if (prefix != null && !prefix.isEmpty()) {
+                char last = prefix.charAt(prefix.length() - 1);
+                if (!Character.isWhitespace(last)) {
+                    prefix = prefix + " ";
+                }
             }
+            log.setPrefix(prefix == null ? "" : prefix);
+            return file;
+        } catch (RuntimeException | Error e) {
+            file.close();
+            throw e;
         }
-        log.setPrefix(prefix == null ? "" : prefix);
-        return file;
     }
 
     private static final class LoggerAdapter implements LogOptionsSetter {
@@ -90,7 +94,13 @@ public final class Logging {
             if (handler != null) {
                 logger.removeHandler(handler); handler.close();
             }
-            StreamHandler streamHandler = new StreamHandler(output, new PrefixedFormatter(prefix));
+            StreamHandler streamHandler = new StreamHandler(output, new PrefixedFormatter(prefix)) {
+                @Override
+                public synchronized void publish(LogRecord record) {
+                    super.publish(record);
+                    flush();
+                }
+            };
             streamHandler.setLevel(Level.ALL); logger.setLevel(Level.ALL);
             logger.addHandler(streamHandler);
             logger.setUseParentHandlers(false);

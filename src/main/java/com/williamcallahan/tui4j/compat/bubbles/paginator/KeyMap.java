@@ -24,7 +24,8 @@ public class KeyMap {
     private Binding nextPage;
 
     /**
-     * Creates a new empty key map.
+     * Creates a new key map with null bindings.
+     * Callers must set bindings via setters or use {@link #defaultKeyMap()} for defaults.
      */
     public KeyMap() {
     }
