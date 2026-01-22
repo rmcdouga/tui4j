@@ -94,13 +94,13 @@ public class ComposableViewsExample implements Model {
             }
         }
 
-        if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer.TickMessage) {
+        if (msg instanceof com.williamcallahan.tui4j.compat.bubbles.timer.TickMessage) {
             UpdateResult<Timer> result = timer.update(msg);
             timer = result.model();
             if (result.command() != null) {
                 commands.add(result.command());
             }
-        } else if (msg instanceof com.williamcallahan.tui4j.compat.bubbletea.bubbles.spinner.TickMessage) {
+        } else if (msg instanceof com.williamcallahan.tui4j.compat.bubbles.spinner.TickMessage) {
             UpdateResult<Spinner> result = spinner.update(msg);
             spinner = result.model();
             if (result.command() != null) {

@@ -23,7 +23,7 @@ public class DebounceExample implements Model {
         this.tag = 0;
         this.quitting = false;
         this.spinner = new Spinner(SpinnerType.DOTS);
-        this.spinner.setStyle(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle()
+        this.spinner.setStyle(com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle()
                 .foregroundColor(240));
     }
 

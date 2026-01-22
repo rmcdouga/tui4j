@@ -1,12 +1,12 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list;
 
 import org.assertj.core.api.Assertions;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree.Tree;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree.TreeEnumerator;
+import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
+import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
+import com.williamcallahan.tui4j.compat.lipgloss.tree.Tree;
+import com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,12 +18,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.alphabet;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.arabic;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.asterisk;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.bullet;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.dash;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.roman;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.alphabet;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.arabic;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.asterisk;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.bullet;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.dash;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.roman;
 
 /**
  * Tests list.

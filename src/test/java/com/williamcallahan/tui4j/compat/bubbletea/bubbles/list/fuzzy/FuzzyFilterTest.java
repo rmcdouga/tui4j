@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.fuzzy;
 
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.Rank;
+import com.williamcallahan.tui4j.compat.bubbles.list.Rank;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

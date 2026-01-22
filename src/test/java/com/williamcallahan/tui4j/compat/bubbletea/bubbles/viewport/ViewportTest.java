@@ -4,7 +4,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
 import com.williamcallahan.tui4j.term.TerminalInfo;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

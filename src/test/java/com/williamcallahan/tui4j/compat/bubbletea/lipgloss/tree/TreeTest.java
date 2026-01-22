@@ -1,11 +1,11 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.List;
+import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
+import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
+import com.williamcallahan.tui4j.compat.lipgloss.List;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,8 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.alphabet;
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list.ListEnumerator.arabic;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.alphabet;
+import static com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator.arabic;
 
 /**
  * Tests tree.
