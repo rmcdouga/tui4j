@@ -9,6 +9,9 @@ import java.util.List;
  * tui4j: src/main/java/com/williamcallahan/tui4j/input/MouseTargets.java
  */
 public final class MouseTargets {
+    /**
+     * Creates MouseTargets to keep this component ready for use.
+     */
     private MouseTargets() {
     }
 

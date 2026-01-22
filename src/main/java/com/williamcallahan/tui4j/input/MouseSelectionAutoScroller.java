@@ -115,6 +115,9 @@ public final class MouseSelectionAutoScroller {
         updateModifiers(message);
     }
 
+    /**
+     * Handles tick for this component.
+     */
     private void tick() {
         if (!enabled || !running.get()) {
             return;
@@ -153,6 +156,11 @@ public final class MouseSelectionAutoScroller {
         ));
     }
 
+    /**
+     * Handles update modifiers for this component.
+     *
+     * @param message message
+     */
     private void updateModifiers(MouseMessage message) {
         if (message == null) {
             return;

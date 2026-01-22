@@ -67,6 +67,14 @@ public final class MouseClickTracker {
         return null;
     }
 
+    /**
+     * Creates click if matches for this component.
+     *
+     * @param message message
+     * @param target target
+     * @param nowMs now ms
+     * @return result
+     */
     private MouseClickMessage createClickIfMatches(MouseMessage message, MouseTarget target, long nowMs) {
         if (lastPressButton == MouseButton.MouseButtonNone) {
             return null;
@@ -88,6 +96,15 @@ public final class MouseClickTracker {
         );
     }
 
+    /**
+     * Handles calculate click count for this component.
+     *
+     * @param nowMs now ms
+     * @param column column
+     * @param row row
+     * @param button button
+     * @return result
+     */
     private int calculateClickCount(long nowMs, int column, int row, MouseButton button) {
         if (button == MouseButton.MouseButtonNone) {
             lastClickCount = 0;
