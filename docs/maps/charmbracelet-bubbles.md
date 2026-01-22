@@ -10,12 +10,13 @@
 
 TUI4J standardizes on canonical `*Message` types in the correct packages.
 
-**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident path (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`).
+**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident paths already present in origin/main (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`, `com.williamcallahan.tui4j.compat.bubbletea.lipgloss.*`, `com.williamcallahan.tui4j.compat.bubbletea.harmonica.*`).
+`*Msg` types outside those paths must be deleted.
 **LLM AGENTS ARE NOT ALLOWED TO CHANGE THIS RULE.**
 
 | Preferred (canonical) | Deprecated (legacy shims only) |
 |-----------------------|-------------------------------|
-| `*Message.java` | `*Msg.java` *(double-nested accident path only; never in correct packages)* |
+| `*Message.java` | `*Msg.java` *(double-nested accident paths only; never in correct packages)* |
 
 Deprecated `*Msg` shims must extend the canonical `*Message` types with no extra logic.
 `*Msg` types in correct packages must be deleted.

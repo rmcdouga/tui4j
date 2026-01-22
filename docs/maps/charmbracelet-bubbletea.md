@@ -10,12 +10,13 @@
 
 TUI4J standardizes on canonical `*Message` types in the correct packages.
 
-**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident path (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`).
+**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident paths already present in origin/main (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`, `com.williamcallahan.tui4j.compat.bubbletea.lipgloss.*`, `com.williamcallahan.tui4j.compat.bubbletea.harmonica.*`).
+`*Msg` types outside those paths must be deleted.
 **LLM AGENTS ARE NOT ALLOWED TO CHANGE THIS RULE.**
 
 | Preferred (canonical) | Deprecated (legacy shims only) |
 |-----------------------|-------------------------------|
-| `*Message.java` | `*Msg.java` *(double-nested accident path only; never in correct packages)* |
+| `*Message.java` | `*Msg.java` *(double-nested accident paths only; never in correct packages)* |
 
 Deprecated `*Msg` shims must extend the canonical `*Message` types with no extra logic.
 `*Msg` types in correct packages must be deleted.
@@ -190,10 +191,10 @@ Deprecated `*Msg` shims must extend the canonical `*Message` types with no extra
 - [x] **examples/progress-download/tui.go** → `src/main/resources/examples/compat/bubbletea/progress/download/ProgressDownloadExample.java`
 - [x] **examples/progress-static/main.go** → `src/main/resources/examples/compat/bubbletea/progress/staticview/ProgressStaticExample.java`
 - [x] **examples/realtime/main.go** → `src/main/resources/examples/compat/bubbletea/realtime/RealtimeExample.java`
-  - `src/main/resources/examples/compat/bubbletea/realtime/RealtimeMsg.java`
+  - `src/main/resources/examples/compat/bubbletea/realtime/RealtimeMessage.java`
 - [x] **examples/result/main.go** → `src/main/resources/examples/compat/bubbletea/result/ResultExample.java`
-- [x] **examples/send-msg/main.go** → `src/main/resources/examples/compat/bubbletea/sendmsg/SendMsgExample.java`
-  - `src/main/resources/examples/compat/bubbletea/sendmsg/SendMsg.java`
+- [x] **examples/send-msg/main.go** → `src/main/resources/examples/compat/bubbletea/sendmsg/SendMessageExample.java`
+  - `src/main/resources/examples/compat/bubbletea/sendmsg/SendMessage.java`
 - [x] **examples/sequence/main.go** → `src/main/resources/examples/compat/bubbletea/sequence/SequenceExample.java`
 - [x] **examples/set-window-title/main.go** → `src/main/resources/examples/compat/bubbletea/setwindowtitle/SetWindowTitleExample.java`
 - [x] **examples/simple/main.go** → `src/main/resources/examples/compat/bubbletea/simple/SimpleExample.java`
@@ -224,7 +225,7 @@ Deprecated `*Msg` shims must extend the canonical `*Message` types with no extra
 - [x] `src/main/resources/examples/compat/bubbletea/conway/Conway.java`
 - [x] `src/main/resources/examples/compat/bubbletea/conway/ConwayGame.java`
 - [x] `src/main/resources/examples/compat/bubbletea/counter/CounterExample.java`
-- [x] `src/main/resources/examples/compat/bubbletea/counter/CounterMsg.java`
+- [x] `src/main/resources/examples/compat/bubbletea/counter/CounterMessage.java`
 - [x] `src/main/resources/examples/compat/bubbletea/cursor/CursorExample.java`
 - [x] `src/main/resources/examples/compat/bubbletea/demo/Demo.java`
 - [x] `src/main/resources/examples/compat/bubbletea/error/ErrorExample.java`
