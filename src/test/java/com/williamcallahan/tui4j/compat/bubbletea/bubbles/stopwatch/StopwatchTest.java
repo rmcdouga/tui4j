@@ -1,4 +1,4 @@
-package com.williamcallahan.tui4j.compat.bubbles.stopwatch;
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.stopwatch;
 
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import org.junit.jupiter.api.Test;

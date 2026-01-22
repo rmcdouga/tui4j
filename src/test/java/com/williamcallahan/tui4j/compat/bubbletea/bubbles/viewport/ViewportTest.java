@@ -1,10 +1,10 @@
-package com.williamcallahan.tui4j.compat.bubbles.viewport;
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.viewport;
 
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.Key;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
 import com.williamcallahan.tui4j.term.TerminalInfo;
-import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -352,7 +352,7 @@ public class ViewportTest {
         Viewport viewport = Viewport.create(80, 5);
         assertNotNull(viewport.getStyle());
 
-        com.williamcallahan.tui4j.compat.lipgloss.Style newStyle = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style newStyle = com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style.newStyle();
         viewport.setStyle(newStyle);
         assertEquals(newStyle, viewport.getStyle());
     }
@@ -383,7 +383,7 @@ public class ViewportTest {
     @Test
     public void testKeyMap() {
         Viewport viewport = Viewport.create(80, 5);
-        KeyMap keyMap = viewport.getKeyMap();
+        Viewport.KeyMap keyMap = viewport.getKeyMap();
 
         assertNotNull(keyMap);
         assertNotNull(keyMap.pageDown());

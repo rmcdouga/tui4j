@@ -1,10 +1,10 @@
-package com.williamcallahan.tui4j.compat.lipgloss;
+package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
-import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.lipgloss.border.Border;
-import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.Color;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.StandardBorder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.williamcallahan.tui4j.compat.lipgloss.Renderer.defaultRenderer;
+import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer;
 
 /**
  * Tests style.

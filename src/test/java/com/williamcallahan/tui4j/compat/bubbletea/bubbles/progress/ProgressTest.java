@@ -1,8 +1,8 @@
-package com.williamcallahan.tui4j.compat.bubbles.progress;
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.progress;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
-import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

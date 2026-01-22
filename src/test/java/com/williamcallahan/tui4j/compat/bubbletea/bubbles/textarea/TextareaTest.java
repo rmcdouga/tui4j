@@ -1,8 +1,8 @@
-package com.williamcallahan.tui4j.compat.bubbles.textarea;
+package com.williamcallahan.tui4j.compat.bubbletea.bubbles.textarea;
 
-import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
-import com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.lipgloss.color.NoColor;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -130,15 +130,9 @@ class TextareaTest {
         textarea.setWidth(80);
         textarea.setHeight(5);
         textarea.setMaxHeight(3);
-        textarea.focus();
 
         for (int i = 0; i < 10; i++) {
-            textarea.insertString("Line " + i);
-            textarea.update(new com.williamcallahan.tui4j.compat.bubbletea.KeyMsg(
-                new com.williamcallahan.tui4j.compat.bubbletea.input.key.Key(
-                    com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType.keyCR
-                )
-            ));
+            textarea.insertString("Line " + i + "\n");
         }
 
         assertTrue(textarea.lineCount() <= 3, "Should be limited by max height");
