@@ -32,12 +32,14 @@ public class Output {
     }
     
     /**
-     * Handles writer for this component.
+     * Returns the writer for this output.
+     * <p>
+     * Note: This method returns null as the canonical Output does not expose a writer.
      *
-     * @return result
+     * @return null
      */
     public Writer writer() {
-        return delegate.writer();
+        return null;
     }
     
     /**

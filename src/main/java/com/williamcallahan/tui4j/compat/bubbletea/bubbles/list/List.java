@@ -45,7 +45,7 @@ public class List extends com.williamcallahan.tui4j.compat.bubbles.list.List {
      * @param height height
      */
     public List(com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ListDataSource dataSource, int width, int height) {
-        super(dataSource, width, height);
+        super(dataSource.toCanonical(), new com.williamcallahan.tui4j.compat.bubbles.list.DefaultDelegate(), width, height);
     }
 
     /**
@@ -57,7 +57,7 @@ public class List extends com.williamcallahan.tui4j.compat.bubbles.list.List {
      * @param height height
      */
     public List(com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.ListDataSource dataSource, ItemDelegate delegate, int width, int height) {
-        super(dataSource, delegate, width, height);
+        super(dataSource.toCanonical(), delegate, width, height);
     }
 
     // Forward compatibility constructors (accepting New types)

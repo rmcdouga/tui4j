@@ -65,11 +65,13 @@ public class Renderer {
 
     /**
      * Sets a custom environment for terminal capability detection.
+     * <p>
+     * Note: This method is a no-op as the canonical Renderer does not support custom environments.
      *
      * @param environment list of environment variables in "KEY=VALUE" format
      */
     public void setEnvironment(List<String> environment) {
-        delegate.setEnvironment(environment);
+        // No-op: canonical Renderer does not support setEnvironment
     }
 
     /**
