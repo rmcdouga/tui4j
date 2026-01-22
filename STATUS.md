@@ -199,34 +199,34 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Root
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
-| `commands.go` | `🟢 Done` | `Command.java`<br>`BatchMessage.java`<br>`SequenceMessage.java`<br>`SetWindowTitleMessage.java`<br>`OpenUrlMessage.java`<br>`CopyToClipboardMessage.java`<br>`ReadClipboardMessage.java` |
+| ------- | ------ | ------------ |
+| `commands.go` | `🟢 Done` | `Command.java`; `BatchMessage.java`; `SequenceMessage.java`; `SetWindowTitleMessage.java`; `OpenUrlMessage.java`; `CopyToClipboardMessage.java`; `ReadClipboardMessage.java` |
 | `commands_test.go` | `🟢 Done` | `CommandsParityTest.java` |
-| `exec.go` | `🟢 Done` | `ExecProcessMessage.java`<br>`ExecCompletedMessage.java` |
+| `exec.go` | `🟢 Done` | `ExecProcessMessage.java`; `ExecCompletedMessage.java` |
 | `exec_test.go` | `🟢 Done` | `ExecTest.java` |
-| `focus.go` | `🟢 Done` | `FocusMessage.java`<br>`BlurMessage.java` |
-| `inputreader_other.go` | `🟢 Done` | `input/InputHandler.java`<br>`input/NewInputHandler.java`<br>`input/OldLaggyInputHandler.java`<br>`input/NoopInputHandler.java` |
+| `focus.go` | `🟢 Done` | `FocusMessage.java`; `BlurMessage.java` |
+| `inputreader_other.go` | `🟢 Done` | `input/InputHandler.java`; `input/NewInputHandler.java`; `input/OldLaggyInputHandler.java`; `input/NoopInputHandler.java` |
 | `inputreader_windows.go` | `🟢 Done` | `input/WindowsInputHandler.java` |
-| `key.go` | `🟢 Done` | `input/key/Key.java`<br>`input/key/KeyType.java`<br>`input/key/KeyNames.java`<br>`input/key/KeyAliases.java`<br>`KeyPressMessage.java`<br>`PasteMessage.java`<br>`UnknownInputByteMessage.java`<br>`UnknownSequenceMessage.java` |
+| `key.go` | `🟢 Done` | `input/key/Key.java`; `input/key/KeyType.java`; `input/key/KeyNames.java`; `input/key/KeyAliases.java`; `KeyPressMessage.java`; `PasteMessage.java`; `UnknownInputByteMessage.java`; `UnknownSequenceMessage.java` |
 | `key_other.go` | `🟢 Done` | `input/NewInputHandler.java` |
-| `key_sequences.go` | `🟢 Done` | `input/key/Sequences.java`<br>`input/key/ExtendedSequences.java` |
+| `key_sequences.go` | `🟢 Done` | `input/key/Sequences.java`; `input/key/ExtendedSequences.java` |
 | `key_test.go` | `🟢 Done` | `input/key/KeyTest.java` |
 | `key_windows.go` | `🟢 Done` | `input/WindowsInputHandler.java` |
 | `logging.go` | `🟢 Done` | `Logging.java` |
 | `logging_test.go` | `🟢 Done` | `LoggingTest.java` |
-| `mouse.go` | `🟢 Done` | `input/MouseMessage.java`<br>`input/MouseButton.java`<br>`input/MouseAction.java` |
+| `mouse.go` | `🟢 Done` | `input/MouseMessage.java`; `input/MouseButton.java`; `input/MouseAction.java` |
 | `mouse_test.go` | `🟢 Done` | `input/MouseTest.java` |
 | `nil_renderer.go` | `🟢 Done` | `render/NilRenderer.java` |
 | `nil_renderer_test.go` | `🟢 Done` | `render/NilRendererTest.java` |
 | `options.go` | `🟢 Done` | `ProgramOption.java` |
 | `options_test.go` | `🟢 Done` | `ProgramOptionsTest.java` |
 | `renderer.go` | `🟢 Done` | `render/Renderer.java` |
-| `screen.go` | `🟢 Done` | `WindowSizeMessage.java`<br>`ClearScreenMessage.java`<br>`EnterAltScreenMessage.java`<br>`ExitAltScreenMessage.java`<br>`EnableBracketedPasteMessage.java`<br>`DisableBracketedPasteMessage.java`<br>`EnableMouseCellMotionMessage.java`<br>`EnableMouseAllMotionMessage.java`<br>`DisableMouseMessage.java`<br>`CheckWindowSizeMessage.java`<br>`ResetMouseCursorMessage.java`<br>`SetMouseCursorPointerMessage.java`<br>`SetMouseCursorTextMessage.java` |
+| `screen.go` | `🟢 Done` | `WindowSizeMessage.java`; `ClearScreenMessage.java`; `EnterAltScreenMessage.java`; `ExitAltScreenMessage.java`; `EnableBracketedPasteMessage.java`; `DisableBracketedPasteMessage.java`; `EnableMouseCellMotionMessage.java`; `EnableMouseAllMotionMessage.java`; `DisableMouseMessage.java`; `CheckWindowSizeMessage.java`; `ResetMouseCursorMessage.java`; `SetMouseCursorPointerMessage.java`; `SetMouseCursorTextMessage.java` |
 | `screen_test.go` | `🟢 Done` | `ScreenTest.java` |
 | `signals_unix.go` | `🟢 Done` | `Program.java` |
 | `signals_windows.go` | `🟢 Done` | `Program.java` |
-| `standard_renderer.go` | `🟢 Done` | `render/StandardRenderer.java`<br>`PrintLineMessage.java` |
-| `tea.go` | `🟢 Done` | `Program.java`<br>`Model.java`<br>`Message.java`<br>`MessageShim.java`<br>`UpdateResult.java`<br>`QuitMessage.java`<br>`SuspendMessage.java`<br>`ResumeMessage.java`<br>`ProgramException.java`<br>`ErrorMessage.java` |
+| `standard_renderer.go` | `🟢 Done` | `render/StandardRenderer.java`; `PrintLineMessage.java` |
+| `tea.go` | `🟢 Done` | `Program.java`; `Model.java`; `Message.java`; `MessageShim.java`; `UpdateResult.java`; `QuitMessage.java`; `SuspendMessage.java`; `ResumeMessage.java`; `ProgramException.java`; `ErrorMessage.java` |
 | `tea_init.go` | `🟢 Done` | `Program.java` |
 | `tea_test.go` | `🟢 Done` | `TeaTest.java` |
 | `tty.go` | `🟢 Done` | `Program.java` |
@@ -235,13 +235,13 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Tutorials
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `tutorials/basics/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/tutorials/basics/BasicsTutorialExample.java` |
 | `tutorials/commands/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/tutorials/commands/CommandsTutorialExample.java` |
 
 #### Examples
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `examples/altscreen-toggle/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/altscreentoggle/AltScreenToggleExample.java` |
 | `examples/autocomplete/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/autocomplete/AutocompleteExample.java` |
 | `examples/cellbuffer/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/cellbuffer/CellExample.java` |
@@ -259,7 +259,7 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `examples/http/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/http/HttpExample.java` |
 | `examples/list-default/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/listdefault/ListDefaultExample.java` |
 | `examples/list-fancy/delegate.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/listfancy/Delegate.java` |
-| `examples/list-fancy/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/listfancy/ListFancyExample.java`<br>`src/main/resources/examples/compat/bubbletea/listfancy/FancyItem.java`<br>`src/main/resources/examples/compat/bubbletea/listfancy/Keys.java`<br>`src/main/resources/examples/compat/bubbletea/listfancy/Styles.java` |
+| `examples/list-fancy/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/listfancy/ListFancyExample.java`; `src/main/resources/examples/compat/bubbletea/listfancy/FancyItem.java`; `src/main/resources/examples/compat/bubbletea/listfancy/Keys.java`; `src/main/resources/examples/compat/bubbletea/listfancy/Styles.java` |
 | `examples/list-fancy/randomitems.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/listfancy/RandomItemGenerator.java` |
 | `examples/list-simple/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/listsimple/ListSimpleExample.java` |
 | `examples/mouse/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/mouse/MouseExample.java` |
@@ -273,12 +273,12 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `examples/progress-download/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/progress/download/ProgressDownloadExample.java` |
 | `examples/progress-download/tui.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/progress/download/ProgressDownloadExample.java` |
 | `examples/progress-static/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/progress/staticview/ProgressStaticExample.java` |
-| `examples/realtime/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/realtime/RealtimeExample.java`<br>`src/main/resources/examples/compat/bubbletea/realtime/RealtimeMessage.java` |
+| `examples/realtime/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/realtime/RealtimeExample.java`; `src/main/resources/examples/compat/bubbletea/realtime/RealtimeMessage.java` |
 | `examples/result/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/result/ResultExample.java` |
-| `examples/send-msg/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/sendmsg/SendMessageExample.java`<br>`src/main/resources/examples/compat/bubbletea/sendmsg/SendMessage.java` |
+| `examples/send-msg/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/sendmsg/SendMessageExample.java`; `src/main/resources/examples/compat/bubbletea/sendmsg/SendMessage.java` |
 | `examples/sequence/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/sequence/SequenceExample.java` |
 | `examples/set-window-title/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/setwindowtitle/SetWindowTitleExample.java` |
-| `examples/simple/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/simple/SimpleExample.java`<br>`src/main/resources/examples/compat/bubbletea/simple/TickMessage.java` |
+| `examples/simple/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/simple/SimpleExample.java`; `src/main/resources/examples/compat/bubbletea/simple/TickMessage.java` |
 | `examples/simple/main_test.go` | `🟢 Done` | `src/test/java/com/williamcallahan/tui4j/compat/bubbletea/examples/SimpleExampleTest.java` |
 | `examples/spinner/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/spinner/SpinnerExample.java` |
 | `examples/spinners/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/spinners/SpinnersExample.java` |
@@ -298,65 +298,42 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### TUI4J Extensions (No Upstream Equivalent)
 
-| Java File | Status | Notes |
-|-----------|--------|-------|
-| `src/main/resources/examples/compat/bubbletea/BorderTest.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/ExamplesRunner.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/conway/Conway.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/conway/ConwayGame.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/counter/CounterExample.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/counter/CounterMessage.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/cursor/CursorExample.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/demo/Demo.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/error/ErrorExample.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/fireworks/Fireworks.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/progress/staticbar/ProgressStaticExample.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/terminfo/TermInfoExample.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/Block.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/GameOverMessage.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/Grid.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/Position.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/TetrisGame.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/Tetromino.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/tetris/TetrominoInstance.java` | `🟢 Done` | |
-| `src/main/resources/examples/compat/bubbletea/width/WidthExample.java` | `🟢 Done` | |
-
 ### Bubbles
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `bubbles.go` | `⚪ TODO` | `<unmapped>` |
-| `cursor/cursor.go` | `🟢 Done` | `cursor/Cursor.java`<br>`cursor/CursorMode.java` |
+| `cursor/cursor.go` | `🟢 Done` | `cursor/Cursor.java`; `cursor/CursorMode.java` |
 | `cursor/cursor_test.go` | `🟢 Done` | `cursor/CursorTest.java` |
-| `filepicker/filepicker.go` | `🟢 Done` | `filepicker/FilePicker.java`<br>`filepicker/KeyMap.java`<br>`filepicker/Styles.java`<br>`filepicker/DidSelectFileMessage.java`<br>`filepicker/DidSelectDirectoryMessage.java` |
+| `filepicker/filepicker.go` | `🟢 Done` | `filepicker/FilePicker.java`; `filepicker/KeyMap.java`; `filepicker/Styles.java`; `filepicker/DidSelectFileMessage.java`; `filepicker/DidSelectDirectoryMessage.java` |
 | `filepicker/hidden_unix.go` | `⚪ TODO` | `<unmapped>` |
 | `filepicker/hidden_windows.go` | `⚪ TODO` | `<unmapped>` |
-| `help/help.go` | `🟢 Done` | `help/Help.java`<br>`help/KeyMap.java`<br>`help/Styles.java` |
+| `help/help.go` | `🟢 Done` | `help/Help.java`; `help/KeyMap.java`; `help/Styles.java` |
 | `help/help_test.go` | `🟢 Done` | `help/HelpTest.java` |
-| `key/key.go` | `🟢 Done` | `key/Binding.java`<br>`key/Help.java` |
+| `key/key.go` | `🟢 Done` | `key/Binding.java`; `key/Help.java` |
 | `key/key_test.go` | `🟢 Done` | `key/BindingTest.java` |
-| `list/defaultitem.go` | `🟢 Done` | `list/DefaultItem.java`<br>`list/DefaultItemStyles.java`<br>`list/DefaultDelegate.java` |
+| `list/defaultitem.go` | `🟢 Done` | `list/DefaultItem.java`; `list/DefaultItemStyles.java`; `list/DefaultDelegate.java` |
 | `list/keys.go` | `🟢 Done` | `list/KeyMap.java` |
-| `list/list.go` | `🟢 Done` | `list/List.java`<br>`list/Item.java`<br>`list/ItemDelegate.java`<br>`list/FilterState.java`<br>`list/FilterFunction.java`<br>`list/FilteredItem.java`<br>`list/FetchedItems.java`<br>`list/FetchedCurrentPageItems.java`<br>`list/ListDataSource.java`<br>`list/DefaultDataSource.java`<br>`list/Rank.java`<br>`list/StatusMessageTimeoutMessage.java`<br>`list/fuzzy/FuzzyFilter.java`<br>`list/fuzzy/Match.java` |
+| `list/list.go` | `🟢 Done` | `list/List.java`; `list/Item.java`; `list/ItemDelegate.java`; `list/FilterState.java`; `list/FilterFunction.java`; `list/FilteredItem.java`; `list/FetchedItems.java`; `list/FetchedCurrentPageItems.java`; `list/ListDataSource.java`; `list/DefaultDataSource.java`; `list/Rank.java`; `list/StatusMessageTimeoutMessage.java`; `list/fuzzy/FuzzyFilter.java`; `list/fuzzy/Match.java` |
 | `list/list_test.go` | `🟢 Done` | `list/ListTest.java` |
 | `list/style.go` | `🟢 Done` | `list/Styles.java` |
-| `paginator/paginator.go` | `🟢 Done` | `paginator/Paginator.java`<br>`paginator/KeyMap.java`<br>`paginator/Bounds.java`<br>`paginator/Type.java` |
+| `paginator/paginator.go` | `🟢 Done` | `paginator/Paginator.java`; `paginator/KeyMap.java`; `paginator/Bounds.java`; `paginator/Type.java` |
 | `paginator/paginator_test.go` | `🟢 Done` | `paginator/PaginatorTest.java` |
-| `progress/progress.go` | `🟢 Done` | `progress/Progress.java`<br>`progress/FrameMessage.java`<br>`progress/SetPercentMessage.java`<br>`progress/Spring.java` |
+| `progress/progress.go` | `🟢 Done` | `progress/Progress.java`; `progress/FrameMessage.java`; `progress/SetPercentMessage.java`; `progress/Spring.java` |
 | `progress/progress_test.go` | `🟢 Done` | `progress/ProgressTest.java` |
 | `runeutil/runeutil.go` | `🟢 Done` | `runeutil/Sanitizer.java` |
 | `runeutil/runeutil_test.go` | `🟢 Done` | `runeutil/SanitizerTest.java` |
-| `spinner/spinner.go` | `🟢 Done` | `spinner/Spinner.java`<br>`spinner/SpinnerType.java`<br>`spinner/TickMessage.java` |
+| `spinner/spinner.go` | `🟢 Done` | `spinner/Spinner.java`; `spinner/SpinnerType.java`; `spinner/TickMessage.java` |
 | `spinner/spinner_test.go` | `🟢 Done` | `spinner/SpinnerTest.java` |
-| `stopwatch/stopwatch.go` | `🟢 Done` | `stopwatch/Stopwatch.java`<br>`stopwatch/StartStopMessage.java`<br>`stopwatch/TickMessage.java`<br>`stopwatch/ResetMessage.java` |
-| `table/table.go` | `🟢 Done` | `table/Table.java`<br>`table/Column.java`<br>`table/Row.java`<br>`table/Keys.java`<br>`table/Styles.java` |
+| `stopwatch/stopwatch.go` | `🟢 Done` | `stopwatch/Stopwatch.java`; `stopwatch/StartStopMessage.java`; `stopwatch/TickMessage.java`; `stopwatch/ResetMessage.java` |
+| `table/table.go` | `🟢 Done` | `table/Table.java`; `table/Column.java`; `table/Row.java`; `table/Keys.java`; `table/Styles.java` |
 | `table/table_test.go` | `🟢 Done` | `table/TableTest.java` |
 | `textarea/memoization/memoization.go` | `⚪ TODO` | `<unmapped>` |
 | `textarea/memoization/memoization_test.go` | `⚪ TODO` | `<unmapped>` |
 | `textarea/textarea.go` | `🟢 Done` | `textarea/Textarea.java` |
 | `textarea/textarea_test.go` | `🟢 Done` | `textarea/TextareaTest.java` |
-| `textinput/textinput.go` | `🟢 Done` | `textinput/TextInput.java`<br>`textinput/EchoMode.java`<br>`textinput/Keys.java` |
+| `textinput/textinput.go` | `🟢 Done` | `textinput/TextInput.java`; `textinput/EchoMode.java`; `textinput/Keys.java` |
 | `textinput/textinput_test.go` | `🟢 Done` | `textinput/TextInputTest.java` |
-| `timer/timer.go` | `🟢 Done` | `timer/Timer.java`<br>`timer/StartStopMessage.java`<br>`timer/TickMessage.java`<br>`timer/TimeoutMessage.java` |
+| `timer/timer.go` | `🟢 Done` | `timer/Timer.java`; `timer/StartStopMessage.java`; `timer/TickMessage.java`; `timer/TimeoutMessage.java` |
 | `viewport/keymap.go` | `🟢 Done` | `viewport/KeyMap.java` |
 | `viewport/viewport.go` | `🟢 Done` | `viewport/Viewport.java` |
 | `viewport/viewport_test.go` | `🟢 Done` | `viewport/ViewportTest.java` |
@@ -365,63 +342,63 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Root
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
-| `align.go` | `🟢 Done` | `Alignment.java`<br>`align/AlignmentDecorator.java` |
+| ------- | ------ | ------------ |
+| `align.go` | `🟢 Done` | `Alignment.java`; `align/AlignmentDecorator.java` |
 | `align_test.go` | `🟢 Done` | `align/AlignmentDecoratorTest.java` |
 | `ansi_unix.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi_windows.go` | `⚪ TODO` | `<unmapped>` |
-| `borders.go` | `🟢 Done` | `border/Border.java`<br>`border/StandardBorder.java`<br>`Borders.java` |
+| `borders.go` | `🟢 Done` | `border/Border.java`; `border/StandardBorder.java`; `Borders.java` |
 | `borders_test.go` | `🟢 Done` | `BordersTest.java` |
-| `color.go` | `🟢 Done` | `color/Color.java`<br>`color/RGB.java`<br>`color/HSL.java`<br>`color/ANSIColor.java`<br>`color/ANSI256Color.java`<br>`color/AdaptiveColor.java`<br>`color/ColorProfile.java`<br>`color/TerminalColor.java`<br>`color/ANSIColors.java`<br>`color/ColorApplyStrategy.java`<br>`color/NoColor.java`<br>`color/RGBColor.java`<br>`color/RGBSupplier.java` |
-| `color_test.go` | `🟢 Done` | `color/RGBTest.java`<br>`color/HSLTest.java` |
+| `color.go` | `🟢 Done` | `color/Color.java`; `color/RGB.java`; `color/HSL.java`; `color/ANSIColor.java`; `color/ANSI256Color.java`; `color/AdaptiveColor.java`; `color/ColorProfile.java`; `color/TerminalColor.java`; `color/ANSIColors.java`; `color/ColorApplyStrategy.java`; `color/NoColor.java`; `color/RGBColor.java`; `color/RGBSupplier.java` |
+| `color_test.go` | `🟢 Done` | `color/RGBTest.java`; `color/HSLTest.java` |
 | `get.go` | `🟢 Done` | `Style.java` |
-| `join.go` | `🟢 Done` | `Join.java`<br>`join/HorizontalJoinDecorator.java`<br>`join/VerticalJoinDecorator.java` |
-| `join_test.go` | `🟢 Done` | `join/HorizontalJoinDecoratorTest.java`<br>`join/VerticalJoinDecoratorTest.java` |
-| `lipgloss.go` | `🟢 Done` | `Style.java`<br>`Renderer.java` |
+| `join.go` | `🟢 Done` | `Join.java`; `join/HorizontalJoinDecorator.java`; `join/VerticalJoinDecorator.java` |
+| `join_test.go` | `🟢 Done` | `join/HorizontalJoinDecoratorTest.java`; `join/VerticalJoinDecoratorTest.java` |
+| `lipgloss.go` | `🟢 Done` | `Style.java`; `Renderer.java` |
 | `position.go` | `🟢 Done` | `Position.java` |
 | `ranges.go` | `🟢 Done` | `TextLines.java` |
 | `ranges_test.go` | `🟢 Done` | `TextLinesTest.java` |
-| `renderer.go` | `🟢 Done` | `Renderer.java`<br>`Output.java` |
+| `renderer.go` | `🟢 Done` | `Renderer.java`; `Output.java` |
 | `renderer_test.go` | `🟢 Done` | `RendererTest.java` |
 | `runes.go` | `🟢 Done` | `Runes.java` |
 | `runes_test.go` | `🟢 Done` | `RunesTest.java` |
 | `set.go` | `🟢 Done` | `Style.java` |
-| `size.go` | `🟢 Done` | `Size.java`<br>`Dimensions.java` |
-| `style.go` | `🟢 Done` | `Style.java`<br>`MarginDecorator.java`<br>`PaddingDecorator.java`<br>`PlacementDecorator.java` |
+| `size.go` | `🟢 Done` | `Size.java`; `Dimensions.java` |
+| `style.go` | `🟢 Done` | `Style.java`; `MarginDecorator.java`; `PaddingDecorator.java`; `PlacementDecorator.java` |
 | `style_test.go` | `🟢 Done` | `StyleTest.java` |
 | `unset.go` | `🟢 Done` | `Style.java` |
 | `whitespace.go` | `🟢 Done` | `Whitespace.java` |
 
 #### List
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `list/enumerator.go` | `🟢 Done` | `ListEnumerator.java` |
 | `list/list.go` | `🟢 Done` | `List.java` |
 | `list/list_test.go` | `🟢 Done` | `list/ListTest.java` |
 
 #### Table
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `table/resizing.go` | `🟢 Done` | `table/Table.java` |
-| `table/rows.go` | `🟢 Done` | `table/Table.java`<br>`table/Data.java`<br>`table/StringData.java`<br>`table/Filter.java` |
-| `table/table.go` | `🟢 Done` | `table/Table.java`<br>`table/Data.java`<br>`table/StringData.java`<br>`table/StyleFunc.java` |
+| `table/rows.go` | `🟢 Done` | `table/Table.java`; `table/Data.java`; `table/StringData.java`; `table/Filter.java` |
+| `table/table.go` | `🟢 Done` | `table/Table.java`; `table/Data.java`; `table/StringData.java`; `table/StyleFunc.java` |
 | `table/table_test.go` | `🟢 Done` | `table/TableTest.java` |
 | `table/util.go` | `🟢 Done` | `table/Table.java` |
 
 #### Tree
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
-| `tree/children.go` | `🟢 Done` | `tree/Children.java`<br>`tree/NodeChildren.java`<br>`tree/Filter.java` |
-| `tree/enumerator.go` | `🟢 Done` | `tree/TreeEnumerator.java`<br>`tree/TreeIndenter.java` |
+| ------- | ------ | ------------ |
+| `tree/children.go` | `🟢 Done` | `tree/Children.java`; `tree/NodeChildren.java`; `tree/Filter.java` |
+| `tree/enumerator.go` | `🟢 Done` | `tree/TreeEnumerator.java`; `tree/TreeIndenter.java` |
 | `tree/example_test.go` | `🟢 Done` | `tree/TreeExampleTest.java` |
-| `tree/renderer.go` | `🟢 Done` | `tree/Renderer.java`<br>`tree/StyleFunction.java` |
-| `tree/tree.go` | `🟢 Done` | `tree/Tree.java`<br>`tree/TreeStyle.java`<br>`tree/Node.java`<br>`tree/Leaf.java` |
+| `tree/renderer.go` | `🟢 Done` | `tree/Renderer.java`; `tree/StyleFunction.java` |
+| `tree/tree.go` | `🟢 Done` | `tree/Tree.java`; `tree/TreeStyle.java`; `tree/Node.java`; `tree/Leaf.java` |
 | `tree/tree_test.go` | `🟢 Done` | `tree/TreeTest.java` |
 
 #### Examples
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
-| `examples/layout/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/layout/StatusBarExample.java`<br>`src/main/resources/examples/compat/lipgloss/layout/TabsExample.java` |
+| ------- | ------ | ------------ |
+| `examples/layout/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/layout/StatusBarExample.java`; `src/main/resources/examples/compat/lipgloss/layout/TabsExample.java` |
 | `examples/list/duckduckgoose/main.go` | `⚪ TODO` | `<unmapped>` |
 | `examples/list/glow/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/list/ListGlowExample.java` |
 | `examples/list/grocery/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/list/ListGroceryExample.java` |
@@ -444,21 +421,17 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### TUI4J Extensions (No Upstream Equivalent)
 
-| Java File | Status | Notes |
-|-----------|--------|-------|
-| `src/test/java/com/williamcallahan/tui4j/compat/lipgloss/SizeTest.java` | `🟢 Done` | |
-
 ### Harmonica
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `harmonica.go` | `🟢 Done` | `package-info.java` |
-| `projectile.go` | `🟢 Done` | `Projectile.java`<br>`Point.java`<br>`Vector.java` |
+| `projectile.go` | `🟢 Done` | `Projectile.java`; `Point.java`; `Vector.java` |
 | `projectile_test.go` | `🟢 Done` | `ProjectileTest.java` |
 | `spring.go` | `🟢 Done` | `Spring.java` |
 
 #### Examples
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `examples/particle/main.go` | `⚪ TODO` | `<unmapped>` |
 | `examples/spring/opengl/main.go` | `⚪ TODO` | `<unmapped>` |
 | `examples/spring/tui/main.go` | `⚪ TODO` | `<unmapped>` |
@@ -467,7 +440,7 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Ansi Package / Root Files
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `ansi/ansi.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/ascii.go` | `🟢 Done` | `ansi/Ansi.java` |
 | `ansi/background.go` | `⚪ TODO` | `<unmapped>` |
@@ -475,7 +448,7 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `ansi/c0.go` | `🟢 Done` | `ansi/Ansi.java` |
 | `ansi/c1.go` | `🟢 Done` | `ansi/Ansi.java` |
 | `ansi/charset.go` | `⚪ TODO` | `<unmapped>` |
-| `ansi/clipboard.go` | `🟢 Done` | ``src/main/java/com/williamcallahan/tui4j/ansi/Code.java` *(partial)*` |
+| `ansi/clipboard.go` | `🟡 In Progress` | `src/main/java/com/williamcallahan/tui4j/ansi/Code.java` |
 | `ansi/clipboard_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/color.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/color_test.go` | `⚪ TODO` | `<unmapped>` |
@@ -519,7 +492,7 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `ansi/parser_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/passthrough.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/passthrough_test.go` | `⚪ TODO` | `<unmapped>` |
-| `ansi/paste.go` | `🟢 Done` | ``src/main/java/com/williamcallahan/tui4j/ansi/Code.java` *(partial)*` |
+| `ansi/paste.go` | `🟡 In Progress` | `src/main/java/com/williamcallahan/tui4j/ansi/Code.java` |
 | `ansi/progress.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/progress_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/reset.go` | `⚪ TODO` | `<unmapped>` |
@@ -532,12 +505,12 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `ansi/termcap.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/title.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/title_test.go` | `⚪ TODO` | `<unmapped>` |
-| `ansi/truncate.go` | `🟢 Done` | `ansi/Truncate.java`<br>`ansi/Cut.java` |
-| `ansi/truncate_test.go` | `🟢 Done` | `ansi/TruncateTest.java`<br>`ansi/CutTest.java` |
+| `ansi/truncate.go` | `🟢 Done` | `ansi/Truncate.java`; `ansi/Cut.java` |
+| `ansi/truncate_test.go` | `🟢 Done` | `ansi/TruncateTest.java`; `ansi/CutTest.java` |
 | `ansi/urxvt.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/urxvt_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/util.go` | `⚪ TODO` | `<unmapped>` |
-| `ansi/width.go` | `🟢 Done` | `ansi/StringWidth.java`<br>`ansi/GraphemeCluster.java`<br>`ansi/Strip.java` |
+| `ansi/width.go` | `🟢 Done` | `ansi/StringWidth.java`; `ansi/GraphemeCluster.java`; `ansi/Strip.java` |
 | `ansi/width_test.go` | `🟢 Done` | `ansi/StringWidthTest.java` |
 | `ansi/winop.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/wrap.go` | `⚪ TODO` | `<unmapped>` |
@@ -546,14 +519,14 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Ansi Package / iterm2
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `ansi/iterm2/file.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/iterm2/file_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/iterm2/iterm2_test.go` | `⚪ TODO` | `<unmapped>` |
 
 #### Ansi Package / kitty
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `ansi/kitty/decoder.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/kitty/decoder_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/kitty/encoder.go` | `⚪ TODO` | `<unmapped>` |
@@ -566,14 +539,14 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Ansi Package / parser
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
-| `ansi/parser/const.go` | `🟢 Done` | `ansi/parser/State.java`<br>`ansi/parser/Action.java` |
+| ------- | ------ | ------------ |
+| `ansi/parser/const.go` | `🟢 Done` | `ansi/parser/State.java`; `ansi/parser/Action.java` |
 | `ansi/parser/seq.go` | `🟢 Done` | `ansi/parser/Action.java` |
 | `ansi/parser/transition_table.go` | `🟢 Done` | `ansi/parser/TransitionTable.java` |
 
 #### Ansi Package / sixel
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `ansi/sixel/color.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/sixel/color_test.go` | `⚪ TODO` | `<unmapped>` |
 | `ansi/sixel/decoder.go` | `⚪ TODO` | `<unmapped>` |
@@ -590,7 +563,7 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Cellbuf Package
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `cellbuf/buffer.go` | `⚪ TODO` | `<unmapped>` |
 | `cellbuf/buffer_test.go` | `⚪ TODO` | `<unmapped>` |
 | `cellbuf/cell.go` | `⚪ TODO` | `<unmapped>` |
@@ -613,12 +586,12 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Colors Package
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `colors/colors.go` | `⚪ TODO` | `<unmapped>` |
 
 #### Conpty Package
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `conpty/conpty.go` | `⚪ TODO` | `<unmapped>` |
 | `conpty/conpty_other.go` | `⚪ TODO` | `<unmapped>` |
 | `conpty/conpty_windows.go` | `⚪ TODO` | `<unmapped>` |
@@ -627,18 +600,49 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 
 #### Editor Package
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `editor/editor.go` | `⚪ TODO` | `<unmapped>` |
 | `editor/editor_test.go` | `⚪ TODO` | `<unmapped>` |
 
 #### Errors Package
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `errors/join.go` | `⚪ TODO` | `<unmapped>` |
 | `errors/join_test.go` | `⚪ TODO` | `<unmapped>` |
 
 #### Etag Package
 | Go File | Status | Java Mapping |
-|---------|--------|--------------|
+| ------- | ------ | ------------ |
 | `etag/etag.go` | `⚪ TODO` | `<unmapped>` |
 | `etag/etag_test.go` | `⚪ TODO` | `<unmapped>` |
+
+## TUI4J Extensions (No Upstream Equivalent)
+
+### Bubble Tea - TUI4J Extensions (No Upstream Equivalent)
+| Java File | Status | Notes |
+| --------- | ------ | ----- |
+| `src/main/resources/examples/compat/bubbletea/BorderTest.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/ExamplesRunner.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/conway/Conway.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/conway/ConwayGame.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/counter/CounterExample.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/counter/CounterMessage.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/cursor/CursorExample.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/demo/Demo.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/error/ErrorExample.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/fireworks/Fireworks.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/progress/staticbar/ProgressStaticExample.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/terminfo/TermInfoExample.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/Block.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/GameOverMessage.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/Grid.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/Position.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/TetrisGame.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/Tetromino.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/tetris/TetrominoInstance.java` | `🟢 Done` |  |
+| `src/main/resources/examples/compat/bubbletea/width/WidthExample.java` | `🟢 Done` |  |
+
+### Lipgloss - TUI4J Extensions (No Upstream Equivalent)
+| Java File | Status | Notes |
+| --------- | ------ | ----- |
+| `src/test/java/com/williamcallahan/tui4j/compat/lipgloss/SizeTest.java` | `🟢 Done` |  |
