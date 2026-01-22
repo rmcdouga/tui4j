@@ -8,9 +8,12 @@ class ExecCompletedMessageTest {
 
     @Test
     void testSuccessRequiresZeroExitCodeAndNoError() {
-        ExecCompletedMessage success = new ExecCompletedMessage(0, null);
-        ExecCompletedMessage nonZeroExit = new ExecCompletedMessage(1, null);
-        ExecCompletedMessage error = new ExecCompletedMessage(0, new IllegalStateException("boom"));
+        com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage success =
+            new com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage(0, null);
+        com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage nonZeroExit =
+            new com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage(1, null);
+        com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage error =
+            new com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage(0, new IllegalStateException("boom"));
 
         assertThat(success.success()).isTrue();
         assertThat(nonZeroExit.success()).isFalse();
@@ -19,9 +22,12 @@ class ExecCompletedMessageTest {
 
     @Test
     void testErrorMessagePrefersThrowable() {
-        ExecCompletedMessage withError = new ExecCompletedMessage(0, new IllegalStateException("boom"));
-        ExecCompletedMessage withExitCode = new ExecCompletedMessage(2, null);
-        ExecCompletedMessage ok = new ExecCompletedMessage(0, null);
+        com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage withError =
+            new com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage(0, new IllegalStateException("boom"));
+        com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage withExitCode =
+            new com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage(2, null);
+        com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage ok =
+            new com.williamcallahan.tui4j.compat.bubbletea.ExecCompletedMessage(0, null);
 
         assertThat(withError.errorMessage()).isEqualTo("boom");
         assertThat(withExitCode.errorMessage()).isEqualTo("Process exited with code 2");

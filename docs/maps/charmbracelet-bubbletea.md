@@ -8,13 +8,13 @@
 
 ## Naming Convention
 
-**As of v0.3.0**, tui4j standardizes on idiomatic Java naming:
+TUI4J standardizes on Java naming conventions:
 
 | Preferred (use these) | Deprecated (avoid) |
 |-----------------------|-------------------|
 | `*Message.java` | ~~`*Msg.java`~~ |
 
-The `*Msg` suffix classes are deprecated and will be removed in a future release.
+The `*Msg` suffix classes (Go-style naming) are deprecated and will be removed in a future release.
 Use the corresponding `*Message` classes instead.
 
 ---
@@ -109,34 +109,34 @@ Use the corresponding `*Message` classes instead.
 - [x] **renderer.go** → `render/Renderer.java`
 
 - [x] **screen.go**
-  - `WindowSizeMessage.java`
-  - ~~`WindowSizeMsg.java`~~ @deprecated
-  - `ClearScreenMessage.java`
-  - ~~`ClearScreenMsg.java`~~ @deprecated
-  - `EnterAltScreenMessage.java`
-  - ~~`EnterAltScreenMsg.java`~~ @deprecated
-  - `EnterAltScreen.java`
-  - `ExitAltScreenMessage.java`
-  - ~~`ExitAltScreenMsg.java`~~ @deprecated
-  - `ExitAltScreen.java`
-  - `EnableBracketedPasteMessage.java`
-  - ~~`EnableBracketedPasteMsg.java`~~ @deprecated
-  - `DisableBracketedPasteMessage.java`
-  - ~~`DisableBracketedPasteMsg.java`~~ @deprecated
-  - `EnableMouseCellMotionMessage.java`
-  - ~~`EnableMouseCellMotionMsg.java`~~ @deprecated
-  - `EnableMouseAllMotionMessage.java`
-  - ~~`EnableMouseAllMotionMsg.java`~~ @deprecated
-  - `DisableMouseMessage.java`
-  - ~~`DisableMouseMsg.java`~~ @deprecated
-  - `CheckWindowSizeMessage.java`
-  - ~~`CheckWindowSizeMsg.java`~~ @deprecated
-  - `ResetMouseCursorMessage.java`
-  - ~~`ResetMouseCursorMsg.java`~~ @deprecated
-  - `SetMouseCursorPointerMessage.java`
-  - ~~`SetMouseCursorPointerMsg.java`~~ @deprecated
-  - `SetMouseCursorTextMessage.java`
-  - ~~`SetMouseCursorTextMsg.java`~~ @deprecated
+  - `WindowSizeMsg.java`
+  - ~~`WindowSizeMessage.java`~~ @deprecated
+  - `ClearScreenMsg.java`
+  - ~~`ClearScreenMessage.java`~~ @deprecated
+  - `EnterAltScreenMsg.java`
+  - ~~`EnterAltScreenMessage.java`~~ @deprecated
+  - ~~`EnterAltScreen.java`~~ @deprecated
+  - `ExitAltScreenMsg.java`
+  - ~~`ExitAltScreenMessage.java`~~ @deprecated
+  - ~~`ExitAltScreen.java`~~ @deprecated
+  - `EnableBracketedPasteMsg.java`
+  - ~~`EnableBracketedPasteMessage.java`~~ @deprecated
+  - `DisableBracketedPasteMsg.java`
+  - ~~`DisableBracketedPasteMessage.java`~~ @deprecated
+  - `EnableMouseCellMotionMsg.java`
+  - ~~`EnableMouseCellMotionMessage.java`~~ @deprecated
+  - `EnableMouseAllMotionMsg.java`
+  - ~~`EnableMouseAllMotionMessage.java`~~ @deprecated
+  - `DisableMouseMsg.java`
+  - ~~`DisableMouseMessage.java`~~ @deprecated
+  - `CheckWindowSizeMsg.java`
+  - ~~`CheckWindowSizeMessage.java`~~ @deprecated
+  - `ResetMouseCursorMsg.java`
+  - ~~`ResetMouseCursorMessage.java`~~ @deprecated
+  - `SetMouseCursorPointerMsg.java`
+  - ~~`SetMouseCursorPointerMessage.java`~~ @deprecated
+  - `SetMouseCursorTextMsg.java`
+  - ~~`SetMouseCursorTextMessage.java`~~ @deprecated
 
 - [x] **screen_test.go** → `ScreenTest.java`
 
@@ -146,8 +146,8 @@ Use the corresponding `*Message` classes instead.
 
 - [x] **standard_renderer.go**
   - `render/StandardRenderer.java`
-  - `PrintLineMessage.java`
-  - ~~`PrintLineMsg.java`~~ @deprecated
+  - `PrintLineMsg.java`
+  - ~~`PrintLineMessage.java`~~ @deprecated
 
 - [x] **tea.go**
   - `Program.java`
@@ -155,15 +155,15 @@ Use the corresponding `*Message` classes instead.
   - `Message.java`
   - `MessageShim.java`
   - `UpdateResult.java`
-  - `QuitMessage.java`
-  - ~~`QuitMsg.java`~~ @deprecated
-  - `SuspendMessage.java`
-  - ~~`SuspendMsg.java`~~ @deprecated
-  - `ResumeMessage.java`
-  - ~~`ResumeMsg.java`~~ @deprecated
+  - `QuitMsg.java`
+  - ~~`QuitMessage.java`~~ @deprecated
+  - `SuspendMsg.java`
+  - ~~`SuspendMessage.java`~~ @deprecated
+  - `ResumeMsg.java`
+  - ~~`ResumeMessage.java`~~ @deprecated
   - `ProgramException.java`
-  - `ErrorMessage.java`
-  - ~~`ErrorMsg.java`~~ @deprecated
+  - `ErrorMsg.java`
+  - ~~`ErrorMessage.java`~~ @deprecated
 
 - [x] **tea_init.go** → `Program.java`
 

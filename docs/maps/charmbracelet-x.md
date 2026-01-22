@@ -1,7 +1,7 @@
 # X Compatibility Map
 
 - **Source Repo**: [charmbracelet/x](https://github.com/charmbracelet/x)
-- **Copyright**: Copyright (c) 2021-2025 Charmbracelet, Inc
+- **Copyright**: Copyright (c) 2023 Charmbracelet, Inc.
 - **Java Package**: `com.williamcallahan.tui4j.compat.x`
 
 ---
@@ -19,7 +19,7 @@
 - [x] **ansi/c0.go** → `Ansi.java`
 - [x] **ansi/c1.go** → `Ansi.java`
 - [ ] **ansi/charset.go** → `<unmapped>`
-- [ ] **ansi/clipboard.go** → `<unmapped>`
+- [x] **ansi/clipboard.go** → `src/main/java/com/williamcallahan/tui4j/ansi/Code.java` *(partial)*
 - [ ] **ansi/clipboard_test.go** → `<unmapped>`
 - [ ] **ansi/color.go** → `<unmapped>`
 - [ ] **ansi/color_test.go** → `<unmapped>`
@@ -63,7 +63,7 @@
 - [ ] **ansi/parser_test.go** → `<unmapped>`
 - [ ] **ansi/passthrough.go** → `<unmapped>`
 - [ ] **ansi/passthrough_test.go** → `<unmapped>`
-- [ ] **ansi/paste.go** → `<unmapped>`
+- [x] **ansi/paste.go** → `src/main/java/com/williamcallahan/tui4j/ansi/Code.java` *(partial)*
 - [ ] **ansi/progress.go** → `<unmapped>`
 - [ ] **ansi/progress_test.go** → `<unmapped>`
 - [ ] **ansi/reset.go** → `<unmapped>`

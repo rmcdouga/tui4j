@@ -115,6 +115,7 @@
   - `table/Table.java`
   - `table/Data.java`
   - `table/StringData.java`
+  - `table/Filter.java`
 
 - [x] **table/table.go**
   - `table/Table.java`
@@ -179,3 +180,9 @@
 - [x] **examples/tree/simple/main.go** → `src/main/resources/examples/compat/lipgloss/tree/TreeSimpleExample.java`
 - [x] **examples/tree/styles/main.go** → `src/main/resources/examples/compat/lipgloss/tree/TreeStylesExample.java`
 - [x] **examples/tree/toggle/main.go** → `src/main/resources/examples/compat/lipgloss/tree/TreeToggleExample.java`
+
+---
+
+### TUI4J Extensions (No Upstream Equivalent)
+
+- [x] `src/test/java/com/williamcallahan/tui4j/compat/lipgloss/SizeTest.java`

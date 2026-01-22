@@ -8,14 +8,14 @@
 
 ## Naming Convention
 
-**As of v0.3.0**, tui4j standardizes on idiomatic Java naming:
+TUI4J standardizes on upstream naming:
 
 | Preferred (use these) | Deprecated (avoid) |
 |-----------------------|-------------------|
-| `*Message.java` | ~~`*Msg.java`~~ |
+  - ~~`*Msg.java`~~ @deprecated
 
-The `*Msg` suffix classes are deprecated and will be removed in a future release.
-Use the corresponding `*Message` classes instead.
+The `*Message` suffix classes are deprecated and will be removed in a future release.
+Use the corresponding `*Msg` classes instead.
 
 ---
 
@@ -33,10 +33,10 @@ Use the corresponding `*Message` classes instead.
   - `filepicker/FilePicker.java`
   - `filepicker/KeyMap.java`
   - `filepicker/Styles.java`
-  - `filepicker/DidSelectFileMessage.java`
-  - ~~`filepicker/DidSelectFileMsg.java`~~ @deprecated
-  - `filepicker/DidSelectDirectoryMessage.java`
-  - ~~`filepicker/DidSelectDirectoryMsg.java`~~ @deprecated
+  - `filepicker/DidSelectFileMsg.java`
+  - ~~`filepicker/DidSelectFileMessage.java`~~ @deprecated
+  - `filepicker/DidSelectDirectoryMsg.java`
+  - ~~`filepicker/DidSelectDirectoryMessage.java`~~ @deprecated
 
 - [ ] **filepicker/hidden_unix.go** → `<unmapped>`
 
@@ -92,10 +92,10 @@ Use the corresponding `*Message` classes instead.
 
 - [x] **progress/progress.go**
   - `progress/Progress.java`
-  - `progress/FrameMessage.java`
-  - ~~`progress/FrameMsg.java`~~ @deprecated
-  - `progress/SetPercentMessage.java`
-  - ~~`progress/SetPercentMsg.java`~~ @deprecated
+  - `progress/FrameMsg.java`
+  - ~~`progress/FrameMessage.java`~~ @deprecated
+  - `progress/SetPercentMsg.java`
+  - ~~`progress/SetPercentMessage.java`~~ @deprecated
   - `progress/Spring.java`
 
 - [x] **progress/progress_test.go** → `progress/ProgressTest.java`
@@ -114,11 +114,11 @@ Use the corresponding `*Message` classes instead.
 - [x] **stopwatch/stopwatch.go**
   - `stopwatch/Stopwatch.java`
   - `stopwatch/StartStopMessage.java`
-  - ~~`stopwatch/StartStopMsg.java`~~ @deprecated
+  - `stopwatch/StartStopMsg.java`
   - `stopwatch/TickMessage.java`
-  - ~~`stopwatch/TickMsg.java`~~ @deprecated
-  - `stopwatch/ResetMessage.java`
-  - ~~`stopwatch/ResetMsg.java`~~ @deprecated
+  - `stopwatch/TickMsg.java`
+  - `stopwatch/ResetMsg.java`
+  - ~~`stopwatch/ResetMessage.java`~~ @deprecated
 
 - [x] **table/table.go**
   - `table/Table.java`
@@ -146,8 +146,8 @@ Use the corresponding `*Message` classes instead.
 
 - [x] **timer/timer.go**
   - `timer/Timer.java`
-  - `timer/StartStopMessage.java`
-  - `timer/TickMessage.java`
+  - ~~`timer/StartStopMessage.java`~~ @deprecated
+  - ~~`timer/TickMessage.java`~~ @deprecated
   - `timer/TimeoutMessage.java`
 
 - [x] **viewport/keymap.go** → `viewport/KeyMap.java`

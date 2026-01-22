@@ -1,7 +1,7 @@
 # Harmonica Compatibility Map
 
 - **Source Repo**: [charmbracelet/harmonica](https://github.com/charmbracelet/harmonica)
-- **Copyright**: Copyright (c) 2020-2025 Charmbracelet, Inc
+- **Copyright**: Copyright (c) 2021-2023 Charmbracelet, Inc.
 - **Java Package**: `com.williamcallahan.tui4j.compat.harmonica`
 
 ---

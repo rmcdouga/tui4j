@@ -1,6 +1,6 @@
 # TUI4J Tutorial
 
-This tutorial walks through building a simple coffee ordering application using TUI4J's Elm Architecture pattern. The complete source code is available in the [examples directory](../src/main/resources/examples/compat/bubbletea/demo/Demo.java).
+This tutorial walks through building a simple coffee ordering application using TUI4J's Elm Architecture pattern. The complete source code is available in the [examples directory](https://github.com/WilliamAGH/tui4j/tree/main/examples/generic/src/main/java/com/williamcallahan/tui4j/examples/demo).
 
 ## The Elm Architecture
 
@@ -34,7 +34,7 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
 
 public class Demo implements Model {
     private final static Style SELECTION = Style.newStyle().foreground(Color.color("205"));
-    private final static String[] CHOICES = {"Espresso", "Americano", "Latte"};
+    private final static String[] CHOICES = {"Espresso", "Americano", "tui4j"};
 
     private int cursor;
     private String choice;
@@ -70,21 +70,21 @@ public UpdateResult<? extends Model> update(Message msg) {
     if (msg instanceof KeyPressMessage keyPressMessage) {
         return switch (keyPressMessage.key()) {
             // "up" and "k" keys move cursor up
-            case "k", "K", "up" -> new UpdateResult<>(this.moveUp(), null);
+            case "k", "K", "up" -> UpdateResult.from(this.moveUp());
 
             // "down" and "j" keys move cursor down
-            case "j", "J", "down" -> new UpdateResult<>(this.moveDown(), null);
+            case "j", "J", "down" -> UpdateResult.from(this.moveDown());
             
-            // "enter" and spacebar select the current item
-            case "enter", " " -> new UpdateResult<>(this.makeChoice(), QuitMessage::new);
+            // "enter" selects the current item
+            case "enter" -> UpdateResult.from(this.makeChoice(), QuitMessage::new);
             
             // "q" exits the program
-            case "q", "Q" -> new UpdateResult<>(this, QuitMessage::new);
-            default -> new UpdateResult<>(this, null);
+            case "q", "Q" -> UpdateResult.from(this, QuitMessage::new);
+            default -> UpdateResult.from(this);
         };
     }
 
-    return new UpdateResult<>(this, null);
+    return UpdateResult.from(this);
 }
 
 private Model moveUp() {
@@ -161,6 +161,6 @@ public static void main(String[] args) {
 
 ## Next Steps
 
-- Explore the [examples](../src/main/resources/examples/compat) for more complex applications
+- Explore the [examples](https://github.com/WilliamAGH/tui4j/tree/main/examples) for more complex applications
 - Check [STATUS.md](https://github.com/WilliamAGH/tui4j/blob/main/STATUS.md) for porting status from Bubble Tea
 - See [Brief](https://github.com/WilliamAGH/brief) for a real-world TUI4J application
