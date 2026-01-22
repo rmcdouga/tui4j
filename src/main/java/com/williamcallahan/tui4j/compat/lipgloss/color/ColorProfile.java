@@ -5,6 +5,8 @@ import org.jline.utils.AttributedCharSequence;
 /**
  * Port of Lip Gloss color profile.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: color.go.
  */
 public enum ColorProfile {
     /** TrueColor, 24-bit color profile. */
@@ -18,6 +20,11 @@ public enum ColorProfile {
 
     private final int colorsCount;
 
+    /**
+     * Creates ColorProfile to keep this component ready for use.
+     *
+     * @param colorsCount colors count
+     */
     ColorProfile(int colorsCount) {
         this.colorsCount = colorsCount;
     }

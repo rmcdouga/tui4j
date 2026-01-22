@@ -8,8 +8,10 @@ import org.jline.utils.AttributedStyle;
  * <p>
  * Port of `lipgloss/color`.
  * Represents a color that can be applied to terminal output.
+ * <p>
+ * Lipgloss: color.go.
  */
-public final class Color implements TerminalColor {
+public class Color implements TerminalColor {
 
     /**
      * Creates a {@link Color} from a string representation.
@@ -23,10 +25,22 @@ public final class Color implements TerminalColor {
 
     private final String color;
 
-    private Color(String color) {
+    /**
+     * Creates Color to keep this component ready for use.
+     *
+     * @param color color
+     */
+    protected Color(String color) {
         this.color = color;
     }
 
+    /**
+     * Handles apply as background for this component.
+     *
+     * @param style style
+     * @param renderer renderer
+     * @return result
+     */
     @Override
     public AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
         return renderer
@@ -35,6 +49,13 @@ public final class Color implements TerminalColor {
                 .applyAsBackground(style, renderer);
     }
 
+    /**
+     * Handles apply as foreground for this component.
+     *
+     * @param style style
+     * @param renderer renderer
+     * @return result
+     */
     @Override
     public AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
         return renderer

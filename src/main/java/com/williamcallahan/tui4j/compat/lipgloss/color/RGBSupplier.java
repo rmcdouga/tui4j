@@ -3,6 +3,8 @@ package com.williamcallahan.tui4j.compat.lipgloss.color;
 /**
  * Port of Lip Gloss rgb supplier.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * <p>
+ * Lipgloss: color.go.
  */
 public interface RGBSupplier {
     /**

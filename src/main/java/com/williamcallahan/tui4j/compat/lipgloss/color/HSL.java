@@ -9,6 +9,8 @@ package com.williamcallahan.tui4j.compat.lipgloss.color;
  * @param s saturation (0-1)
  * @param l lightness (0-1)
  * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/color.go">lipgloss/color.go</a>
+ * <p>
+ * Lipgloss: color.go.
  */
 public record HSL(float h, float s, float l) {
 
