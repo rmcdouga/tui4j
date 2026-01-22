@@ -13,7 +13,11 @@ public class Sanitizer {
     private String replaceNewLine;
     private String replaceTab;
 
-    // Constructor to initialize the sanitizer with options
+    /**
+     * Creates Sanitizer to keep this component ready for use.
+     *
+     * @param options options
+     */
     @SafeVarargs
     public Sanitizer(Consumer<Sanitizer>... options) {
         this.replaceNewLine = "\n";
@@ -23,7 +27,12 @@ public class Sanitizer {
         }
     }
 
-    // Method to sanitize the input char array
+    /**
+     * Handles sanitize for this component.
+     *
+     * @param runes runes
+     * @return result
+     */
     public char[] sanitize(char[] runes) {
         StringBuilder result = new StringBuilder(runes.length);
         boolean copied = false;
@@ -58,16 +67,45 @@ public class Sanitizer {
         return result.toString().toCharArray();
     }
 
-    // Function to replace tabs
+    /**
+     * Handles sanitize for this component.
+     *
+     * @param str str
+     * @return result
+     */
+    public char[] sanitize(String str) {
+        if (str == null) {
+            return new char[0];
+        }
+        return sanitize(str.toCharArray());
+    }
+
+    /**
+     * Handles replace tabs for this component.
+     *
+     * @param tabReplacement tab replacement
+     * @return result
+     */
     public static Consumer<Sanitizer> replaceTabs(String tabReplacement) {
         return sanitizer -> sanitizer.replaceTab = tabReplacement;
     }
 
-    // Function to replace newlines
+    /**
+     * Handles replace newlines for this component.
+     *
+     * @param newlineReplacement newline replacement
+     * @return result
+     */
     public static Consumer<Sanitizer> replaceNewlines(String newlineReplacement) {
         return sanitizer -> sanitizer.replaceNewLine = newlineReplacement;
     }
 
+    /**
+     * Reports whether latin letter.
+     *
+     * @param c c
+     * @return whether latin letter
+     */
     private static boolean isLatinLetter(char c) {
         int type = UCharacter.getType(c);
         return UCharacter.isLetterOrDigit(c) ||
