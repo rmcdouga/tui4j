@@ -1,13 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Message containing multiple commands to run in batch.
- * <p>
- * Bubble Tea: commands.go.
- *
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/commands.go">bubbletea/commands.go</a>
+ * Compatibility shim for {@link BatchMsg}.
+ * Bubble Tea: bubbletea/commands.go
  */
-public class BatchMessage implements Message {
+public class BatchMessage implements MessageShim {
 
     private final Command[] commands;
 
@@ -27,5 +24,10 @@ public class BatchMessage implements Message {
      */
     public Command[] commands() {
         return commands;
+    }
+
+    @Override
+    public Message toMessage() {
+        return new BatchMsg(commands);
     }
 }

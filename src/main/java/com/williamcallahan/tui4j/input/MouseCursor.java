@@ -6,10 +6,7 @@ package com.williamcallahan.tui4j.input;
  * tui4j: src/main/java/com/williamcallahan/tui4j/input/MouseCursor.java
  */
 public enum MouseCursor {
-    /** Default cursor (usually arrow). */
     DEFAULT,
-    /** Text cursor (I-beam). */
     TEXT,
-    /** Pointer cursor (hand). */
     POINTER
 }

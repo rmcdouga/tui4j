@@ -1,34 +1,15 @@
 package com.williamcallahan.tui4j.compat.lipgloss;
 
+import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
 /**
  * Port of Lip Gloss padding decorator.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: style.go.
  */
 public class PaddingDecorator {
 
-    /**
-     * Creates a padding decorator instance.
-     */
-    public PaddingDecorator() {
-    }
-
-    /**
-     * Handles apply padding for this component.
-     *
-     * @param input input
-     * @param topPadding top padding
-     * @param rightPadding right padding
-     * @param bottomPadding bottom padding
-     * @param leftPadding left padding
-     * @param attributedStyle attributed style
-     * @param renderer renderer
-     * @return result
-     */
     public static String applyPadding(String input,
                                       int topPadding,
                                       int rightPadding,
@@ -52,41 +33,14 @@ public class PaddingDecorator {
         return padded;
     }
 
-    /**
-     * Handles pad left for this component.
-     *
-     * @param input input
-     * @param leftPadding left padding
-     * @param attributedStyle attributed style
-     * @param renderer renderer
-     * @return result
-     */
     public static String padLeft(String input, int leftPadding, AttributedStyle attributedStyle, Renderer renderer) {
         return pad(input, -leftPadding, attributedStyle, renderer);
     }
 
-    /**
-     * Handles pad right for this component.
-     *
-     * @param input input
-     * @param rightPadding right padding
-     * @param attributedStyle attributed style
-     * @param renderer renderer
-     * @return result
-     */
     public static String padRight(String input, int rightPadding, AttributedStyle attributedStyle, Renderer renderer) {
         return pad(input, rightPadding, attributedStyle, renderer);
     }
 
-    /**
-     * Handles pad for this component.
-     *
-     * @param str str
-     * @param n n
-     * @param attributedStyle attributed style
-     * @param renderer renderer
-     * @return result
-     */
     public static String pad(String str, int n, AttributedStyle attributedStyle, Renderer renderer) {
         if (n == 0) {
             return str;

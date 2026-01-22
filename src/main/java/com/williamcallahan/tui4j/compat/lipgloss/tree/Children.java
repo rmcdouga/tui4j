@@ -5,8 +5,6 @@ import java.util.Arrays;
 /**
  * Port of Lip Gloss children.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: tree/children.go.
  */
 public interface Children {
 

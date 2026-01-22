@@ -13,20 +13,10 @@ public record TerminalInfo(boolean tty, TerminalColor backgroundColor) {
 
     private static TerminalInfoProvider infoProvider;
 
-    /**
-     * Handles provide for this component.
-     *
-     * @param infoProvider info provider
-     */
     public static void provide(TerminalInfoProvider infoProvider) {
         TerminalInfo.infoProvider = infoProvider;
     }
 
-    /**
-     * Handles get for this component.
-     *
-     * @return result
-     */
     public static TerminalInfo get() {
         return infoProvider.provide();
     }

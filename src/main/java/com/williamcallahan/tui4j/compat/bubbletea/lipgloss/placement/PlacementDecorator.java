@@ -2,7 +2,7 @@ package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.placement;
 
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption;
+import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace;
 
 /**
  * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator}.
@@ -10,12 +10,13 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.Whitespace
  * <p>
  * Lip Gloss: style.go.
  */
-@Deprecated(since = "0.3.0")
+@Deprecated(since = "0.3.0", forRemoval = true)
 public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator {
 
     /**
      * Creates a placement decorator instance for legacy compatibility.
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public PlacementDecorator() {
     }
 
@@ -36,9 +37,9 @@ public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipglos
         Position hPos,
         Position vPos,
         String input,
-        WhitespaceOption... options
+        Whitespace.WhitespaceOption... options
     ) {
-        return Renderer.defaultRenderer().place(width, height, hPos, vPos, input, options);
+        return Renderer.defaultRenderer().place(width, height, hPos.toNew(), vPos.toNew(), input, options);
     }
 
     /**
@@ -54,9 +55,9 @@ public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipglos
         int width,
         Position position,
         String input,
-        WhitespaceOption... options
+        Whitespace.WhitespaceOption... options
     ) {
-        return Renderer.defaultRenderer().placeHorizontal(width, position, input, options);
+        return Renderer.defaultRenderer().placeHorizontal(width, position.toNew(), input, options);
     }
 
     /**
@@ -72,8 +73,8 @@ public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipglos
         int height,
         Position position,
         String input,
-        WhitespaceOption... options
+        Whitespace.WhitespaceOption... options
     ) {
-        return Renderer.defaultRenderer().placeVertical(height, position, input, options);
+        return Renderer.defaultRenderer().placeVertical(height, position.toNew(), input, options);
     }
 }

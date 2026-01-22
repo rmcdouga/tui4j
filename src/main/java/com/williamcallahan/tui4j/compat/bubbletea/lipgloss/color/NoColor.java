@@ -11,43 +11,36 @@ import org.jline.utils.AttributedStyle;
  * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0")
-public final class NoColor extends com.williamcallahan.tui4j.compat.lipgloss.color.NoColor implements TerminalColor {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public final class NoColor implements TerminalColor {
+    private final com.williamcallahan.tui4j.compat.lipgloss.color.NoColor delegate;
 
     /**
-     * Creates NoColor to keep this component ready for use.
+     * Creates NoColor.
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public NoColor() {
-        super();
+        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.NoColor();
+    }
+
+    @Override
+    public AttributedStyle applyAsBackground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsBackground(style, renderer);
+    }
+
+    @Override
+    public AttributedStyle applyAsForeground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsForeground(style, renderer);
     }
 
     /**
-     * Applies this no-op color as a background.
+     * Returns the canonical delegate.
      *
-     * @param style style to update
-     * @param renderer renderer context
-     * @return unchanged style
+     * @return canonical NoColor
      */
-    @Override
-    public AttributedStyle applyAsBackground(
-        AttributedStyle style,
-        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-    ) {
-        return super.applyAsBackground(style, renderer.toCanonical());
-    }
-
-    /**
-     * Applies this no-op color as a foreground.
-     *
-     * @param style style to update
-     * @param renderer renderer context
-     * @return unchanged style
-     */
-    @Override
-    public AttributedStyle applyAsForeground(
-        AttributedStyle style,
-        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-    ) {
-        return super.applyAsForeground(style, renderer.toCanonical());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.NoColor toCanonical() {
+        return delegate;
     }
 }

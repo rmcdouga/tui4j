@@ -6,8 +6,6 @@ import org.jline.utils.AttributedStyle;
 /**
  * Port of Lip Gloss terminal color.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: color.go.
  */
 public interface TerminalColor {
     /**

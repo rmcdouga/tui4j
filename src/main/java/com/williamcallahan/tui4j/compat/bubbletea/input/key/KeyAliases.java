@@ -3,108 +3,29 @@ package com.williamcallahan.tui4j.compat.bubbletea.input.key;
 import java.util.EnumMap;
 
 /**
- * Mappings from human-readable key aliases to their corresponding KeyType values.
- * <p>
- * Port of charmbracelet/bubbletea key.go key alias constants.
- *
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
- * <p>
- * Bubble Tea: key.go.
+ * Port of Bubble Tea key aliases.
+ * Upstream: github.com/charmbracelet/bubbletea (key.go)
  */
 public class KeyAliases {
 
     /**
-     * Creates KeyAliases to keep this component ready for use.
-     * <p>
-     * Bubble Tea: inputreader_windows.go.
+     * Port of Bubble Tea key alias mappings.
+     * Upstream: github.com/charmbracelet/bubbletea (key.go)
      */
-    private KeyAliases() {}
-
-    /** Map from key aliases to their corresponding KeyType. */
     public static final EnumMap<KeyAlias, KeyType> CONTROL_KEY_ALIASES = new EnumMap<>(KeyAlias.class);
 
-    /** Human-readable key alias names. */
+    /**
+     * Port of Bubble Tea key alias names.
+     * Upstream: github.com/charmbracelet/bubbletea (key.go)
+     */
     public enum KeyAlias {
-        /** Null character (Ctrl+@). */
-        KeyNull,
-        /** Break (Ctrl+C). */
-        KeyBreak,
-        /** Enter/Return key. */
-        KeyEnter,
-        /** Backspace key. */
-        KeyBackspace,
-        /** Tab key. */
-        KeyTab,
-        /** Escape key (short form). */
-        KeyEsc,
-        /** Escape key. */
-        KeyEscape,
-        /** Ctrl+@ combination. */
-        KeyCtrlAt,
-        /** Ctrl+A combination. */
-        KeyCtrlA,
-        /** Ctrl+B combination. */
-        KeyCtrlB,
-        /** Ctrl+C combination. */
-        KeyCtrlC,
-        /** Ctrl+D combination. */
-        KeyCtrlD,
-        /** Ctrl+E combination. */
-        KeyCtrlE,
-        /** Ctrl+F combination. */
-        KeyCtrlF,
-        /** Ctrl+G combination. */
-        KeyCtrlG,
-        /** Ctrl+H combination. */
-        KeyCtrlH,
-        /** Ctrl+I combination. */
-        KeyCtrlI,
-        /** Ctrl+J combination. */
-        KeyCtrlJ,
-        /** Ctrl+K combination. */
-        KeyCtrlK,
-        /** Ctrl+L combination. */
-        KeyCtrlL,
-        /** Ctrl+M combination. */
-        KeyCtrlM,
-        /** Ctrl+N combination. */
-        KeyCtrlN,
-        /** Ctrl+O combination. */
-        KeyCtrlO,
-        /** Ctrl+P combination. */
-        KeyCtrlP,
-        /** Ctrl+Q combination. */
-        KeyCtrlQ,
-        /** Ctrl+R combination. */
-        KeyCtrlR,
-        /** Ctrl+S combination. */
-        KeyCtrlS,
-        /** Ctrl+T combination. */
-        KeyCtrlT,
-        /** Ctrl+U combination. */
-        KeyCtrlU,
-        /** Ctrl+V combination. */
-        KeyCtrlV,
-        /** Ctrl+W combination. */
-        KeyCtrlW,
-        /** Ctrl+X combination. */
-        KeyCtrlX,
-        /** Ctrl+Y combination. */
-        KeyCtrlY,
-        /** Ctrl+Z combination. */
-        KeyCtrlZ,
-        /** Ctrl+[ combination. */
-        KeyCtrlOpenBracket,
-        /** Ctrl+\ combination. */
-        KeyCtrlBackslash,
-        /** Ctrl+] combination. */
-        KeyCtrlCloseBracket,
-        /** Ctrl+^ combination. */
-        KeyCtrlCaret,
-        /** Ctrl+_ combination. */
-        KeyCtrlUnderscore,
-        /** Ctrl+? combination. */
-        KeyCtrlQuestionMark
+        KeyNull, KeyBreak, KeyEnter, KeyBackspace, KeyTab, KeyEsc, KeyEscape,
+        KeyCtrlAt, KeyCtrlA, KeyCtrlB, KeyCtrlC, KeyCtrlD, KeyCtrlE, KeyCtrlF,
+        KeyCtrlG, KeyCtrlH, KeyCtrlI, KeyCtrlJ, KeyCtrlK, KeyCtrlL, KeyCtrlM,
+        KeyCtrlN, KeyCtrlO, KeyCtrlP, KeyCtrlQ, KeyCtrlR, KeyCtrlS, KeyCtrlT,
+        KeyCtrlU, KeyCtrlV, KeyCtrlW, KeyCtrlX, KeyCtrlY, KeyCtrlZ,
+        KeyCtrlOpenBracket, KeyCtrlBackslash, KeyCtrlCloseBracket, KeyCtrlCaret,
+        KeyCtrlUnderscore, KeyCtrlQuestionMark
     }
 
     static {
@@ -151,12 +72,6 @@ public class KeyAliases {
         CONTROL_KEY_ALIASES.put(KeyAlias.KeyCtrlQuestionMark, KeyType.keyDEL);
     }
 
-    /**
-     * Looks up the KeyType for a given alias.
-     *
-     * @param alias the key alias
-     * @return the corresponding KeyType
-     */
     public static KeyType getKeyType(KeyAlias alias) {
         return CONTROL_KEY_ALIASES.get(alias);
     }

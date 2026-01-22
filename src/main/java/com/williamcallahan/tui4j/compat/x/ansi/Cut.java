@@ -7,9 +7,6 @@ import java.util.Objects;
  * Port of github.com/charmbracelet/x/ansi (truncate.go Cut functions)
  */
 public final class Cut {
-    /**
-     * Creates Cut to keep this component ready for use.
-     */
     private Cut() {}
 
     /**

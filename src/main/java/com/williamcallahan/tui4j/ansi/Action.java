@@ -1,30 +1,40 @@
 package com.williamcallahan.tui4j.ansi;
 
 /**
- * ANSI parser action for the tui4j.ansi transition table.
- * This is a simplified action set used by the native tui4j.ansi package.
- * For the full compat parser, see {@link com.williamcallahan.tui4j.compat.x.ansi.parser.Action}.
- *
+ * ANSI parser action token.
+ * tui4j: src/main/java/com/williamcallahan/tui4j/ansi/Action.java
  */
 public enum Action {
-    /** No-op / Ignore input. */
+    /** No-op. */
     NONE,
     /** Reset parser state. */
     CLEAR,
     /** Collect intermediate bytes. */
     COLLECT,
-    /** Collect marker/prefix bytes. */
+    /** Marker action for state transitions. */
     MARKER,
     /** Dispatch a control sequence. */
     DISPATCH,
     /** Execute a control character. */
     EXECUTE,
-    /** Start of a data string. */
+    /** Start a new sequence. */
     START,
-    /** Put into the data string. */
+    /** Store data bytes. */
     PUT,
     /** Collect parameter bytes. */
     PARAM,
     /** Print a glyph. */
-    PRINT
+    PRINT,
+    /** Ignore input. */
+    IGNORE;
+
+    /**
+     * Returns the action for a stored ordinal.
+     *
+     * @param ordinal ordinal value
+     * @return matching action
+     */
+    public static Action fromOrdinal(int ordinal) {
+        return values()[ordinal];
+    }
 }

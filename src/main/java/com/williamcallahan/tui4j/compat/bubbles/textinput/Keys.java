@@ -5,8 +5,6 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 /**
  * Port of Bubbles keys.
  * Bubble Tea: bubbletea/examples/textinput/main.go
- * <p>
- * Bubbles: textinput/textinput.go.
  */
 public class Keys {
 
@@ -27,9 +25,6 @@ public class Keys {
     private final Binding nextSuggestion;
     private final Binding prevSuggestion;
 
-    /**
-     * Creates a new default text input key map.
-     */
     public Keys() {
         this.characterForward = new Binding(Binding.withKeys("right", "ctrl+f"));
         this.characterBackward = new Binding(Binding.withKeys("left", "ctrl+b"));
@@ -49,146 +44,66 @@ public class Keys {
         this.prevSuggestion = new Binding(Binding.withKeys("up", "ctrl+p"));
     }
 
-    /**
-     * Returns the key binding for moving character forward.
-     *
-     * @return key binding for moving character forward
-     */
     public Binding characterForward() {
         return characterForward;
     }
 
-    /**
-     * Returns the key binding for moving character backward.
-     *
-     * @return key binding for moving character backward
-     */
     public Binding characterBackward() {
         return characterBackward;
     }
 
-    /**
-     * Returns the key binding for moving word forward.
-     *
-     * @return key binding for moving word forward
-     */
     public Binding wordForward() {
         return wordForward;
     }
 
-    /**
-     * Returns the key binding for moving word backward.
-     *
-     * @return key binding for moving word backward
-     */
     public Binding wordBackward() {
         return wordBackward;
     }
 
-    /**
-     * Returns the key binding for deleting word backward.
-     *
-     * @return key binding for deleting word backward
-     */
     public Binding deleteWordBackward() {
         return deleteWordBackward;
     }
 
-    /**
-     * Returns the key binding for deleting word forward.
-     *
-     * @return key binding for deleting word forward
-     */
     public Binding deleteWordForward() {
         return deleteWordForward;
     }
 
-    /**
-     * Returns the key binding for deleting after cursor.
-     *
-     * @return key binding for deleting after cursor
-     */
     public Binding deleteAfterCursor() {
         return deleteAfterCursor;
     }
 
-    /**
-     * Returns the key binding for deleting before cursor.
-     *
-     * @return key binding for deleting before cursor
-     */
     public Binding deleteBeforeCursor() {
         return deleteBeforeCursor;
     }
 
-    /**
-     * Returns the key binding for deleting character backward.
-     *
-     * @return key binding for deleting character backward
-     */
     public Binding deleteCharacterBackward() {
         return deleteCharacterBackward;
     }
 
-    /**
-     * Returns the key binding for deleting character forward.
-     *
-     * @return key binding for deleting character forward
-     */
     public Binding deleteCharacterForward() {
         return deleteCharacterForward;
     }
 
-    /**
-     * Returns the key binding for moving to line start.
-     *
-     * @return key binding for moving to line start
-     */
     public Binding lineStart() {
         return lineStart;
     }
 
-    /**
-     * Returns the key binding for moving to line end.
-     *
-     * @return key binding for moving to line end
-     */
     public Binding lineEnd() {
         return lineEnd;
     }
 
-    /**
-     * Returns the key binding for paste.
-     *
-     * @return key binding for paste
-     */
     public Binding paste() {
         return paste;
     }
 
-    /**
-     * Returns the key binding for accepting suggestion.
-     *
-     * @return key binding for accepting suggestion
-     */
     public Binding acceptSuggestion() {
         return acceptSuggestion;
     }
 
-    /**
-     * Returns the key binding for next suggestion.
-     *
-     * @return key binding for next suggestion
-     */
     public Binding nextSuggestion() {
         return nextSuggestion;
     }
 
-    /**
-     * Returns the key binding for previous suggestion.
-     *
-     * @return key binding for previous suggestion
-     */
     public Binding prevSuggestion() {
         return prevSuggestion;
     }

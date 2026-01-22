@@ -6,9 +6,12 @@ import com.williamcallahan.tui4j.compat.bubbletea.Command;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -26,16 +30,11 @@ import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
 /**
  * Multi-line text editor bubble.
  * <p>
- * Port of {@code bubbles/textarea/textarea.go}.
+ * Port of `bubbles/textarea`.
  * Supports cursor movement, insertion, deletion, and line wrapping.
- *
- * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/textarea/textarea.go">bubbles/textarea/textarea.go</a>
  */
 public class Textarea implements Model {
 
-    /**
-     * Compatibility helper for Style to keep API parity.
-     */
     public static class Style {
         private com.williamcallahan.tui4j.compat.lipgloss.Style base;
         private com.williamcallahan.tui4j.compat.lipgloss.Style cursorLine;
@@ -46,9 +45,6 @@ public class Textarea implements Model {
         private com.williamcallahan.tui4j.compat.lipgloss.Style prompt;
         private com.williamcallahan.tui4j.compat.lipgloss.Style text;
 
-        /**
-         * Creates Style to keep this component ready for use.
-         */
         public Style() {
             this.base = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
             this.cursorLine = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
@@ -60,233 +56,107 @@ public class Textarea implements Model {
             this.text = com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle();
         }
 
-        /**
-         * Handles base for this component.
-         *
-         * @param base base
-         * @return result
-         */
         public Style base(com.williamcallahan.tui4j.compat.lipgloss.Style base) {
             this.base = base;
             return this;
         }
 
-        /**
-         * Handles cursor line for this component.
-         *
-         * @param cursorLine cursor line
-         * @return result
-         */
         public Style cursorLine(com.williamcallahan.tui4j.compat.lipgloss.Style cursorLine) {
             this.cursorLine = cursorLine;
             return this;
         }
 
-        /**
-         * Handles cursor line number for this component.
-         *
-         * @param cursorLineNumber cursor line number
-         * @return result
-         */
         public Style cursorLineNumber(com.williamcallahan.tui4j.compat.lipgloss.Style cursorLineNumber) {
             this.cursorLineNumber = cursorLineNumber;
             return this;
         }
 
-        /**
-         * Handles end of buffer for this component.
-         *
-         * @param endOfBuffer end of buffer
-         * @return result
-         */
         public Style endOfBuffer(com.williamcallahan.tui4j.compat.lipgloss.Style endOfBuffer) {
             this.endOfBuffer = endOfBuffer;
             return this;
         }
 
-        /**
-         * Handles line number for this component.
-         *
-         * @param lineNumber line number
-         * @return result
-         */
         public Style lineNumber(com.williamcallahan.tui4j.compat.lipgloss.Style lineNumber) {
             this.lineNumber = lineNumber;
             return this;
         }
 
-        /**
-         * Handles placeholder for this component.
-         *
-         * @param placeholder placeholder
-         * @return result
-         */
         public Style placeholder(com.williamcallahan.tui4j.compat.lipgloss.Style placeholder) {
             this.placeholder = placeholder;
             return this;
         }
 
-        /**
-         * Handles prompt for this component.
-         *
-         * @param prompt prompt
-         * @return result
-         */
         public Style prompt(com.williamcallahan.tui4j.compat.lipgloss.Style prompt) {
             this.prompt = prompt;
             return this;
         }
 
-        /**
-         * Handles text for this component.
-         *
-         * @param text text
-         * @return result
-         */
         public Style text(com.williamcallahan.tui4j.compat.lipgloss.Style text) {
             this.text = text;
             return this;
         }
 
-        /**
-         * Handles base for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style base() {
             return base;
         }
 
-        /**
-         * Handles cursor line for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style cursorLine() {
             return cursorLine;
         }
 
-        /**
-         * Handles cursor line number for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style cursorLineNumber() {
             return cursorLineNumber;
         }
 
-        /**
-         * Handles end of buffer for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style endOfBuffer() {
             return endOfBuffer;
         }
 
-        /**
-         * Handles line number for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style lineNumber() {
             return lineNumber;
         }
 
-        /**
-         * Handles placeholder for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style placeholder() {
             return placeholder;
         }
 
-        /**
-         * Handles prompt for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style prompt() {
             return prompt;
         }
 
-        /**
-         * Handles text for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style text() {
             return text;
         }
 
-        /**
-         * Handles computed cursor line for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedCursorLine() {
             return cursorLine.inherit(base).inline(true);
         }
 
-        /**
-         * Handles computed cursor line number for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedCursorLineNumber() {
             return cursorLineNumber.inherit(cursorLine).inherit(base).inline(true);
         }
 
-        /**
-         * Handles computed end of buffer for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedEndOfBuffer() {
             return endOfBuffer.inherit(base).inline(true);
         }
 
-        /**
-         * Handles computed line number for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedLineNumber() {
             return lineNumber.inherit(base).inline(true);
         }
 
-        /**
-         * Handles computed placeholder for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedPlaceholder() {
             return placeholder.inherit(base).inline(true);
         }
 
-        /**
-         * Handles computed prompt for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedPrompt() {
             return prompt.inherit(base).inline(true);
         }
 
-        /**
-         * Handles computed text for this component.
-         *
-         * @return result
-         */
         public com.williamcallahan.tui4j.compat.lipgloss.Style computedText() {
             return text.inherit(base).inline(true);
         }
     }
 
-    /**
-     * Compatibility helper for KeyMap to keep API parity.
-     */
     public static class KeyMap {
         private Binding characterBackward;
         private Binding characterForward;
@@ -311,9 +181,6 @@ public class Textarea implements Model {
         private Binding capitalizeWordForward;
         private Binding transposeCharacterBackward;
 
-        /**
-         * Creates KeyMap to keep this component ready for use.
-         */
         public KeyMap() {
             this.characterBackward = new Binding(Binding.withKeys("left", "ctrl+b"), Binding.withHelp("left", "character backward"));
             this.characterForward = new Binding(Binding.withKeys("right", "ctrl+f"), Binding.withHelp("right", "character forward"));
@@ -339,208 +206,95 @@ public class Textarea implements Model {
             this.transposeCharacterBackward = new Binding(Binding.withKeys("ctrl+t"), Binding.withHelp("ctrl+t", "transpose character backward"));
         }
 
-        /**
-         * Handles character backward for this component.
-         *
-         * @return result
-         */
         public Binding characterBackward() {
             return characterBackward;
         }
 
-        /**
-         * Handles character forward for this component.
-         *
-         * @return result
-         */
         public Binding characterForward() {
             return characterForward;
         }
 
-        /**
-         * Handles delete after cursor for this component.
-         *
-         * @return result
-         */
         public Binding deleteAfterCursor() {
             return deleteAfterCursor;
         }
 
-        /**
-         * Handles delete before cursor for this component.
-         *
-         * @return result
-         */
         public Binding deleteBeforeCursor() {
             return deleteBeforeCursor;
         }
 
-        /**
-         * Handles delete character backward for this component.
-         *
-         * @return result
-         */
         public Binding deleteCharacterBackward() {
             return deleteCharacterBackward;
         }
 
-        /**
-         * Handles delete character forward for this component.
-         *
-         * @return result
-         */
         public Binding deleteCharacterForward() {
             return deleteCharacterForward;
         }
 
-        /**
-         * Handles delete word backward for this component.
-         *
-         * @return result
-         */
         public Binding deleteWordBackward() {
             return deleteWordBackward;
         }
 
-        /**
-         * Handles delete word forward for this component.
-         *
-         * @return result
-         */
         public Binding deleteWordForward() {
             return deleteWordForward;
         }
 
-        /**
-         * Handles insert newline for this component.
-         *
-         * @return result
-         */
         public Binding insertNewline() {
             return insertNewline;
         }
 
-        /**
-         * Handles line end for this component.
-         *
-         * @return result
-         */
         public Binding lineEnd() {
             return lineEnd;
         }
 
-        /**
-         * Handles line next for this component.
-         *
-         * @return result
-         */
         public Binding lineNext() {
             return lineNext;
         }
 
-        /**
-         * Handles line previous for this component.
-         *
-         * @return result
-         */
         public Binding linePrevious() {
             return linePrevious;
         }
 
-        /**
-         * Handles line start for this component.
-         *
-         * @return result
-         */
         public Binding lineStart() {
             return lineStart;
         }
 
-        /**
-         * Handles paste for this component.
-         *
-         * @return result
-         */
         public Binding paste() {
             return paste;
         }
 
-        /**
-         * Handles word backward for this component.
-         *
-         * @return result
-         */
         public Binding wordBackward() {
             return wordBackward;
         }
 
-        /**
-         * Handles word forward for this component.
-         *
-         * @return result
-         */
         public Binding wordForward() {
             return wordForward;
         }
 
-        /**
-         * Handles input begin for this component.
-         *
-         * @return result
-         */
         public Binding inputBegin() {
             return inputBegin;
         }
 
-        /**
-         * Handles input end for this component.
-         *
-         * @return result
-         */
         public Binding inputEnd() {
             return inputEnd;
         }
 
-        /**
-         * Handles uppercase word forward for this component.
-         *
-         * @return result
-         */
         public Binding uppercaseWordForward() {
             return uppercaseWordForward;
         }
 
-        /**
-         * Handles lowercase word forward for this component.
-         *
-         * @return result
-         */
         public Binding lowercaseWordForward() {
             return lowercaseWordForward;
         }
 
-        /**
-         * Handles capitalize word forward for this component.
-         *
-         * @return result
-         */
         public Binding capitalizeWordForward() {
             return capitalizeWordForward;
         }
 
-        /**
-         * Handles transpose character backward for this component.
-         *
-         * @return result
-         */
         public Binding transposeCharacterBackward() {
             return transposeCharacterBackward;
         }
     }
 
-    /**
-     * Compatibility helper for LineInfo to keep API parity.
-     */
     public static class LineInfo {
         private int width;
         private int charWidth;
@@ -550,23 +304,9 @@ public class Textarea implements Model {
         private int rowOffset;
         private int charOffset;
 
-        /**
-         * Creates LineInfo to keep this component ready for use.
-         */
         public LineInfo() {
         }
 
-        /**
-         * Creates LineInfo to keep this component ready for use.
-         *
-         * @param width width
-         * @param charWidth char width
-         * @param height height
-         * @param startColumn start column
-         * @param columnOffset column offset
-         * @param rowOffset row offset
-         * @param charOffset char offset
-         */
         public LineInfo(int width, int charWidth, int height, int startColumn, int columnOffset, int rowOffset, int charOffset) {
             this.width = width;
             this.charWidth = charWidth;
@@ -577,141 +317,64 @@ public class Textarea implements Model {
             this.charOffset = charOffset;
         }
 
-        /**
-         * Handles width for this component.
-         *
-         * @return result
-         */
         public int width() {
             return width;
         }
 
-        /**
-         * Handles char width for this component.
-         *
-         * @return result
-         */
         public int charWidth() {
             return charWidth;
         }
 
-        /**
-         * Handles height for this component.
-         *
-         * @return result
-         */
         public int height() {
             return height;
         }
 
-        /**
-         * Handles start column for this component.
-         *
-         * @return result
-         */
         public int startColumn() {
             return startColumn;
         }
 
-        /**
-         * Handles column offset for this component.
-         *
-         * @return result
-         */
         public int columnOffset() {
             return columnOffset;
         }
 
-        /**
-         * Handles row offset for this component.
-         *
-         * @return result
-         */
         public int rowOffset() {
             return rowOffset;
         }
 
-        /**
-         * Handles char offset for this component.
-         *
-         * @return result
-         */
         public int charOffset() {
             return charOffset;
         }
 
-        /**
-         * Handles width for this component.
-         *
-         * @param width width
-         * @return result
-         */
         public LineInfo width(int width) {
             this.width = width;
             return this;
         }
 
-        /**
-         * Handles char width for this component.
-         *
-         * @param charWidth char width
-         * @return result
-         */
         public LineInfo charWidth(int charWidth) {
             this.charWidth = charWidth;
             return this;
         }
 
-        /**
-         * Handles height for this component.
-         *
-         * @param height height
-         * @return result
-         */
         public LineInfo height(int height) {
             this.height = height;
             return this;
         }
 
-        /**
-         * Handles start column for this component.
-         *
-         * @param startColumn start column
-         * @return result
-         */
         public LineInfo startColumn(int startColumn) {
             this.startColumn = startColumn;
             return this;
         }
 
-        /**
-         * Handles column offset for this component.
-         *
-         * @param columnOffset column offset
-         * @return result
-         */
         public LineInfo columnOffset(int columnOffset) {
             this.columnOffset = columnOffset;
             return this;
         }
 
-        /**
-         * Handles row offset for this component.
-         *
-         * @param rowOffset row offset
-         * @return result
-         */
         public LineInfo rowOffset(int rowOffset) {
             this.rowOffset = rowOffset;
             return this;
         }
 
-        /**
-         * Handles char offset for this component.
-         *
-         * @param charOffset char offset
-         * @return result
-         */
         public LineInfo charOffset(int charOffset) {
             this.charOffset = charOffset;
             return this;
@@ -749,9 +412,6 @@ public class Textarea implements Model {
     private Sanitizer sanitizer;
     private int lineNumberWidth;
 
-    /**
-     * Creates Textarea to keep this component ready for use.
-     */
     public Textarea() {
         this.prompt = "| ";
         this.placeholder = "";
@@ -780,12 +440,6 @@ public class Textarea implements Model {
         this.lineNumberWidth = 4;
     }
 
-    /**
-     * Handles default styles for this component.
-     *
-     * @param focused focused
-     * @return result
-     */
     private static Textarea.Style defaultStyles(boolean focused) {
         Textarea.Style style = new Textarea.Style();
         style.base(com.williamcallahan.tui4j.compat.lipgloss.Style.newStyle());
@@ -809,11 +463,6 @@ public class Textarea implements Model {
         return style;
     }
 
-    /**
-     * Supplies the initial command for the model.
-     *
-     * @return initial command
-     */
     @Override
     public Command init() {
         return null;
@@ -837,7 +486,7 @@ public class Textarea implements Model {
             value.set(row, new char[0]);
         }
 
-        if (msg instanceof KeyPressMessage keyPressMessage) {
+        if (msg instanceof KeyMsg keyPressMessage) {
             handleKeyPress(keyPressMessage);
         }
 
@@ -855,12 +504,7 @@ public class Textarea implements Model {
         return UpdateResult.from(this, batch(commands.toArray(new Command[0])));
     }
 
-    /**
-     * Handles handle key press for this component.
-     *
-     * @param keyPressMessage key press message
-     */
-    private void handleKeyPress(KeyPressMessage keyPressMessage) {
+    private void handleKeyPress(KeyMsg keyPressMessage) {
         if (handleEditing(keyPressMessage)) {
             return;
         }
@@ -873,13 +517,7 @@ public class Textarea implements Model {
         insertRunesFromUserInput(keyPressMessage.runes());
     }
 
-    /**
-     * Handles handle editing for this component.
-     *
-     * @param keyPressMessage key press message
-     * @return whether ndle editing
-     */
-    private boolean handleEditing(KeyPressMessage keyPressMessage) {
+    private boolean handleEditing(KeyMsg keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.deleteAfterCursor())) {
             handleDeleteAfterCursor();
             return true;
@@ -908,13 +546,7 @@ public class Textarea implements Model {
         return false;
     }
 
-    /**
-     * Handles handle navigation for this component.
-     *
-     * @param keyPressMessage key press message
-     * @return whether ndle navigation
-     */
-    private boolean handleNavigation(KeyPressMessage keyPressMessage) {
+    private boolean handleNavigation(KeyMsg keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.lineEnd())) {
             cursorEnd();
             return true;
@@ -949,13 +581,7 @@ public class Textarea implements Model {
         return false;
     }
 
-    /**
-     * Handles handle transform for this component.
-     *
-     * @param keyPressMessage key press message
-     * @return whether ndle transform
-     */
-    private boolean handleTransform(KeyPressMessage keyPressMessage) {
+    private boolean handleTransform(KeyMsg keyPressMessage) {
         if (Binding.matches(keyPressMessage, keyMap.lowercaseWordForward())) {
             lowercaseRight();
             return true;
@@ -972,9 +598,6 @@ public class Textarea implements Model {
         return false;
     }
 
-    /**
-     * Handles handle insert newline for this component.
-     */
     private void handleInsertNewline() {
         if (maxHeight > 0 && value.size() >= maxHeight) {
             return;
@@ -983,9 +606,6 @@ public class Textarea implements Model {
         splitLine(row, col);
     }
 
-    /**
-     * Handles handle delete word forward for this component.
-     */
     private void handleDeleteWordForward() {
         col = clamp(col, 0, value.get(row).length);
         if (col >= value.get(row).length) {
@@ -995,9 +615,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles handle delete word backward for this component.
-     */
     private void handleDeleteWordBackward() {
         if (col <= 0) {
             mergeLineAbove(row);
@@ -1006,9 +623,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles handle delete character forward for this component.
-     */
     private void handleDeleteCharacterForward() {
         if (value.get(row).length > 0 && col < value.get(row).length) {
             char[] newLine = new char[value.get(row).length - 1];
@@ -1021,9 +635,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles handle delete character backward for this component.
-     */
     private void handleDeleteCharacterBackward() {
         col = clamp(col, 0, value.get(row).length);
         if (col <= 0) {
@@ -1037,9 +648,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles handle delete before cursor for this component.
-     */
     private void handleDeleteBeforeCursor() {
         col = clamp(col, 0, value.get(row).length);
         if (col <= 0) {
@@ -1049,9 +657,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles handle delete after cursor for this component.
-     */
     private void handleDeleteAfterCursor() {
         col = clamp(col, 0, value.get(row).length);
         if (col >= value.get(row).length) {
@@ -1061,11 +666,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Renders the model view for display.
-     *
-     * @return rendered view
-     */
     @Override
     public String view() {
         if (value() == null || value().isEmpty()) {
@@ -1132,8 +732,7 @@ public class Textarea implements Model {
             }
         }
 
-        int remainingLines = max(0, height - displayLine);
-        for (int i = 0; i < remainingLines; i++) {
+        for (int i = 0; i < height; i++) {
             String promptStr = getPromptString(displayLine);
             sb.append(style.computedPrompt().render(promptStr));
             displayLine++;
@@ -1148,11 +747,6 @@ public class Textarea implements Model {
         return style.base().render(sb.toString());
     }
 
-    /**
-     * Handles placeholder view for this component.
-     *
-     * @return result
-     */
     private String placeholderView() {
         if (placeholder == null || placeholder.isEmpty()) {
             return "";
@@ -1202,32 +796,15 @@ public class Textarea implements Model {
         return style.base().render(sb.toString());
     }
 
-    /**
-     * Returns the prompt string.
-     *
-     * @param displayLine display line
-     * @return result
-     */
     private String getPromptString(int displayLine) {
         return prompt;
     }
 
-    /**
-     * Handles format line number for this component.
-     *
-     * @param num num
-     * @return result
-     */
     private String formatLineNumber(int num) {
         int digits = String.valueOf(maxHeight).length();
         return String.format(" %" + digits + "d ", num);
     }
 
-    /**
-     * Handles insert runes from user input for this component.
-     *
-     * @param runes runes
-     */
     private void insertRunesFromUserInput(char[] runes) {
         char[] paste = sanitizer.sanitize(runes);
 
@@ -1296,33 +873,19 @@ public class Textarea implements Model {
         setCursor(col);
     }
 
-    /**
-     * Updates the cursor.
-     *
-     * @param newCol new col
-     */
     private void setCursor(int newCol) {
         col = clamp(newCol, 0, value.get(row).length);
         lastCharOffset = 0;
     }
 
-    /**
-     * Handles cursor start for this component.
-     */
     private void cursorStart() {
         setCursor(0);
     }
 
-    /**
-     * Handles cursor end for this component.
-     */
     private void cursorEnd() {
         setCursor(value.get(row).length);
     }
 
-    /**
-     * Handles cursor down for this component.
-     */
     private void cursorDown() {
         LineInfo li = lineInfo();
         int charOffset = max(lastCharOffset, li.charOffset());
@@ -1354,9 +917,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles cursor up for this component.
-     */
     private void cursorUp() {
         LineInfo li = lineInfo();
         int charOffset = max(lastCharOffset, li.charOffset());
@@ -1387,9 +947,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles character right for this component.
-     */
     private void characterRight() {
         if (col < value.get(row).length) {
             setCursor(col + 1);
@@ -1401,11 +958,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles character left for this component.
-     *
-     * @param insideLine inside line
-     */
     private void characterLeft(boolean insideLine) {
         if (col == 0 && row != 0) {
             row--;
@@ -1419,9 +971,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles word left for this component.
-     */
     private void wordLeft() {
         while (true) {
             if (row == 0 && col == 0) {
@@ -1441,9 +990,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles word right for this component.
-     */
     private void wordRight() {
         while (col >= value.get(row).length || UCharacter.isWhitespace(value.get(row)[col])) {
             if (row == value.size() - 1 && col == value.get(row).length) {
@@ -1457,25 +1003,16 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles delete before cursor for this component.
-     */
     private void deleteBeforeCursor() {
         value.set(row, Arrays.copyOfRange(value.get(row), col, value.get(row).length));
         setCursor(0);
     }
 
-    /**
-     * Handles delete after cursor for this component.
-     */
     private void deleteAfterCursor() {
         value.set(row, Arrays.copyOfRange(value.get(row), 0, col));
         setCursor(value.get(row).length);
     }
 
-    /**
-     * Handles delete word left for this component.
-     */
     private void deleteWordLeft() {
         if (col == 0 || value.get(row).length == 0) {
             return;
@@ -1506,9 +1043,6 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles delete word right for this component.
-     */
     private void deleteWordRight() {
         if (col >= value.get(row).length || value.get(row).length == 0) {
             return;
@@ -1540,12 +1074,6 @@ public class Textarea implements Model {
         setCursor(oldCol);
     }
 
-    /**
-     * Handles split line for this component.
-     *
-     * @param splitRow split row
-     * @param splitCol split col
-     */
     private void splitLine(int splitRow, int splitCol) {
         char[] line = value.get(splitRow);
         char[] head = Arrays.copyOfRange(line, 0, splitCol);
@@ -1558,11 +1086,6 @@ public class Textarea implements Model {
         row++;
     }
 
-    /**
-     * Handles merge line below for this component.
-     *
-     * @param mergeRow merge row
-     */
     private void mergeLineBelow(int mergeRow) {
         if (mergeRow >= value.size() - 1) {
             return;
@@ -1576,11 +1099,6 @@ public class Textarea implements Model {
         value.remove(mergeRow + 1);
     }
 
-    /**
-     * Handles merge line above for this component.
-     *
-     * @param mergeRow merge row
-     */
     private void mergeLineAbove(int mergeRow) {
         if (mergeRow <= 0) {
             return;
@@ -1597,9 +1115,6 @@ public class Textarea implements Model {
         value.remove(mergeRow);
     }
 
-    /**
-     * Handles transpose left for this component.
-     */
     private void transposeLeft() {
         if (col == 0 || value.get(row).length < 2) {
             return;
@@ -1615,27 +1130,18 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Handles uppercase right for this component.
-     */
     private void uppercaseRight() {
         doWordRight((charIdx, i) -> {
             value.get(row)[i] = Character.toUpperCase(value.get(row)[i]);
         });
     }
 
-    /**
-     * Handles lowercase right for this component.
-     */
     private void lowercaseRight() {
         doWordRight((charIdx, i) -> {
             value.get(row)[i] = Character.toLowerCase(value.get(row)[i]);
         });
     }
 
-    /**
-     * Handles capitalize right for this component.
-     */
     private void capitalizeRight() {
         doWordRight((charIdx, i) -> {
             if (charIdx == 0) {
@@ -1644,11 +1150,6 @@ public class Textarea implements Model {
         });
     }
 
-    /**
-     * Handles do word right for this component.
-     *
-     * @param consumer consumer
-     */
     private void doWordRight(WordConsumer consumer) {
         while (col >= value.get(row).length || UCharacter.isWhitespace(value.get(row)[col])) {
             if (row == value.size() - 1 && col == value.get(row).length) {
@@ -1665,41 +1166,21 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Compatibility helper for WordConsumer to keep API parity.
-     */
     @FunctionalInterface
     private interface WordConsumer {
-        /**
-         * Handles accept for this component.
-         *
-         * @param charIdx char idx
-         * @param pos pos
-         */
         void accept(int charIdx, int pos);
     }
 
-    /**
-     * Handles move to begin for this component.
-     */
     private void moveToBegin() {
         row = 0;
         setCursor(0);
     }
 
-    /**
-     * Handles move to end for this component.
-     */
     private void moveToEnd() {
         row = value.size() - 1;
         setCursor(value.get(row).length);
     }
 
-    /**
-     * Handles line info for this component.
-     *
-     * @return result
-     */
     public LineInfo lineInfo() {
         List<char[]> grid = wrap(value.get(row), width);
 
@@ -1735,11 +1216,6 @@ public class Textarea implements Model {
         return new LineInfo();
     }
 
-    /**
-     * Handles cursor line number for this component.
-     *
-     * @return result
-     */
     private int cursorLineNumber() {
         int line = 0;
         for (int i = 0; i < row; i++) {
@@ -1749,13 +1225,6 @@ public class Textarea implements Model {
         return line;
     }
 
-    /**
-     * Handles wrap for this component.
-     *
-     * @param runes runes
-     * @param maxWidth max width
-     * @return result
-     */
     private List<char[]> wrap(char[] runes, int maxWidth) {
         if (maxWidth <= 0) {
             return List.of(runes);
@@ -1800,6 +1269,8 @@ public class Textarea implements Model {
                 }
             } else {
                 char[] lastLine = lines.get(lines.size() - 1);
+                char lastChar = lastLine.length > 0 ? lastLine[lastLine.length - 1] : ' ';
+                int lastCharWidth = TextWidth.measureCellWidth(String.valueOf(lastChar));
                 int currentLineWidth = TextWidth.measureCellWidth(new String(lastLine));
                 int wordWidth = TextWidth.measureCellWidth(new String(wordArr));
 
@@ -1845,11 +1316,6 @@ public class Textarea implements Model {
         return lines;
     }
 
-    /**
-     * Handles value for this component.
-     *
-     * @return result
-     */
     public String value() {
         if (value == null || value.isEmpty()) {
             return "";
@@ -1865,39 +1331,19 @@ public class Textarea implements Model {
         return sb.toString();
     }
 
-    /**
-     * Updates the value.
-     *
-     * @param value value
-     */
     public void setValue(String value) {
         reset();
         insertString(value);
     }
 
-    /**
-     * Handles insert string for this component.
-     *
-     * @param s s
-     */
     public void insertString(String s) {
         insertRunesFromUserInput(s.toCharArray());
     }
 
-    /**
-     * Handles insert rune for this component.
-     *
-     * @param r r
-     */
     public void insertRune(char r) {
         insertRunesFromUserInput(new char[]{r});
     }
 
-    /**
-     * Handles length for this component.
-     *
-     * @return result
-     */
     public int length() {
         int l = 0;
         for (char[] rowChars : value) {
@@ -1906,54 +1352,30 @@ public class Textarea implements Model {
         return l + value.size() - 1;
     }
 
-    /**
-     * Handles line count for this component.
-     *
-     * @return result
-     */
     public int lineCount() {
         return value.size();
     }
 
-    /**
-     * Handles line for this component.
-     *
-     * @return result
-     */
     public int line() {
         return row;
     }
 
-    /**
-     * Handles focus for this component.
-     */
     public void focus() {
         focus = true;
         style = focusedStyle;
         cursor.focus();
     }
 
-    /**
-     * Handles blur for this component.
-     */
     public void blur() {
         focus = false;
         style = blurredStyle;
         cursor.blur();
     }
 
-    /**
-     * Handles focused for this component.
-     *
-     * @return whether cused
-     */
     public boolean focused() {
         return focus;
     }
 
-    /**
-     * Handles reset for this component.
-     */
     public void reset() {
         value = new ArrayList<>();
         value.add(new char[0]);
@@ -1962,20 +1384,10 @@ public class Textarea implements Model {
         setCursor(0);
     }
 
-    /**
-     * Updates the width.
-     *
-     * @param w w
-     */
     public void setWidth(int w) {
         this.width = w;
     }
 
-    /**
-     * Updates the height.
-     *
-     * @param h h
-     */
     public void setHeight(int h) {
         if (maxHeight > 0) {
             this.height = clamp(h, MIN_HEIGHT, maxHeight);
@@ -1984,132 +1396,59 @@ public class Textarea implements Model {
         }
     }
 
-    /**
-     * Updates the prompt.
-     *
-     * @param prompt prompt
-     */
     public void setPrompt(String prompt) {
         this.prompt = prompt;
         this.promptWidth = TextWidth.measureCellWidth(prompt);
     }
 
-    /**
-     * Updates the placeholder.
-     *
-     * @param placeholder placeholder
-     */
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
     }
 
-    /**
-     * Updates the show line numbers.
-     *
-     * @param showLineNumbers show line numbers
-     */
     public void setShowLineNumbers(boolean showLineNumbers) {
         this.showLineNumbers = showLineNumbers;
     }
 
-    /**
-     * Updates the char limit.
-     *
-     * @param charLimit char limit
-     */
     public void setCharLimit(int charLimit) {
         this.charLimit = charLimit;
     }
 
-    /**
-     * Updates the max height.
-     *
-     * @param maxHeight max height
-     */
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
     }
 
-    /**
-     * Updates the max width.
-     *
-     * @param maxWidth max width
-     */
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
     }
 
-    /**
-     * Updates the end of buffer character.
-     *
-     * @param endOfBufferCharacter end of buffer character
-     */
     public void setEndOfBufferCharacter(char endOfBufferCharacter) {
         this.endOfBufferCharacter = endOfBufferCharacter;
     }
 
-    /**
-     * Handles style for this component.
-     *
-     * @return result
-     */
     public Style style() {
         return style;
     }
 
-    /**
-     * Handles focused style for this component.
-     *
-     * @return result
-     */
     public Style focusedStyle() {
         return focusedStyle;
     }
 
-    /**
-     * Handles blurred style for this component.
-     *
-     * @return result
-     */
     public Style blurredStyle() {
         return blurredStyle;
     }
 
-    /**
-     * Handles cursor for this component.
-     *
-     * @return result
-     */
     public Cursor cursor() {
         return cursor;
     }
 
-    /**
-     * Handles width for this component.
-     *
-     * @return result
-     */
     public int width() {
         return width;
     }
 
-    /**
-     * Handles height for this component.
-     *
-     * @return result
-     */
     public int height() {
         return height;
     }
 
-    /**
-     * Handles clamp for this component.
-     *
-     * @param v v
-     * @param low low
-     * @param high high
-     * @return result
-     */
     private static int clamp(int v, int low, int high) {
         return Math.max(low, Math.min(high, v));
     }

@@ -14,28 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * TerminalInfoProvider implementation backed by JLine.
- * <p>
- * Native tui4j class that queries terminal capabilities using JLine.
+ * TerminalInfoProvider backed by JLine.
+ * tui4j: src/main/java/com/williamcallahan/tui4j/term/jline/JLineTerminalInfoProvider.java
  */
 public class JLineTerminalInfoProvider implements TerminalInfoProvider {
 
     private static final Logger logger = Logger.getLogger(JLineTerminalInfoProvider.class.getName());
 
-    /**
-     * Support type for JLineTerminalInfoProvider.
-     */
     private static class Response {
 
         String response;
         boolean isOSC;
 
-        /**
-         * Creates Response to keep this component ready for use.
-         *
-         * @param response response
-         * @param isOSC is osc
-         */
         Response(String response, boolean isOSC) {
             this.response = response;
             this.isOSC = isOSC;
@@ -51,30 +41,15 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
     private boolean tty;
     private TerminalColor backgroundColor;
 
-    /**
-     * Creates a provider by querying the given JLine terminal.
-     *
-     * @param terminal the JLine terminal to query
-     */
     public JLineTerminalInfoProvider(Terminal terminal) {
         readFromTerminal(terminal);
     }
 
-    /**
-     * Handles provide for this component.
-     *
-     * @return result
-     */
     @Override
     public TerminalInfo provide() {
         return new TerminalInfo(tty, backgroundColor);
     }
 
-    /**
-     * Handles read from terminal for this component.
-     *
-     * @param terminal terminal
-     */
     private void readFromTerminal(Terminal terminal) {
         this.tty = !"dumb".equals(terminal.getType());
         if (!tty) {
@@ -113,12 +88,6 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
         }
     }
 
-    /**
-     * Handles read next response for this component.
-     *
-     * @param reader reader
-     * @return result
-     */
     private static Response readNextResponse(NonBlockingReader reader) throws IOException {
         StringBuilder response = new StringBuilder();
 
@@ -171,12 +140,6 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
         return null;
     }
 
-    /**
-     * Handles parse color for this component.
-     *
-     * @param response response
-     * @return result
-     */
     private static RGBColor parseColor(String response) {
         // Check length validity
         if (response.length() < 24 || response.length() > 25) {

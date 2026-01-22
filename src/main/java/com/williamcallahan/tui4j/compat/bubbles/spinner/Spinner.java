@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 /**
  * Port of Bubbles spinner.
  * Bubble Tea: bubbletea/examples/spinner/main.go
- * <p>
- * Bubbles: spinner/spinner.go.
  */
 public class Spinner implements Model {
 
@@ -22,50 +20,23 @@ public class Spinner implements Model {
     private int tag;
     private Style style = Style.newStyle();
 
-    /**
-     * Creates Spinner to keep this component ready for use.
-     *
-     * @param type type
-     */
     public Spinner(SpinnerType type) {
         this.type = type;
     }
 
-    /**
-     * Updates the type.
-     *
-     * @param type type
-     */
     public void setType(SpinnerType type) {
         this.type = type;
     }
 
-    /**
-     * Updates the style.
-     *
-     * @param style style
-     * @return result
-     */
     public Spinner setStyle(Style style) {
         this.style = style;
         return this;
     }
 
-    /**
-     * Supplies the initial command for the model.
-     *
-     * @return initial command
-     */
     public Command init() {
         return this::tick;
     }
 
-    /**
-     * Applies an incoming message and returns the next model state.
-     *
-     * @param msg msg
-     * @return next model state and command
-     */
     public UpdateResult<Spinner> update(Message msg) {
         if (msg instanceof TickMessage tickMessage) {
             if (tickMessage.id() > 0 && tickMessage.id() != id) {
@@ -90,11 +61,6 @@ public class Spinner implements Model {
         return UpdateResult.from(this);
     }
 
-    /**
-     * Renders the model view for display.
-     *
-     * @return rendered view
-     */
     public String view() {
         if (frame >= type.frames().length) {
             return "(error)";
@@ -102,11 +68,6 @@ public class Spinner implements Model {
         return style.render(type.frames()[frame]);
     }
 
-    /**
-     * Handles tick for this component.
-     *
-     * @return result
-     */
     public Message tick() {
         return new TickMessage(LocalDateTime.now(), tag, id);
     }

@@ -3,8 +3,6 @@ package com.williamcallahan.tui4j.compat.lipgloss.table;
 /**
  * Port of Lipgloss table data interface.
  * Bubble Tea: lipgloss/table/rows.go
- * <p>
- * Lipgloss: table/table.go.
  */
 public interface Data {
 

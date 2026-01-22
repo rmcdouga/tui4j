@@ -2,6 +2,8 @@ package com.williamcallahan.tui4j.compat.bubbles.list;
 
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
+import com.williamcallahan.tui4j.compat.bubbles.help.Help;
+
 /**
  * Port of Bubbles keys.
  * Bubble Tea: bubbletea/examples/list-simple/main.go
@@ -23,9 +25,6 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
     private final Binding quit;
     private final Binding forceQuit;
 
-    /**
-     * Creates a new default key map.
-     */
     public KeyMap() {
         // Browsing
         this.cursorUp = new Binding(Binding.withKeys("up", "k"), Binding.withHelp("↑/k", "up"));
@@ -54,147 +53,67 @@ public class KeyMap implements com.williamcallahan.tui4j.compat.bubbles.help.Key
         this.forceQuit = new Binding(Binding.withKeys("ctrl+c"));
     }
 
-    /**
-     * Returns the key binding for moving cursor up.
-     *
-     * @return key binding for moving cursor up
-     */
     public Binding cursorUp() {
         return cursorUp;
     }
 
-    /**
-     * Returns the key binding for moving cursor down.
-     *
-     * @return key binding for moving cursor down
-     */
     public Binding cursorDown() {
         return cursorDown;
     }
 
-    /**
-     * Returns the key binding for next page.
-     *
-     * @return key binding for next page
-     */
     public Binding nextPage() {
         return nextPage;
     }
 
-    /**
-     * Returns the key binding for previous page.
-     *
-     * @return key binding for previous page
-     */
     public Binding prevPage() {
         return prevPage;
     }
 
-    /**
-     * Returns the key binding for going to start.
-     *
-     * @return key binding for going to start
-     */
     public Binding goToStart() {
         return goToStart;
     }
 
-    /**
-     * Returns the key binding for going to end.
-     *
-     * @return key binding for going to end
-     */
     public Binding goToEnd() {
         return goToEnd;
     }
 
-    /**
-     * Returns the key binding for filtering.
-     *
-     * @return key binding for filtering
-     */
     public Binding filter() {
         return filter;
     }
 
-    /**
-     * Returns the key binding for clearing filter.
-     *
-     * @return key binding for clearing filter
-     */
     public Binding clearFilter() {
         return clearFilter;
     }
 
-    /**
-     * Returns the key binding for cancelling while filtering.
-     *
-     * @return key binding for cancelling while filtering
-     */
     public Binding cancelWhileFiltering() {
         return cancelWhileFiltering;
     }
 
-    /**
-     * Returns the key binding for accepting while filtering.
-     *
-     * @return key binding for accepting while filtering
-     */
     public Binding acceptWhileFiltering() {
         return acceptWhileFiltering;
     }
 
-    /**
-     * Returns the key binding for showing full help.
-     *
-     * @return key binding for showing full help
-     */
     public Binding showFullHelp() {
         return showFullHelp;
     }
 
-    /**
-     * Returns the key binding for closing full help.
-     *
-     * @return key binding for closing full help
-     */
     public Binding closeFullHelp() {
         return closeFullHelp;
     }
 
-    /**
-     * Returns the key binding for quitting.
-     *
-     * @return key binding for quitting
-     */
     public Binding quit() {
         return quit;
     }
 
-    /**
-     * Returns the key binding for force quitting.
-     *
-     * @return key binding for force quitting
-     */
     public Binding forceQuit() {
         return forceQuit;
     }
 
-    /**
-     * Handles short help for this component.
-     *
-     * @return result
-     */
     @Override
     public Binding[] shortHelp() {
         return new Binding[] { cursorUp, cursorDown };
     }
 
-    /**
-     * Handles full help for this component.
-     *
-     * @return result
-     */
     @Override
     public Binding[][] fullHelp() {
         return new Binding[][] {

@@ -6,20 +6,15 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Grapheme cluster extraction and width calculation utilities.
- * Port of {@code x/ansi/width.go}.
+ * Port of github.com/charmbracelet/x/ansi grapheme utilities.
  * <p>
  * Uses ICU4J's BreakIterator for Unicode-correct grapheme segmentation,
  * equivalent to Go's rivo/uniseg library used by the upstream implementation.
  * <p>
  * Methods return {@code null} when no cluster is found (empty input, end of sequence),
  * consistent with Go's nil return pattern. Callers should check for null before use.
- *
- * @see <a href="https://github.com/charmbracelet/x/blob/main/ansi/width.go">ansi/width.go</a>
  */
 public final class GraphemeCluster {
-    /**
-     * Creates GraphemeCluster to keep this component ready for use.
-     */
     private GraphemeCluster() {}
 
     /**
@@ -176,12 +171,6 @@ public final class GraphemeCluster {
         return 1;
     }
 
-    /**
-     * Reports whether zero width.
-     *
-     * @param codePoint code point
-     * @return whether zero width
-     */
     private static boolean isZeroWidth(int codePoint) {
         int type = Character.getType(codePoint);
         return type == Character.NON_SPACING_MARK

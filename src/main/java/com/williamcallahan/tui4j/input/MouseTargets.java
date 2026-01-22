@@ -9,20 +9,9 @@ import java.util.List;
  * tui4j: src/main/java/com/williamcallahan/tui4j/input/MouseTargets.java
  */
 public final class MouseTargets {
-    /**
-     * Creates MouseTargets to keep this component ready for use.
-     */
     private MouseTargets() {
     }
 
-    /**
-     * Finds the topmost mouse target at the given coordinates.
-     *
-     * @param targets list of targets to check
-     * @param column column coordinate
-     * @param row row coordinate
-     * @return topmost target or null
-     */
     public static MouseTarget hitTest(List<MouseTarget> targets, int column, int row) {
         if (targets == null || targets.isEmpty()) {
             return null;

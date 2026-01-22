@@ -18,8 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * Port of `bubbles/progress`.
  * Visualizes a percentage value, optionally using a spring animation for smooth transitions.
- * <p>
- * Bubbles: progress/progress.go.
  */
 public class Progress implements Model {
 
@@ -45,6 +43,7 @@ public class Progress implements Model {
     private double percentShown;
     private double targetPercent;
     private double velocity;
+    private boolean springCustomized;
 
     private boolean useRamp;
     private RGB rampColorA;
@@ -54,9 +53,6 @@ public class Progress implements Model {
     private ColorProfile colorProfile;
     private ColorProfile cachedColorProfile;
 
-    /**
-     * Creates Progress to keep this component ready for use.
-     */
     public Progress() {
         this.id = nextId();
         this.width = DEFAULT_WIDTH;
@@ -71,162 +67,75 @@ public class Progress implements Model {
         setSpringOptions(DEFAULT_FREQUENCY, DEFAULT_DAMPING);
     }
 
-    /**
-     * Handles next id for this component.
-     *
-     * @return result
-     */
     private static int nextId() {
         return LAST_ID.incrementAndGet();
     }
 
-    /**
-     * Handles with width for this component.
-     *
-     * @param width width
-     * @return result
-     */
     public Progress withWidth(int width) {
         this.width = width;
         return this;
     }
 
-    /**
-     * Handles with full for this component.
-     *
-     * @param full full
-     * @return result
-     */
     public Progress withFull(char full) {
         this.full = full;
         return this;
     }
 
-    /**
-     * Handles with empty for this component.
-     *
-     * @param empty empty
-     * @return result
-     */
     public Progress withEmpty(char empty) {
         this.empty = empty;
         return this;
     }
 
-    /**
-     * Handles with full color for this component.
-     *
-     * @param fullColor full color
-     * @return result
-     */
     public Progress withFullColor(String fullColor) {
         this.fullColor = fullColor;
         this.useRamp = false;
         return this;
     }
 
-    /**
-     * Handles with empty color for this component.
-     *
-     * @param emptyColor empty color
-     * @return result
-     */
     public Progress withEmptyColor(String emptyColor) {
         this.emptyColor = emptyColor;
         return this;
     }
 
-    /**
-     * Handles without percentage for this component.
-     *
-     * @return result
-     */
     public Progress withoutPercentage() {
         this.showPercentage = false;
         return this;
     }
 
-    /**
-     * Handles with show percentage for this component.
-     *
-     * @param showPercentage show percentage
-     * @return result
-     */
     public Progress withShowPercentage(boolean showPercentage) {
         this.showPercentage = showPercentage;
         return this;
     }
 
-    /**
-     * Handles with percent format for this component.
-     *
-     * @param percentFormat percent format
-     * @return result
-     */
     public Progress withPercentFormat(String percentFormat) {
         this.percentFormat = percentFormat;
         return this;
     }
 
-    /**
-     * Handles with percentage style for this component.
-     *
-     * @param percentageStyle percentage style
-     * @return result
-     */
     public Progress withPercentageStyle(Style percentageStyle) {
         this.percentageStyle = percentageStyle;
         return this;
     }
 
-    /**
-     * Handles with default gradient for this component.
-     *
-     * @return result
-     */
     public Progress withDefaultGradient() {
         return withGradient("#5A56E0", "#EE6FF8");
     }
 
     /**
      * Configures a color gradient for the filled portion of the bar.
-     *
-     * @param colorA starting color
-     * @param colorB ending color
-     * @return updated progress instance
      */
     public Progress withGradient(String colorA, String colorB) {
         return setRamp(colorA, colorB, false);
     }
 
-    /**
-     * Handles with default scaled gradient for this component.
-     *
-     * @return result
-     */
     public Progress withDefaultScaledGradient() {
         return withScaledGradient("#5A56E0", "#EE6FF8");
     }
 
-    /**
-     * Handles with scaled gradient for this component.
-     *
-     * @param colorA color a
-     * @param colorB color b
-     * @return result
-     */
     public Progress withScaledGradient(String colorA, String colorB) {
         return setRamp(colorA, colorB, true);
     }
 
-    /**
-     * Updates the ramp.
-     *
-     * @param colorA color a
-     * @param colorB color b
-     * @param scaled scaled
-     * @return result
-     */
     private Progress setRamp(String colorA, String colorB, boolean scaled) {
         RGB a = parseColor(colorA);
         RGB b = parseColor(colorB);
@@ -238,40 +147,19 @@ public class Progress implements Model {
         return this;
     }
 
-    /**
-     * Handles parse color for this component.
-     *
-     * @param color color
-     * @return result
-     */
     private static RGB parseColor(String color) {
         return RGB.fromHexString(color);
     }
 
-    /**
-     * Updates the spring options.
-     *
-     * @param frequency frequency
-     * @param damping damping
-     */
     public void setSpringOptions(double frequency, double damping) {
         this.spring = new Spring(frequency, damping);
+        this.springCustomized = true;
     }
 
-    /**
-     * Updates the color profile.
-     *
-     * @param colorProfile color profile
-     */
     public void setColorProfile(ColorProfile colorProfile) {
         this.colorProfile = colorProfile;
     }
 
-    /**
-     * Returns the color profile.
-     *
-     * @return result
-     */
     private ColorProfile getColorProfile() {
         if (colorProfile != null) {
             return colorProfile;
@@ -282,153 +170,78 @@ public class Progress implements Model {
         return cachedColorProfile;
     }
 
-    /**
-     * Handles id for this component.
-     *
-     * @return result
-     */
     public int id() {
         return id;
     }
 
-    /**
-     * Handles width for this component.
-     *
-     * @return result
-     */
     public int width() {
         return width;
     }
 
-    /**
-     * Updates the width.
-     *
-     * @param width width
-     */
     public void setWidth(int width) {
         this.width = width;
     }
 
-    /**
-     * Handles full for this component.
-     *
-     * @return result
-     */
     public char full() {
         return full;
     }
 
-    /**
-     * Handles empty for this component.
-     *
-     * @return result
-     */
     public char empty() {
         return empty;
     }
 
-    /**
-     * Handles full color for this component.
-     *
-     * @return result
-     */
     public String fullColor() {
         return fullColor;
     }
 
-    /**
-     * Handles empty color for this component.
-     *
-     * @return result
-     */
     public String emptyColor() {
         return emptyColor;
     }
 
-    /**
-     * Handles show percentage for this component.
-     *
-     * @return whether ow percentage
-     */
     public boolean showPercentage() {
         return showPercentage;
     }
 
-    /**
-     * Handles percent format for this component.
-     *
-     * @return result
-     */
     public String percentFormat() {
         return percentFormat;
     }
 
-    /**
-     * Handles percent for this component.
-     *
-     * @return result
-     */
     public double percent() {
         return targetPercent;
     }
 
-    /**
-     * Handles target percent for this component.
-     *
-     * @return result
-     */
     public double targetPercent() {
         return targetPercent;
     }
 
-    /**
-     * Handles tag for this component.
-     *
-     * @return result
-     */
     public int tag() {
         return tag;
     }
 
-    /**
-     * Handles percent shown for this component.
-     *
-     * @return result
-     */
     public double percentShown() {
         return percentShown;
     }
 
-    /**
-     * Reports whether animating.
-     *
-     * @return whether animating
-     */
     public boolean isAnimating() {
         double dist = Math.abs(percentShown - targetPercent);
         return !(dist < 0.001 && Math.abs(velocity) < 0.01);
     }
 
-    /**
-     * Supplies the initial command for the model.
-     *
-     * @return initial command
-     */
     @Override
     public Command init() {
         return null;
     }
 
-    /**
-     * Applies an incoming message and returns the next model state.
-     *
-     * @param msg msg
-     * @return next model state and command
-     */
     @Override
     public UpdateResult<Progress> update(Message msg) {
+        if (msg instanceof SetPercentMsg setMsg) {
+            return UpdateResult.from(this, setPercent(setMsg.percent()));
+        }
         if (msg instanceof SetPercentMessage setMessage) {
             return UpdateResult.from(this, setPercent(setMessage.percent()));
+        }
+        if (msg instanceof FrameMsg frameMsg) {
+            return handleFrame(frameMsg.id(), frameMsg.tag());
         }
         if (msg instanceof FrameMessage frameMessage) {
             return handleFrame(frameMessage.id(), frameMessage.tag());
@@ -437,22 +250,11 @@ public class Progress implements Model {
         return UpdateResult.from(this);
     }
 
-    /**
-     * Renders the model view for display.
-     *
-     * @return rendered view
-     */
     @Override
     public String view() {
         return viewAs(percentShown);
     }
 
-    /**
-     * Handles view as for this component.
-     *
-     * @param percent percent
-     * @return result
-     */
     public String viewAs(double percent) {
         StringBuilder b = new StringBuilder();
         String percentView = percentageView(percent);
@@ -480,13 +282,6 @@ public class Progress implements Model {
         return TextWidth.measureCellWidth(s);
     }
 
-    /**
-     * Handles bar view for this component.
-     *
-     * @param b b
-     * @param percent percent
-     * @param textWidth text width
-     */
     private void barView(StringBuilder b, double percent, int textWidth) {
         int tw = Math.max(0, width - textWidth);
         int fw = (int) Math.round((double) tw * percent);
@@ -517,14 +312,6 @@ public class Progress implements Model {
         b.append(emptyColored.repeat(n));
     }
 
-    /**
-     * Handles blend for this component.
-     *
-     * @param a a
-     * @param b b
-     * @param t t
-     * @return result
-     */
     private static RGB blend(RGB a, RGB b, double t) {
         return new RGB(
                 (float) (a.r() + (b.r() - a.r()) * t),
@@ -533,12 +320,6 @@ public class Progress implements Model {
         );
     }
 
-    /**
-     * Handles rgb to hex for this component.
-     *
-     * @param rgb rgb
-     * @return result
-     */
     private static String rgbToHex(RGB rgb) {
         int r = Math.round(rgb.r() * 255.0f);
         int g = Math.round(rgb.g() * 255.0f);
@@ -546,13 +327,6 @@ public class Progress implements Model {
         return String.format("#%02x%02x%02x", r, g, b);
     }
 
-    /**
-     * Handles colorize for this component.
-     *
-     * @param text text
-     * @param color color
-     * @return result
-     */
     private String colorize(String text, String color) {
         ColorProfile profile = getColorProfile();
         if (profile == null || profile == ColorProfile.Ascii) {
@@ -561,13 +335,6 @@ public class Progress implements Model {
         return "\033[" + getANSIColorCode(color, profile) + "m" + text + "\033[0m";
     }
 
-    /**
-     * Returns the ansicolor code.
-     *
-     * @param color color
-     * @param profile profile
-     * @return result
-     */
     private String getANSIColorCode(String color, ColorProfile profile) {
         RGB rgb = parseColor(color);
         int r = Math.round(rgb.r() * 255.0f);
@@ -582,14 +349,6 @@ public class Progress implements Model {
         }
     }
 
-    /**
-     * Handles rgb to ansi256 for this component.
-     *
-     * @param r r
-     * @param g g
-     * @param b b
-     * @return result
-     */
     private static int rgbToANSI256(int r, int g, int b) {
         if (r == g && g == b) {
             if (r < 8) {
@@ -612,12 +371,6 @@ public class Progress implements Model {
         return 16 + 36 * rIdx + 6 * gIdx + bIdx;
     }
 
-    /**
-     * Handles percentage view for this component.
-     *
-     * @param percent percent
-     * @return result
-     */
     private String percentageView(double percent) {
         if (!showPercentage) {
             return "";
@@ -630,22 +383,10 @@ public class Progress implements Model {
         return percentage;
     }
 
-    /**
-     * Handles next frame for this component.
-     *
-     * @return result
-     */
     private Command nextFrame() {
-        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMessage(id, tag));
+        return Command.tick(Duration.ofNanos((long) (1_000_000_000.0 / FPS)), time -> new FrameMsg(id, tag));
     }
 
-    /**
-     * Handles handle frame for this component.
-     *
-     * @param frameId frame id
-     * @param frameTag frame tag
-     * @return result
-     */
     private UpdateResult<Progress> handleFrame(int frameId, int frameTag) {
         if (frameId != id || frameTag != tag) {
             return UpdateResult.from(this);
@@ -661,34 +402,16 @@ public class Progress implements Model {
         return UpdateResult.from(this, nextFrame());
     }
 
-    /**
-     * Updates the percent.
-     *
-     * @param p p
-     * @return result
-     */
     public Command setPercent(double p) {
         this.targetPercent = Math.max(0, Math.min(1, p));
         this.tag++;
         return nextFrame();
     }
 
-    /**
-     * Handles incr percent for this component.
-     *
-     * @param v v
-     * @return result
-     */
     public Command incrPercent(double v) {
         return setPercent(targetPercent + v);
     }
 
-    /**
-     * Handles decr percent for this component.
-     *
-     * @param v v
-     * @return result
-     */
     public Command decrPercent(double v) {
         return setPercent(targetPercent - v);
     }

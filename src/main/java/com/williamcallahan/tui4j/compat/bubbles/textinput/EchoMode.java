@@ -2,9 +2,7 @@ package com.williamcallahan.tui4j.compat.bubbles.textinput;
 
 /**
  * Port of Bubbles echo modes for text input.
- * Bubbles: textinput/textinput.go.
- * <p>
- * Bubbles: textarea/memoization/memoization_test.go.
+ * Bubbles: bubbles/textinput/textinput.go
  */
 public enum EchoMode {
 
@@ -21,5 +19,5 @@ public enum EchoMode {
     /**
      * Do not echo input characters.
      */
-    EchoNone;
+    EchoNone
 }

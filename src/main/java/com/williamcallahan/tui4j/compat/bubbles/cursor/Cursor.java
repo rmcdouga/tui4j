@@ -5,21 +5,18 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMsg;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMsg;
 
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Port of the cursor blink initialization message.
  * Upstream: github.com/charmbracelet/bubbles/cursor (initialBlinkMsg)
- * <p>
- * Bubbles: cursor/cursor.go.
  */
 record InitialBlinkMessage() implements Message {
 }
@@ -27,8 +24,6 @@ record InitialBlinkMessage() implements Message {
 /**
  * Port of the cursor blink message.
  * Upstream: github.com/charmbracelet/bubbles/cursor (blinkMsg)
- * <p>
- * Bubbles: cursor/cursor.go.
  */
 record BlinkMessage(int id, int tag) implements Message {
 }
@@ -36,8 +31,6 @@ record BlinkMessage(int id, int tag) implements Message {
 /**
  * Port of the cursor blink cancel message.
  * Upstream: github.com/charmbracelet/bubbles/cursor (blinkCanceledMsg)
- * <p>
- * Bubbles: cursor/cursor.go.
  */
 record BlinkCanceled() implements Message {
 
@@ -46,8 +39,6 @@ record BlinkCanceled() implements Message {
 /**
  * Port of the Bubble Tea cursor model used by Bubbles inputs.
  * Upstream: github.com/charmbracelet/bubbles/cursor (Model)
- * <p>
- * Bubbles: cursor/cursor.go.
  */
 public class Cursor implements Model {
 
@@ -59,7 +50,7 @@ public class Cursor implements Model {
     private Style style;
     private Style textStyle;
     private String charUnderCursor;
-    private final AtomicInteger blinkTag = new AtomicInteger(0);
+    private int blinkTag;
     private boolean focus;
     private boolean blink;
     private CursorMode mode;
@@ -101,16 +92,16 @@ public class Cursor implements Model {
                 return UpdateResult.from(this);
             }
             return UpdateResult.from(this, blinkCommand());
-        } else if (msg instanceof FocusMessage) {
+        } else if (msg instanceof FocusMsg) {
             return UpdateResult.from(this, focus());
-        } else if (msg instanceof BlurMessage) {
+        } else if (msg instanceof BlurMsg) {
             blur();
             return UpdateResult.from(this);
         } else if (msg instanceof BlinkMessage blinkMessage) {
             if (mode != CursorMode.Blink || !focus) {
                 return UpdateResult.from(this);
             }
-            if (blinkMessage.id() != id || blinkMessage.tag() != blinkTag.get()) {
+            if (blinkMessage.id() != id || blinkMessage.tag() != blinkTag) {
                 return UpdateResult.from(this);
             }
             if (mode == CursorMode.Blink) {
@@ -134,7 +125,8 @@ public class Cursor implements Model {
             return null;
         }
 
-        final int currentTag = blinkTag.incrementAndGet();
+        blinkTag++;
+        final int currentTag = blinkTag;
 
         return () -> {
             try (ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor()) {

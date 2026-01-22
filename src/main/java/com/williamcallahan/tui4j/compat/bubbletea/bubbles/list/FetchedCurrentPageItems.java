@@ -3,36 +3,72 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
- * Compatibility shim for {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems}.
- * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/FetchedCurrentPageItems.java}.
- *
- * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems} instead.
  * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@Deprecated(since = "0.3.0")
-@SuppressWarnings("removal")
-public class FetchedCurrentPageItems extends com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems
-        implements Message {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class FetchedCurrentPageItems implements Message {
+    private final com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems delegate;
 
     /**
-     * Creates FetchedCurrentPageItems to keep this component ready for use.
+     * Creates FetchedCurrentPageItems.
      *
      * @param fetchedItems fetched page items
      * @param postFetch callbacks to run after fetching
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public FetchedCurrentPageItems(FetchedItems fetchedItems, Runnable... postFetch) {
-        super(fetchedItems, postFetch);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems(
+                fetchedItems.toCanonical(), postFetch);
     }
 
     /**
-     * Converts this instance to the canonical type.
+     * Creates FetchedCurrentPageItems from canonical types.
      *
-     * @return canonical fetched current page items
+     * @param fetchedItems canonical fetched items
+     * @param postFetch callbacks to run after fetching
+     */
+    @Deprecated(since = "0.3.0", forRemoval = true)
+    public FetchedCurrentPageItems(com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems fetchedItems,
+                                    Runnable... postFetch) {
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems(
+                fetchedItems, postFetch);
+    }
+
+    /**
+     * Internal constructor wrapping a canonical delegate.
+     */
+    private FetchedCurrentPageItems(com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems delegate) {
+        this.delegate = delegate;
+    }
+
+    /**
+     * Returns the fetched items.
+     *
+     * @return fetched items
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems fetchedItems() {
+        return delegate.fetchedItems();
+    }
+
+    /**
+     * Returns the post-fetch callbacks.
+     *
+     * @return callbacks
+     */
+    public Runnable[] postFetch() {
+        return delegate.postFetch();
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical FetchedCurrentPageItems
      */
     public com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems toCanonical() {
-        return this;
+        return delegate;
     }
 
     /**
@@ -43,10 +79,6 @@ public class FetchedCurrentPageItems extends com.williamcallahan.tui4j.compat.bu
      */
     public static FetchedCurrentPageItems fromCanonical(
             com.williamcallahan.tui4j.compat.bubbles.list.FetchedCurrentPageItems canonical) {
-        if (canonical instanceof FetchedCurrentPageItems legacy) {
-            return legacy;
-        }
-        return new FetchedCurrentPageItems(FetchedItems.fromCanonical(canonical.fetchedItems()),
-                canonical.postFetch());
+        return new FetchedCurrentPageItems(canonical);
     }
 }

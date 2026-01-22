@@ -12,9 +12,6 @@ import java.util.Objects;
  * Port of github.com/charmbracelet/x/ansi (width.go)
  */
 public final class StringWidth {
-    /**
-     * Creates StringWidth to keep this component ready for use.
-     */
     private StringWidth() {}
 
     /**

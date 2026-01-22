@@ -1,14 +1,13 @@
 package com.williamcallahan.tui4j.compat.lipgloss.border;
 
+import com.williamcallahan.tui4j.ansi.Action;
+import com.williamcallahan.tui4j.ansi.GraphemeCluster;
+import com.williamcallahan.tui4j.ansi.State;
 import com.williamcallahan.tui4j.ansi.TextWidth;
+import com.williamcallahan.tui4j.ansi.TransitionTable;
 import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
 import com.williamcallahan.tui4j.compat.lipgloss.TextLines;
 import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
-import com.williamcallahan.tui4j.compat.x.ansi.GraphemeCluster;
-import com.williamcallahan.tui4j.compat.x.ansi.Method;
-import com.williamcallahan.tui4j.compat.x.ansi.parser.Action;
-import com.williamcallahan.tui4j.compat.x.ansi.parser.State;
-import com.williamcallahan.tui4j.compat.x.ansi.parser.TransitionTable;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
@@ -18,9 +17,7 @@ import java.nio.charset.StandardCharsets;
  * Border character definitions.
  * <p>
  * Port of `lipgloss/border.go`.
- * Defines of character sets used for drawing box borders.
- *
- * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/border.go">lipgloss/border.go</a>
+ * Defines the character sets used for drawing box borders.
  *
  * @param top top edge characters
  * @param bottom bottom edge characters
@@ -35,8 +32,6 @@ import java.nio.charset.StandardCharsets;
  * @param middle middle junction character
  * @param middleTop middle-top junction character
  * @param middleBottom middle-bottom junction character
- * <p>
- * Lipgloss: borders.go.
  */
 public record Border(
         String top,
@@ -48,7 +43,7 @@ public record Border(
         String bottomLeft,
         String bottomRight,
 
-        // Middle junction characters - used by lipgloss Table component for row/column separators
+        // TODO those are used only by Table component in lipgloss...
         String middleLeft,
         String middleRight,
         String middle,
@@ -92,12 +87,6 @@ public record Border(
         return getBorderEdgeWidth(topLeft, left, bottomLeft);
     }
 
-    /**
-     * Returns the border edge width.
-     *
-     * @param borderParts border parts
-     * @return result
-     */
     private int getBorderEdgeWidth(String... borderParts) {
         int maxWidth = 0;
         for (String piece : borderParts) {
@@ -159,6 +148,7 @@ public record Border(
                 left = " ";
             }
             width += maxRuneWidth(left);
+            //width += TextWidth.measureWidth(left);
         }
 
         if (hasRight) {
@@ -261,15 +251,6 @@ public record Border(
         return out.toString();
     }
 
-    /**
-     * Handles style border for this component.
-     *
-     * @param border border
-     * @param foreground foreground
-     * @param background background
-     * @param renderer renderer
-     * @return result
-     */
     private String styleBorder(String border, TerminalColor foreground, TerminalColor background, Renderer renderer) {
         AttributedStyle attributedStyle = new AttributedStyle();
         attributedStyle = foreground.applyAsForeground(attributedStyle, renderer);
@@ -278,15 +259,6 @@ public record Border(
         return new AttributedString(border, attributedStyle).toAnsi();
     }
 
-    /**
-     * Handles render horizontal edge for this component.
-     *
-     * @param left left
-     * @param middle middle
-     * @param right right
-     * @param width width
-     * @return result
-     */
     private String renderHorizontalEdge(String left, String middle, String right, int width) {
         if (middle.isEmpty()) {
             middle = " ";
@@ -315,12 +287,6 @@ public record Border(
     }
 
 
-    /**
-     * Returns the first char or empty.
-     *
-     * @param string string
-     * @return result
-     */
     private String getFirstCharOrEmpty(String string) {
         if (string == null || string.isEmpty()) {
             return "";
@@ -328,12 +294,6 @@ public record Border(
         return string.substring(0, 1);
     }
 
-    /**
-     * Handles max rune width for this component.
-     *
-     * @param input input
-     * @return result
-     */
     private int maxRuneWidth(String input) {
         int maxWidth = 0;
         TransitionTable table = TransitionTable.get();
@@ -350,17 +310,14 @@ public record Border(
 
             // Handle UTF-8 grapheme clusters
             if (state == State.UTF8) {
-                GraphemeCluster.Result graphemeResult = GraphemeCluster.getFirstGraphemeCluster(b, i, Method.GRAPHEME_WIDTH);
-                if (graphemeResult == null) {
-                    pstate = State.GROUND;
-                    continue;
-                }
-                byte[] cluster = graphemeResult.clusterBytes();
+                GraphemeCluster.GraphemeResult graphemeResult = GraphemeCluster.getFirstGraphemeCluster(b, i, -1);
+                byte[] cluster = graphemeResult.cluster();
                 int w = graphemeResult.width();
 
                 if (w > maxWidth) {
                     maxWidth = w;
                 }
+
 
                 i += cluster.length - 1; // Skip processed bytes
                 pstate = State.GROUND;

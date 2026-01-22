@@ -5,19 +5,9 @@ import java.util.Map;
 
 /**
  * Port of Bubble Tea key names.
- * Bubble Tea: key.go.
- * <p>
- * Bubble Tea: inputreader_windows.go.
+ * Bubble Tea: bubbletea/key.go
  */
 public class KeyNames {
-
-    /**
-     * Creates KeyNames to keep this component ready for use.
-     */
-    private KeyNames() {
-        // Utility class
-    }
-
     private static final Map<KeyType, String> KEY_NAMES = new HashMap<>();
 
     static {
@@ -112,12 +102,6 @@ public class KeyNames {
         KEY_NAMES.put(KeyType.KeyF20, "f20");
     }
 
-    /**
-     * Returns the name of the given key type.
-     *
-     * @param keyType the key type
-     * @return the name of the key type, or "unknown" if not found
-     */
     public static String getKeyName(KeyType keyType) {
         return KEY_NAMES.getOrDefault(keyType, "unknown");
     }

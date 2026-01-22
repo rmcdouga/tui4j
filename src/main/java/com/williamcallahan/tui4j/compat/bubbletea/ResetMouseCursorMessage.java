@@ -1,17 +1,19 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Requests resetting the mouse cursor to default.
- * <p>
- * tui4j extension; no Bubble Tea equivalent.
- * <p>
- * Bubble Tea: screen.go.
+ * Compatibility shim for {@link ResetMouseCursorMsg}.
+ * Bubble Tea: bubbletea/screen.go (tui4j extension; no direct equivalent).
  */
-public class ResetMouseCursorMessage implements Message {
+public class ResetMouseCursorMessage implements MessageShim {
 
     /**
      * Creates a reset mouse cursor message.
      */
     public ResetMouseCursorMessage() {
+    }
+
+    @Override
+    public Message toMessage() {
+        return new ResetMouseCursorMsg();
     }
 }

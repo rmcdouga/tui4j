@@ -12,9 +12,6 @@ import java.util.Objects;
  * Port of github.com/charmbracelet/x/ansi (truncate.go)
  */
 public final class Truncate {
-    /**
-     * Creates Truncate to keep this component ready for use.
-     */
     private Truncate() {}
 
     /**

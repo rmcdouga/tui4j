@@ -1,18 +1,18 @@
 package com.williamcallahan.tui4j.message;
 
+import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
+import com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorPointerMsg;
+
 /**
  * Requests the pointer cursor.
- * <p>
- * Re-export of {@link com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorPointerMessage}
- * for convenient access from the tui4j.message package.
- * <p>
  * tui4j extension; no Bubble Tea equivalent.
+ * tui4j: src/main/java/com/williamcallahan/tui4j/message/SetMouseCursorPointerMessage.java
  */
-public class SetMouseCursorPointerMessage extends com.williamcallahan.tui4j.compat.bubbletea.SetMouseCursorPointerMessage {
+public record SetMouseCursorPointerMessage() implements MessageShim {
 
-    /**
-     * Creates a set mouse cursor pointer message.
-     */
-    public SetMouseCursorPointerMessage() {
+    @Override
+    public Message toMessage() {
+        return new SetMouseCursorPointerMsg();
     }
 }

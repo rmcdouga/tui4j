@@ -9,8 +9,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
  * Bubble Tea: key.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/key.go">bubbletea/key.go</a>
- * <p>
- * Bubble Tea: inputreader_windows.go.
  */
 public class KeyPressMessage implements Message {
 

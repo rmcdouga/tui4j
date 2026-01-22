@@ -6,9 +6,7 @@ import com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor;
 
 /**
  * Port of Bubbles default item styles.
- * Bubbles: list/defaultitem.go.
- * <p>
- * Bubbles: filepicker/hidden_windows.go.
+ * Bubbles: bubbles/list/defaultitem.go
  */
 public class DefaultItemStyles {
 

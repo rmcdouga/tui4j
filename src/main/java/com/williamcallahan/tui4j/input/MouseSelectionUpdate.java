@@ -1,6 +1,6 @@
 package com.williamcallahan.tui4j.input;
 
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 /**
  * Represents a selection update from a mouse event.
@@ -16,6 +16,6 @@ public record MouseSelectionUpdate(
         boolean selectionStarted,
         boolean selectionEnded,
         boolean selectionActive,
-        MouseMessage selectionScrollUpdate
+        MouseMsg selectionScrollUpdate
 ) {
 }

@@ -18,42 +18,14 @@ public record MouseTarget(
         MouseCursor cursor,
         String hyperlink
 ) {
-    /**
-     * Creates a click target.
-     *
-     * @param id target id
-     * @param left left coordinate
-     * @param top top coordinate
-     * @param width target width
-     * @param height target height
-     * @return mouse target
-     */
     public static MouseTarget click(String id, int left, int top, int width, int height) {
         return new MouseTarget(id, new MouseBounds(left, top, width, height), 0, MouseCursor.DEFAULT, null);
     }
 
-    /**
-     * Creates a hyperlink target.
-     *
-     * @param id target id
-     * @param url hyperlink url
-     * @param left left coordinate
-     * @param top top coordinate
-     * @param width target width
-     * @param height target height
-     * @return mouse target
-     */
     public static MouseTarget link(String id, String url, int left, int top, int width, int height) {
         return new MouseTarget(id, new MouseBounds(left, top, width, height), 0, MouseCursor.POINTER, url);
     }
 
-    /**
-     * Checks if the target contains the given coordinates.
-     *
-     * @param column column coordinate
-     * @param row row coordinate
-     * @return true if contained
-     */
     public boolean contains(int column, int row) {
         return bounds != null && bounds.contains(column, row);
     }

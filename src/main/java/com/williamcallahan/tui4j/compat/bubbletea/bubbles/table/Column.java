@@ -8,62 +8,92 @@ import com.williamcallahan.tui4j.compat.lipgloss.Style;
  * <p>
  * Bubbles: table/table.go.
  */
-@Deprecated(since = "0.3.0")
-public class Column extends com.williamcallahan.tui4j.compat.bubbles.table.Column {
-    
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class Column {
+    private final com.williamcallahan.tui4j.compat.bubbles.table.Column delegate;
+    private final Style style;
+
     /**
-     * Creates Column to keep this component ready for use.
+     * Creates Column with title.
      *
-     * @param title title
+     * @param title column title
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Column(String title) {
-        super(title);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.table.Column(title);
+        this.style = null;
     }
 
     /**
-     * Creates Column to keep this component ready for use.
+     * Creates Column with title and style.
      *
-     * @param title title
-     * @param style style
+     * @param title column title
+     * @param style column style (not supported in canonical, retained for compatibility)
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Column(String title, Style style) {
-        // New Column doesn't seem to store style in the constructor I saw?
-        // Let's check NewColumn content again.
-        // It has title and width. No style field in the snippet I read.
-        // If NewColumn lost style support, we ignore it or store it locally?
-        // Storing locally in Shim doesn't help rendering in NewTable.
-        // We will just call super(title).
-        super(title);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.table.Column(title);
+        this.style = style;
     }
 
     /**
-     * Creates Column to keep this component ready for use.
+     * Creates Column with title and width.
      *
-     * @param title title
-     * @param width width
+     * @param title column title
+     * @param width column width
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Column(String title, int width) {
-        super(title, width);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.table.Column(title, width);
+        this.style = null;
     }
 
     /**
-     * Creates Column to keep this component ready for use.
+     * Creates Column with title, width, and style.
      *
-     * @param title title
-     * @param width width
-     * @param style style
+     * @param title column title
+     * @param width column width
+     * @param style column style (not supported in canonical, retained for compatibility)
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Column(String title, int width, Style style) {
-        super(title, width);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.table.Column(title, width);
+        this.style = style;
     }
 
-    // If 'style' method was removed from NewColumn, we add it here as deprecated no-op or storage
     /**
-     * Handles style for this component.
+     * Returns the column title.
      *
-     * @return result
+     * @return column title
+     */
+    public String title() {
+        return delegate.title();
+    }
+
+    /**
+     * Returns the column width.
+     *
+     * @return column width
+     */
+    public int width() {
+        return delegate.width();
+    }
+
+    /**
+     * Returns the column style.
+     *
+     * @return column style (may be null)
      */
     public Style style() {
-        return null;
+        return style;
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical Column
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.table.Column toCanonical() {
+        return delegate;
     }
 }

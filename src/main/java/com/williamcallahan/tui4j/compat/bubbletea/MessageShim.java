@@ -2,9 +2,7 @@ package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
  * Compatibility shim for legacy message types.
- * Bubble Tea: tea.go.
- * <p>
- * Bubble Tea: key_windows.go.
+ * Bubble Tea: bubbletea/tea.go
  */
 public interface MessageShim extends Message {
 

@@ -8,10 +8,5 @@ import java.util.List;
  * tui4j: src/main/java/com/williamcallahan/tui4j/input/MouseTargetProvider.java
  */
 public interface MouseTargetProvider {
-    /**
-     * Returns the available mouse targets.
-     *
-     * @return list of mouse targets
-     */
     List<MouseTarget> mouseTargets();
 }

@@ -3,13 +3,8 @@ package com.williamcallahan.tui4j.compat.bubbles.filepicker;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
 /**
- * Key bindings for the file picker component.
- * <p>
- * Port of charmbracelet/bubbles filepicker/filepicker.go KeyMap type.
- *
- * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
- * <p>
- * Bubbles: filepicker/filepicker.go.
+ * Port of Bubbles file picker key bindings.
+ * Upstream: github.com/charmbracelet/bubbles/filepicker (KeyMap)
  */
 public class KeyMap {
 
@@ -23,7 +18,6 @@ public class KeyMap {
     private Binding open;
     private Binding select;
 
-    /** Creates a new key map with default bindings. */
     public KeyMap() {
         this.goToTop = new Binding(
                 Binding.withKeys("g"),
@@ -63,164 +57,74 @@ public class KeyMap {
         );
     }
 
-    /**
-     * Returns the go-to-top binding.
-     *
-     * @return the binding
-     */
     public Binding goToTop() {
         return goToTop;
     }
 
-    /**
-     * Sets the go-to-top binding.
-     *
-     * @param goToTop the binding
-     */
     public void setGoToTop(Binding goToTop) {
         this.goToTop = goToTop;
     }
 
-    /**
-     * Returns the go-to-last binding.
-     *
-     * @return the binding
-     */
     public Binding goToLast() {
         return goToLast;
     }
 
-    /**
-     * Sets the go-to-last binding.
-     *
-     * @param goToLast the binding
-     */
     public void setGoToLast(Binding goToLast) {
         this.goToLast = goToLast;
     }
 
-    /**
-     * Returns the down navigation binding.
-     *
-     * @return the binding
-     */
     public Binding down() {
         return down;
     }
 
-    /**
-     * Sets the down navigation binding.
-     *
-     * @param down the binding
-     */
     public void setDown(Binding down) {
         this.down = down;
     }
 
-    /**
-     * Returns the up navigation binding.
-     *
-     * @return the binding
-     */
     public Binding up() {
         return up;
     }
 
-    /**
-     * Sets the up navigation binding.
-     *
-     * @param up the binding
-     */
     public void setUp(Binding up) {
         this.up = up;
     }
 
-    /**
-     * Returns the page-up binding.
-     *
-     * @return the binding
-     */
     public Binding pageUp() {
         return pageUp;
     }
 
-    /**
-     * Sets the page-up binding.
-     *
-     * @param pageUp the binding
-     */
     public void setPageUp(Binding pageUp) {
         this.pageUp = pageUp;
     }
 
-    /**
-     * Returns the page-down binding.
-     *
-     * @return the binding
-     */
     public Binding pageDown() {
         return pageDown;
     }
 
-    /**
-     * Sets the page-down binding.
-     *
-     * @param pageDown the binding
-     */
     public void setPageDown(Binding pageDown) {
         this.pageDown = pageDown;
     }
 
-    /**
-     * Returns the back navigation binding.
-     *
-     * @return the binding
-     */
     public Binding back() {
         return back;
     }
 
-    /**
-     * Sets the back navigation binding.
-     *
-     * @param back the binding
-     */
     public void setBack(Binding back) {
         this.back = back;
     }
 
-    /**
-     * Returns the open/enter binding.
-     *
-     * @return the binding
-     */
     public Binding open() {
         return open;
     }
 
-    /**
-     * Sets the open/enter binding.
-     *
-     * @param open the binding
-     */
     public void setOpen(Binding open) {
         this.open = open;
     }
 
-    /**
-     * Returns the select binding.
-     *
-     * @return the binding
-     */
     public Binding select() {
         return select;
     }
 
-    /**
-     * Sets the select binding.
-     *
-     * @param select the binding
-     */
     public void setSelect(Binding select) {
         this.select = select;
     }

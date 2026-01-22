@@ -4,9 +4,7 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
 /**
  * Port of Bubbles help key map contract.
- * Bubbles: help/help.go.
- * <p>
- * Bubbles: filepicker/hidden_windows.go.
+ * Bubbles: bubbles/help/help.go
  */
 public interface KeyMap {
 

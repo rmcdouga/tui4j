@@ -2,9 +2,7 @@ package com.williamcallahan.tui4j.compat.bubbles.list;
 
 /**
  * Port of Bubbles list item sourcing hooks.
- * Bubbles: list/list.go.
- * <p>
- * Bubbles: filepicker/hidden_windows.go.
+ * Bubbles: bubbles/list/list.go
  */
 public interface ListDataSource {
     /**

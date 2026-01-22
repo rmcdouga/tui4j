@@ -3,15 +3,13 @@ package com.williamcallahan.tui4j.compat.lipgloss.color;
 /**
  * Port of Lip Gloss ansi colors.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: color.go.
  */
-public class ANSIColors {
+public final class ANSIColors {
 
     /**
-     * Utility constructor for compatibility shims.
+     * Utility class for ANSI color tables.
      */
-    protected ANSIColors() {
+    private ANSIColors() {
     }
 
     /**

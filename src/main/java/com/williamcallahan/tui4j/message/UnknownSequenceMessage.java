@@ -1,20 +1,14 @@
 package com.williamcallahan.tui4j.message;
 
+import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMsg;
+
 /**
  * Reports an unrecognized input sequence.
- * <p>
- * Re-export of {@link com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage}
- * for convenient access from the tui4j.message package.
- * <p>
  * tui4j extension; no Bubble Tea equivalent.
+ * tui4j: src/main/java/com/williamcallahan/tui4j/message/UnknownSequenceMessage.java
  */
-public class UnknownSequenceMessage extends com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage {
+public class UnknownSequenceMessage extends UnknownSequenceMsg {
 
-    /**
-     * Creates an unknown sequence message.
-     *
-     * @param sequence the unrecognized escape sequence
-     */
     public UnknownSequenceMessage(String sequence) {
         super(sequence);
     }

@@ -23,9 +23,6 @@ public final class TransitionTable {
 
     private final int[] table;
 
-    /**
-     * Creates TransitionTable to keep this component ready for use.
-     */
     private TransitionTable() {
         this.table = new int[DEFAULT_TABLE_SIZE];
         generate();
@@ -67,9 +64,6 @@ public final class TransitionTable {
     // Table generation methods
     // ─────────────────────────────────────────────────────────────────────────────
 
-    /**
-     * Handles generate for this component.
-     */
     private void generate() {
         setDefault(Action.NONE, State.GROUND);
 
@@ -116,9 +110,6 @@ public final class TransitionTable {
         generateOscState();
     }
 
-    /**
-     * Handles generate ground state for this component.
-     */
     private void generateGroundState() {
         addRange(0x00, 0x17, State.GROUND, Action.EXECUTE, State.GROUND);
         addOne((byte) 0x19, State.GROUND, Action.EXECUTE, State.GROUND);
@@ -127,9 +118,6 @@ public final class TransitionTable {
         addOne((byte) 0x7F, State.GROUND, Action.EXECUTE, State.GROUND);
     }
 
-    /**
-     * Handles generate escape states for this component.
-     */
     private void generateEscapeStates() {
         // EscapeIntermediate
         addRange(0x00, 0x17, State.ESCAPE_INTERMEDIATE, Action.EXECUTE, State.ESCAPE_INTERMEDIATE);
@@ -167,9 +155,6 @@ public final class TransitionTable {
         addOne((byte) ']', State.ESCAPE, Action.START, State.OSC_STRING);
     }
 
-    /**
-     * Handles generate sos pm apc states for this component.
-     */
     private void generateSosPmApcStates() {
         for (State state : new State[]{State.SOS_STRING, State.PM_STRING, State.APC_STRING}) {
             addRange(0x00, 0x17, state, Action.PUT, state);
@@ -184,9 +169,6 @@ public final class TransitionTable {
         }
     }
 
-    /**
-     * Handles generate dcs states for this component.
-     */
     private void generateDcsStates() {
         // DCS Entry
         addRange(0x00, 0x17, State.DCS_ENTRY, Action.IGNORE, State.DCS_ENTRY);
@@ -233,9 +215,6 @@ public final class TransitionTable {
         addMany(new byte[]{0x18, 0x1A}, State.DCS_STRING, Action.IGNORE, State.GROUND);
     }
 
-    /**
-     * Handles generate csi states for this component.
-     */
     private void generateCsiStates() {
         // CSI Entry
         addRange(0x00, 0x17, State.CSI_ENTRY, Action.EXECUTE, State.CSI_ENTRY);
@@ -267,9 +246,6 @@ public final class TransitionTable {
         addRange(0x30, 0x3F, State.CSI_INTERMEDIATE, Action.IGNORE, State.GROUND);
     }
 
-    /**
-     * Handles generate osc state for this component.
-     */
     private void generateOscState() {
         addRange(0x00, 0x06, State.OSC_STRING, Action.IGNORE, State.OSC_STRING);
         addRange(0x08, 0x17, State.OSC_STRING, Action.IGNORE, State.OSC_STRING);
@@ -288,39 +264,16 @@ public final class TransitionTable {
     // Helper methods for building the table
     // ─────────────────────────────────────────────────────────────────────────────
 
-    /**
-     * Updates the default.
-     *
-     * @param action action
-     * @param nextState next state
-     */
     private void setDefault(Action action, State nextState) {
         int value = (action.ordinal() << TRANSITION_ACTION_SHIFT) | nextState.ordinal();
         Arrays.fill(table, value);
     }
 
-    /**
-     * Handles add one for this component.
-     *
-     * @param code code
-     * @param state state
-     * @param action action
-     * @param nextState next state
-     */
     private void addOne(byte code, State state, Action action, State nextState) {
         int index = (state.ordinal() << INDEX_STATE_SHIFT) | (code & 0xFF);
         table[index] = (action.ordinal() << TRANSITION_ACTION_SHIFT) | nextState.ordinal();
     }
 
-    /**
-     * Handles add range for this component.
-     *
-     * @param start start
-     * @param end end
-     * @param state state
-     * @param action action
-     * @param nextState next state
-     */
     private void addRange(int start, int end, State state, Action action, State nextState) {
         int value = (action.ordinal() << TRANSITION_ACTION_SHIFT) | nextState.ordinal();
         int stateShifted = state.ordinal() << INDEX_STATE_SHIFT;
@@ -329,14 +282,6 @@ public final class TransitionTable {
         }
     }
 
-    /**
-     * Handles add many for this component.
-     *
-     * @param codes codes
-     * @param state state
-     * @param action action
-     * @param nextState next state
-     */
     private void addMany(byte[] codes, State state, Action action, State nextState) {
         int value = (action.ordinal() << TRANSITION_ACTION_SHIFT) | nextState.ordinal();
         int stateShifted = state.ordinal() << INDEX_STATE_SHIFT;

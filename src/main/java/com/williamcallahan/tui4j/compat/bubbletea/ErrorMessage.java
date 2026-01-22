@@ -6,8 +6,6 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * Bubble Tea: tea.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/tea.go">bubbletea/tea.go</a>
- * <p>
- * Bubble Tea: key_windows.go.
  */
 public class ErrorMessage implements Message {
 

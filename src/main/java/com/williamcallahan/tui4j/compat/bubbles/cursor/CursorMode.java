@@ -5,8 +5,6 @@ import java.util.stream.Stream;
 /**
  * Port of Bubbles cursor mode.
  * Bubble Tea: bubbletea/examples/textinputs/main.go
- * <p>
- * Bubbles: cursor/cursor.go.
  */
 public enum CursorMode {
     /** Blinking cursor. */

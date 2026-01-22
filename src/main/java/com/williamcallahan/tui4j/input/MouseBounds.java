@@ -11,13 +11,6 @@ package com.williamcallahan.tui4j.input;
  * @param height height in rows
  */
 public record MouseBounds(int left, int top, int width, int height) {
-    /**
-     * Checks if the given coordinates are within the bounds.
-     *
-     * @param column column coordinate
-     * @param row row coordinate
-     * @return true if contained
-     */
     public boolean contains(int column, int row) {
         return column >= left
                 && row >= top

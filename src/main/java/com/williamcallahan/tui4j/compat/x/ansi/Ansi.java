@@ -5,9 +5,6 @@ package com.williamcallahan.tui4j.compat.x.ansi;
  * Port of github.com/charmbracelet/x/ansi (c0.go, c1.go)
  */
 public final class Ansi {
-    /**
-     * Creates Ansi to keep this component ready for use.
-     */
     private Ansi() {}
 
     // ─────────────────────────────────────────────────────────────────────────────

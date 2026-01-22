@@ -1,19 +1,19 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Enables "cell motion" mouse tracking (report motion while a button is pressed).
- * <p>
- * Bubble Tea: screen.go.
- *
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/screen.go">bubbletea/screen.go</a>
- * <p>
- * Bubble Tea: key_windows.go.
+ * Compatibility shim for {@link EnableMouseCellMotionMsg}.
+ * Bubble Tea: bubbletea/screen.go
  */
-public class EnableMouseCellMotionMessage implements Message {
+public class EnableMouseCellMotionMessage implements MessageShim {
 
     /**
      * Creates an enable mouse cell-motion message.
      */
     public EnableMouseCellMotionMessage() {
+    }
+
+    @Override
+    public Message toMessage() {
+        return new EnableMouseCellMotionMsg();
     }
 }

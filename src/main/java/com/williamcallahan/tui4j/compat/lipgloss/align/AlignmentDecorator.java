@@ -14,8 +14,6 @@ import static com.williamcallahan.tui4j.compat.lipgloss.Position.Top;
 /**
  * Port of Lip Gloss alignment decorator.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: align.go.
  */
 public class AlignmentDecorator {
 

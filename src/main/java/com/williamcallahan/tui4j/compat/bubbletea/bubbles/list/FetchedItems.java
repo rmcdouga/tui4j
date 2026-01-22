@@ -4,40 +4,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Bubble Tea-compatible alias for {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems}.
- * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/FetchedItems.java}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@SuppressWarnings("removal")
-public class FetchedItems extends com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class FetchedItems {
+    private final com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems delegate;
 
     /**
-     * Creates FetchedItems to keep this component ready for use.
+     * Creates FetchedItems.
      *
-     * @param items items
+     * @param items filtered items
      * @param matchedItems matched item count
      * @param totalItems total item count
      * @param totalPages total page count
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public FetchedItems(List<FilteredItem> items, long matchedItems, long totalItems, int totalPages) {
-        super(toCanonicalItems(items), matchedItems, totalItems, totalPages);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems(
+                toCanonicalItems(items), matchedItems, totalItems, totalPages);
     }
 
     /**
      * Creates an empty fetched items result.
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public FetchedItems() {
-        super();
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems();
     }
 
     /**
-     * Converts this instance to the canonical type.
+     * Internal constructor wrapping a canonical delegate.
+     */
+    private FetchedItems(com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems delegate) {
+        this.delegate = delegate;
+    }
+
+    /**
+     * Returns the filtered items.
      *
-     * @return canonical fetched items
+     * @return filtered items
+     */
+    public List<com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem> items() {
+        return delegate.items();
+    }
+
+    /**
+     * Returns the matched item count.
+     *
+     * @return matched item count
+     */
+    public long matchedItems() {
+        return delegate.matchedItems();
+    }
+
+    /**
+     * Returns the total item count.
+     *
+     * @return total item count
+     */
+    public long totalItems() {
+        return delegate.totalItems();
+    }
+
+    /**
+     * Returns the total page count.
+     *
+     * @return total page count
+     */
+    public int totalPages() {
+        return delegate.totalPages();
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical FetchedItems
      */
     public com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems toCanonical() {
-        return this;
+        return delegate;
     }
 
     /**
@@ -47,55 +94,16 @@ public class FetchedItems extends com.williamcallahan.tui4j.compat.bubbles.list.
      * @return deprecated fetched items
      */
     public static FetchedItems fromCanonical(com.williamcallahan.tui4j.compat.bubbles.list.FetchedItems canonical) {
-        if (canonical instanceof FetchedItems legacy) {
-            return legacy;
-        }
-        return new FetchedItems(toLegacyItems(canonical.items()), canonical.matchedItems(),
-                canonical.totalItems(), canonical.totalPages());
+        return new FetchedItems(canonical);
     }
 
     /**
-     * Converts legacy filtered items to the canonical filtered item list.
-     *
-     * @param items legacy filtered items
-     * @return canonical filtered items
+     * Converts legacy filtered items to canonical list.
      */
     private static List<com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem> toCanonicalItems(
             List<FilteredItem> items) {
         List<com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem> canonicalItems = new ArrayList<>(items.size());
         canonicalItems.addAll(items);
         return canonicalItems;
-    }
-
-    /**
-     * Converts canonical filtered items to legacy filtered item wrappers.
-     *
-     * @param items canonical filtered items
-     * @return legacy filtered items
-     */
-    private static List<FilteredItem> toLegacyItems(
-            List<com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem> items) {
-        List<FilteredItem> legacyItems = new ArrayList<>(items.size());
-        for (com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem item : items) {
-            if (item instanceof FilteredItem legacyItem) {
-                legacyItems.add(legacyItem);
-                continue;
-            }
-            legacyItems.add(new FilteredItem(item.rankIndex(), toLegacyItem(item.item()), item.matches()));
-        }
-        return legacyItems;
-    }
-
-    /**
-     * Converts a canonical item to the legacy item wrapper.
-     *
-     * @param item canonical item
-     * @return legacy item
-     */
-    private static Item toLegacyItem(com.williamcallahan.tui4j.compat.bubbles.list.Item item) {
-        if (item instanceof Item legacyItem) {
-            return legacyItem;
-        }
-        return item::filterValue;
     }
 }

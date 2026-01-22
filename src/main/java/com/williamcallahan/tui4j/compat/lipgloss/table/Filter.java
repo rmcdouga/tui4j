@@ -3,44 +3,24 @@ package com.williamcallahan.tui4j.compat.lipgloss.table;
 import java.util.function.IntPredicate;
 
 /**
- * A filtered view over table data that shows only rows matching a predicate.
+ * Filtered table data view.
  * <p>
- * Port of charmbracelet/lipgloss table/rows.go Filter type.
- *
- * @see <a href="https://github.com/charmbracelet/lipgloss/blob/main/table/rows.go">lipgloss/table/rows.go</a>
+ * Port of github.com/charmbracelet/lipgloss/table/rows.go (Filter).
  */
 public final class Filter implements Data {
 
     private final Data data;
     private IntPredicate predicate = row -> true;
 
-    /**
-     * Creates a filter over the given data.
-     *
-     * @param data the underlying data source
-     */
     public Filter(Data data) {
         this.data = data;
     }
 
-    /**
-     * Sets the predicate for filtering rows.
-     *
-     * @param predicate a predicate that returns true for rows to include
-     * @return this filter for chaining
-     */
     public Filter filter(IntPredicate predicate) {
         this.predicate = predicate == null ? row -> true : predicate;
         return this;
     }
 
-    /**
-     * Handles at for this component.
-     *
-     * @param row row
-     * @param cell cell
-     * @return result
-     */
     @Override
     public String at(int row, int cell) {
         int index = 0;
@@ -55,11 +35,6 @@ public final class Filter implements Data {
         return "";
     }
 
-    /**
-     * Handles rows for this component.
-     *
-     * @return result
-     */
     @Override
     public int rows() {
         int count = 0;
@@ -71,11 +46,6 @@ public final class Filter implements Data {
         return count;
     }
 
-    /**
-     * Handles columns for this component.
-     *
-     * @return result
-     */
     @Override
     public int columns() {
         return data.columns();

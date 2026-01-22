@@ -1,13 +1,10 @@
 package com.williamcallahan.tui4j.compat.bubbletea;
 
 /**
- * Message sent when a command execution completes.
- * <p>
- * Bubble Tea: exec.go.
- *
- * @see <a href="https://github.com/charmbracelet/bubbletea/blob/main/exec.go">bubbletea/exec.go</a>
+ * Compatibility shim for {@link ExecCompletedMsg}.
+ * Bubble Tea: bubbletea/exec.go
  */
-public class ExecCompletedMessage implements Message {
+public class ExecCompletedMessage implements MessageShim {
 
     private final int exitCode;
     private final Throwable error;
@@ -47,7 +44,7 @@ public class ExecCompletedMessage implements Message {
      * @return true when successful
      */
     public boolean success() {
-        return exitCode == 0 && error == null;
+        return new ExecCompletedMsg(exitCode, error).success();
     }
 
     /**
@@ -56,12 +53,11 @@ public class ExecCompletedMessage implements Message {
      * @return error message or null when successful
      */
     public String errorMessage() {
-        if (error != null) {
-            return error.getMessage();
-        }
-        if (exitCode != 0) {
-            return "Process exited with code " + exitCode;
-        }
-        return null;
+        return new ExecCompletedMsg(exitCode, error).errorMessage();
+    }
+
+    @Override
+    public Message toMessage() {
+        return new ExecCompletedMsg(exitCode, error);
     }
 }

@@ -9,64 +9,92 @@ import java.util.List;
  * <p>
  * Bubbles: table/table.go.
  */
-@Deprecated(since = "0.3.0")
-public class Row extends com.williamcallahan.tui4j.compat.bubbles.table.Row {
-    
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class Row {
+    private final com.williamcallahan.tui4j.compat.bubbles.table.Row delegate;
+
     /**
-     * Creates Row to keep this component ready for use.
+     * Creates Row with cells.
      *
-     * @param cells cells
+     * @param cells row cell values
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Row(String... cells) {
-        super(cells);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.table.Row(cells);
     }
 
     /**
-     * Creates Row to keep this component ready for use.
+     * Creates Row with cells list.
      *
-     * @param cells cells
+     * @param cells row cell values
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public Row(List<String> cells) {
-        super(cells);
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.table.Row(cells);
     }
 
-    // Legacy method shim
+    /**
+     * Returns the row cells.
+     *
+     * @return cell values
+     */
+    public List<String> cells() {
+        return delegate.cells();
+    }
 
     /**
-     * Handles data for this component.
+     * Returns the cell at the given index.
      *
-     * @return result
+     * @param index cell index
+     * @return cell value or empty string if out of bounds
+     */
+    public String at(int index) {
+        return delegate.at(index);
+    }
+
+    /**
+     * Returns the number of cells.
+     *
+     * @return cell count
+     */
+    public int size() {
+        return delegate.size();
+    }
+
+    /**
+     * Returns cells as an array (legacy method).
+     *
+     * @return cell values array
      */
     public String[] data() {
         return cells().toArray(new String[0]);
     }
 
-    // Legacy method shim
     /**
-     * Handles get for this component.
+     * Returns the cell at the given index (legacy method).
      *
-     * @param index index
-     * @return result
+     * @param index cell index
+     * @return cell value
      */
     public String get(int index) {
         return at(index);
     }
 
     /**
-     * Handles from strings for this component.
+     * Creates a Row from string array.
      *
-     * @param strings strings
-     * @return result
+     * @param strings cell values
+     * @return new Row
      */
     public static Row fromStrings(String[] strings) {
         return new Row(strings);
     }
 
     /**
-     * Handles from strings for this component.
+     * Creates Rows from 2D string array.
      *
-     * @param strings strings
-     * @return result
+     * @param strings rows of cell values
+     * @return list of Rows
      */
     public static List<Row> fromStrings(String[][] strings) {
         List<Row> rows = new ArrayList<>();
@@ -74,5 +102,14 @@ public class Row extends com.williamcallahan.tui4j.compat.bubbles.table.Row {
             rows.add(new Row(stringArray));
         }
         return rows;
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical Row
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.table.Row toCanonical() {
+        return delegate;
     }
 }

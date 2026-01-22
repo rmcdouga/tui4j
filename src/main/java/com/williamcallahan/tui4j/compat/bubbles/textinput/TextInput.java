@@ -9,9 +9,7 @@ import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.PasteMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.ReadClipboardMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyMsg;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.bubbles.cursor.CursorMode;
 import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
@@ -26,24 +24,14 @@ import static java.lang.Math.clamp;
 import static com.williamcallahan.tui4j.compat.bubbletea.Command.batch;
 
 /**
- * Text input component.
- * Bubbles: bubbles/textinput/textinput.go
+ * Port of Bubbles text input.
+ * Bubble Tea: bubbletea/examples/textinput/main.go
  */
 public class TextInput implements Model {
 
-    /**
-     * Validates candidate input before it is applied.
-     * Bubbles: bubbles/textinput/textinput.go
-     */
     @FunctionalInterface
     interface ValidateFunction {
 
-        /**
-         * Reports whether valid.
-         *
-         * @param runes runes
-         * @return whether valid
-         */
         boolean isValid(char[] runes);
     }
     private String prompt;
@@ -52,6 +40,7 @@ public class TextInput implements Model {
     private EchoMode echoMode;
     private char echoCharacter;
     private Cursor cursor;
+    // styles
 
     private Style promptStyle;
     private Style textStyle;
@@ -74,9 +63,6 @@ public class TextInput implements Model {
     private char[][] suggestions;
     private char[][] matchedSuggestions;
     private int currentSuggestionIndex;
-    /**
-     * Creates TextInput to keep this component ready for use.
-     */
     public TextInput() {
         this.prompt = "> ";
         this.echoCharacter = '*';
@@ -101,47 +87,22 @@ public class TextInput implements Model {
         this.pos = 0;
     }
 
-    /**
-     * Updates the prompt.
-     *
-     * @param prompt prompt
-     */
     public void setPrompt(String prompt) {
         this.prompt = prompt;
     }
 
-    /**
-     * Handles prompt for this component.
-     *
-     * @return result
-     */
     public String prompt() {
         return prompt;
     }
 
-    /**
-     * Updates the prompt style.
-     *
-     * @param promptStyle prompt style
-     */
     public void setPromptStyle(Style promptStyle) {
         this.promptStyle = promptStyle;
     }
 
-    /**
-     * Updates the text style.
-     *
-     * @param textStyle text style
-     */
     public void setTextStyle(Style textStyle) {
         this.textStyle = textStyle;
     }
 
-    /**
-     * Updates the value.
-     *
-     * @param value value
-     */
     public void setValue(String value) {
         char[] sanitized = sanitizer.sanitize(value.toCharArray());
         if (validateFunction != null) {
@@ -150,11 +111,6 @@ public class TextInput implements Model {
         setValueInternal(sanitized);
     }
 
-    /**
-     * Updates the value internal.
-     *
-     * @param runes runes
-     */
     private void setValueInternal(char[] runes) {
         boolean empty = value.length == 0;
 
@@ -170,97 +126,50 @@ public class TextInput implements Model {
         handleOverflow();
     }
 
-    /**
-     * Handles value for this component.
-     *
-     * @return result
-     */
     public String value() {
         return String.valueOf(value);
     }
 
-    /**
-     * Reports whether empty.
-     *
-     * @return whether empty
-     */
     public boolean isEmpty() {
-        return value.length == 0;
+        return value == null || value.length == 0;
     }
 
-    /**
-     * Handles position for this component.
-     *
-     * @return result
-     */
     public int position() {
         return pos;
     }
 
-    /**
-     * Updates the cursor.
-     *
-     * @param position position
-     */
     public void setCursor(int position) {
         this.pos = clamp(position, 0, value.length);
         handleOverflow();
     }
 
-    /**
-     * Handles cursor start for this component.
-     */
     public void cursorStart() {
         setCursor(0);
     }
 
-    /**
-     * Handles cursor end for this component.
-     */
     public void cursorEnd() {
         setCursor(value.length);
     }
 
-    /**
-     * Reports whether focused.
-     *
-     * @return whether focused
-     */
     public boolean isFocused() {
         return focus;
     }
 
-    /**
-     * Handles focus for this component.
-     *
-     * @return result
-     */
     public Command focus() {
         this.focus = true;
         return cursor.focus();
     }
 
-    /**
-     * Handles blur for this component.
-     */
     public void blur() {
         this.focus = false;
         cursor.blur();
     }
 
-    /**
-     * Handles reset for this component.
-     */
     public void reset() {
         this.value = new char[0];
         setCursor(0);
     }
 
-    /**
-     * Updates the suggestions.
-     *
-     * @param suggestions suggestions
-     */
     public void setSuggestions(String[] suggestions) {
         this.suggestions = new char[suggestions.length][];
         for (int i = 0; i < suggestions.length; i++) {
@@ -270,32 +179,33 @@ public class TextInput implements Model {
         updateSuggestions();
     }
 
-    /**
-     * Handles insert runes from user input for this component.
-     *
-     * @param runes runes
-     */
     private void insertRunesFromUserInput(char[] runes) {
+        // Clean up any special characters in the input
         char[] paste = sanitizer.sanitize(runes);
 
         int availSpace = 0;
         if (charLimit > 0) {
             availSpace = charLimit - value.length;
 
+            // If the char limit has been reached, cancel
             if (availSpace <= 0) {
                 return;
             }
 
+            // If there's not enough space to paste the whole input, truncate it
             if (availSpace < paste.length) {
                 paste = Arrays.copyOfRange(paste, 0, availSpace);
             }
         }
 
+        // Split the current value into head and tail parts
         char[] head = Arrays.copyOfRange(value, 0, pos);
         char[] tailSrc = Arrays.copyOfRange(value, pos, value.length);
 
+        // Prepare a new tail to avoid overwriting the original
         char[] tail = Arrays.copyOf(tailSrc, tailSrc.length);
 
+        // Insert pasted runes into the head and update the cursor position
         for (char r : paste) {
             head = appendChar(head, r);
             pos++;
@@ -307,34 +217,24 @@ public class TextInput implements Model {
             }
         }
 
+        // Combine head, paste, and tail to form the new value
         char[] newValue = combineArrays(head, tail);
 
+        // Validate and set the new value
         if (validateFunction != null) {
             validateFunction.isValid(newValue);
         }
         setValueInternal(newValue);
     }
 
-    /**
-     * Handles append char for this component.
-     *
-     * @param array array
-     * @param c c
-     * @return result
-     */
+    // Helper method to append a character to a char array
     private char[] appendChar(char[] array, char c) {
         char[] newArray = Arrays.copyOf(array, array.length + 1);
         newArray[array.length] = c;
         return newArray;
     }
 
-    /**
-     * Handles combine arrays for this component.
-     *
-     * @param head head
-     * @param tail tail
-     * @return result
-     */
+    // Helper method to combine two char arrays
     private char[] combineArrays(char[] head, char[] tail) {
         char[] combined = new char[head.length + tail.length];
         System.arraycopy(head, 0, combined, 0, head.length);
@@ -342,9 +242,6 @@ public class TextInput implements Model {
         return combined;
     }
 
-    /**
-     * Handles handle overflow for this component.
-     */
     private void handleOverflow() {
         if (width <= 0 || Size.width(new String(value)) <= width) {
             this.offset = 0;
@@ -385,26 +282,18 @@ public class TextInput implements Model {
         }
     }
 
-    /**
-     * Handles delete before cursor for this component.
-     */
     private void deleteBeforeCursor() {
         this.value = Arrays.copyOfRange(value, pos, value.length);
+        // validate?
         this.offset = 0;
         setCursor(0);
     }
 
-    /**
-     * Handles delete after cursor for this component.
-     */
     private void deleteAfterCursor() {
         this.value = Arrays.copyOfRange(value, 0, pos);
         setCursor(value.length);
     }
 
-    /**
-     * Handles delete character backward for this component.
-     */
     private void deleteCharacterBackward() {
         if (value.length > 0) {
             value = combineArrays(
@@ -417,9 +306,6 @@ public class TextInput implements Model {
         }
     }
 
-    /**
-     * Handles delete word backward for this component.
-     */
     private void deleteWordBackward() {
         if (pos == 0 || value.length == 0) {
             return;
@@ -458,23 +344,19 @@ public class TextInput implements Model {
                     Arrays.copyOfRange(value, oldPos, value.length)
             );
         }
+        // validate?
     }
 
-    /**
-     * Handles delete character forward for this component.
-     */
     private void deleteCharacterForward() {
         if (value.length > 0 && pos < value.length) {
             value = combineArrays(
                     Arrays.copyOfRange(value, 0, pos),
                     Arrays.copyOfRange(value, pos + 1, value.length)
             );
+            // validate?
         }
     }
 
-    /**
-     * Handles delete word forward for this component.
-     */
     private void deleteWordForward() {
         if (pos >= value.length || value.length == 0) {
             return;
@@ -511,12 +393,10 @@ public class TextInput implements Model {
                     Arrays.copyOfRange(value, pos, value.length)
             );
         }
+        // validate?
         setCursor(oldPos);
     }
 
-    /**
-     * Handles word backward for this component.
-     */
     private void wordBackward() {
         if (pos == 0 || value.length == 0) {
             return;
@@ -529,6 +409,7 @@ public class TextInput implements Model {
 
         int i = pos - 1;
 
+        // Skip over any whitespace before the cursor
         while (i >= 0) {
             if (UCharacter.isSpaceChar(value[i])) {
                 setCursor(pos - 1);
@@ -538,6 +419,7 @@ public class TextInput implements Model {
             }
         }
 
+        // Move the cursor back to the start of the word
         while (i >= 0) {
             if (!UCharacter.isSpaceChar(value[i])) {
                 setCursor(pos - 1);
@@ -548,9 +430,6 @@ public class TextInput implements Model {
         }
     }
 
-    /**
-     * Handles word forward for this component.
-     */
     private void wordForward() {
         if (pos >= value.length || value.length == 0) {
             return;
@@ -563,6 +442,7 @@ public class TextInput implements Model {
 
         int i = pos;
 
+        // Skip over any whitespace after the cursor
         while (i < value.length) {
             if (UCharacter.isSpaceChar(value[i])) {
                 setCursor(pos + 1);
@@ -572,6 +452,7 @@ public class TextInput implements Model {
             }
         }
 
+        // Move the cursor forward through the word
         while (i < value.length) {
             if (!UCharacter.isSpaceChar(value[i])) {
                 setCursor(pos + 1);
@@ -582,12 +463,6 @@ public class TextInput implements Model {
         }
     }
 
-    /**
-     * Handles echo transform for this component.
-     *
-     * @param input input
-     * @return result
-     */
     private String echoTransform(String input) {
         return switch (echoMode) {
             case EchoNormal -> input;
@@ -596,37 +471,21 @@ public class TextInput implements Model {
         };
     }
 
-    /**
-     * Supplies the initial command for the model.
-     *
-     * @return initial command
-     */
     @Override
     public Command init() {
         return null;
     }
 
-    /**
-     * Applies an incoming message and returns the next model state.
-     *
-     * @param msg msg
-     * @return next model state and command
-     */
     @Override
     public UpdateResult<TextInput> update(Message msg) {
         if (!focus) {
             return UpdateResult.from(this);
         }
-
-        if (msg instanceof KeyPressMessage keyPressMsg && canAcceptSuggestion()) {
-            if (Binding.matches(keyPressMsg, keys.acceptSuggestion())) {
-                acceptSuggestion();
-            }
-        }
+        // TODO suggestions check
 
         int oldPos = pos;
 
-        if (msg instanceof KeyPressMessage keyPressMessage) {
+        if (msg instanceof KeyMsg keyPressMessage) {
             if (Binding.matches(keyPressMessage, keys.deleteWordBackward())) {
                 deleteWordBackward();
             } else if (Binding.matches(keyPressMessage, keys.deleteCharacterBackward())) {
@@ -661,16 +520,15 @@ public class TextInput implements Model {
                 nextSuggestion();
             } else if (Binding.matches(keyPressMessage, keys.prevSuggestion())) {
                 previousSuggestion();
-            } else if (!Binding.matches(keyPressMessage, keys.acceptSuggestion())) {
+            } else {
+                // also handles paste
                 insertRunesFromUserInput(keyPressMessage.runes());
             }
 
             updateSuggestions();
-        } else if (msg instanceof PasteMessage pasteMessage) {
-            insertRunesFromUserInput(pasteMessage.content().toCharArray());
-            updateSuggestions();
         }
 
+        // TODO handle paste!
         List<Command> commands = new LinkedList<>();
 
         UpdateResult<Cursor> cursorUpdateResult = cursor.update(msg);
@@ -686,23 +544,11 @@ public class TextInput implements Model {
         return UpdateResult.from(this, batch(commands.toArray(new Command[0])));
     }
 
-    /**
-     * Requests clipboard contents from the terminal.
-     * The clipboard contents are delivered as a {@link PasteMessage} in a subsequent update.
-     * <p>
-     * Bubble Tea: bubbles/textinput/textinput.go Paste
-     *
-     * @return message to request clipboard contents
-     */
     public Message paste() {
-        return new ReadClipboardMessage();
+        // TODO implement clipboard paste!
+        return null;
     }
 
-    /**
-     * Renders the model view for display.
-     *
-     * @return rendered view
-     */
     @Override
     public String view() {
         if (value.length == 0 && placeholder != null && !placeholder.isEmpty()) {
@@ -758,11 +604,6 @@ public class TextInput implements Model {
         return promptStyle.render(prompt) + v;
     }
 
-    /**
-     * Handles placeholder view for this component.
-     *
-     * @return result
-     */
     public String placeholderView() {
         String v = "";
         Style style = placeholderStyle.copy().inline(true);
@@ -794,27 +635,17 @@ public class TextInput implements Model {
             v += style.render(String.valueOf(Arrays.copyOfRange(p, 1, minWidth)));
             v += style.render(" ".repeat(availWidth));
         } else {
+            // If no width is set, the placeholder can be any length
             v += style.render(String.valueOf(Arrays.copyOfRange(p, 1, p.length)));
         }
 
         return promptStyle.render(prompt) + v;
     }
 
-    /**
-     * Handles blink for this component.
-     *
-     * @return result
-     */
     public static Message blink() {
         return Cursor.blink();
     }
 
-    /**
-     * Handles completion view for this component.
-     *
-     * @param offset offset
-     * @return result
-     */
     public String completionView(int offset) {
         char[] value = this.value;
         Style style = placeholderStyle.copy().inline(true);
@@ -832,34 +663,10 @@ public class TextInput implements Model {
         return "";
     }
 
-    /**
-     * Handles can accept suggestion for this component.
-     *
-     * @return whether n accept suggestion
-     */
     private boolean canAcceptSuggestion() {
         return matchedSuggestions.length > 0;
     }
 
-    /**
-     * Accepts the current suggestion, replacing the input value with it.
-     * Does nothing if there are no matched suggestions.
-     */
-    public void acceptSuggestion() {
-        if (!canAcceptSuggestion()) {
-            return;
-        }
-        if (currentSuggestionIndex >= matchedSuggestions.length) {
-            return;
-        }
-        char[] suggestion = matchedSuggestions[currentSuggestionIndex];
-        setValueInternal(suggestion);
-        setCursor(suggestion.length);
-    }
-
-    /**
-     * Handles next suggestion for this component.
-     */
     public void nextSuggestion() {
         this.currentSuggestionIndex = currentSuggestionIndex + 1;
         if (currentSuggestionIndex > matchedSuggestions.length) {
@@ -867,9 +674,6 @@ public class TextInput implements Model {
         }
     }
 
-    /**
-     * Handles previous suggestion for this component.
-     */
     public void previousSuggestion() {
         this.currentSuggestionIndex = currentSuggestionIndex - 1;
         if (currentSuggestionIndex < 0) {
@@ -877,9 +681,6 @@ public class TextInput implements Model {
         }
     }
 
-    /**
-     * Handles update suggestions for this component.
-     */
     public void updateSuggestions() {
         if (!showSuggestions) {
             return;
@@ -908,12 +709,6 @@ public class TextInput implements Model {
         matchedSuggestions = matchesArray;
     }
 
-    /**
-     * Returns the suggestions.
-     *
-     * @param sugs sugs
-     * @return result
-     */
     private String[] getSuggestions(char[][] sugs) {
         String[] suggestions = new String[sugs.length];
         for (int i = 0; i < sugs.length; i++) {
@@ -922,38 +717,18 @@ public class TextInput implements Model {
         return suggestions;
     }
 
-    /**
-     * Handles available suggestions for this component.
-     *
-     * @return result
-     */
     public String[] availableSuggestions() {
         return getSuggestions(suggestions);
     }
 
-    /**
-     * Handles matched suggestions for this component.
-     *
-     * @return result
-     */
     public String[] matchedSuggestions() {
         return getSuggestions(matchedSuggestions);
     }
 
-    /**
-     * Handles current suggestion index for this component.
-     *
-     * @return result
-     */
     public int currentSuggestionIndex() {
         return currentSuggestionIndex;
     }
 
-    /**
-     * Handles current suggestion for this component.
-     *
-     * @return result
-     */
     public String currentSuggestion() {
         if (currentSuggestionIndex >= matchedSuggestions.length) {
             return "";
@@ -962,64 +737,38 @@ public class TextInput implements Model {
     }
 
     /**
-     * Updates the show suggestions.
-     *
-     * @param showSuggestions show suggestions
+     * Accepts the current suggestion and sets it as the input value.
      */
+    public void acceptSuggestion() {
+        if (currentSuggestionIndex < matchedSuggestions.length) {
+            setValue(new String(matchedSuggestions[currentSuggestionIndex]));
+        }
+    }
+
     public void setShowSuggestions(boolean showSuggestions) {
         this.showSuggestions = showSuggestions;
     }
 
-    /**
-     * Updates the placeholder.
-     *
-     * @param placeholder placeholder
-     */
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
     }
 
-    /**
-     * Updates the width.
-     *
-     * @param width width
-     */
     public void setWidth(int width) {
         this.width = width;
     }
 
-    /**
-     * Updates the char limit.
-     *
-     * @param charLimit char limit
-     */
     public void setCharLimit(int charLimit) {
         this.charLimit = charLimit;
     }
 
-    /**
-     * Updates the echo mode.
-     *
-     * @param echoMode echo mode
-     */
     public void setEchoMode(EchoMode echoMode) {
         this.echoMode = echoMode;
     }
 
-    /**
-     * Updates the echo character.
-     *
-     * @param echoCharacter echo character
-     */
     public void setEchoCharacter(char echoCharacter) {
         this.echoCharacter = echoCharacter;
     }
 
-    /**
-     * Handles cursor for this component.
-     *
-     * @return result
-     */
     public Cursor cursor() {
         return cursor;
     }

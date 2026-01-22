@@ -1,13 +1,13 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * Bubble Tea-compatible alias for {@link com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource}.
- * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/bubbles/list/ListDataSource.java}.
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  * <p>
  * Bubbles: list/list.go.
  */
-@SuppressWarnings("removal")
-public interface ListDataSource extends com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public interface ListDataSource {
 
     /**
      * Fetches a page of items, optionally filtered by the provided value.
@@ -17,6 +17,15 @@ public interface ListDataSource extends com.williamcallahan.tui4j.compat.bubbles
      * @param filterValue filter term
      * @return fetched items
      */
-    @Override
     FetchedItems fetchItems(int page, int perPage, String filterValue);
+
+    /**
+     * Adapts this deprecated data source to the canonical interface.
+     *
+     * @return canonical data source adapter
+     */
+    default com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource toCanonical() {
+        ListDataSource self = this;
+        return (page, perPage, filterValue) -> self.fetchItems(page, perPage, filterValue).toCanonical();
+    }
 }

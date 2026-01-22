@@ -1,5 +1,7 @@
 package com.williamcallahan.tui4j.compat.lipgloss;
 
+import com.williamcallahan.tui4j.compat.lipgloss.Renderer;
+import com.williamcallahan.tui4j.compat.lipgloss.TextLines;
 import org.jline.utils.AttributedStyle;
 
 import static com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padLeft;
@@ -8,29 +10,9 @@ import static com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padRigh
 /**
  * Port of Lip Gloss margin decorator.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: style.go.
  */
 public class MarginDecorator {
 
-    /**
-     * Utility constructor for compatibility shims.
-     */
-    protected MarginDecorator() {
-    }
-
-    /**
-     * Applies margins to the input string.
-     *
-     * @param input input string
-     * @param topMargin top margin
-     * @param rightMargin right margin
-     * @param bottomMargin bottom margin
-     * @param leftMargin left margin
-     * @param attributedStyle attributed style
-     * @param renderer renderer
-     * @return string with margins applied
-     */
     public static String applyMargins(String input,
                                       int topMargin,
                                       int rightMargin,

@@ -6,16 +6,12 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 
 /**
  * Port of Bubbles item delegate contract.
- * Bubbles: list/list.go.
- * <p>
- * Bubbles: filepicker/hidden_windows.go.
+ * Bubbles: bubbles/list/list.go
  */
 public interface ItemDelegate {
 
     /**
      * Hook for item-level updates.
-     * <p>
-     * Bubbles: list/list.go.
      */
     interface UpdateFunction {
         /**
@@ -30,8 +26,6 @@ public interface ItemDelegate {
 
     /**
      * Supplies short help bindings.
-     * <p>
-     * Bubbles: list/list.go.
      */
     interface ShortHelpFunc {
         /**
@@ -44,8 +38,6 @@ public interface ItemDelegate {
 
     /**
      * Supplies full help bindings.
-     * <p>
-     * Bubbles: list/list.go.
      */
     interface FullHelpFunc {
         /**

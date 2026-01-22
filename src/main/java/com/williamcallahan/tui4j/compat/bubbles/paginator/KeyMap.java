@@ -5,16 +5,9 @@ import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 /**
  * Port of Bubbles key map.
  * Bubble Tea: bubbletea/examples/paginator/main.go
- * <p>
- * Bubbles: paginator/paginator.go.
  */
 public class KeyMap {
 
-    /**
-     * Returns the default key map.
-     *
-     * @return the default key map
-     */
     public static KeyMap defaultKeyMap() {
         return new KeyMap(
                 new Binding(Binding.withKeys("pgup", "left", "h")),
@@ -25,38 +18,18 @@ public class KeyMap {
     private Binding prevPage;
     private Binding nextPage;
 
-    /**
-     * Creates a new key map with null bindings.
-     * Callers must set bindings via setters or use {@link #defaultKeyMap()} for defaults.
-     */
     public KeyMap() {
     }
 
-    /**
-     * Creates a new key map with the given bindings.
-     *
-     * @param prevPage binding for previous page
-     * @param nextPage binding for next page
-     */
     public KeyMap(Binding prevPage, Binding nextPage) {
         this.prevPage = prevPage;
         this.nextPage = nextPage;
     }
 
-    /**
-     * Returns the key binding for next page.
-     *
-     * @return key binding for next page
-     */
     public Binding nextPage() {
         return nextPage;
     }
 
-    /**
-     * Returns the key binding for previous page.
-     *
-     * @return key binding for previous page
-     */
     public Binding prevPage() {
         return prevPage;
     }

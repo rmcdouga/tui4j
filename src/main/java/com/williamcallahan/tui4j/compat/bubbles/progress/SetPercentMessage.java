@@ -1,34 +1,24 @@
 package com.williamcallahan.tui4j.compat.bubbles.progress;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
+import com.williamcallahan.tui4j.compat.bubbletea.MessageShim;
 
 /**
- * Message sent to set the progress bar percentage.
- * <p>
- * Bubbles: progress/progress.go.
- *
- * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/progress/progress.go">bubbles/progress/progress.go</a>
- * <p>
- * Bubbles: filepicker/hidden_windows.go.
+ * Compatibility shim for {@link SetPercentMsg}.
  */
-public class SetPercentMessage implements Message {
+public class SetPercentMessage implements MessageShim {
     private final double percent;
 
-    /**
-     * Creates a set percent message.
-     *
-     * @param percent the new percentage (0.0 to 1.0)
-     */
     public SetPercentMessage(double percent) {
         this.percent = percent;
     }
 
-    /**
-     * Returns the percentage value.
-     *
-     * @return the percentage (0.0 to 1.0)
-     */
     public double percent() {
         return percent;
+    }
+
+    @Override
+    public Message toMessage() {
+        return new SetPercentMsg(percent);
     }
 }

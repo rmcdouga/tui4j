@@ -6,10 +6,8 @@ import org.jline.utils.AttributedStyle;
 /**
  * Port of Lip Gloss adaptive color.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: color.go.
  */
-public class AdaptiveColor implements TerminalColor {
+public final class AdaptiveColor implements TerminalColor {
 
     private final Color light;
     private final Color dark;
@@ -26,13 +24,6 @@ public class AdaptiveColor implements TerminalColor {
         this.dark = Color.color(dark);
     }
 
-    /**
-     * Handles apply as background for this component.
-     *
-     * @param style style
-     * @param renderer renderer
-     * @return result
-     */
     @Override
     public AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
         if (renderer.hasDarkBackground()) {
@@ -41,13 +32,6 @@ public class AdaptiveColor implements TerminalColor {
         return light.applyAsBackground(style, renderer);
     }
 
-    /**
-     * Handles apply as foreground for this component.
-     *
-     * @param style style
-     * @param renderer renderer
-     * @return result
-     */
     @Override
     public AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
         if (renderer.hasDarkBackground()) {

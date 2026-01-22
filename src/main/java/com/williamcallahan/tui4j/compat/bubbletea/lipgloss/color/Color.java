@@ -1,6 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
@@ -12,8 +11,9 @@ import org.jline.utils.AttributedStyle;
  * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0")
-public final class Color extends com.williamcallahan.tui4j.compat.lipgloss.color.Color implements TerminalColor {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public final class Color implements TerminalColor {
+    private final com.williamcallahan.tui4j.compat.lipgloss.color.Color delegate;
 
     /**
      * Creates a color from a string representation.
@@ -25,42 +25,28 @@ public final class Color extends com.williamcallahan.tui4j.compat.lipgloss.color
         return new Color(color);
     }
 
-    /**
-     * Creates Color to keep this component ready for use.
-     *
-     * @param color color string
-     */
     private Color(String color) {
-        super(color);
+        this.delegate = com.williamcallahan.tui4j.compat.lipgloss.color.Color.color(color);
+    }
+
+    @Override
+    public AttributedStyle applyAsBackground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsBackground(style, renderer);
+    }
+
+    @Override
+    public AttributedStyle applyAsForeground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsForeground(style, renderer);
     }
 
     /**
-     * Applies this color as a background.
+     * Returns the canonical delegate.
      *
-     * @param style style to update
-     * @param renderer renderer context
-     * @return updated style
+     * @return canonical Color
      */
-    @Override
-    public AttributedStyle applyAsBackground(
-        AttributedStyle style,
-        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-    ) {
-        return super.applyAsBackground(style, renderer.toCanonical());
-    }
-
-    /**
-     * Applies this color as a foreground.
-     *
-     * @param style style to update
-     * @param renderer renderer context
-     * @return updated style
-     */
-    @Override
-    public AttributedStyle applyAsForeground(
-        AttributedStyle style,
-        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-    ) {
-        return super.applyAsForeground(style, renderer.toCanonical());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.Color toCanonical() {
+        return delegate;
     }
 }

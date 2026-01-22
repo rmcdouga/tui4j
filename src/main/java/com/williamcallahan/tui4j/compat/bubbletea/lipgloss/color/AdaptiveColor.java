@@ -11,8 +11,9 @@ import org.jline.utils.AttributedStyle;
  * This transitional shim is temporary and will be removed in an upcoming release.
  * @since 0.3.0
  */
-@Deprecated(since = "0.3.0")
-public final class AdaptiveColor extends com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor implements TerminalColor {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public final class AdaptiveColor implements TerminalColor {
+    private final com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor delegate;
 
     /**
      * Creates an adaptive color with light and dark values.
@@ -20,37 +21,29 @@ public final class AdaptiveColor extends com.williamcallahan.tui4j.compat.lipglo
      * @param light light color string
      * @param dark dark color string
      */
+    @Deprecated(since = "0.3.0", forRemoval = true)
     public AdaptiveColor(String light, String dark) {
-        super(light, dark);
+        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor(light, dark);
+    }
+
+    @Override
+    public AttributedStyle applyAsBackground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsBackground(style, renderer);
+    }
+
+    @Override
+    public AttributedStyle applyAsForeground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsForeground(style, renderer);
     }
 
     /**
-     * Applies this adaptive color as a background.
+     * Returns the canonical delegate.
      *
-     * @param style style to update
-     * @param renderer renderer context
-     * @return updated style
+     * @return canonical AdaptiveColor
      */
-    @Override
-    public AttributedStyle applyAsBackground(
-        AttributedStyle style,
-        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-    ) {
-        return super.applyAsBackground(style, renderer.toCanonical());
-    }
-
-    /**
-     * Applies this adaptive color as a foreground.
-     *
-     * @param style style to update
-     * @param renderer renderer context
-     * @return updated style
-     */
-    @Override
-    public AttributedStyle applyAsForeground(
-        AttributedStyle style,
-        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
-    ) {
-        return super.applyAsForeground(style, renderer.toCanonical());
+    public com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor toCanonical() {
+        return delegate;
     }
 }

@@ -8,8 +8,6 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * Bubbles: filepicker/filepicker.go.
  *
  * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/filepicker/filepicker.go">bubbles/filepicker/filepicker.go</a>
- * <p>
- * Bubbles: bubbles.go.
  */
 public class DidSelectDirectoryMessage implements Message {
 

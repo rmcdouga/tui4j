@@ -6,10 +6,8 @@ import org.jline.utils.AttributedStyle;
 /**
  * Port of Lip Gloss ansi 256 color.
  * Bubble Tea: bubbletea/examples/list-fancy/main.go
- * <p>
- * Lipgloss: color.go.
  */
-public class ANSI256Color implements TerminalColor, RGBSupplier {
+public final class ANSI256Color implements TerminalColor, RGBSupplier {
 
     private final ColorCodeApplyStrategy applyStrategy;
     private final int colorCode;
@@ -24,44 +22,16 @@ public class ANSI256Color implements TerminalColor, RGBSupplier {
         this.colorCode = colorCode;
     }
 
-    /**
-     * Returns the ANSI 256-color code.
-     *
-     * @return color code
-     */
-    public int value() {
-        return colorCode;
-    }
-
-    /**
-     * Handles apply as background for this component.
-     *
-     * @param style style
-     * @param renderer renderer
-     * @return result
-     */
     @Override
     public AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
         return applyStrategy.applyForBackground(style);
     }
 
-    /**
-     * Handles apply as foreground for this component.
-     *
-     * @param style style
-     * @param renderer renderer
-     * @return result
-     */
     @Override
     public AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
         return applyStrategy.applyForForeground(style);
     }
 
-    /**
-     * Handles rgb for this component.
-     *
-     * @return result
-     */
     @Override
     public RGB rgb() {
         return RGB.fromHexString(ANSIColors.ANSI_HEX[colorCode]);
@@ -87,5 +57,14 @@ public class ANSI256Color implements TerminalColor, RGBSupplier {
             }
         }
         return new ANSIColor(ansiColorCode);
+    }
+
+    /**
+     * Returns the ANSI 256-color code.
+     *
+     * @return color code (0-255)
+     */
+    public int value() {
+        return colorCode;
     }
 }

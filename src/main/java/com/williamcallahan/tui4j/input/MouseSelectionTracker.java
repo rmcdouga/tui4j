@@ -15,16 +15,7 @@ public final class MouseSelectionTracker {
     private int lastRow;
 
     /**
-     * Creates a new mouse selection tracker.
-     */
-    public MouseSelectionTracker() {
-    }
-
-    /**
      * Update selection state from the latest mouse event.
-     *
-     * @param message mouse message
-     * @return selection update
      */
     public MouseSelectionUpdate update(MouseMessage message) {
         boolean wasSelecting = selecting;
@@ -43,16 +34,16 @@ public final class MouseSelectionTracker {
         lastColumn = message.column();
         lastRow = message.row();
 
-        MouseMessage selectionScrollUpdate = null;
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg selectionScrollUpdate = null;
         if (message.isWheel() && selecting) {
-            selectionScrollUpdate = new MouseMessage(
-                    lastColumn,
-                    lastRow,
-                    message.isShift(),
-                    message.isAlt(),
-                    message.isCtrl(),
-                    MouseAction.MouseActionMotion,
-                    MouseButton.MouseButtonLeft
+            selectionScrollUpdate = new com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg(
+                lastColumn,
+                lastRow,
+                message.isShift(),
+                message.isAlt(),
+                message.isCtrl(),
+                MouseAction.MouseActionMotion,
+                MouseButton.MouseButtonLeft
             );
         }
 
@@ -64,40 +55,31 @@ public final class MouseSelectionTracker {
         );
     }
 
-    /**
-     * Handle mouse message and update selection state.
-     *
-     * @param message mouse message
-     * @return selection update
-     */
+    public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg message) {
+        return update(toMouseMessage(message));
+    }
+
     public MouseSelectionUpdate onMouseMessage(MouseMessage message) {
         return update(message);
     }
 
-    /**
-     * Returns true if currently selecting.
-     *
-     * @return true if selecting
-     */
+    public void onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg message) {
+        update(message);
+    }
+
     public boolean isSelecting() {
         return selecting;
     }
 
-    /**
-     * Returns the last mouse column position.
-     *
-     * @return last column
-     */
     public int lastColumn() {
         return lastColumn;
     }
 
-    /**
-     * Returns the last mouse row position.
-     *
-     * @return last row
-     */
     public int lastRow() {
         return lastRow;
+    }
+
+    private static MouseMessage toMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg message) {
+        return message;
     }
 }

@@ -9,13 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Component for rendering keyboard shortcut help text.
- * <p>
- * Port of charmbracelet/bubbles help/help.go.
- *
- * @see <a href="https://github.com/charmbracelet/bubbles/blob/main/help/help.go">bubbles/help/help.go</a>
- * <p>
- * Bubbles: help/help.go.
+ * Port of Bubbles help.
+ * Bubble Tea: bubbletea/examples/help/main.go
  */
 public class Help {
 
@@ -27,7 +22,6 @@ public class Help {
     private String ellipsis;
     private Styles styles;
 
-    /** Creates a new help component with default settings. */
     public Help() {
         this.shortSeparator = " • ";
         this.fullSeparator = "    ";
@@ -36,21 +30,10 @@ public class Help {
         this.styles = new Styles();
     }
 
-    /**
-     * Sets the maximum width for the help text.
-     *
-     * @param width the width in characters
-     */
     public void setWidth(int width) {
         this.width = width;
     }
 
-    /**
-     * Renders the help text for the given key map.
-     *
-     * @param keyMap the key map to render
-     * @return the rendered help string
-     */
     public String render(KeyMap keyMap) {
         if (showAll) {
             return fullHelpView(keyMap.fullHelp());
@@ -58,12 +41,6 @@ public class Help {
         return shortHelpView(keyMap.shortHelp());
     }
 
-    /**
-     * Handles full help view for this component.
-     *
-     * @param groups groups
-     * @return result
-     */
     private String fullHelpView(Binding[][] groups) {
         if (groups.length == 0) {
             return "";
@@ -123,12 +100,6 @@ public class Help {
         );
     }
 
-    /**
-     * Handles should render column for this component.
-     *
-     * @param group group
-     * @return whether ould render column
-     */
     private boolean shouldRenderColumn(Binding[] group) {
         for (Binding binding : group) {
             if (binding.isEnabled()) {
@@ -138,12 +109,6 @@ public class Help {
         return false;
     }
 
-    /**
-     * Handles short help view for this component.
-     *
-     * @param bindings bindings
-     * @return result
-     */
     private String shortHelpView(Binding[] bindings) {
         if (bindings == null || bindings.length == 0) {
             return "";
@@ -187,13 +152,6 @@ public class Help {
         return b.toString();
     }
 
-    /**
-     * Handles should add item for this component.
-     *
-     * @param totalWidth total width
-     * @param width width
-     * @return result
-     */
     private Result shouldAddItem(int totalWidth, int width) {
         String tail = "";
         if (this.width > 0 && totalWidth+width > this.width) {
@@ -205,37 +163,17 @@ public class Help {
         return new Result(true, "");
     }
 
-    /**
-     * Sets the separator used between items in full help view.
-     *
-     * @param fullSeparator the separator string
-     */
     public void setFullSeparator(String fullSeparator) {
         this.fullSeparator = fullSeparator;
     }
 
-    /**
-     * Sets whether to show full or short help.
-     *
-     * @param showAll true for full help, false for short help
-     */
     public void setShowAll(boolean showAll) {
         this.showAll = showAll;
     }
 
-    /**
-     * Returns whether full help is being shown.
-     *
-     * @return true if full help is shown
-     */
     public boolean showAll() {
         return showAll;
     }
-    /**
-     * Compatibility port of Result to preserve upstream behavior.
-     * <p>
-     * Bubbles: help/help.go.
-     */
     record Result(boolean ok, String tail) {
 
 

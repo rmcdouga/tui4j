@@ -3,6 +3,7 @@ package com.williamcallahan.tui4j.input;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMsg;
 
 /**
  * Tracks click sequences and counts.
@@ -21,31 +22,14 @@ public final class MouseClickTracker {
     private MouseButton lastClickButton = MouseButton.MouseButtonNone;
     private int lastClickCount = 0;
 
-    /**
-     * Creates a new mouse click tracker.
-     */
-    public MouseClickTracker() {
-    }
-
-    /**
-     * Handles a mouse message and detects clicks.
-     *
-     * @param message mouse message
-     * @param target mouse target
-     * @return mouse click message or null
-     */
     public MouseClickMessage handle(MouseMessage message, MouseTarget target) {
         return handle(message, target, System.currentTimeMillis());
     }
 
-    /**
-     * Handles a mouse message and detects clicks.
-     *
-     * @param message mouse message
-     * @param target mouse target
-     * @param nowMs current time in milliseconds
-     * @return mouse click message or null
-     */
+    public MouseClickMessage handle(MouseMsg message, MouseTarget target) {
+        return handle(toMouseMessage(message), target, System.currentTimeMillis());
+    }
+
     MouseClickMessage handle(MouseMessage message, MouseTarget target, long nowMs) {
         if (message == null || message.isWheel()) {
             return null;
@@ -67,14 +51,6 @@ public final class MouseClickTracker {
         return null;
     }
 
-    /**
-     * Creates click if matches for this component.
-     *
-     * @param message message
-     * @param target target
-     * @param nowMs now ms
-     * @return result
-     */
     private MouseClickMessage createClickIfMatches(MouseMessage message, MouseTarget target, long nowMs) {
         if (lastPressButton == MouseButton.MouseButtonNone) {
             return null;
@@ -96,15 +72,6 @@ public final class MouseClickTracker {
         );
     }
 
-    /**
-     * Handles calculate click count for this component.
-     *
-     * @param nowMs now ms
-     * @param column column
-     * @param row row
-     * @param button button
-     * @return result
-     */
     private int calculateClickCount(long nowMs, int column, int row, MouseButton button) {
         if (button == MouseButton.MouseButtonNone) {
             lastClickCount = 0;
@@ -121,5 +88,20 @@ public final class MouseClickTracker {
         lastClickButton = button;
         lastClickCount = nextCount;
         return nextCount;
+    }
+
+    private static MouseMessage toMouseMessage(MouseMsg message) {
+        if (message instanceof MouseMessage mouseMessage) {
+            return mouseMessage;
+        }
+        return new MouseMessage(
+                message.column(),
+                message.row(),
+                message.isShift(),
+                message.isAlt(),
+                message.isCtrl(),
+                message.getAction(),
+                message.getButton()
+        );
     }
 }

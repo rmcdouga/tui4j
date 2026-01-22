@@ -7,26 +7,13 @@ package com.williamcallahan.tui4j.compat.lipgloss.color;
  * @param r red channel (0-1)
  * @param g green channel (0-1)
  * @param b blue channel (0-1)
- * <p>
- * Lipgloss: color.go.
  */
 public record RGB(float r, float g, float b) {
 
-    /**
-     * Handles black for this component.
-     *
-     * @return result
-     */
     public static RGB black() {
         return new RGB(0, 0, 0);
     }
 
-    /**
-     * Handles from hex string for this component.
-     *
-     * @param hexValue hex value
-     * @return result
-     */
     public static RGB fromHexString(String hexValue) {
         String hex = hexValue.replace("#", "").trim();
         float factor = 1.0f / 255.0f;
@@ -51,11 +38,6 @@ public record RGB(float r, float g, float b) {
         }
     }
 
-    /**
-     * Handles to ansi256 color for this component.
-     *
-     * @return result
-     */
     public ANSI256Color toANSI256Color() {
         // Convert float values in range 0-1 to 0-255 range
         float rScaled = r * 255.0f;
@@ -96,12 +78,6 @@ public record RGB(float r, float g, float b) {
         return new ANSI256Color(232 + grayIndex);
     }
 
-    /**
-     * Handles value to color index for this component.
-     *
-     * @param value value
-     * @return result
-     */
     private int valueToColorIndex(float value) {
         if (value < 48) {
             return 0;
@@ -112,23 +88,12 @@ public record RGB(float r, float g, float b) {
         return Math.min(5, (int) ((value - 35) / 40));
     }
 
-    /**
-     * Handles distance hsluv for this component.
-     *
-     * @param other other
-     * @return result
-     */
     public float distanceHSLuv(RGB other) {
         HSL hsluv1 = toHSL();
         HSL hsluv2 = other.toHSL();
         return hsluv1.distance(hsluv2);
     }
 
-    /**
-     * Handles to hsl for this component.
-     *
-     * @return result
-     */
     public HSL toHSL() {
         float max = Math.max(Math.max(r, g), b);
         float min = Math.min(Math.min(r, g), b);
@@ -160,30 +125,15 @@ public record RGB(float r, float g, float b) {
         return new HSL(h * 360f, s, l);
     }
 
-    /**
-     * Handles to string for this component.
-     *
-     * @return result
-     */
     @Override
     public String toString() {
         return "%f,%f,%f".formatted(r, g, b);
     }
 
-    /**
-     * Handles as color apply strategy for this component.
-     *
-     * @return result
-     */
     public ColorApplyStrategy asColorApplyStrategy() {
         return new RGBAApplyStrategy((int) (r * 255.0f), (int) (g * 255.0f), (int) (b * 255.f));
     }
 
-    /**
-     * Handles to int for this component.
-     *
-     * @return result
-     */
     public int toInt() {
         return ((int)(r * 255.0f) << 16) + ((int)(g * 255.0f) << 8) + (int)(b * 255.0f);
     }

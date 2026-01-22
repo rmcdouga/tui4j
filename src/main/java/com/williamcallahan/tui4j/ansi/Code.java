@@ -43,11 +43,6 @@ public enum Code {
 
     private final String value;
 
-    /**
-     * Creates Code to keep this component ready for use.
-     *
-     * @param value value
-     */
     Code(String value) {
         this.value = value;
     }
@@ -70,15 +65,5 @@ public enum Code {
     public static String copyToClipboard(String text) {
         String b64 = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
         return "\u001b]52;c;" + b64 + "\u0007";
-    }
-
-    /**
-     * Builds an OSC 52 escape sequence for clipboard read request.
-     * The terminal will respond with the clipboard contents.
-     *
-     * @return OSC 52 read request sequence
-     */
-    public static String requestClipboard() {
-        return "\u001b]52;c;?\u0007";
     }
 }
