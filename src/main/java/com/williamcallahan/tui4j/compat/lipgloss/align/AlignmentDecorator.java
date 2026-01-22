@@ -3,6 +3,7 @@ package com.williamcallahan.tui4j.compat.lipgloss.align;
 import com.williamcallahan.tui4j.ansi.TextWidth;
 import com.williamcallahan.tui4j.compat.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.lipgloss.TextLines;
+import org.jline.utils.AttributedCharSequence.ForceMode;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
@@ -66,6 +67,20 @@ public class AlignmentDecorator {
      * @return horizontally aligned text
      */
     public static String alignTextHorizontal(String input, Position position, int width, AttributedStyle attributedStyle) {
+        return alignTextHorizontal(input, position, width, attributedStyle, 0);
+    }
+
+    /**
+     * Aligns text horizontally within a fixed width with color support.
+     *
+     * @param input text to align
+     * @param position horizontal alignment
+     * @param width target width
+     * @param attributedStyle style used for padding
+     * @param colorCount number of colors for ANSI output (0 for default)
+     * @return horizontally aligned text
+     */
+    public static String alignTextHorizontal(String input, Position position, int width, AttributedStyle attributedStyle, int colorCount) {
         TextLines textLines = TextLines.fromText(input);
         int widestLine = textLines.widestLineLength();
 
@@ -82,17 +97,31 @@ public class AlignmentDecorator {
 
             if (shortAmount > 0) {
                 if (position.equals(Right)) {
-                    l = " ".repeat(shortAmount) + l;
-                } else if (position.equals(Center)) {// Note: remainder goes on the right
+                    String s = " ".repeat(shortAmount);
+                    if (attributedStyle != null) {
+                        s = new AttributedString(s, attributedStyle).toAnsi(colorCount, ForceMode.None);
+                    }
+                    l = s + l;
+                } else if (position.equals(Center)) {
+                    // Note: remainder goes on the right
                     int left = shortAmount / 2;
                     int right = left + shortAmount % 2;
 
                     String leftSpaces = " ".repeat(left);
                     String rightSpaces = " ".repeat(right);
 
+                    if (attributedStyle != null) {
+                        leftSpaces = new AttributedString(leftSpaces, attributedStyle).toAnsi(colorCount, ForceMode.None);
+                        rightSpaces = new AttributedString(rightSpaces, attributedStyle).toAnsi(colorCount, ForceMode.None);
+                    }
                     l = leftSpaces + l + rightSpaces;
                 } else {
-                    l += new AttributedString(" ".repeat(shortAmount), attributedStyle).toAnsi();
+                    // Left alignment (default)
+                    String s = " ".repeat(shortAmount);
+                    if (attributedStyle != null) {
+                        s = new AttributedString(s, attributedStyle).toAnsi(colorCount, ForceMode.None);
+                    }
+                    l += s;
                 }
             }
 

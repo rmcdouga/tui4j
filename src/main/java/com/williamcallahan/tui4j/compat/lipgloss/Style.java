@@ -823,7 +823,7 @@ public class Style implements Cloneable {
             if (background != null) {
                 st = background.applyAsBackground(st, renderer);
             }
-            string = AlignmentDecorator.alignTextHorizontal(string, horizontalAlign, width, st);
+            string = AlignmentDecorator.alignTextHorizontal(string, horizontalAlign, width, st, colorProfile.colorsCount());
         }
         if (!inline) {
             string = applyBorders(string);
