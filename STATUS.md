@@ -296,8 +296,6 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `examples/views/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/views/ViewsExample.java` |
 | `examples/window-size/main.go` | `🟢 Done` | `src/main/resources/examples/compat/bubbletea/windowsize/WindowSizeExample.java` |
 
-#### TUI4J Extensions (No Upstream Equivalent)
-
 ### Bubbles
 | Go File | Status | Java Mapping |
 | ------- | ------ | ------------ |
@@ -418,8 +416,6 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `examples/tree/simple/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/tree/TreeSimpleExample.java` |
 | `examples/tree/styles/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/tree/TreeStylesExample.java` |
 | `examples/tree/toggle/main.go` | `🟢 Done` | `src/main/resources/examples/compat/lipgloss/tree/TreeToggleExample.java` |
-
-#### TUI4J Extensions (No Upstream Equivalent)
 
 ### Harmonica
 | Go File | Status | Java Mapping |
@@ -616,9 +612,7 @@ This table represents porting status of charmbracelet/harmonica spring physics.
 | `etag/etag.go` | `⚪ TODO` | `<unmapped>` |
 | `etag/etag_test.go` | `⚪ TODO` | `<unmapped>` |
 
-## TUI4J Extensions (No Upstream Equivalent)
-
-### Bubble Tea - TUI4J Extensions (No Upstream Equivalent)
+### Bubble Tea - TUI4J Examples (With No Upstream Equivalent)
 | Java File | Status | Notes |
 | --------- | ------ | ----- |
 | `src/main/resources/examples/compat/bubbletea/BorderTest.java` | `🟢 Done` |  |
