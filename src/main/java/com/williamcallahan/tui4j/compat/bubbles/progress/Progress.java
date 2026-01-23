@@ -396,14 +396,8 @@ public class Progress implements Model {
         if (msg instanceof SetPercentMessage setMsg) {
             return UpdateResult.from(this, setPercent(setMsg.percent()));
         }
-        if (msg instanceof SetPercentMessage setMessage) {
-            return UpdateResult.from(this, setPercent(setMessage.percent()));
-        }
         if (msg instanceof FrameMessage frameMsg) {
             return handleFrame(frameMsg.id(), frameMsg.tag());
-        }
-        if (msg instanceof FrameMessage frameMessage) {
-            return handleFrame(frameMessage.id(), frameMessage.tag());
         }
 
         return UpdateResult.from(this);
