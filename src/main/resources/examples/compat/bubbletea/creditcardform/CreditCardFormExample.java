@@ -89,7 +89,7 @@ public class CreditCardFormExample implements Model {
             String key = keyPressMessage.key();
             switch (key) {
                 case "enter":
-                    if (focused == inputs.length - 1) {
+                    if (focused == inputs.length) {
                         return UpdateResult.from(this, quit());
                     }
                     nextInput();
@@ -117,16 +117,25 @@ public class CreditCardFormExample implements Model {
      * Moves focus to the next input field.
      */
     private void nextInput() {
-        focused = (focused + 1) % inputs.length;
+        focused = (focused + 1) % (inputs.length + 1);
+        applyFocus();
     }
 
     /**
      * Moves focus to the previous input field.
      */
     private void prevInput() {
-        focused--;
-        if (focused < 0) {
-            focused = inputs.length - 1;
+        focused = (focused - 1 + inputs.length + 1) % (inputs.length + 1);
+        applyFocus();
+    }
+
+    private void applyFocus() {
+        for (int i = 0; i < inputs.length; i++) {
+            if (i == focused) {
+                inputs[i].focus();
+            } else {
+                inputs[i].blur();
+            }
         }
     }
 

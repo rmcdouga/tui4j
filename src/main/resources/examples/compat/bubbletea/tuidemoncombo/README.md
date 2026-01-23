@@ -16,12 +16,12 @@ Run in TUI mode (default):
 ```bash
 # From project root
 ./gradlew examplesJar
-java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.tuidaemoncombo.TuiDaemonComboExample
+java -cp build/libs/tui4j-examples.jar com.williamcallahan.tui4j.examples.tuidemoncombo.DaemonComboExample
 ```
 
 Run in daemon mode (headless):
 ```bash
-java -cp examples/generic/tui4j-examples.jar com.williamcallahan.tui4j.examples.tuidaemoncombo.TuiDaemonComboExample --daemon
+java -cp build/libs/tui4j-examples.jar com.williamcallahan.tui4j.examples.tuidemoncombo.DaemonComboExample --daemon
 ```
 
 ## Controls

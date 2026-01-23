@@ -56,14 +56,7 @@ public class SuspendExample implements Model {
                     return new UpdateResult<>(this, QuitMessage::new);
                 case "ctrl+z":
                     suspending = true;
-                    return new UpdateResult<>(this, () -> {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        return null;
-                    });
+                    return new UpdateResult<>(this, com.williamcallahan.tui4j.compat.bubbletea.SuspendMessage::new);
             }
         }
         return UpdateResult.from(this);
