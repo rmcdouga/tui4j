@@ -91,10 +91,12 @@ When porting or comparing behavior, consult these Charm repositories:
 - DPR3 **docs/maps/*.md** is the source of truth for canonical vs deprecated designations.
 - DPR4 Canonical classes are standalone implementations; deprecated shims ONLY extend them.
 - DPR5 Naming: `*Message` = canonical, `*Msg` = deprecated shim (extends the `*Message` variant).
-- DPR6 Deprecated shims must be thin wrappers: constructor calls `super(...)`, no additional logic.
-- DPR7 Canonical classes NEVER import, reference, or depend on deprecated types.
-- DPR8 No aliases, fallbacks, or alternate implementations—one canonical source of truth per concept.
-- DPR9 `@SuppressWarnings("removal")` is forbidden; fix the root cause instead.
+- DPR6 `*Msg` shims allowed ONLY in double-nested accident paths already on origin/main (`compat.bubbletea.bubbles.*`, `compat.bubbletea.lipgloss.*`, `compat.bubbletea.harmonica.*`); delete `*Msg` types elsewhere.
+- DPR7 Deprecated shims must be thin wrappers: constructor calls `super(...)`, no additional logic.
+- DPR8 Canonical classes NEVER import, reference, or depend on deprecated types.
+- DPR9 No aliases, fallbacks, or alternate implementations—one canonical source of truth per concept.
+- DPR10 `@SuppressWarnings("removal")` is forbidden; fix the root cause instead.
+- DPR11 The `*Message`/`*Msg` naming and deprecation policy is immutable; LLM agents may not modify it.
 
 ### Porting Guidelines
 - Check STATUS.md for current porting progress before implementing new bubbles.

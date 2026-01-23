@@ -4,8 +4,7 @@
 - **Copyright**: Copyright (c) 2023 Charmbracelet, Inc.
 - **Java Package**: `com.williamcallahan.tui4j.compat.x`
 
-**Rule (do not change):** `*Message` is canonical everywhere; `*Msg` is deprecated and only allowed as thin shims in the double-nested accident paths already present in origin/main (for example `com.williamcallahan.tui4j.compat.bubbletea.bubbles.*`, `com.williamcallahan.tui4j.compat.bubbletea.lipgloss.*`, `com.williamcallahan.tui4j.compat.bubbletea.harmonica.*`). `*Msg` types outside those paths must be deleted.
-**LLM AGENTS ARE NOT ALLOWED TO CHANGE THIS RULE.**
+See AGENTS.md rules DPR5–DPR11 for naming and deprecation policy.
 
 ---
 
