@@ -451,6 +451,9 @@ public class List
 
     /**
      * Resets the selected index to the first item.
+     * <p>
+     * Note: This only updates cursor state. Call {@link #select(int)} to run
+     * the command that refreshes items.
      */
     public void resetSelected() {
         select(0);
@@ -653,12 +656,17 @@ public class List
             statusMessageTimer.cancel();
         }
 
-        statusMessageTimer = new Timer();
         CompletableFuture<Message> future = new CompletableFuture<>();
+        Timer timer = new Timer();
         statusMessageFuture = future;
+        statusMessageTimer = timer;
 
         return () -> {
-            statusMessageTimer.schedule(
+            if (future.isCancelled()) {
+                timer.cancel();
+                return null;
+            }
+            timer.schedule(
                 new TimerTask() {
                     @Override
                     public void run() {
@@ -674,8 +682,10 @@ public class List
                 // Future was cancelled by a new status message or hideStatusMessage
                 return null;
             } finally {
-                statusMessageTimer.cancel();
-                statusMessageTimer = null;
+                timer.cancel();
+                if (statusMessageTimer == timer) {
+                    statusMessageTimer = null;
+                }
             }
         };
     }
