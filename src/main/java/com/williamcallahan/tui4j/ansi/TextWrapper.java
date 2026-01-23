@@ -26,7 +26,6 @@ import java.nio.charset.StandardCharsets;
 public class TextWrapper {
 
     private static final String NBSP = "\u00A0"; // Non-breaking space
-    private static final String ANSI_RESET = "\033[m";
 
     /**
      * Creates a text wrapper instance.
@@ -43,9 +42,6 @@ public class TextWrapper {
     private StringBuilder buf = new StringBuilder(); // Final wrapped text
     private StringBuilder word = new StringBuilder(); // Current word
     private StringBuilder space = new StringBuilder(); // Current spaces
-    private StringBuilder ansiSeq = new StringBuilder(); // Current ANSI escape sequence being parsed
-    private StringBuilder activeStyle = new StringBuilder(); // Active SGR style to re-apply after wrap
-    private boolean inAnsiSeq = false; // Whether we're currently parsing an ANSI sequence
 
     /**
      * Wraps text to the specified display width limit.
@@ -66,9 +62,6 @@ public class TextWrapper {
         this.buf.setLength(0);
         this.word.setLength(0);
         this.space.setLength(0);
-        this.ansiSeq.setLength(0);
-        this.activeStyle.setLength(0);
-        this.inAnsiSeq = false;
 
         TransitionTable table = TransitionTable.get();
         State pstate = State.GROUND;
@@ -81,120 +74,16 @@ public class TextWrapper {
             Action action = transition.action();
 
             if (state == State.UTF8) {
-                GraphemeResult graphemeResult =
-                    GraphemeCluster.getFirstGraphemeCluster(bytes, i, -1);
-                if (graphemeResult == null) {
-                    i++;
-                    pstate = State.GROUND;
-                    continue;
-                }
-
-                byte[] cluster = graphemeResult.cluster();
-                int width = graphemeResult.width();
-                String grapheme = new String(cluster, StandardCharsets.UTF_8);
-                int codePoint = grapheme.codePointAt(0);
-
-                if (
-                    UCharacter.isWhitespace(codePoint) &&
-                    codePoint != NBSP.codePointAt(0)
-                ) {
-                    addWord();
-                    space.append(grapheme);
-                    spaceWidth += width;
-                } else if (containsAny(grapheme, BREAKPOINTS)) {
-                    addSpace();
-                    if (curWidth + wordLen + width > limit) {
-                        word.append(grapheme);
-                        wordLen += width;
-                    } else {
-                        addWord();
-                        buf.append(grapheme);
-                        curWidth += width;
-                    }
-                } else {
-                    if (wordLen + width > limit) {
-                        addWord();
-                    }
-                    word.append(grapheme);
-                    wordLen += width;
-                    if (curWidth + wordLen + spaceWidth > limit) {
-                        addNewLine();
-                    }
-                    if (wordLen == limit) {
-                        addWord();
-                    }
-                }
-
-                i += cluster.length;
+                i = handleUtf8(bytes, i);
                 pstate = State.GROUND;
                 continue;
             }
 
             if (action == Action.PRINT || action == Action.EXECUTE) {
-                char ch = (char) bytes[i];
-                if (ch == '\n') {
-                    if (wordLen == 0) {
-                        if (curWidth + spaceWidth > limit) {
-                            curWidth = 0;
-                        } else {
-                            buf.append(space);
-                        }
-                        space.setLength(0);
-                        spaceWidth = 0;
-                    }
-                    addWord();
-                    addNewLine();
-                } else if (UCharacter.isWhitespace(ch)) {
-                    addWord();
-                    space.append(ch);
-                    spaceWidth++;
-                } else if (ch == '-' || containsAny(ch, BREAKPOINTS)) {
-                    addSpace();
-                    if (curWidth + wordLen >= limit) {
-                        word.append(ch);
-                        wordLen++;
-                    } else {
-                        addWord();
-                        buf.append(ch);
-                        curWidth++;
-                    }
-                } else {
-                    if (curWidth == limit) {
-                        addNewLine();
-                    }
-                    word.append(ch);
-                    wordLen++;
-                    if (wordLen == limit) {
-                        addWord();
-                    }
-                    if (curWidth + wordLen + spaceWidth > limit) {
-                        addNewLine();
-                    }
-                }
+                handlePrint(bytes[i]);
             } else {
                 // We're inside an ANSI escape sequence
-                char ch = (char) bytes[i];
-                ansiSeq.append(ch);
-                word.append(ch);
-
-                // Check if this completes an SGR sequence (ends with 'm')
-                if (ch == 'm' && ansiSeq.length() >= 2) {
-                    String seq = ansiSeq.toString();
-                    // Check if it's a reset sequence (ESC[m, ESC[0m, or any sequence starting with 0;)
-                    if (isResetSequence(seq)) {
-                        activeStyle.setLength(0);
-                    } else if (seq.endsWith("m")) {
-                        // It's an SGR sequence - update active style
-                        // The seq already contains ESC and everything else
-                        activeStyle.setLength(0);
-                        activeStyle.append(seq);
-                    }
-                    ansiSeq.setLength(0);
-                } else if (ch == 0x1b) {
-                    // Start of new escape sequence
-                    ansiSeq.setLength(0);
-                    ansiSeq.append(ch);
-                }
+                word.append((char) bytes[i]);
             }
 
             if (pstate != State.UTF8) {
@@ -215,6 +104,95 @@ public class TextWrapper {
 
         addWord();
         return buf.toString();
+    }
+
+    private int handleUtf8(byte[] bytes, int i) {
+        GraphemeResult graphemeResult =
+            GraphemeCluster.getFirstGraphemeCluster(bytes, i, -1);
+        if (graphemeResult == null) {
+            return i + 1;
+        }
+
+        byte[] cluster = graphemeResult.cluster();
+        int width = graphemeResult.width();
+        String grapheme = new String(cluster, StandardCharsets.UTF_8);
+        int codePoint = grapheme.codePointAt(0);
+
+        if (
+            UCharacter.isWhitespace(codePoint) &&
+            codePoint != NBSP.codePointAt(0)
+        ) {
+            addWord();
+            space.append(grapheme);
+            spaceWidth += width;
+        } else if (containsAny(grapheme, BREAKPOINTS)) {
+            addSpace();
+            if (curWidth + wordLen + width > limit) {
+                word.append(grapheme);
+                wordLen += width;
+            } else {
+                addWord();
+                buf.append(grapheme);
+                curWidth += width;
+            }
+        } else {
+            if (wordLen + width > limit) {
+                addWord();
+            }
+            word.append(grapheme);
+            wordLen += width;
+            if (curWidth + wordLen + spaceWidth > limit) {
+                addNewLine();
+            }
+            if (wordLen == limit) {
+                addWord();
+            }
+        }
+
+        return i + cluster.length;
+    }
+
+    private void handlePrint(byte b) {
+        char ch = (char) b;
+        if (ch == '\n') {
+            if (wordLen == 0) {
+                if (curWidth + spaceWidth > limit) {
+                    curWidth = 0;
+                } else {
+                    buf.append(space);
+                }
+                space.setLength(0);
+                spaceWidth = 0;
+            }
+            addWord();
+            addNewLine();
+        } else if (UCharacter.isWhitespace(ch)) {
+            addWord();
+            space.append(ch);
+            spaceWidth++;
+        } else if (ch == '-' || containsAny(ch, BREAKPOINTS)) {
+            addSpace();
+            if (curWidth + wordLen >= limit) {
+                word.append(ch);
+                wordLen++;
+            } else {
+                addWord();
+                buf.append(ch);
+                curWidth++;
+            }
+        } else {
+            if (curWidth == limit) {
+                addNewLine();
+            }
+            word.append(ch);
+            wordLen++;
+            if (wordLen == limit) {
+                addWord();
+            }
+            if (curWidth + wordLen + spaceWidth > limit) {
+                addNewLine();
+            }
+        }
     }
 
     /**
@@ -246,42 +224,12 @@ public class TextWrapper {
 
     /**
      * Handles add new line for this component.
-     * Emits ANSI reset before newline and re-applies active style after.
      */
     private void addNewLine() {
-        // If we have an active style, emit reset before the newline
-        if (activeStyle.length() > 0) {
-            buf.append(ANSI_RESET);
-        }
         buf.append('\n');
-        // Re-apply active style at start of new line
-        if (activeStyle.length() > 0) {
-            buf.append(activeStyle);
-        }
         curWidth = 0;
         space.setLength(0);
         spaceWidth = 0;
-    }
-
-    /**
-     * Checks if an SGR sequence is a reset sequence.
-     * The sequence includes ESC[...m format.
-     *
-     * @param seq the full sequence including ESC, [, parameters, and 'm'
-     * @return true if this is a reset sequence
-     */
-    private static boolean isResetSequence(String seq) {
-        if (seq == null || seq.length() < 3) {
-            return false;
-        }
-        // Find the parameters between '[' and 'm'
-        int bracketIdx = seq.indexOf('[');
-        if (bracketIdx < 0 || !seq.endsWith("m")) {
-            return false;
-        }
-        String params = seq.substring(bracketIdx + 1, seq.length() - 1);
-        // Reset sequences: empty params (ESC[m), "0" (ESC[0m), or starting with "0;"
-        return params.isEmpty() || params.equals("0") || params.startsWith("0;");
     }
 
     /**

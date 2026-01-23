@@ -118,7 +118,7 @@ public class PaddingDecorator {
         }
 
         StringBuilder b = new StringBuilder();
-        String[] lines = str.split("\n");
+        String[] lines = str.split("\n", -1);
 
         for (int i = 0; i < lines.length; i++) {
             // pad right
