@@ -128,6 +128,6 @@ list.setStatusMessageLifetime(Duration.ofSeconds(5));
 ## Examples
 
 See working examples in the repository:
-- [`examples/generic/.../listdefault/`](../examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listdefault/) — Basic list with DefaultDelegate
-- [`examples/generic/.../listsimple/`](../examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listsimple/) — Minimal list setup
-- [`examples/generic/.../listfancy/`](../examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listfancy/) — Styled list with custom delegate
+- [`listdefault/`](../src/main/resources/examples/compat/bubbletea/listdefault/) — Basic list with DefaultDelegate
+- [`listsimple/`](../src/main/resources/examples/compat/bubbletea/listsimple/) — Minimal list setup
+- [`listfancy/`](../src/main/resources/examples/compat/bubbletea/listfancy/) — Styled list with custom delegate

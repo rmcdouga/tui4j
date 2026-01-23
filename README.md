@@ -37,7 +37,7 @@ new Program(new MyModel()).run();
 
 ![Demo](assets/demo-tape.gif)
 
-See the [examples](examples/generic) including lists, text inputs, spinners, and more. For Spring Boot integration, see the [Spring examples](examples/spring).
+See the [examples](src/main/resources/examples) including lists, text inputs, spinners, and more. For Spring Boot integration, see the [Spring examples](src/main/resources/examples/spring).
 
 ![Conway's Game of Life](assets/conway-tape.gif)
 
