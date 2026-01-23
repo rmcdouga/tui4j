@@ -5,8 +5,6 @@
 
 **TUI4J** (Terminal User Interface for Java) is a Java TUI framework inspired by [Bubble Tea](https://github.com/charmbracelet/bubbletea). It includes a compatibility module that mirrors the original Go API for developers familiar with the Charm ecosystem.
 
-[![Brief screenshot](assets/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
-
 ## Installation
 
 ### Maven
@@ -34,6 +32,10 @@ new Program(new MyModel()).run();
 ```
 
 ## Examples
+
+[![Brief screenshot](assets/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
+
+**[Brief](https://github.com/WilliamAGH/brief)** - Terminal AI chat client built with TUI4J. Available via Homebrew.
 
 ![Demo](assets/demo-tape.gif)
 
