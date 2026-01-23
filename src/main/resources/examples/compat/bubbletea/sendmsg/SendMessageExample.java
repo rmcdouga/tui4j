@@ -148,7 +148,21 @@ public class SendMessageExample implements Model {
         model.setProgram(program);
 
         new Thread(() -> {
-            while (model.program != null && model.program.isRunning()) {
+            boolean started = false;
+            while (model.program != null) {
+                if (!model.program.isRunning()) {
+                    if (started) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(25);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                    continue;
+                }
+                started = true;
                 try {
                     int delayMs = RANDOM.nextInt(900) + 100;
                     Thread.sleep(delayMs);
