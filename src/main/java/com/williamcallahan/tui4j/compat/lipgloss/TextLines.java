@@ -26,7 +26,8 @@ public class TextLines {
     }
 
     private void readTextLines(String text) {
-        this.lines = text.split("\n", -1);
+        // Normalize CRLF to LF to prevent stray carriage returns in terminal output
+        this.lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n", -1);
 
         for (String line : lines) {
             int width = TextWidth.measureCellWidth(line);

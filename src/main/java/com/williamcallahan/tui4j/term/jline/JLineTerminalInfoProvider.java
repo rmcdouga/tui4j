@@ -122,14 +122,19 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
     private static Response readNextResponse(NonBlockingReader reader) throws IOException {
         StringBuilder response = new StringBuilder();
 
-        // Find ESC
-        char start = (char) reader.read(100);
-        while (start != ESC) {
-            int c = reader.read(100);
+        // Find ESC with timeout to prevent infinite loop if terminal doesn't respond
+        int maxAttempts = 20; // 20 * 100ms = 2 second max wait
+        int attempts = 0;
+        int c = reader.read(100);
+        while (c != ESC) {
+            attempts++;
+            if (attempts >= maxAttempts) {
+                return null; // Terminal did not respond in time
+            }
+            c = reader.read(100);
             if (c == -1) continue;
-            start = (char) c;
         }
-        response.append(start);
+        response.append((char) c);
 
         // Read type character ([ or ])
         int typeInt = reader.read(100);

@@ -91,6 +91,8 @@ public class StandardRenderer implements Renderer {
 
     // Bubble Tea: seeks to replicate bubbletea/standard_renderer.go stop behavior.
     public void stop() {
+        // Final flush to ensure all buffered content is rendered before stopping
+        flush();
         isRunning = false;
         try {
             ticker.shutdownNow();
@@ -204,6 +206,7 @@ public class StandardRenderer implements Renderer {
         try {
             buffer.setLength(0);
             buffer.append(string);
+            needsRender = true;
         } finally {
             renderLock.unlock();
         }
