@@ -98,9 +98,7 @@ public class Table implements Model, KeyMap {
      * @return this table
      */
     public Table rows(Row... rows) {
-        this.rows = List.of(rows);
-        updateViewport();
-        return this;
+        return rows(List.of(rows));
     }
 
     /**
@@ -272,12 +270,12 @@ public class Table implements Model, KeyMap {
         List<String> cells = new ArrayList<>();
         Row row = rows.get(rowIndex);
 
-        for (int i = 0; i < columns.size() && i < row.size(); i++) {
+        for (int i = 0; i < columns.size(); i++) {
             Column col = columns.get(i);
             if (col.width() <= 0) {
                 continue;
             }
-            String cellValue = row.at(i);
+            String cellValue = i < row.size() ? row.at(i) : "";
             String truncated = Truncate.truncate(cellValue, col.width(), "…");
             String rendered = Style.newStyle()
                 .width(col.width())
@@ -549,7 +547,7 @@ public class Table implements Model, KeyMap {
      */
     public void fromValues(String value, String separator) {
         List<Row> rows = new ArrayList<>();
-        String[] lines = value.split("\n");
+        String[] lines = value.split("\n", -1);
         for (String line : lines) {
             String[] fields = line.split(Pattern.quote(separator), -1);
             rows.add(new Row(fields));
