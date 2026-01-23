@@ -148,7 +148,7 @@ public class Help {
 
         StringBuilder b = new StringBuilder();
         int totalWidth = 0;
-        String separator = styles.getShortSeparator().inline(true).render(shortSeparator);
+        String separator = styles.getShortSeparator().copy().inline(true).render(shortSeparator);
 
         for (int i = 0; i < bindings.length; i++) {
             Binding kb = bindings[i];
@@ -164,8 +164,8 @@ public class Help {
 
             // Item
             String str = sep +
-                    styles.getShortKey().inline(true).render(kb.help().key()) + " " +
-                    styles.getShortDesc().inline(true).render(kb.help().desc());
+                    styles.getShortKey().copy().inline(true).render(kb.help().key()) + " " +
+                    styles.getShortDesc().copy().inline(true).render(kb.help().desc());
             int w = Size.width(str);
 
             // Tail
