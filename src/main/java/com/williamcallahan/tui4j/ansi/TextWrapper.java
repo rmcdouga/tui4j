@@ -138,6 +138,8 @@ public class TextWrapper {
             } else if (seq.endsWith("m")) {
                 // It's an SGR sequence - update active style
                 // The seq already contains ESC and everything else
+                // Note: This replaces rather than accumulates SGR parameters.
+                // Cumulative styles (e.g., color then bold) are not preserved.
                 activeStyle.setLength(0);
                 activeStyle.append(seq);
             }
