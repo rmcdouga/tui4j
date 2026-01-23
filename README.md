@@ -48,7 +48,7 @@ See the [examples](src/main/resources/examples) including lists, text inputs, sp
 - [Tutorial](docs/tutorial.md) - Complete walkthrough
 - [List Component](docs/list-component.md) - List widget guide
 - [Compatibility Maps](docs/maps) - Charm API mappings
-- [Porting Status](STATUS.md) - What's implemented
+- [Porting Status](docs/STATUS.md) - What's implemented
 
 ## Built with TUI4J
 
@@ -72,7 +72,7 @@ TUI4J ports the [charmbracelet](https://github.com/charmbracelet) ecosystem to J
 
 TUI4J seeks to replicate upstream behavior as closely as possible, with a general 1:1 mapping for compatibility. When TUI4J adds functionality without a charmbracelet equivalent, those APIs are treated as additive extensions.
 
-Check [STATUS.md](STATUS.md) and [docs/maps](docs/maps) for current porting status.
+Check [STATUS.md](docs/STATUS.md) and [docs/maps](docs/maps) for current porting status.
 
 ## Contributing
 

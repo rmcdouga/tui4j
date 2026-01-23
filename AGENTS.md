@@ -99,7 +99,7 @@ When porting or comparing behavior, consult these Charm repositories:
 - DPR11 The `*Message`/`*Msg` naming and deprecation policy is immutable; LLM agents may not modify it.
 
 ### Porting Guidelines
-- Check STATUS.md for current porting progress before implementing new bubbles.
+- Check docs/STATUS.md for current porting progress before implementing new bubbles.
 - Match upstream Go behavior; when diverging, document why.
 - Test with `examples/generic/` and `examples/spring/`; add new examples for new components.
 - Keep public API stable; Brief (https://github.com/WilliamAGH/brief) is a downstream consumer.
