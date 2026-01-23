@@ -311,9 +311,6 @@ public class Table implements Model, KeyMap {
                 result.append("\n");
             }
             for (int i = 0; i < parts.length; i++) {
-                if (i > 0) {
-                    result.append("");
-                }
                 if (line < linesParts[i].length) {
                     result.append(linesParts[i][line]);
                 } else {
