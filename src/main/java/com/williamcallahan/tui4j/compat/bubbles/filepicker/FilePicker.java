@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -169,7 +170,7 @@ public class FilePicker implements Model {
                                         permissions
                                     )
                                 );
-                            } catch (IOException e) {
+                            } catch (IOException | SecurityException e) {
                                 String errorMsg =
                                     "Failed to read: " +
                                     p.getFileName() +
@@ -208,7 +209,7 @@ public class FilePicker implements Model {
                 "Security exception checking directory status for " + p,
                 e
             );
-            return false;
+            return true;
         }
     }
 
@@ -221,7 +222,9 @@ public class FilePicker implements Model {
      */
     private static String getPermissions(Path p) throws IOException {
         try {
-            return Files.getPosixFilePermissions(p).toString();
+            return PosixFilePermissions.toString(
+                Files.getPosixFilePermissions(p)
+            );
         } catch (UnsupportedOperationException e) {
             // Non-POSIX filesystem (Windows)
             return (
@@ -238,9 +241,10 @@ public class FilePicker implements Model {
      * @param height height in rows
      */
     public void setHeight(int height) {
-        this.height = height;
+        this.height = Math.max(0, height);
         if (this.max > this.height - 1) {
-            this.max = this.min + this.height - 1;
+            int updatedMax = Math.max(this.min, this.min + this.height - 1);
+            this.max = Math.max(0, updatedMax);
         }
     }
 
@@ -252,7 +256,7 @@ public class FilePicker implements Model {
      */
     public void setTerminalSize(int width, int height) {
         if (this.autoHeight) {
-            this.height = height - MARGIN_BOTTOM;
+            this.height = Math.max(0, height - MARGIN_BOTTOM);
         }
         this.max = computeMaxIndex();
     }
