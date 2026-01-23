@@ -294,7 +294,6 @@ class InputHandlerTest {
         CountDownLatch messageLatch = new CountDownLatch(1);
 
         Consumer<Message> messageConsumer = message -> {
-            System.out.println("DEBUG: Received message: " + message);
             receivedMessages.add(message);
             messageLatch.countDown();
         };

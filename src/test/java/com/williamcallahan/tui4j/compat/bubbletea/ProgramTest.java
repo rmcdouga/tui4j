@@ -6,6 +6,8 @@ import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.SequenceMessage;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +59,9 @@ class ProgramTest {
     void test_ShouldExecuteCommandsInParallel_ForBatchMessage() {
         // given
         TestModel testModel = new TestModel(new ArrayList<>());
-        Program program = new Program(testModel);
+        Program program = new Program(testModel,
+                ProgramOption.withInput(new ByteArrayInputStream(new byte[0])),
+                ProgramOption.withOutput(new ByteArrayOutputStream()));
 
         List<String> executionOrder = new ArrayList<>();
 
@@ -102,7 +106,9 @@ class ProgramTest {
     void test_ShouldExecuteCommandsInOrder_ForSequenceMessage() {
         // given
         TestModel testModel = new TestModel(new ArrayList<>());
-        Program program = new Program(testModel);
+        Program program = new Program(testModel,
+                ProgramOption.withInput(new ByteArrayInputStream(new byte[0])),
+                ProgramOption.withOutput(new ByteArrayOutputStream()));
 
         List<String> executionOrder = new ArrayList<>();
 
@@ -151,7 +157,9 @@ class ProgramTest {
         // given
         List<String> executionOrder = new ArrayList<>();
         TestModel testModel = new TestModel(executionOrder);
-        Program program = new Program(testModel);
+        Program program = new Program(testModel,
+                ProgramOption.withInput(new ByteArrayInputStream(new byte[0])),
+                ProgramOption.withOutput(new ByteArrayOutputStream()));
 
         // when
         assertEquals(0, executionOrder.size(), "Message before start should be dropped");
@@ -181,7 +189,9 @@ class ProgramTest {
     @Test
     void testExecProcessWaitsForCompletion() throws Exception {
         TestModel testModel = new TestModel(new ArrayList<>());
-        Program program = new Program(testModel);
+        Program program = new Program(testModel,
+                ProgramOption.withInput(new ByteArrayInputStream(new byte[0])),
+                ProgramOption.withOutput(new ByteArrayOutputStream()));
 
         Thread programThread = new Thread(program::run);
         programThread.start();
