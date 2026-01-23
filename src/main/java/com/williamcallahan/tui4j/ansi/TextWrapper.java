@@ -42,6 +42,8 @@ public class TextWrapper {
     private StringBuilder buf = new StringBuilder(); // Final wrapped text
     private StringBuilder word = new StringBuilder(); // Current word
     private StringBuilder space = new StringBuilder(); // Current spaces
+    private StringBuilder ansiSeq = new StringBuilder(); // Current ANSI escape sequence being parsed
+    private StringBuilder activeStyle = new StringBuilder(); // Active SGR style to re-apply after wrap
 
     /**
      * Wraps text to the specified display width limit.
@@ -51,6 +53,18 @@ public class TextWrapper {
      * @return wrapped text with line breaks inserted
      */
     public String wrap(String text, int limit) {
+        return wrap(text, limit, false);
+    }
+
+    /**
+     * Wraps text to the specified display width limit, optionally preserving styles across lines.
+     *
+     * @param text          the text to wrap
+     * @param limit         maximum display width per line
+     * @param preserveStyle whether to reset and re-apply styles across line breaks
+     * @return wrapped text with line breaks inserted
+     */
+    public String wrap(String text, int limit, boolean preserveStyle) {
         if (limit < 1 || text == null) {
             return text;
         }
@@ -62,6 +76,8 @@ public class TextWrapper {
         this.buf.setLength(0);
         this.word.setLength(0);
         this.space.setLength(0);
+        this.ansiSeq.setLength(0);
+        this.activeStyle.setLength(0);
 
         TransitionTable table = TransitionTable.get();
         State pstate = State.GROUND;
@@ -74,16 +90,21 @@ public class TextWrapper {
             Action action = transition.action();
 
             if (state == State.UTF8) {
-                i = handleUtf8(bytes, i);
+                i = handleUtf8(bytes, i, preserveStyle);
                 pstate = State.GROUND;
                 continue;
             }
 
             if (action == Action.PRINT || action == Action.EXECUTE) {
-                handlePrint(bytes[i]);
+                handlePrint(bytes[i], preserveStyle);
             } else {
                 // We're inside an ANSI escape sequence
-                word.append((char) bytes[i]);
+                char ch = (char) bytes[i];
+                word.append(ch);
+                
+                if (preserveStyle) {
+                    trackStyle(ch);
+                }
             }
 
             if (pstate != State.UTF8) {
@@ -106,7 +127,29 @@ public class TextWrapper {
         return buf.toString();
     }
 
-    private int handleUtf8(byte[] bytes, int i) {
+    private void trackStyle(char ch) {
+        ansiSeq.append(ch);
+        // Check if this completes an SGR sequence (ends with 'm')
+        if (ch == 'm' && ansiSeq.length() >= 2) {
+            String seq = ansiSeq.toString();
+            // Check if it's a reset sequence (ESC[m, ESC[0m, or any sequence starting with 0;)
+            if (isResetSequence(seq)) {
+                activeStyle.setLength(0);
+            } else if (seq.endsWith("m")) {
+                // It's an SGR sequence - update active style
+                // The seq already contains ESC and everything else
+                activeStyle.setLength(0);
+                activeStyle.append(seq);
+            }
+            ansiSeq.setLength(0);
+        } else if (ch == 0x1b) {
+            // Start of new escape sequence
+            ansiSeq.setLength(0);
+            ansiSeq.append(ch);
+        }
+    }
+
+    private int handleUtf8(byte[] bytes, int i, boolean preserveStyle) {
         GraphemeResult graphemeResult =
             GraphemeCluster.getFirstGraphemeCluster(bytes, i, -1);
         if (graphemeResult == null) {
@@ -142,7 +185,7 @@ public class TextWrapper {
             word.append(grapheme);
             wordLen += width;
             if (curWidth + wordLen + spaceWidth > limit) {
-                addNewLine();
+                addNewLine(preserveStyle);
             }
             if (wordLen == limit) {
                 addWord();
@@ -152,7 +195,7 @@ public class TextWrapper {
         return i + cluster.length;
     }
 
-    private void handlePrint(byte b) {
+    private void handlePrint(byte b, boolean preserveStyle) {
         char ch = (char) b;
         if (ch == '\n') {
             if (wordLen == 0) {
@@ -165,7 +208,7 @@ public class TextWrapper {
                 spaceWidth = 0;
             }
             addWord();
-            addNewLine();
+            addNewLine(preserveStyle);
         } else if (UCharacter.isWhitespace(ch)) {
             addWord();
             space.append(ch);
@@ -182,7 +225,7 @@ public class TextWrapper {
             }
         } else {
             if (curWidth == limit) {
-                addNewLine();
+                addNewLine(preserveStyle);
             }
             word.append(ch);
             wordLen++;
@@ -190,7 +233,7 @@ public class TextWrapper {
                 addWord();
             }
             if (curWidth + wordLen + spaceWidth > limit) {
-                addNewLine();
+                addNewLine(preserveStyle);
             }
         }
     }
@@ -226,10 +269,41 @@ public class TextWrapper {
      * Handles add new line for this component.
      */
     private void addNewLine() {
+        addNewLine(false);
+    }
+
+    private void addNewLine(boolean preserveStyle) {
+        if (preserveStyle && activeStyle.length() > 0) {
+            buf.append("\033[m");
+        }
         buf.append('\n');
+        if (preserveStyle && activeStyle.length() > 0) {
+            buf.append(activeStyle);
+        }
         curWidth = 0;
         space.setLength(0);
         spaceWidth = 0;
+    }
+
+    /**
+     * Checks if an SGR sequence is a reset sequence.
+     * The sequence includes ESC[...m format.
+     *
+     * @param seq the full sequence including ESC, [, parameters, and 'm'
+     * @return true if this is a reset sequence
+     */
+    private static boolean isResetSequence(String seq) {
+        if (seq == null || seq.length() < 3) {
+            return false;
+        }
+        // Find the parameters between '[' and 'm'
+        int bracketIdx = seq.indexOf('[');
+        if (bracketIdx < 0 || !seq.endsWith("m")) {
+            return false;
+        }
+        String params = seq.substring(bracketIdx + 1, seq.length() - 1);
+        // Reset sequences: empty params (ESC[m), "0" (ESC[0m), or starting with "0;"
+        return params.isEmpty() || params.equals("0") || params.startsWith("0;");
     }
 
     /**

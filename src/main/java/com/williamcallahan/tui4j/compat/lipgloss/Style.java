@@ -784,7 +784,7 @@ public class Style implements Cloneable {
 
         if (!inline && width > 0) {
             int wrapAt = width - leftPadding - rightPadding;
-            string = new TextWrapper().wrap(string, wrapAt);
+            string = new TextWrapper().wrap(string, wrapAt, true);
         }
 
         // core rendering
