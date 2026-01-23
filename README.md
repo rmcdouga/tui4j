@@ -82,7 +82,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues and su
 
 [MIT License](LICENSE.md)
 
-This project began as a fork of the original Latte by [Lukasz Grabski](https://github.com/activey), which was released under the MIT License.
+This project began as a fork of the original [Latte](https://github.com/activey/latte) by [Lukasz Grabski](https://github.com/activey), which was released under the MIT License.
 
 [Bubble Tea](https://github.com/charmbracelet/bubbletea) is a trademark of [Charmbracelet, Inc.](https://charm.sh/) The original Go implementations are also licensed under MIT.
 
