@@ -302,7 +302,7 @@ public class Table implements Model, KeyMap {
         String[][] linesParts = new String[parts.length][];
         int maxLines = 0;
         for (int i = 0; i < parts.length; i++) {
-            linesParts[i] = parts[i].split("\n");
+            linesParts[i] = parts[i].split("\n", -1);
             maxLines = Math.max(maxLines, linesParts[i].length);
         }
         StringBuilder result = new StringBuilder();
