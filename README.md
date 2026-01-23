@@ -39,7 +39,7 @@ new Program(new MyModel()).run();
 
 **[Pulse](src/main/resources/examples/showcases/README.md)** - Terminal implementation example. See [PulseExample.java](src/main/resources/examples/showcases/PulseExample.java).
 
-[![Brief screenshot](assets/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
+[![Brief screenshot](src/main/resources/static/img/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
 
 **[Brief](https://github.com/WilliamAGH/brief)** - Terminal AI chat client built with TUI4J. Available via Homebrew.
 
