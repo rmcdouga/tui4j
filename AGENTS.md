@@ -61,6 +61,7 @@ When porting or comparing behavior, consult these Charm repositories:
 - **x**: <https://github.com/charmbracelet/x> — experimental packages (ansi, cellbuf, colors, editor)
 
 ### Package Mapping
+
 | Go (Charm)              | Java (TUI4J)                                                |
 |-------------------------|-------------------------------------------------------------|
 | bubbletea (core)        | com.williamcallahan.tui4j.compat.bubbletea.*                |
@@ -74,6 +75,7 @@ When porting or comparing behavior, consult these Charm repositories:
 | x/cellbuf               | ⚪ Not yet ported                                            |
 | x/colors                | ⚪ Not yet ported                                            |
 | x/editor                | ⚪ Not yet ported                                            |
+
 
 ### Native tui4j Extensions (Non‑Port)
 - `com.williamcallahan.tui4j.ansi` — Re-exports from compat.x.ansi; ANSI helpers, width/truncation.
