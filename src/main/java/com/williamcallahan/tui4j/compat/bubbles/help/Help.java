@@ -193,11 +193,12 @@ public class Help {
      */
     private Result shouldAddItem(int totalWidth, int width) {
         String tail = "";
-        if (this.width > 0 && totalWidth+width > this.width) {
+        if (this.width > 0 && totalWidth + width > this.width) {
             tail = " " + styles.getEllipsis().copy().inline(true).render(this.ellipsis);
             if (totalWidth + Size.width(tail) < this.width) {
                 return new Result(false, tail);
             }
+            return new Result(false, "");
         }
         return new Result(true, "");
     }

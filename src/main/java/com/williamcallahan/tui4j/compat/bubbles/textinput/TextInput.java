@@ -761,27 +761,31 @@ public class TextInput implements Model {
     }
 
     private boolean canAcceptSuggestion() {
-        return matchedSuggestions.length > 0;
+        return showSuggestions
+                && matchedSuggestions.length > 0
+                && currentSuggestionIndex >= 0
+                && currentSuggestionIndex < matchedSuggestions.length;
     }
 
     /**
      * Moves to the next suggestion.
      */
     public void nextSuggestion() {
-        this.currentSuggestionIndex = currentSuggestionIndex + 1;
-        if (currentSuggestionIndex > matchedSuggestions.length) {
-            this.currentSuggestionIndex = 0;
+        if (matchedSuggestions.length == 0) {
+            return;
         }
+        currentSuggestionIndex = (currentSuggestionIndex + 1) % matchedSuggestions.length;
     }
 
     /**
      * Moves to the previous suggestion.
      */
     public void previousSuggestion() {
-        this.currentSuggestionIndex = currentSuggestionIndex - 1;
-        if (currentSuggestionIndex < 0) {
-            this.currentSuggestionIndex = matchedSuggestions.length;
+        if (matchedSuggestions.length == 0) {
+            return;
         }
+        currentSuggestionIndex =
+                (currentSuggestionIndex - 1 + matchedSuggestions.length) % matchedSuggestions.length;
     }
 
     /**
