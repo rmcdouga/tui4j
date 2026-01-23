@@ -7,6 +7,10 @@
 
 **TUI4J** (Terminal User Interface for Java) is a Java TUI framework inspired by [Bubble Tea](https://github.com/charmbracelet/bubbletea). It includes a compatibility module that mirrors the original Go API for developers familiar with the Charm ecosystem.
 
+![Pulse TUI4J](src/main/resources/static/img/Pulse_TUI4J_Screenshot.png)
+
+[![Brief screenshot](src/main/resources/static/img/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
+
 ## Installation
 
 ### Maven
@@ -35,15 +39,9 @@ new Program(new MyModel()).run();
 
 ## Examples
 
-![Pulse TUI4J](src/main/resources/static/img/Pulse_TUI4J_Screenshot.png)
+See the [examples](src/main/resources/examples) directory for lists, text inputs, spinners, and more. For Spring Boot integration, see the [Spring examples](src/main/resources/examples/spring).
 
-**[Pulse](src/main/resources/examples/showcases/README.md)** - Terminal implementation example. See [PulseExample.java](src/main/resources/examples/showcases/PulseExample.java).
-
-[![Brief screenshot](src/main/resources/static/img/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
-
-**[Brief](https://github.com/WilliamAGH/brief)** - Terminal AI chat client built with TUI4J. Available via Homebrew.
-
-See the [examples](src/main/resources/examples) including lists, text inputs, spinners, and more. For Spring Boot integration, see the [Spring examples](src/main/resources/examples/spring).
+The screenshots above show [Pulse](src/main/resources/examples/showcases/README.md) (a terminal implementation demo) and [Brief](https://github.com/WilliamAGH/brief) (a terminal AI chat client built with TUI4J).
 
 ## Documentation
 
