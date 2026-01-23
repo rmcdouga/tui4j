@@ -53,11 +53,43 @@ public class TransitionTable {
     public record Transition(State state, Action action) {}
 
     private static com.williamcallahan.tui4j.compat.x.ansi.parser.State toCompatState(State state) {
-        return com.williamcallahan.tui4j.compat.x.ansi.parser.State.values()[state.ordinal()];
+        return switch (state) {
+            case GROUND -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.GROUND;
+            case CSI_ENTRY -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.CSI_ENTRY;
+            case CSI_INTERMEDIATE -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.CSI_INTERMEDIATE;
+            case CSI_PARAM -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.CSI_PARAM;
+            case DCS_ENTRY -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.DCS_ENTRY;
+            case DCS_INTERMEDIATE -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.DCS_INTERMEDIATE;
+            case DCS_PARAM -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.DCS_PARAM;
+            case DCS_STRING -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.DCS_STRING;
+            case ESCAPE -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.ESCAPE;
+            case ESCAPE_INTERMEDIATE -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.ESCAPE_INTERMEDIATE;
+            case OSC_STRING -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.OSC_STRING;
+            case SOS_STRING -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.SOS_STRING;
+            case PM_STRING -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.PM_STRING;
+            case APC_STRING -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.APC_STRING;
+            case UTF8 -> com.williamcallahan.tui4j.compat.x.ansi.parser.State.UTF8;
+        };
     }
 
     private static State fromCompatState(com.williamcallahan.tui4j.compat.x.ansi.parser.State state) {
-        return State.values()[state.ordinal()];
+        return switch (state) {
+            case GROUND -> State.GROUND;
+            case CSI_ENTRY -> State.CSI_ENTRY;
+            case CSI_INTERMEDIATE -> State.CSI_INTERMEDIATE;
+            case CSI_PARAM -> State.CSI_PARAM;
+            case DCS_ENTRY -> State.DCS_ENTRY;
+            case DCS_INTERMEDIATE -> State.DCS_INTERMEDIATE;
+            case DCS_PARAM -> State.DCS_PARAM;
+            case DCS_STRING -> State.DCS_STRING;
+            case ESCAPE -> State.ESCAPE;
+            case ESCAPE_INTERMEDIATE -> State.ESCAPE_INTERMEDIATE;
+            case OSC_STRING -> State.OSC_STRING;
+            case SOS_STRING -> State.SOS_STRING;
+            case PM_STRING -> State.PM_STRING;
+            case APC_STRING -> State.APC_STRING;
+            case UTF8 -> State.UTF8;
+        };
     }
 
     private static Action fromCompatAction(com.williamcallahan.tui4j.compat.x.ansi.parser.Action action) {
