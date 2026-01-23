@@ -3,7 +3,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.williamcallahan/tui4j)](https://central.sonatype.com/artifact/com.williamcallahan/tui4j)
 [![GitHub Release](https://img.shields.io/github/v/release/WilliamAGH/tui4j)](https://github.com/WilliamAGH/tui4j/releases)
 [![Context7](src/main/resources/static/img/context7-badge.svg)](https://context7.com/williamagh/tui4j)
-[![DeepWiki](src/main/resources/static/img/deepwiki-badge.png)](https://deepwiki.com/WilliamAGH/tui4j)
+[![DeepWiki](src/main/resources/static/img/deepwiki-badge.svg)](https://deepwiki.com/WilliamAGH/tui4j)
 
 **TUI4J** (Terminal User Interface for Java) is a Java TUI framework inspired by [Bubble Tea](https://github.com/charmbracelet/bubbletea). It includes a compatibility module that mirrors the original Go API for developers familiar with the Charm ecosystem.
 
