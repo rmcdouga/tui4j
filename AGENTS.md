@@ -93,7 +93,7 @@ When porting or comparing behavior, consult these Charm repositories:
 - DPR3 **docs/maps/*.md** is the source of truth for canonical vs deprecated designations.
 - DPR4 Canonical classes are standalone implementations; deprecated shims ONLY extend them.
 - DPR5 Naming: `*Message` = canonical, `*Msg` = deprecated shim (extends the `*Message` variant).
-- DPR6 `*Msg` shims allowed ONLY in double-nested accident paths already on origin/main (`compat.bubbletea.bubbles.*`, `compat.bubbletea.lipgloss.*`, `compat.bubbletea.harmonica.*`); delete `*Msg` types elsewhere.
+- DPR6 `*Msg` shims allowed ONLY in double-nested accident paths already on origin/main (`compat.bubbletea.bubbles.*`, `compat.bubbletea.lipgloss.*`, `compat.bubbletea.harmonica.*`); do not add new `*Msg` types elsewhere. If public `*Msg` types exist outside these paths, deprecate and retain until a scheduled removal release.
 - DPR7 Deprecated shims must be thin wrappers: constructor calls `super(...)`, no additional logic.
 - DPR8 Canonical classes NEVER import, reference, or depend on deprecated types.
 - DPR9 No aliases, fallbacks, or alternate implementations—one canonical source of truth per concept.
