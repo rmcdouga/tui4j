@@ -1,5 +1,8 @@
 package com.williamcallahan.tui4j.ansi;
 
+import com.ibm.icu.lang.UCharacter;
+import com.ibm.icu.lang.UProperty;
+
 /**
  * Transition rules for grapheme cluster parsing.
  * tui4j: src/main/java/com/williamcallahan/tui4j/ansi/GraphemeTransitions.java
@@ -217,9 +220,34 @@ public class GraphemeTransitions {
      * @return grapheme property constant
      */
     private static int propertyGraphemes(int codePoint) {
-        // This needs to be implemented based on Unicode properties
-        // For now returning PR_ANY
-        return PR_ANY;
+        int property = UCharacter.getIntPropertyValue(
+            codePoint,
+            UProperty.GRAPHEME_CLUSTER_BREAK
+        );
+        return switch (property) {
+            case UCharacter.GraphemeClusterBreak.CR -> PR_CR;
+            case UCharacter.GraphemeClusterBreak.LF -> PR_LF;
+            case UCharacter.GraphemeClusterBreak.CONTROL -> PR_CONTROL;
+            case UCharacter.GraphemeClusterBreak.EXTEND -> PR_EXTEND;
+            case UCharacter.GraphemeClusterBreak.ZWJ -> PR_ZWJ;
+            case UCharacter.GraphemeClusterBreak.PREPEND -> PR_PREPEND;
+            case UCharacter.GraphemeClusterBreak.SPACING_MARK -> PR_SPACING_MARK;
+            case UCharacter.GraphemeClusterBreak.L -> PR_L;
+            case UCharacter.GraphemeClusterBreak.V -> PR_V;
+            case UCharacter.GraphemeClusterBreak.T -> PR_T;
+            case UCharacter.GraphemeClusterBreak.LV -> PR_LV;
+            case UCharacter.GraphemeClusterBreak.LVT -> PR_LVT;
+            case UCharacter.GraphemeClusterBreak.REGIONAL_INDICATOR -> PR_REGIONAL_INDICATOR;
+            default -> {
+                if (UCharacter.hasBinaryProperty(
+                    codePoint,
+                    UProperty.EXTENDED_PICTOGRAPHIC
+                )) {
+                    yield PR_EXTENDED_PICTOGRAPHIC;
+                }
+                yield PR_ANY;
+            }
+        };
     }
 
     /**
