@@ -320,7 +320,7 @@ public class SplitEditorsExample implements Model {
     /**
      * Support type for the Split example.
      */
-    public static class WindowSizeMessage {
+    public static class WindowSizeMessage implements Message {
         private final int width;
         private final int height;
 
