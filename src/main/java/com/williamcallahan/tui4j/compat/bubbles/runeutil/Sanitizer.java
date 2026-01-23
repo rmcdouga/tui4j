@@ -1,7 +1,5 @@
 package com.williamcallahan.tui4j.compat.bubbles.runeutil;
 
-import com.ibm.icu.lang.UCharacter;
-
 import java.util.function.Consumer;
 
 /**
@@ -56,11 +54,10 @@ public class Sanitizer {
                     result.append(replaceTab);
                     break;
                 default:
-                    if (!isLatinLetter(r)) {
+                    if (isControlChar(r)) {
                         continue;
-                    } else {
-                        result.append(r);
                     }
+                    result.append(r);
                     break;
             }
         }
@@ -87,18 +84,18 @@ public class Sanitizer {
         return sanitizer -> sanitizer.replaceNewLine = newlineReplacement;
     }
 
-    private static boolean isLatinLetter(char c) {
-        int type = UCharacter.getType(c);
-        return UCharacter.isLetterOrDigit(c) ||
-                UCharacter.isWhitespace(c) ||
-                type == UCharacter.OTHER_PUNCTUATION ||
-                type == UCharacter.MATH_SYMBOL ||
-                type == UCharacter.DASH_PUNCTUATION ||
-                type == UCharacter.CURRENCY_SYMBOL ||
-                type == UCharacter.START_PUNCTUATION ||
-                type == UCharacter.END_PUNCTUATION ||
-                type == UCharacter.MODIFIER_SYMBOL ||
-                type == UCharacter.CONNECTOR_PUNCTUATION;
+    /**
+     * Checks if a character is a control character that should be removed.
+     * Control characters (C0, DEL, C1) corrupt terminal output and should be filtered.
+     *
+     * @param c character to check
+     * @return true if the character is a control character
+     */
+    private static boolean isControlChar(char c) {
+        // C0 controls (0x00-0x1F) except handled ones, DEL (0x7F), C1 controls (0x80-0x9F)
+        return (c < 0x20 && c != '\t' && c != '\n' && c != '\r') ||
+                c == 0x7F ||
+                (c >= 0x80 && c <= 0x9F);
     }
 
 }
