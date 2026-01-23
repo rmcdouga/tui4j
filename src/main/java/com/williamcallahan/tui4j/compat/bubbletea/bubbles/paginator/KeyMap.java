@@ -3,34 +3,29 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.paginator;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 
 /**
- * Port of Bubbles key map.
- * Bubble Tea: bubbletea/examples/paginator/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.paginator.KeyMap} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class KeyMap {
+@Deprecated(since = "0.3.0")
+public class KeyMap extends com.williamcallahan.tui4j.compat.bubbles.paginator.KeyMap {
 
-    public static KeyMap defaultKeyMap() {
-        return new KeyMap(
-                new Binding(Binding.withKeys("pgup", "left", "h")),
-                new Binding(Binding.withKeys("pgdown", "right", "l"))
-        );
-    }
-
-    private Binding prevPage;
-    private Binding nextPage;
-
+    /**
+     * Creates a paginator key map shim.
+     */
+    @Deprecated(since = "0.3.0")
     public KeyMap() {
+        super();
     }
 
+    /**
+     * Creates a paginator key map with explicit bindings.
+     *
+     * @param prevPage previous-page binding
+     * @param nextPage next-page binding
+     */
+    @Deprecated(since = "0.3.0")
     public KeyMap(Binding prevPage, Binding nextPage) {
-        this.prevPage = prevPage;
-        this.nextPage = nextPage;
+        super(prevPage, nextPage);
     }
 
-    public Binding nextPage() {
-        return nextPage;
-    }
-
-    public Binding prevPage() {
-        return prevPage;
-    }
 }

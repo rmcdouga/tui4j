@@ -5,25 +5,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 
 /**
- * Port of Bubbles item delegate.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public interface ItemDelegate {
-
-    interface UpdateFunction {
-        Command update(Message msg, List listModel);
-    }
-
-    interface ShortHelpFunc {
-        Binding[] get();
-    }
-
-    interface FullHelpFunc {
-        Binding[][] get();
-    }
-
-    void render(StringBuilder output, List list, int index, FilteredItem filteredItem);
-    int height();
-    int spacing();
-    Command update(Message msg, List listModel);
+@Deprecated(since = "0.3.0")
+public interface ItemDelegate extends com.williamcallahan.tui4j.compat.bubbles.list.ItemDelegate {
 }

@@ -7,4 +7,9 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
  * Bubble Tea: bubbletea/focus.go
  */
 public class FocusMessage implements Message {
+    /**
+     * Creates a focus message.
+     */
+    public FocusMessage() {
+    }
 }

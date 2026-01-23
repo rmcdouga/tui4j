@@ -1,25 +1,82 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.placement;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption;
-
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer;
-
 /**
- * Port of Lip Gloss placement decorator.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lip Gloss: style.go.
  */
-public class PlacementDecorator {
+@Deprecated(since = "0.3.0")
+public class PlacementDecorator extends com.williamcallahan.tui4j.compat.lipgloss.PlacementDecorator {
 
-    public static String place(int width, int height, Position hPos, Position vPos, String input, WhitespaceOption... options) {
-        return defaultRenderer().place(width, height, hPos, vPos, input, options);
+    /**
+     * Creates a placement decorator instance for legacy compatibility.
+     */
+    @Deprecated(since = "0.3.0")
+    public PlacementDecorator() {
     }
 
-    public static String placeHorizontal(int width, Position position, String input, WhitespaceOption... options) {
-        return defaultRenderer().placeHorizontal(width, position, input, options);
+    /**
+     * Places text within a rectangle using legacy positions.
+     *
+     * @param width   width in cells
+     * @param height  height in rows
+     * @param hPos    horizontal position
+     * @param vPos    vertical position
+     * @param input   input text
+     * @param options whitespace options
+     * @return placed text
+     */
+    public static String place(
+        int width,
+        int height,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position hPos,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position vPos,
+        String input,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption... options
+    ) {
+        return com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer
+            .defaultRenderer()
+            .place(width, height, hPos.toNew(), vPos.toNew(), input, options);
     }
 
-    public static String placeVertical(int height, Position position, String input, WhitespaceOption... options) {
-        return defaultRenderer().placeVertical(height, position, input, options);
+    /**
+     * Places text horizontally within a width using legacy positions.
+     *
+     * @param width    width in cells
+     * @param position horizontal position
+     * @param input    input text
+     * @param options  whitespace options
+     * @return placed text
+     */
+    public static String placeHorizontal(
+        int width,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position position,
+        String input,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption... options
+    ) {
+        return com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer
+            .defaultRenderer()
+            .placeHorizontal(width, position.toNew(), input, options);
+    }
+
+    /**
+     * Places text vertically within a height using legacy positions.
+     *
+     * @param height   height in rows
+     * @param position vertical position
+     * @param input    input text
+     * @param options  whitespace options
+     * @return placed text
+     */
+    public static String placeVertical(
+        int height,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position position,
+        String input,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Whitespace.WhitespaceOption... options
+    ) {
+        return com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer
+            .defaultRenderer()
+            .placeVertical(height, position.toNew(), input, options);
     }
 }

@@ -2,7 +2,6 @@ package com.williamcallahan.tui4j.input;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 /**
  * Tracks mouse selection state.
@@ -15,9 +14,18 @@ public final class MouseSelectionTracker {
     private int lastRow;
 
     /**
-     * Update selection state from the latest mouse event.
+     * Creates a mouse selection tracker.
      */
-    public MouseSelectionUpdate update(MouseMessage message) {
+    public MouseSelectionTracker() {
+    }
+
+    /**
+     * Update selection state from the latest mouse event.
+     *
+     * @param message mouse message
+     * @return selection update result
+     */
+    public MouseSelectionUpdate update(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
         boolean wasSelecting = selecting;
 
         if (message.getAction() == MouseAction.MouseActionPress
@@ -34,16 +42,16 @@ public final class MouseSelectionTracker {
         lastColumn = message.column();
         lastRow = message.row();
 
-        MouseMessage selectionScrollUpdate = null;
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage selectionScrollUpdate = null;
         if (message.isWheel() && selecting) {
-            selectionScrollUpdate = new MouseMessage(
-                    lastColumn,
-                    lastRow,
-                    message.isShift(),
-                    message.isAlt(),
-                    message.isCtrl(),
-                    MouseAction.MouseActionMotion,
-                    MouseButton.MouseButtonLeft
+            selectionScrollUpdate = new com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage(
+                lastColumn,
+                lastRow,
+                message.isShift(),
+                message.isAlt(),
+                message.isCtrl(),
+                MouseAction.MouseActionMotion,
+                MouseButton.MouseButtonLeft
             );
         }
 
@@ -55,14 +63,39 @@ public final class MouseSelectionTracker {
         );
     }
 
+    /**
+     * Alias for update().
+     *
+     * @param message mouse message
+     * @return selection update result
+     */
+    public MouseSelectionUpdate onMouseMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message) {
+        return update(message);
+    }
+
+    /**
+     * Returns whether a selection is in progress.
+     *
+     * @return {@code true} when selecting
+     */
     public boolean isSelecting() {
         return selecting;
     }
 
+    /**
+     * Returns the last observed column.
+     *
+     * @return last column
+     */
     public int lastColumn() {
         return lastColumn;
     }
 
+    /**
+     * Returns the last observed row.
+     *
+     * @return last row
+     */
     public int lastRow() {
         return lastRow;
     }

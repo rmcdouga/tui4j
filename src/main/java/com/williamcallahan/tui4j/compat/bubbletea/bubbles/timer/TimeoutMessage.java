@@ -3,8 +3,40 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.timer;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
- * Emitted once when a timer reaches (or passes) its timeout.
- * Bubble Tea: bubbletea/examples/timer/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Bubbles: timer/timer.go.
  */
-public record TimeoutMessage(int id) implements Message {
+@Deprecated(since = "0.3.0")
+public class TimeoutMessage implements Message {
+    private final com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage delegate;
+
+    /**
+     * Creates TimeoutMessage.
+     *
+     * @param id timer id
+     */
+    @Deprecated(since = "0.3.0")
+    public TimeoutMessage(int id) {
+        this.delegate = new com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage(id);
+    }
+
+    /**
+     * Returns the timer id.
+     *
+     * @return timer id
+     */
+    public int id() {
+        return delegate.id();
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical TimeoutMessage
+     */
+    public com.williamcallahan.tui4j.compat.bubbles.timer.TimeoutMessage toCanonical() {
+        return delegate;
+    }
 }

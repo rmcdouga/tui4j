@@ -2,7 +2,6 @@ package com.williamcallahan.tui4j.input;
 
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 /**
  * Tracks click sequences and counts.
@@ -21,11 +20,24 @@ public final class MouseClickTracker {
     private MouseButton lastClickButton = MouseButton.MouseButtonNone;
     private int lastClickCount = 0;
 
-    public MouseClickMessage handle(MouseMessage message, MouseTarget target) {
+    /**
+     * Creates a click tracker.
+     */
+    public MouseClickTracker() {
+    }
+
+    /**
+     * Handles a mouse message and returns a click if detected.
+     *
+     * @param message mouse message
+     * @param target target element
+     * @return click message or null
+     */
+    public MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target) {
         return handle(message, target, System.currentTimeMillis());
     }
 
-    MouseClickMessage handle(MouseMessage message, MouseTarget target, long nowMs) {
+    MouseClickMessage handle(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target, long nowMs) {
         if (message == null || message.isWheel()) {
             return null;
         }
@@ -46,7 +58,7 @@ public final class MouseClickTracker {
         return null;
     }
 
-    private MouseClickMessage createClickIfMatches(MouseMessage message, MouseTarget target, long nowMs) {
+    private MouseClickMessage createClickIfMatches(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message, MouseTarget target, long nowMs) {
         if (lastPressButton == MouseButton.MouseButtonNone) {
             return null;
         }
@@ -84,4 +96,5 @@ public final class MouseClickTracker {
         lastClickCount = nextCount;
         return nextCount;
     }
+
 }

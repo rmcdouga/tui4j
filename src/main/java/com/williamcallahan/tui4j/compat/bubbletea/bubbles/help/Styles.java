@@ -4,62 +4,20 @@ import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.AdaptiveColor;
 
 /**
- * Port of Bubbles styles.
- * Bubble Tea: bubbletea/examples/help/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.help.Styles} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class Styles {
+@Deprecated(since = "0.3.0")
+public class Styles extends com.williamcallahan.tui4j.compat.bubbles.help.Styles {
 
-    private Style ellipsis;
-
-    // Styling for the short help
-    private Style shortKey;
-    private Style shortDesc;
-    private Style shortSeparator;
-
-    // Styling for the full help
-    private Style fullKey;
-    private Style fullDesc;
-    private Style fullSeparator;
-
+    /**
+     * Creates default help styles.
+     *
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.help.Styles#Styles()} instead.
+     */
+    @Deprecated(since = "0.3.0")
     public Styles() {
-        Style keyStyle = Style.newStyle().foreground(new AdaptiveColor("#909090", "#626262"));
-        Style descStyle = Style.newStyle().foreground(new AdaptiveColor("#B2B2B2", "#4A4A4A"));
-        Style sepStyle = Style.newStyle().foreground(new AdaptiveColor("#DDDADA", "#3C3C3C"));
-
-        this.shortKey = keyStyle.copy();
-        this.shortDesc = descStyle.copy();
-        this.shortSeparator = sepStyle.copy();
-        this.ellipsis = sepStyle.copy();
-        this.fullKey = keyStyle.copy();
-        this.fullDesc = descStyle.copy();
-        this.fullSeparator = sepStyle.copy();
+        super();
     }
 
-    public Style getShortSeparator() {
-        return shortSeparator;
-    }
-
-    public Style getShortKey() {
-        return shortKey;
-    }
-
-    public Style getShortDesc() {
-        return shortDesc;
-    }
-
-    public Style getFullSeparator() {
-        return fullSeparator;
-    }
-
-    public Style getFullKey() {
-        return fullKey;
-    }
-
-    public Style getFullDesc() {
-        return fullDesc;
-    }
-
-    public Style getEllipsis() {
-        return ellipsis;
-    }
 }

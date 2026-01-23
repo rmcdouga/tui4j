@@ -5,8 +5,11 @@ package com.williamcallahan.tui4j.compat.bubbletea.input;
  * Bubble Tea: bubbletea/mouse.go
  */
 public enum MouseAction {
+    /** Mouse button press action. */
     MouseActionPress("press"),
+    /** Mouse button release action. */
     MouseActionRelease("release"),
+    /** Mouse motion action. */
     MouseActionMotion("motion");
 
     private final String value;
@@ -15,6 +18,11 @@ public enum MouseAction {
         this.value = value;
     }
 
+    /**
+     * Returns the wire value for this action.
+     *
+     * @return action value
+     */
     public String value() {
         return value;
     }

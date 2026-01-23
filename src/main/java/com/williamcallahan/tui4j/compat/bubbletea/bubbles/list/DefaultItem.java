@@ -1,11 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * Port of Bubbles default item.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.DefaultItem} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public interface DefaultItem extends Item {
-
-    String title();
-    String description();
+@Deprecated(since = "0.3.0")
+public interface DefaultItem extends com.williamcallahan.tui4j.compat.bubbles.list.DefaultItem {
 }

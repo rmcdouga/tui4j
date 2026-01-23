@@ -1,0 +1,24 @@
+package examples.spring.repository;
+
+import examples.spring.model.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+/**
+ * Example program for book repository.
+ * tui4j: examples/spring/src/main/java/com/williamcallahan/tui4j/springexample/repository/BookRepository.java
+ */
+public interface BookRepository extends JpaRepository<Book, Long> {
+
+    /**
+     * Handles find by title is containing for example.
+     *
+     * @param @Param("title" @param("title"
+     * @return result
+     */
+    @Query(name = "Book.findByTitleIsContaining")
+    Page<Book> findByTitleIsContaining(@Param("title") String title, Pageable pageable);
+}

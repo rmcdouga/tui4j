@@ -1,5 +1,8 @@
 package com.williamcallahan.tui4j.ansi;
 
+import com.ibm.icu.lang.UCharacter;
+import com.ibm.icu.lang.UProperty;
+
 /**
  * Transition rules for grapheme cluster parsing.
  * tui4j: src/main/java/com/williamcallahan/tui4j/ansi/GraphemeTransitions.java
@@ -39,11 +42,21 @@ public class GraphemeTransitions {
     private static final int PR_EXTENDED_PICTOGRAPHIC = 14;
     private static final int PR_REGIONAL_INDICATOR = 15;
 
+    /**
+     * Holds the transition output for a grapheme state.
+     */
     static class TransitionResult {
         final int newState;
         final int newProp;
         final int boundary;
 
+        /**
+         * Creates a transition result.
+         *
+         * @param newState next grapheme state
+         * @param newProp next property
+         * @param boundary boundary flag
+         */
         TransitionResult(int newState, int newProp, int boundary) {
             this.newState = newState;
             this.newProp = newProp;
@@ -155,6 +168,13 @@ public class GraphemeTransitions {
         return new TransitionResult(-1, -1, -1);
     }
 
+    /**
+     * Advances the grapheme state machine for the given code point.
+     *
+     * @param state current state
+     * @param r code point
+     * @return array of {newState, newProp, boundaryFlag}
+     */
     public static int[] transitionGraphemeState(int state, int r) {
         // Determine the property of the next character
         int prop = propertyGraphemes(r);
@@ -193,9 +213,46 @@ public class GraphemeTransitions {
         return new int[] { GR_ANY, prop, 1 };
     }
 
+    /**
+     * Returns the grapheme property for a code point.
+     *
+     * @param codePoint Unicode code point
+     * @return grapheme property constant
+     */
     private static int propertyGraphemes(int codePoint) {
-        // This needs to be implemented based on Unicode properties
-        // For now returning PR_ANY
-        return PR_ANY;
+        int property = UCharacter.getIntPropertyValue(
+            codePoint,
+            UProperty.GRAPHEME_CLUSTER_BREAK
+        );
+        return switch (property) {
+            case UCharacter.GraphemeClusterBreak.CR -> PR_CR;
+            case UCharacter.GraphemeClusterBreak.LF -> PR_LF;
+            case UCharacter.GraphemeClusterBreak.CONTROL -> PR_CONTROL;
+            case UCharacter.GraphemeClusterBreak.EXTEND -> PR_EXTEND;
+            case UCharacter.GraphemeClusterBreak.ZWJ -> PR_ZWJ;
+            case UCharacter.GraphemeClusterBreak.PREPEND -> PR_PREPEND;
+            case UCharacter.GraphemeClusterBreak.SPACING_MARK -> PR_SPACING_MARK;
+            case UCharacter.GraphemeClusterBreak.L -> PR_L;
+            case UCharacter.GraphemeClusterBreak.V -> PR_V;
+            case UCharacter.GraphemeClusterBreak.T -> PR_T;
+            case UCharacter.GraphemeClusterBreak.LV -> PR_LV;
+            case UCharacter.GraphemeClusterBreak.LVT -> PR_LVT;
+            case UCharacter.GraphemeClusterBreak.REGIONAL_INDICATOR -> PR_REGIONAL_INDICATOR;
+            default -> {
+                if (UCharacter.hasBinaryProperty(
+                    codePoint,
+                    UProperty.EXTENDED_PICTOGRAPHIC
+                )) {
+                    yield PR_EXTENDED_PICTOGRAPHIC;
+                }
+                yield PR_ANY;
+            }
+        };
+    }
+
+    /**
+     * Creates a grapheme transition helper.
+     */
+    public GraphemeTransitions() {
     }
 }

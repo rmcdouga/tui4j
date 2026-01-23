@@ -7,10 +7,19 @@ import java.util.Map;
 
 /**
  * Port of Bubble Tea extended sequences.
- * Bubble Tea: bubbletea/key_sequences.go
+ * Upstream: github.com/charmbracelet/bubbletea/key_sequences.go
  */
 public class ExtendedSequences {
 
+    /**
+     * Creates an extended sequence registry.
+     */
+    public ExtendedSequences() {
+    }
+
+    /**
+     * Maps escape sequences to parsed key values, including Alt variants.
+     */
     public static final Map<String, Key> EXT_SEQUENCES;
 
     static {
@@ -54,6 +63,12 @@ public class ExtendedSequences {
         EXT_SEQUENCES.put("\u001B\u001B", new Key(KeyAliases.getKeyType(KeyAlias.KeyEscape), true));
     }
 
+    /**
+     * Returns the key for a raw escape sequence.
+     *
+     * @param sequence raw escape sequence
+     * @return the parsed key, or {@code null} if unknown
+     */
     public static Key getKey(String sequence) {
         return EXT_SEQUENCES.get(sequence);
     }

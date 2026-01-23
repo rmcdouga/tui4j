@@ -1,38 +1,26 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
 /**
- * Port of Lip Gloss leaf.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Leaf node in a tree structure.
+ * <p>
+ * Lipgloss: tree/tree.go
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because of a compat refactor; use
+ *             {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Leaf}.
+ *             This transitional shim preserves backward compatibility and will be removed
+ *             in a future release. Migrate to the canonical location.
+ * @since 0.3.0
+ * @see com.williamcallahan.tui4j.compat.lipgloss.tree.Leaf
  */
-public class Leaf implements Node {
+@Deprecated(since = "0.3.0")
+public class Leaf extends com.williamcallahan.tui4j.compat.lipgloss.tree.Leaf {
 
-    private String value;
-    private boolean hidden;
-
+    /**
+     * Creates a Leaf with the given string value.
+     *
+     * @param value the leaf value
+     */
     public Leaf(String value) {
-        this.value = value;
-    }
-
-    public Leaf() {
-    }
-
-    @Override
-    public String value() {
-        return value;
-    }
-
-    @Override
-    public Children children() {
-        return new NodeChildren();
-    }
-
-    @Override
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    @Override
-    public String toString() {
-        return value;
+        super(value);
     }
 }

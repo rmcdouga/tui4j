@@ -10,9 +10,19 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 public class UnknownSequenceMessage implements Message {
     private final String sequence;
 
+    /**
+     * Creates a message for an unknown sequence.
+     *
+     * @param sequence the unrecognized sequence
+     */
     public UnknownSequenceMessage(String sequence) {
         this.sequence = sequence;
     }
 
+    /**
+     * Returns the unrecognized sequence.
+     *
+     * @return sequence string
+     */
     public String sequence() { return sequence; }
 }

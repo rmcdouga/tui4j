@@ -1,25 +1,12 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
-import java.util.Arrays;
-
 /**
- * Port of Lip Gloss children.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+ *             {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Children} instead.
+ *             This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lipgloss: tree/children.go.
  */
-public interface Children {
-
-    static Children newStringData(String... strings) {
-        return new NodeChildren(Arrays.stream(strings)
-                .map(Leaf::new)
-                .map(Node.class::cast)
-                .toList());
-    }
-
-    Node at(int index);
-
-    Children remove(int index);
-
-    Children append(Node child);
-
-    int length();
-}
+@Deprecated(since = "0.3.0")
+public interface Children
+    extends com.williamcallahan.tui4j.compat.lipgloss.tree.Children {}

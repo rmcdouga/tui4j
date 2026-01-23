@@ -1,7 +1,7 @@
 package com.williamcallahan.tui4j.term.jline;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.RGBColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 import com.williamcallahan.tui4j.term.TerminalInfo;
 import com.williamcallahan.tui4j.term.TerminalInfoProvider;
 import org.jline.terminal.Terminal;
@@ -10,17 +10,31 @@ import org.jline.utils.NonBlockingReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * TerminalInfoProvider backed by JLine.
  * tui4j: src/main/java/com/williamcallahan/tui4j/term/jline/JLineTerminalInfoProvider.java
  */
 public class JLineTerminalInfoProvider implements TerminalInfoProvider {
 
+    private static final Logger logger = Logger.getLogger(JLineTerminalInfoProvider.class.getName());
+
+    /**
+     * Encapsulates a terminal response string.
+     */
     private static class Response {
 
         String response;
         boolean isOSC;
 
+        /**
+         * Creates a response wrapper.
+         *
+         * @param response raw response text
+         * @param isOSC whether the response is OSC
+         */
         Response(String response, boolean isOSC) {
             this.response = response;
             this.isOSC = isOSC;
@@ -36,15 +50,30 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
     private boolean tty;
     private TerminalColor backgroundColor;
 
+    /**
+     * Reads terminal capabilities from the provided terminal.
+     *
+     * @param terminal JLine terminal instance
+     */
     public JLineTerminalInfoProvider(Terminal terminal) {
         readFromTerminal(terminal);
     }
 
+    /**
+     * Returns the detected terminal information.
+     *
+     * @return terminal info snapshot
+     */
     @Override
     public TerminalInfo provide() {
         return new TerminalInfo(tty, backgroundColor);
     }
 
+    /**
+     * Reads terminal metadata from the underlying terminal.
+     *
+     * @param terminal JLine terminal instance
+     */
     private void readFromTerminal(Terminal terminal) {
         this.tty = !"dumb".equals(terminal.getType());
         if (!tty) {
@@ -75,7 +104,7 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
                 readNextResponse(reader);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Failed to read terminal info", e);
         }
 
         if (!backgroundColor.isEmpty()) {
@@ -83,17 +112,29 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
         }
     }
 
+    /**
+     * Reads the next OSC or CSI response from the terminal.
+     *
+     * @param reader non-blocking reader
+     * @return response wrapper or {@code null} when unavailable
+     * @throws IOException when reading fails
+     */
     private static Response readNextResponse(NonBlockingReader reader) throws IOException {
         StringBuilder response = new StringBuilder();
 
-        // Find ESC
-        char start = (char) reader.read(100);
-        while (start != ESC) {
-            int c = reader.read(100);
+        // Find ESC with timeout to prevent infinite loop if terminal doesn't respond
+        int maxAttempts = 20; // 20 * 100ms = 2 second max wait
+        int attempts = 0;
+        int c = reader.read(100);
+        while (c != ESC) {
+            attempts++;
+            if (attempts >= maxAttempts) {
+                return null; // Terminal did not respond in time
+            }
+            c = reader.read(100);
             if (c == -1) continue;
-            start = (char) c;
         }
-        response.append(start);
+        response.append((char) c);
 
         // Read type character ([ or ])
         int typeInt = reader.read(100);
@@ -135,6 +176,12 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
         return null;
     }
 
+    /**
+     * Parses an OSC color response into an RGB color.
+     *
+     * @param response raw OSC response
+     * @return parsed RGB color
+     */
     private static RGBColor parseColor(String response) {
         // Check length validity
         if (response.length() < 24 || response.length() > 25) {
@@ -171,10 +218,10 @@ public class JLineTerminalInfoProvider implements TerminalInfoProvider {
 
         // Convert each component from 2-char hex to int
         try {
-            int r = Integer.parseInt(parts[0].substring(0, 2), 16) / 255;
-            int g = Integer.parseInt(parts[1].substring(0, 2), 16) / 255;
-            int b = Integer.parseInt(parts[2].substring(0, 2), 16) / 255;
-            return new RGBColor(r, g, b);
+            int r = Integer.parseInt(parts[0].substring(0, 2), 16);
+            int g = Integer.parseInt(parts[1].substring(0, 2), 16);
+            int b = Integer.parseInt(parts[2].substring(0, 2), 16);
+            return new RGBColor(String.format("#%02x%02x%02x", r, g, b));
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Invalid color format: invalid hex values");
         }

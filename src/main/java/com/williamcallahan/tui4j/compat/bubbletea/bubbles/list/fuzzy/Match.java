@@ -3,35 +3,25 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.fuzzy;
 import java.util.List;
 
 /**
- * Port of Bubbles match.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.fuzzy.Match} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class Match {
-    private String str;
-    private int index;
-    private List<Integer> matchedIndexes;
-    private int score;
+@Deprecated(since = "0.3.0")
+public class Match extends com.williamcallahan.tui4j.compat.bubbles.list.fuzzy.Match {
 
+    /**
+     * Creates a deprecated compatibility match wrapper.
+     *
+     * @param str matched string
+     * @param index original item index
+     * @param matchedIndexes matched rune indexes
+     * @param score match score
+     * @deprecated Deprecated in tui4j as of 0.3.0; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.list.fuzzy.Match} instead.
+     */
+    @Deprecated(since = "0.3.0")
     public Match(String str, int index, List<Integer> matchedIndexes, int score) {
-        this.str = str;
-        this.index = index;
-        this.matchedIndexes = matchedIndexes;
-        this.score = score;
+        super(str, index, matchedIndexes, score);
     }
 
-    public String getStr() {
-        return str;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public List<Integer> getMatchedIndexes() {
-        return matchedIndexes;
-    }
-
-    public int getScore() {
-        return score;
-    }
 }

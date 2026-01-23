@@ -2,7 +2,6 @@ package com.williamcallahan.tui4j.input;
 
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 
 /**
  * Synthesized click message from mouse press/release.
@@ -28,6 +27,25 @@ public record MouseClickMessage(
         boolean ctrl,
         int clickCount,
         MouseTarget target,
-        MouseMessage source
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage source
 ) implements Message {
+    /**
+     * Creates a click message from a release event and timestamp.
+     *
+     * @param event source mouse event
+     * @param timestamp event time in milliseconds
+     */
+    public MouseClickMessage(com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage event, long timestamp) {
+        this(
+                event.column(),
+                event.row(),
+                event.getButton(),
+                event.isShift(),
+                event.isAlt(),
+                event.isCtrl(),
+                1,
+                null,
+                event
+        );
+    }
 }

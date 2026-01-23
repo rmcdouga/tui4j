@@ -1,22 +1,32 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
 /**
- * Port of Lip Gloss tree indenter.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+ *             {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter} instead.
+ *             This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lipgloss: tree/indenter.go.
  */
+@Deprecated(since = "0.3.0")
 @FunctionalInterface
-public interface TreeIndenter {
+public interface TreeIndenter
+    extends com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter {
 
-    class DefaultIndenter implements TreeIndenter {
+    /**
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter.DefaultIndenter} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
+     */
+    @Deprecated(since = "0.3.0")
+    class DefaultIndenter extends com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter.DefaultIndenter {
 
-        @Override
-        public String indent(Children children, int index) {
-            if (children.length() - 1 == index) {
-                return "   ";
-            }
-            return "│  ";
+        /**
+         * Creates a legacy default indenter.
+         *
+         * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+         * {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter.DefaultIndenter} instead.
+         */
+        @Deprecated(since = "0.3.0")
+        public DefaultIndenter() {
         }
     }
-
-    String indent(Children children, int index);
 }

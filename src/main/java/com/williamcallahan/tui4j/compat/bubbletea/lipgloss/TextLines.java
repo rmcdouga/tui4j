@@ -1,40 +1,51 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.ansi.TextWidth;
-
 /**
- * Port of Lip Gloss text lines.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Text-line measurement helpers for Bubble Tea-compatible rendering.
+ * <p>
+ * Lipgloss: ranges.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.TextLines} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public class TextLines {
+    private final com.williamcallahan.tui4j.compat.lipgloss.TextLines delegate;
 
-    private int widestLineLength;
-    private String[] lines;
+    /**
+     * Wraps the canonical text lines helper.
+     *
+     * @param delegate canonical text lines helper
+     */
+    private TextLines(com.williamcallahan.tui4j.compat.lipgloss.TextLines delegate) {
+        this.delegate = delegate;
+    }
 
+    /**
+     * Creates a text-lines helper from raw text.
+     *
+     * @param text text to split
+     * @return text-lines helper
+     */
     public static TextLines fromText(String text) {
-        return new TextLines(text);
+        return new TextLines(com.williamcallahan.tui4j.compat.lipgloss.TextLines.fromText(text));
     }
 
-    private TextLines(String text) {
-        readTextLines(text);
-    }
-
-    private void readTextLines(String text) {
-        this.lines = text.split("\n", -1);
-
-        for (String line : lines) {
-            int width = TextWidth.measureCellWidth(line);
-            if (widestLineLength < width) {
-                widestLineLength = width;
-            }
-        }
-    }
-
+    /**
+     * Returns the width of the widest line.
+     *
+     * @return widest line length
+     */
     public int widestLineLength() {
-        return widestLineLength;
+        return delegate.widestLineLength();
     }
 
+    /**
+     * Returns the text split into lines.
+     *
+     * @return lines
+     */
     public String[] lines() {
-        return lines;
+        return delegate.lines();
     }
 }

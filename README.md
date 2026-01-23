@@ -1,10 +1,15 @@
 # TUI4J
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.williamcallahan/tui4j)](https://central.sonatype.com/artifact/com.williamcallahan/tui4j)
+[![GitHub Release](https://img.shields.io/github/v/release/WilliamAGH/tui4j)](https://github.com/WilliamAGH/tui4j/releases)
+[![Context7](src/main/resources/static/img/context7-badge.svg)](https://context7.com/williamagh/tui4j)
+[![DeepWiki](src/main/resources/static/img/deepwiki-badge.svg)](https://deepwiki.com/WilliamAGH/tui4j)
 
 **TUI4J** (Terminal User Interface for Java) is a Java TUI framework inspired by [Bubble Tea](https://github.com/charmbracelet/bubbletea). It includes a compatibility module that mirrors the original Go API for developers familiar with the Charm ecosystem.
 
-This is a maintained fork of the original [Latte](https://github.com/flatscrew/latte) with bug fixes and improvements welcome and encouraged! Fork maintained by [William Callahan](https://williamcallahan.com).
+![Pulse TUI4J](src/main/resources/static/img/Pulse_TUI4J_Screenshot.png)
+
+[![Brief screenshot](src/main/resources/static/img/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
 
 ## Installation
 
@@ -14,96 +19,74 @@ This is a maintained fork of the original [Latte](https://github.com/flatscrew/l
 <dependency>
     <groupId>com.williamcallahan</groupId>
     <artifactId>tui4j</artifactId>
-    <version>0.2.5</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.williamcallahan:tui4j:0.2.5'
+implementation 'com.williamcallahan:tui4j:0.3.0'
 ```
 
 ## Quick Start
 
-TUI4J uses The Elm Architecture: define a model with `init()`, `update()`, and `view()` methods:
+TUI4J uses [The Elm Architecture](docs/tutorial.md): implement a `Model` with `init()`, `update()`, and `view()` methods, then run it with `Program`:
 
 ```java
-import com.williamcallahan.tui4j.compat.bubbletea.*;
-
-public class Counter implements Model {
-    private int count = 0;
-
-    @Override
-    public Command init() {
-        return null;
-    }
-
-    @Override
-    public UpdateResult<? extends Model> update(Message msg) {
-        if (msg instanceof KeyPressMessage key) {
-            return switch (key.key()) {
-                case "k" -> new UpdateResult<>(increment(), null);
-                case "j" -> new UpdateResult<>(decrement(), null);
-                case "q" -> new UpdateResult<>(this, QuitMessage::new);
-                default -> new UpdateResult<>(this, null);
-            };
-        }
-        return new UpdateResult<>(this, null);
-    }
-
-    @Override
-    public String view() {
-        return "Count: " + count + "\n\n(j/k to change, q to quit)";
-    }
-
-    private Counter increment() { count++; return this; }
-    private Counter decrement() { count--; return this; }
-
-    public static void main(String[] args) {
-        new Program(new Counter()).run();
-    }
-}
+new Program(new MyModel()).run();
 ```
-
-See the [Tutorial](docs/tutorial.md) for a complete walkthrough.
 
 ## Examples
 
-![Demo](assets/demo-tape.gif)
+See the [examples](src/main/resources/examples) directory for lists, text inputs, spinners, and more. For Spring Boot integration, see the [Spring examples](src/main/resources/examples/spring).
 
-See all the [examples](examples) including lists, text inputs, spinners, and more:
+The screenshots above show [Pulse](src/main/resources/examples/showcases/README.md) (a terminal implementation demo) and [Brief](https://github.com/WilliamAGH/brief) (a terminal AI chat client built with TUI4J).
 
-![Conway's Game of Life](assets/conway-tape.gif)
+## Documentation
+
+- [Tutorial](docs/tutorial.md) - Complete walkthrough
+- [List Component](docs/list-component.md) - List widget guide
+- [Compatibility Maps](docs/maps) - Charm API mappings
+- [Porting Status](docs/STATUS.md) - What's implemented
 
 ## Built with TUI4J
 
 ### Brief
 
-[![Brief screenshot](assets/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
-
 **[Brief](https://github.com/WilliamAGH/brief)** - Terminal AI chat client with slash-command palette and local tool execution. Available via Homebrew.
-
----
 
 **Using TUI4J in your project?** We'd love to feature it! [Open an issue](https://github.com/WilliamAGH/tui4j/issues/new?title=Add%20project%20to%20Built%20with%20TUI4J&labels=showcase) or submit a PR.
 
-## Compatibility with Bubble Tea
+## Compatibility with Charmbracelet
 
-TUI4J includes a compatibility layer for Bubble Tea, which is a trademark of Charmbracelet, Inc. The original Go implementation is licensed under MIT.
+TUI4J ports the [charmbracelet](https://github.com/charmbracelet) ecosystem to Java:
 
-TUI4J seeks to replicate [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea) behavior as closely as possible, with a general 1:1 mapping for compatibility. When TUI4J adds functionality without a Bubble Tea equivalent, those APIs are treated as additive extensions.
+| Go Library | Description | Java Package |
+|------------|-------------|--------------|
+| [bubbletea](https://github.com/charmbracelet/bubbletea) | Core TUI framework | `compat.bubbletea.*` |
+| [bubbles](https://github.com/charmbracelet/bubbles) | UI components (viewport, textarea, table, progress, etc.) | `compat.bubbles.*` |
+| [lipgloss](https://github.com/charmbracelet/lipgloss) | Styling, colors, borders, layout | `compat.lipgloss.*` |
+| [x/ansi](https://github.com/charmbracelet/x) | ANSI parsing, text width | `compat.x.ansi.*` |
+| [harmonica](https://github.com/charmbracelet/harmonica) | Spring physics animation | `compat.harmonica.*` |
 
-Check [STATUS.md](STATUS.md) for current porting status.
+TUI4J seeks to replicate upstream behavior as closely as possible, with a general 1:1 mapping for compatibility. When TUI4J adds functionality without a charmbracelet equivalent, those APIs are treated as additive extensions.
+
+Check [STATUS.md](docs/STATUS.md) and [docs/maps](docs/maps) for current porting status.
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues and submitting PRs.
 
-## Acknowledgments
-
-This project began as a fork of the original Latte by [Lukasz Grabski](https://github.com/activey). The original work is an excellent Java port of Go's [Bubble Tea](https://github.com/charmbracelet/bubbletea) by [Charm](https://charm.sh/).
-
-## License
+## Acknowledgments & License
 
 [MIT License](LICENSE.md)
+
+This project began as a fork of the original [Latte](https://github.com/activey/latte) by [Lukasz Grabski](https://github.com/activey), which was released under the MIT License.
+
+[Bubble Tea](https://github.com/charmbracelet/bubbletea) is a trademark of [Charmbracelet, Inc.](https://charm.sh/) The original Go implementations are also licensed under MIT.
+
+## Other Java Projects
+
+- **[Apple Maps Java](https://github.com/WilliamAGH/apple-maps-java)** - Java SDK for Apple Maps Server API
+- **[Other projects](https://williamcallahan.com/projects)** - More from the author

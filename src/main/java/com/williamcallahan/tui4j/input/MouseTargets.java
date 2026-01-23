@@ -12,6 +12,14 @@ public final class MouseTargets {
     private MouseTargets() {
     }
 
+    /**
+     * Returns the topmost target at the given position.
+     *
+     * @param targets targets to test
+     * @param column column to test
+     * @param row row to test
+     * @return target under the cursor or {@code null}
+     */
     public static MouseTarget hitTest(List<MouseTarget> targets, int column, int row) {
         if (targets == null || targets.isEmpty()) {
             return null;

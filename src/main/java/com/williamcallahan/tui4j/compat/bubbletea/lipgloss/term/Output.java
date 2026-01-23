@@ -1,129 +1,86 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ANSIColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.HSL;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGB;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.RGBSupplier;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
-import com.williamcallahan.tui4j.term.TerminalInfo;
-
-import java.util.Optional;
-
-import static java.lang.System.getenv;
-import static java.util.Optional.ofNullable;
+import java.io.Writer;
+import java.util.List;
 
 /**
- * Port of Lip Gloss output.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Terminal output wrapper for Bubble Tea-compatible lipgloss rendering.
+ * <p>
+ * Lipgloss: term/output.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.Output} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public class Output {
+    private final com.williamcallahan.tui4j.compat.lipgloss.Output delegate;
+    private final List<String> environment;
 
-    private static Output defaultOutput = new Output();
-
+    /**
+     * Creates Output to keep this component ready for use.
+     *
+     * @param delegate delegate
+     * @param environment environment
+     */
+    public Output(com.williamcallahan.tui4j.compat.lipgloss.Output delegate, List<String> environment) {
+        this.delegate = delegate;
+        this.environment = environment;
+    }
+    
+    /**
+     * Returns the writer for this output.
+     * <p>
+     * Note: This method returns null as the canonical Output does not expose a writer.
+     *
+     * @return null
+     */
+    public Writer writer() {
+        return null;
+    }
+    
+    /**
+     * Handles env color profile for this component.
+     *
+     * @return result
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile envColorProfile() {
+        return delegate.envColorProfile();
+    }
+    
+    /**
+     * Handles default output for this component.
+     *
+     * @return result
+     */
     public static Output defaultOutput() {
-        return defaultOutput;
+        return new Output(com.williamcallahan.tui4j.compat.lipgloss.Output.defaultOutput(), null);
     }
 
-    private TerminalColor backgroundColor = new NoColor();
-
-    public ColorProfile envColorProfile() {
-        if (envNoColor()) {
-            return ColorProfile.Ascii;
-        }
-        ColorProfile colorProfile = colorProfile();
-        if (cliColorForced() && colorProfile == ColorProfile.Ascii) {
-            return ColorProfile.ANSI;
-        }
-        return colorProfile;
-    }
-
-    private ColorProfile colorProfile() {
-        if (!TerminalInfo.get().tty()) {
-            return ColorProfile.Ascii;
-        }
-        if ("true".equals(getenv("GOOGLE_CLOUD_SHELL"))) {
-            return ColorProfile.TrueColor;
-        }
-
-        String term = ofNullable(getenv("TERM")).orElse("");
-        String colorTerm = ofNullable(getenv("COLORTERM")).orElse("");
-
-        switch (colorTerm.toLowerCase()) {
-            case "24bit":
-            case "truecolor":
-                if (term.startsWith("screen")) {
-                    if (!"tmux".equals(getenv("TERM_PROGRAM"))) {
-                        return ColorProfile.ANSI256;
-                    }
-                }
-                return ColorProfile.TrueColor;
-            case "yes":
-            case "true":
-                return ColorProfile.ANSI256;
-        }
-
-        switch (term) {
-            case "xterm-kity":
-            case "wezterm":
-                return ColorProfile.TrueColor;
-            case "linux":
-                return ColorProfile.ANSI;
-        }
-
-        if (term.contains("256color")) return ColorProfile.ANSI256;
-        if (term.contains("color")) return ColorProfile.ANSI;
-        if (term.contains("ansi")) return ColorProfile.ANSI;
-
-        return ColorProfile.ANSI256;
-    }
-
-    private boolean envNoColor() {
-        String noColor = getenv("NO_COLOR");
-        String clicolor = getenv("CLICOLOR");
-
-        return (noColor != null && !noColor.isBlank()) || ((clicolor != null && clicolor.equals("0")) && !cliColorForced());
-    }
-
-    private boolean cliColorForced() {
-        String force = getenv("CLICOLOR_FORCE");
-        if (force == null || force.isBlank()) {
-            return false;
-        }
-        return !"0".equals(force);
-    }
-
+    /**
+     * Returns whether the terminal background is dark.
+     *
+     * @return true if the background is dark
+     */
     public boolean hasDarkBackground() {
-        TerminalColor terminalColor = backgroundColor();
-
-        RGB rgb = RGB.black();
-        if (terminalColor instanceof RGBSupplier rgbSupplier) {
-            rgb = rgbSupplier.rgb();
-        }
-
-        HSL hsl = rgb.toHSL();
-        return hsl.isDark();
+        return delegate.hasDarkBackground();
     }
 
-    public TerminalColor backgroundColor() {
-        if (!TerminalInfo.get().tty()) {
-            return backgroundColor;
-        }
-
-        TerminalColor terminalColor = TerminalInfo.get().backgroundColor();
-        if (terminalColor == null) {
-            String colorfgbg = Optional.ofNullable(getenv("COLORFGBG")).orElse("");
-            if (colorfgbg.contains(";")) {
-                String[] strings = colorfgbg.split(";");
-                try {
-                    int colorCode = Integer.parseInt(strings[strings.length-1]);
-                    return new ANSIColor(colorCode);
-                } catch (NumberFormatException e) {
-                    // do nothing
-                }
-            }
-        }
-        return new NoColor();
+    /**
+     * Returns the terminal background color.
+     *
+     * @return background color
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor backgroundColor() {
+        return delegate.backgroundColor();
     }
+
+    /**
+     * Returns the canonical output delegate.
+     *
+     * @return canonical output
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.Output toCanonical() {
+        return delegate;
+    }
+
 }

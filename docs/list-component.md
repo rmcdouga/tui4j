@@ -5,7 +5,7 @@ The `List` component displays filterable, paginated lists in the terminal. It su
 ## Quick Start
 
 ```java
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.*;
+import com.williamcallahan.tui4j.compat.bubbles.list.*;
 
 // Define items using a record
 record ProductItem(String title, String description) implements DefaultItem {
@@ -51,7 +51,7 @@ Item                    DefaultItem extends Item
 For large datasets (e.g., database-backed), implement `ListDataSource` instead of passing arrays:
 
 ```java
-import com.williamcallahan.tui4j.compat.bubbletea.bubbles.list.*;
+import com.williamcallahan.tui4j.compat.bubbles.list.*;
 
 public class ProductDataSource implements ListDataSource {
 
@@ -75,14 +75,12 @@ public class ProductDataSource implements ListDataSource {
             .toList();
 
         long total = repository.count();
+        long matchedItems = (filterValue == null || filterValue.isEmpty())
+            ? total
+            : repository.countByNameContaining(filterValue); // replace with your filtered count
         int totalPages = (int) Math.ceil((double) total / perPage);
 
-        return new FetchedItems(filteredItems, filteredItems.size(), total, totalPages);
-    }
-
-    @Override
-    public long totalItems() {
-        return repository.count();
+        return new FetchedItems(filteredItems, matchedItems, total, totalPages);
     }
 }
 
@@ -130,6 +128,6 @@ list.setStatusMessageLifetime(Duration.ofSeconds(5));
 ## Examples
 
 See working examples in the repository:
-- [`examples/generic/.../listdefault/`](../examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listdefault/) — Basic list with DefaultDelegate
-- [`examples/generic/.../listsimple/`](../examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listsimple/) — Minimal list setup
-- [`examples/generic/.../listfancy/`](../examples/generic/src/main/java/com/williamcallahan/tui4j/examples/listfancy/) — Styled list with custom delegate
+- [`listdefault/`](../src/main/resources/examples/compat/bubbletea/listdefault/) — Basic list with DefaultDelegate
+- [`listsimple/`](../src/main/resources/examples/compat/bubbletea/listsimple/) — Minimal list setup
+- [`listfancy/`](../src/main/resources/examples/compat/bubbletea/listfancy/) — Styled list with custom delegate

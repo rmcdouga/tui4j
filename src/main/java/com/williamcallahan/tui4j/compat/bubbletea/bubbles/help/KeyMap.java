@@ -3,11 +3,9 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.help;
 import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 
 /**
- * Port of Bubbles key map.
- * Bubble Tea: bubbletea/examples/help/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.help.KeyMap} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public interface KeyMap {
-
-    Binding[] shortHelp();
-    Binding[][] fullHelp();
+@Deprecated(since = "0.3.0")
+public interface KeyMap extends com.williamcallahan.tui4j.compat.bubbles.help.KeyMap {
 }

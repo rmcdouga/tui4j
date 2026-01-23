@@ -3,8 +3,6 @@ package com.williamcallahan.tui4j.input;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseAction;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
-import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
-
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -37,14 +35,30 @@ public final class MouseSelectionAutoScroller {
     private volatile boolean alt;
     private volatile boolean ctrl;
 
+    /**
+     * Creates an auto scroller for mouse selection.
+     *
+     * @param terminalHeight terminal height supplier
+     * @param selectionTracker selection tracker
+     * @param messageConsumer message sink for synthesized scroll events
+     */
     public MouseSelectionAutoScroller(
-            IntSupplier terminalHeight,
-            MouseSelectionTracker selectionTracker,
-            Consumer<Message> messageConsumer
+        IntSupplier terminalHeight,
+        MouseSelectionTracker selectionTracker,
+        Consumer<Message> messageConsumer
     ) {
-        this.terminalHeight = Objects.requireNonNull(terminalHeight, "terminalHeight");
-        this.selectionTracker = Objects.requireNonNull(selectionTracker, "selectionTracker");
-        this.messageConsumer = Objects.requireNonNull(messageConsumer, "messageConsumer");
+        this.terminalHeight = Objects.requireNonNull(
+            terminalHeight,
+            "terminalHeight"
+        );
+        this.selectionTracker = Objects.requireNonNull(
+            selectionTracker,
+            "selectionTracker"
+        );
+        this.messageConsumer = Objects.requireNonNull(
+            messageConsumer,
+            "messageConsumer"
+        );
         this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread t = new Thread(r, "tui4j-MouseSelection-Autoscroll-Thread");
             t.setDaemon(true);
@@ -52,16 +66,28 @@ public final class MouseSelectionAutoScroller {
         });
     }
 
+    /**
+     * Enables auto scrolling with the current configuration.
+     */
     public void enable() {
         enabled = true;
     }
 
+    /**
+     * Enables auto scrolling and configures edge and interval settings.
+     *
+     * @param edgeRows number of rows from the edge to trigger auto scroll
+     * @param intervalMs polling interval in milliseconds
+     */
     public void configure(int edgeRows, int intervalMs) {
         enabled = true;
         this.edgeRows = Math.max(edgeRows, 1);
         this.intervalMs = Math.max(intervalMs, 10);
     }
 
+    /**
+     * Starts the auto scroll scheduler if enabled.
+     */
     public void start() {
         if (!enabled) {
             return;
@@ -69,9 +95,17 @@ public final class MouseSelectionAutoScroller {
         if (!running.compareAndSet(false, true)) {
             return;
         }
-        scheduler.scheduleAtFixedRate(this::tick, 0, intervalMs, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(
+            this::tick,
+            0,
+            intervalMs,
+            TimeUnit.MILLISECONDS
+        );
     }
 
+    /**
+     * Stops the auto scroll scheduler.
+     */
     public void stop() {
         if (!running.compareAndSet(true, false)) {
             return;
@@ -84,14 +118,26 @@ public final class MouseSelectionAutoScroller {
         }
     }
 
-    public void onMouse(MouseMessage message) {
-        if (message == null) {
-            return;
-        }
-        // Keep modifier state consistent with the latest user interaction.
-        shift = message.isShift();
-        alt = message.isAlt();
-        ctrl = message.isCtrl();
+    /**
+     * Updates modifier state based on the current mouse message.
+     *
+     * @param message mouse message
+     */
+    public void onMouse(
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message
+    ) {
+        updateModifiers(message);
+    }
+
+    /**
+     * Handles a mouse message by updating modifier state.
+     *
+     * @param message mouse message
+     */
+    public void onMouseMessage(
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message
+    ) {
+        updateModifiers(message);
     }
 
     private void tick() {
@@ -121,7 +167,8 @@ public final class MouseSelectionAutoScroller {
             return;
         }
 
-        messageConsumer.accept(new MouseMessage(
+        messageConsumer.accept(
+            new MouseMessage(
                 selectionTracker.lastColumn(),
                 row,
                 shift,
@@ -129,7 +176,19 @@ public final class MouseSelectionAutoScroller {
                 ctrl,
                 MouseAction.MouseActionPress,
                 wheel
-        ));
+            )
+        );
+    }
+
+    private void updateModifiers(
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message
+    ) {
+        if (message == null) {
+            return;
+        }
+        // Keep modifier state consistent with the latest user interaction.
+        shift = message.isShift();
+        alt = message.isAlt();
+        ctrl = message.isCtrl();
     }
 }
-

@@ -1,13 +1,54 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
- * Port of Lip Gloss terminal color.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Terminal color application contract for the Bubble Tea-compatible API surface.
+ * <p>
+ * Lipgloss: color.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * @since 0.3.0
  */
-public interface TerminalColor {
-    AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer);
-    AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer);
+@Deprecated(since = "0.3.0")
+public interface TerminalColor extends com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor {
+    /**
+     * Applies this color as a background to the given style.
+     *
+     * @param style style to update
+     * @param renderer renderer context
+     * @return updated style
+     */
+    default AttributedStyle applyAsBackground(AttributedStyle style,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer) {
+        if (renderer == null) {
+            return applyAsBackground(style, (com.williamcallahan.tui4j.compat.lipgloss.Renderer) null);
+        }
+        return applyAsBackground(style, renderer.toCanonical());
+    }
+
+    /**
+     * Applies this color as a foreground to the given style.
+     *
+     * @param style style to update
+     * @param renderer renderer context
+     * @return updated style
+     */
+    default AttributedStyle applyAsForeground(AttributedStyle style,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer) {
+        if (renderer == null) {
+            return applyAsForeground(style, (com.williamcallahan.tui4j.compat.lipgloss.Renderer) null);
+        }
+        return applyAsForeground(style, renderer.toCanonical());
+    }
+
+    /**
+     * Returns the canonical terminal color representation for this shim.
+     *
+     * @return canonical terminal color
+     */
+    default com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor toCanonical() {
+        return this;
+    }
 }

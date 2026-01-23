@@ -1,19 +1,32 @@
 package com.williamcallahan.tui4j.term;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
+import com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor;
 
 /**
  * Represents terminal capability and background info.
  * tui4j: src/main/java/com/williamcallahan/tui4j/term/TerminalInfo.java
+ *
+ * @param tty whether the terminal is a TTY
+ * @param backgroundColor terminal background color
  */
 public record TerminalInfo(boolean tty, TerminalColor backgroundColor) {
 
     private static TerminalInfoProvider infoProvider;
 
+    /**
+     * Sets the terminal info provider.
+     *
+     * @param infoProvider provider to use
+     */
     public static void provide(TerminalInfoProvider infoProvider) {
         TerminalInfo.infoProvider = infoProvider;
     }
 
+    /**
+     * Returns terminal info from the configured provider.
+     *
+     * @return terminal info
+     */
     public static TerminalInfo get() {
         return infoProvider.provide();
     }

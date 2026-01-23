@@ -6,8 +6,10 @@ import java.time.Duration;
  * Port of Bubbles spinner type.
  * Bubble Tea: bubbletea/examples/spinner/main.go
  */
+@Deprecated(since = "0.3.0")
 public enum SpinnerType {
 
+    /** Rotating line spinner (|, /, -, \). */
     LINE {
         @Override
         String[] frames() {
@@ -20,6 +22,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Braille dot spinner. */
     DOT {
         @Override
         String[] frames() {
@@ -32,6 +35,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Minimal braille dot spinner. */
     MINI_DOT {
         @Override
         String[] frames() {
@@ -44,6 +48,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Jumping braille dot spinner. */
     JUMP {
         @Override
         String[] frames() {
@@ -56,6 +61,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Pulsing block shade spinner. */
     PULSE {
         @Override
         String[] frames() {
@@ -68,6 +74,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Moving dot points spinner. */
     POINTS {
         @Override
         String[] frames() {
@@ -80,6 +87,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Globe emoji spinner. */
     GLOBE {
         @Override
         String[] frames() {
@@ -92,6 +100,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Moon phase emoji spinner. */
     MOON {
         @Override
         String[] frames() {
@@ -104,6 +113,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Monkey emoji spinner (see-hear-speak no evil). */
     MONKEY {
         @Override
         String[] frames() {
@@ -116,6 +126,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Meter bar spinner. */
     METER {
         @Override
         String[] frames() {
@@ -136,6 +147,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Hamburger trigram spinner. */
     HAMBURGER {
         @Override
         String[] frames() {
@@ -148,6 +160,7 @@ public enum SpinnerType {
         }
     },
 
+    /** Ellipsis dots spinner. */
     ELLIPSIS {
         @Override
         String[] frames() {

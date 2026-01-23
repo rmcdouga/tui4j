@@ -1,34 +1,32 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * Port of Bubbles filtered item.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class FilteredItem {
-    private int rankIndex;
-    private Item item;
-    private int[] matches;
+@Deprecated(since = "0.3.0")
+public class FilteredItem extends com.williamcallahan.tui4j.compat.bubbles.list.FilteredItem {
 
+    /**
+     * Creates a filtered item with ranking metadata.
+     *
+     * @param rankIndex rank index
+     * @param item item instance
+     * @param matches match positions
+     */
+    @Deprecated(since = "0.3.0")
     public FilteredItem(int rankIndex, Item item, int[] matches) {
-        this.rankIndex = rankIndex;
-        this.item = item;
-        this.matches = matches;
+        super(rankIndex, item, matches);
     }
 
+    /**
+     * Creates a filtered item wrapper for the provided item.
+     *
+     * @param item item instance
+     */
+    @Deprecated(since = "0.3.0")
     public FilteredItem(Item item) {
-        this.item = item;
-        this.matches = new int[0];
+        super(item);
     }
 
-    public Item item() {
-        return item;
-    }
-
-    public int[] matches() {
-        return matches;
-    }
-
-    public int rankIndex() {
-        return rankIndex;
-    }
 }

@@ -1,68 +1,43 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join;
 
-import com.williamcallahan.tui4j.ansi.TextWidth;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.TextLines;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-
 /**
- * Port of Lip Gloss vertical join decorator.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lip Gloss: join.go.
  */
-public class VerticalJoinDecorator {
+@Deprecated(since = "0.3.0")
+public class VerticalJoinDecorator extends com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator {
 
-    public static String joinVertical(Position position, String... strings) {
-        if (strings.length == 0) {
-            return "";
-        }
-        if (strings.length == 1) {
-            return strings[0];
-        }
+    /**
+     * Prevents instantiation of the shim utility.
+     */
+    private VerticalJoinDecorator() {
+    }
 
-        String[][] blocks = new String[strings.length][];
-        int maxWidth = 0;
+    /**
+     * Joins blocks vertically using the legacy position type.
+     *
+     * @param position position to align within the widest block
+     * @param blocks   blocks to join
+     * @return joined block string
+     */
+    public static String joinVertical(
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position position,
+        String... blocks
+    ) {
+        return joinVertical(position.toNew(), blocks);
+    }
 
-        for (int i = 0; i < strings.length; i++) {
-            String string = strings[i];
-            TextLines textLines = TextLines.fromText(string);
-            blocks[i] = textLines.lines();
-            if (textLines.widestLineLength() > maxWidth) {
-                maxWidth = textLines.widestLineLength();
-            }
-        }
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < blocks.length; i++) {
-            String[] block = blocks[i];
-
-            for (int j = 0; j < block.length; j++) {
-                String line = block[j];
-                int width = maxWidth - TextWidth.measureCellWidth(line);
-
-                if (position.equals(Position.Left)) {
-                    builder.append(line);
-                    builder.append(" ".repeat(width));
-
-                } else if (position.equals(Position.Right)) {
-                    builder.append(" ".repeat(width));
-                    builder.append(line);
-                } else {
-                    if (width < 1) {
-                        builder.append(line);
-                    } else {
-                        int split = (int) Math.round(width * position.value());
-                        int right = width - split;
-                        int left = width - right;
-
-                        builder.append(" ".repeat(left));
-                        builder.append(line);
-                        builder.append(" ".repeat(right));
-                    }
-                }
-                if (!(i == blocks.length - 1 && j == block.length - 1)) {
-                    builder.append('\n');
-                }
-            }
-        }
-        return builder.toString();
+    /**
+     * Joins blocks vertically using the canonical position type.
+     *
+     * @param position position to align within the widest block
+     * @param blocks blocks to join
+     * @return joined block string
+     */
+    public static String joinVertical(com.williamcallahan.tui4j.compat.lipgloss.Position position, String... blocks) {
+        return com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator
+            .joinVertical(position, blocks);
     }
 }

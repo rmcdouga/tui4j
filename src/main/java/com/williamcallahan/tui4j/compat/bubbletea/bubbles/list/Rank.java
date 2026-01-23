@@ -4,44 +4,23 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Port of Bubbles rank.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.Rank} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class Rank {
-    private final int index;
-    private final int[] matchedIndexes;
+@Deprecated(since = "0.3.0")
+public class Rank extends com.williamcallahan.tui4j.compat.bubbles.list.Rank {
 
+    /**
+     * Creates a deprecated compatibility rank wrapper.
+     *
+     * @param index matched item index
+     * @param matchedIndexes matched rune indexes
+     * @deprecated Deprecated in tui4j as of 0.3.0; use
+     * {@link com.williamcallahan.tui4j.compat.bubbles.list.Rank} instead.
+     */
+    @Deprecated(since = "0.3.0")
     public Rank(int index, int[] matchedIndexes) {
-        this.index = index;
-        this.matchedIndexes = matchedIndexes;
+        super(index, matchedIndexes);
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public int[] getMatchedIndexes() {
-        return matchedIndexes;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Rank rank = (Rank) obj;
-        return index == rank.index && Arrays.equals(matchedIndexes, rank.matchedIndexes);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(index) + Arrays.hashCode(matchedIndexes);
-    }
-
-    @Override
-    public String toString() {
-        return "Rank{" +
-                "index=" + index +
-                ", matchedIndexes=" + Arrays.toString(matchedIndexes) +
-                '}';
-    }
 }

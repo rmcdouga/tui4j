@@ -5,70 +5,24 @@ import com.williamcallahan.tui4j.compat.bubbletea.Message;
 import com.williamcallahan.tui4j.compat.bubbletea.Model;
 import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-
 import java.time.LocalDateTime;
 
 /**
- * Port of Bubbles spinner.
- * Bubble Tea: bubbletea/examples/spinner/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class Spinner implements Model {
+@Deprecated(since = "0.3.0")
+public class Spinner extends com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner {
 
-    private SpinnerType type;
-    private int frame;
-    private int id;
-    private int tag;
-    private Style style = Style.newStyle();
-
+    /**
+     * Creates a spinner with the given type.
+     *
+     * @param type spinner type
+     * @deprecated Use {@link com.williamcallahan.tui4j.compat.bubbles.spinner.Spinner#Spinner(com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType)} instead.
+     */
+    @Deprecated(since = "0.3.0")
     public Spinner(SpinnerType type) {
-        this.type = type;
+        super(com.williamcallahan.tui4j.compat.bubbles.spinner.SpinnerType.valueOf(type.name()));
     }
 
-    public void setType(SpinnerType type) {
-        this.type = type;
-    }
-
-    public Spinner setStyle(Style style) {
-        this.style = style;
-        return this;
-    }
-
-    public Command init() {
-        return this::tick;
-    }
-
-    public UpdateResult<Spinner> update(Message msg) {
-        if (msg instanceof TickMessage tickMessage) {
-            if (tickMessage.id() > 0 && tickMessage.id() != id) {
-                return UpdateResult.from(this);
-            }
-            if (tickMessage.tag() > 0 && tickMessage.tag() != tag) {
-                return UpdateResult.from(this);
-            }
-
-            frame++;
-            if (frame >= type.frames().length) {
-                frame = 0;
-            }
-
-            tag++;
-            return UpdateResult.from(
-                    this,
-                    Command.tick(type.duration(), localDateTime -> new TickMessage(localDateTime, tag, id))
-            );
-        }
-
-        return UpdateResult.from(this);
-    }
-
-    public String view() {
-        if (frame >= type.frames().length) {
-            return "(error)";
-        }
-        return style.render(type.frames()[frame]);
-    }
-
-    public Message tick() {
-        return new TickMessage(LocalDateTime.now(), tag, id);
-    }
 }

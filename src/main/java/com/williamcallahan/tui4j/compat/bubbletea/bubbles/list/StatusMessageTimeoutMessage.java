@@ -3,8 +3,17 @@ package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 import com.williamcallahan.tui4j.compat.bubbletea.Message;
 
 /**
- * Port of Bubbles status message timeout message.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.bubbles.list.StatusMessageTimeoutMessage} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Bubbles: list/list.go.
  */
-public class StatusMessageTimeoutMessage implements Message {
+@Deprecated(since = "0.3.0")
+public class StatusMessageTimeoutMessage extends com.williamcallahan.tui4j.compat.bubbles.list.StatusMessageTimeoutMessage {
+    /**
+     * Creates StatusMessageTimeoutMessage to keep this component ready for use.
+     */
+    public StatusMessageTimeoutMessage() {
+        super();
+    }
 }

@@ -1,85 +1,90 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.list;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree.StyleFunction;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree.Tree;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree.TreeEnumerator;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree.TreeIndenter;
+import com.williamcallahan.tui4j.compat.lipgloss.ListEnumerator;
+import com.williamcallahan.tui4j.compat.lipgloss.Style;
+import com.williamcallahan.tui4j.compat.lipgloss.tree.StyleFunction;
+import com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator;
+import com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter;
 
 /**
- * Port of Lip Gloss list.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Compatibility shim for {@link com.williamcallahan.tui4j.compat.lipgloss.List}.
+ * Canonical source: {@code src/main/java/com/williamcallahan/tui4j/compat/lipgloss/List.java}.
+ * <p>
+ * Lip Gloss: list/list.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.List}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public class List {
+@Deprecated(since = "0.3.0")
+public class List extends com.williamcallahan.tui4j.compat.lipgloss.List {
 
-    private Tree tree;
+    /**
+     * Creates an empty list shim.
+     */
+    public List() {
+        super();
+    }
 
+    /**
+     * Creates a list shim with object items.
+     *
+     * @param items items
+     */
     public List(Object... items) {
-        this.tree = new Tree();
-        this.items(items).enumerator(ListEnumerator.bullet()).indenter((children, index) -> " ");
-    }
-
-    public boolean isHidden() {
-        return tree.isHidden();
-    }
-
-    public List hide(boolean hide) {
-        tree.hide();
-        return this;
-    }
-
-    public List offset(int start, int end) {
-        tree.offset(start, end);
-        return this;
-    }
-
-    public List enumeratorStyle(Style style) {
-        tree.enumeratorStyle(style);
-        return this;
-    }
-
-    public List enumeratorStyleFunc(StyleFunction function) {
-        tree.enumeratorStyleFunc(function);
-        return this;
-    }
-
-    public List itemStyleFunc(StyleFunction function) {
-        tree.itemStyleFunc(function);
-        return this;
-    }
-
-    public List indenter(TreeIndenter indenter) {
-        tree.indenter(indenter);
-        return this;
-    }
-
-    public List enumerator(TreeEnumerator enumerator) {
-        tree.enumerator(enumerator);
-        return this;
-    }
-
-    public List item(Object item) {
-        if (item instanceof List list) {
-            tree.child(list.tree);
-        } else {
-            tree.child(item);
-        }
-        return this;
-    }
-
-    public List items(Object... items) {
-        for (Object item : items) {
-            item(item);
-        }
-        return this;
-    }
-
-    public String render() {
-        return tree.render();
+        super(items);
     }
 
     @Override
-    public String toString() {
-        return render();
+    public List hide(boolean hide) {
+        super.hide(hide);
+        return this;
+    }
+
+    @Override
+    public List offset(int start, int end) {
+        super.offset(start, end);
+        return this;
+    }
+
+    @Override
+    public List enumeratorStyle(Style style) {
+        super.enumeratorStyle(style);
+        return this;
+    }
+
+    @Override
+    public List enumeratorStyleFunc(StyleFunction function) {
+        super.enumeratorStyleFunc(function);
+        return this;
+    }
+
+    @Override
+    public List itemStyleFunc(StyleFunction function) {
+        super.itemStyleFunc(function);
+        return this;
+    }
+
+    @Override
+    public List indenter(TreeIndenter indenter) {
+        super.indenter(indenter);
+        return this;
+    }
+
+    @Override
+    public List enumerator(TreeEnumerator enumerator) {
+        super.enumerator(enumerator);
+        return this;
+    }
+
+    @Override
+    public List item(Object item) {
+        super.item(item);
+        return this;
+    }
+
+    @Override
+    public List items(Object... items) {
+        super.items(items);
+        return this;
     }
 }

@@ -15,7 +15,8 @@ class MouseMessageTest {
 
     @Test
     void testSgrReleasePreservesMotion() {
-        MouseMessage message = MouseMessage.parseSGRMouseEvent(32, 10, 20, true);
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message =
+            com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage.parseSGRMouseEvent(32, 10, 20, true);
 
         assertThat(message.getAction()).isEqualTo(MouseAction.MouseActionMotion);
         assertThat(message.getButton()).isEqualTo(MouseButton.MouseButtonLeft);
@@ -23,7 +24,8 @@ class MouseMessageTest {
 
     @Test
     void testSgrReleaseSetsReleaseForNonMotion() {
-        MouseMessage message = MouseMessage.parseSGRMouseEvent(0, 10, 20, true);
+        com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage message =
+            com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage.parseSGRMouseEvent(0, 10, 20, true);
 
         assertThat(message.getAction()).isEqualTo(MouseAction.MouseActionRelease);
         assertThat(message.getButton()).isEqualTo(MouseButton.MouseButtonNone);

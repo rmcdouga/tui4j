@@ -1,60 +1,72 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
 /**
- * Port of Lip Gloss filter.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Filter} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lip Gloss: tree/children.go.
  */
-public class Filter implements Children {
+@Deprecated(since = "0.3.0")
+public class Filter extends com.williamcallahan.tui4j.compat.lipgloss.tree.Filter {
 
-    public interface FilterFunction {
-        boolean filter(int index);
-    }
+    /**
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+     *             {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Filter.FilterFunction} instead.
+     *             This transitional shim is temporary and will be removed in an upcoming release.
+     */
+    @Deprecated(since = "0.3.0")
+    public interface FilterFunction
+        extends com.williamcallahan.tui4j.compat.lipgloss.tree.Filter.FilterFunction {}
 
-    private final Children data;
-    private FilterFunction filterFunction = index -> true;
-
+    /**
+     * Creates Filter to keep this component ready for use.
+     *
+     * @param data data
+     */
     public Filter(Children data) {
-        this.data = data;
+        super(data);
     }
 
+    /**
+     * Handles at for this component.
+     *
+     * @param index index
+     * @return result
+     */
     @Override
     public Node at(int index) {
-        int j = 0;
-        for (int i = 0; i < data.length(); i++) {
-            if (filterFunction.filter(i)) {
-                if (j == index) {
-                    return data.at(i);
-                }
-                j++;
-            }
-        }
-
-        return null;
+        return (Node) super.at(index);
     }
 
+    /**
+     * Handles filter for this component.
+     *
+     * @param filterFunction filter function
+     * @return result
+     */
     public Filter filter(FilterFunction filterFunction) {
-        this.filterFunction = filterFunction;
+        super.filter(filterFunction);
         return this;
     }
 
+    /**
+     * Handles remove for this component.
+     *
+     * @param index index
+     * @return result
+     */
     @Override
     public Children remove(int index) {
-        return null;
+        return (Children) super.remove(index);
     }
 
-    @Override
+    /**
+     * Handles append for this component.
+     *
+     * @param child child
+     * @return result
+     */
     public Children append(Node child) {
-        return null;
-    }
-
-    @Override
-    public int length() {
-        int j = 0;
-        for (int i = 0; i < data.length(); i++) {
-            if (filterFunction.filter(i)) {
-                j++;
-            }
-        }
-        return j;
+        return (Children) super.append(child);
     }
 }

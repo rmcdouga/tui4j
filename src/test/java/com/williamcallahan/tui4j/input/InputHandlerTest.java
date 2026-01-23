@@ -7,16 +7,19 @@ import com.williamcallahan.tui4j.compat.bubbletea.input.MouseButton;
 import com.williamcallahan.tui4j.compat.bubbletea.input.MouseMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.input.NewInputHandler;
 import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyAliases;
-import com.williamcallahan.tui4j.compat.bubbletea.message.BlurMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.FocusMessage;
-import com.williamcallahan.tui4j.compat.bubbletea.message.KeyPressMessage;
-import com.williamcallahan.tui4j.message.UnknownSequenceMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.BlurMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.FocusMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.PasteMessage;
+import com.williamcallahan.tui4j.compat.bubbletea.UnknownSequenceMessage;
 import org.jline.terminal.Terminal;
 import org.jline.utils.NonBlockingReader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +33,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests input handler.
- * tui4j: src/test/java/com/williamcallahan/tui4j/input/InputHandlerTest.java
+ * Tests the Bubble Tea input handler port.
+ * Bubble Tea: bubbletea/inputreader_other.go
  */
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class InputHandlerTest {
 
     @Mock
@@ -165,6 +169,46 @@ class InputHandlerTest {
         assertThat(keyMessage.alt()).isTrue();
     }
 
+    @Test
+    void test_ShouldPublishPasteMessage_WhenBracketedPasteReceived() throws Throwable {
+        // given
+        when(terminal.reader()).thenReturn(reader);
+        List<Message> receivedMessages = new ArrayList<>();
+        CountDownLatch messageLatch = new CountDownLatch(1);
+
+        Consumer<Message> messageConsumer = message -> {
+            receivedMessages.add(message);
+            messageLatch.countDown();
+        };
+
+        String payload = "\u001b[200~hello\nworld\u001b[201~";
+
+        when(reader.read(any(char[].class), eq(0), eq(256)))
+                .thenAnswer(invocation -> {
+                    char[] buf = invocation.getArgument(0);
+                    payload.getChars(0, payload.length(), buf, 0);
+                    return payload.length();
+                })
+                .thenReturn(-1);
+
+        InputHandler inputHandler = new NewInputHandler(terminal, messageConsumer);
+
+        // when
+        inputHandler.start();
+
+        // Wait for message or timeout
+        boolean received = messageLatch.await(2, TimeUnit.SECONDS);
+        inputHandler.stop();
+
+        // then
+        assertThat(received).isTrue();
+        assertThat(receivedMessages).hasSize(1);
+        assertThat(receivedMessages.getFirst()).isInstanceOf(PasteMessage.class);
+
+        PasteMessage pasteMessage = (PasteMessage) receivedMessages.getFirst();
+        assertThat(pasteMessage.content()).isEqualTo("hello\nworld");
+    }
+
 
     @Test
     void test_ShouldPublishFocusMessage_When_FocusGained() throws Throwable {
@@ -250,7 +294,6 @@ class InputHandlerTest {
         CountDownLatch messageLatch = new CountDownLatch(1);
 
         Consumer<Message> messageConsumer = message -> {
-            System.out.println("DEBUG: Received message: " + message);
             receivedMessages.add(message);
             messageLatch.countDown();
         };

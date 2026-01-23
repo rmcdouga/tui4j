@@ -9,6 +9,15 @@ import java.util.Map;
  */
 public class Sequences {
 
+    /**
+     * Creates a sequences container.
+     */
+    public Sequences() {
+    }
+
+    /**
+     * Maps escape sequences to parsed key values.
+     */
     public static final Map<String, Key> SEQUENCES = new HashMap<>();
 
     static {

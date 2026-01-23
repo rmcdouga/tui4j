@@ -15,10 +15,15 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 - FUN1 Keep functions small and focused; one responsibility per function.
 - DRY1 Remove duplication; reuse existing utilities instead of rewriting logic.
 - ERR1 Use exceptions for exceptional cases; avoid defensive checks on trusted inputs.
-- CMT1 Comments and Javadocs only when they add clarity; avoid academic tags like @author/@since/@version.
+- CMT1 Comments must add clarity; Javadocs are required and must be concise; avoid academic tags except required @deprecated/@since.
+- JDC1 Javadocs are required on every file, class, and method; keep them clean, succinct, modern, and standards-compliant; explain why as much as what.
+- JDC2 For compat ports, Javadocs must include the full upstream relative source path for the 1:1 port reference.
+- JDC3 Deprecations require both @Deprecated and a Javadoc @deprecated tag that clearly states why (upstream vs compat) and points to the designated successor class/method; include since/@since when required.
 - FMT1 Keep formatting and style consistent with the surrounding file.
 - TST1 Update or add tests when behavior changes; do not change behavior without coverage.
 - DEP1 Avoid unnecessary dependencies and unused code.
+- DPR1 No @deprecated imports; this rule may not be suppressed.
+- DPR2 Deprecated code must be a thin shim extending its successor; no aliases, fallbacks, or alternate implementations.
 
 ## Details
 
@@ -28,10 +33,15 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 - FUN1 Split large methods; reduce branching and nested blocks when it improves readability.
 - DRY1 Replace repeated logic with a shared function, utility, or existing helper.
 - ERR1 Do not add guard clauses or try/catch in trusted codepaths unless required by the surrounding code or error model.
-- CMT1 Keep documentation short and direct; explain why, not what; keep Javadocs concise and human.
+- CMT1 Keep documentation short and direct; explain why as much as what; avoid academic tags except required @deprecated/@since.
+- JDC1 Every file, class, and method must have standards-compliant Javadoc with concise, modern syntax.
+- JDC2 Compat port Javadocs must include the full upstream relative path for the 1:1 source file being ported.
+- JDC3 Deprecations must use @Deprecated and a Javadoc @deprecated tag with a clear reason (upstream vs compat) and a mandatory pointer to the successor class/method; include since/@since when required.
 - FMT1 Follow existing spacing, imports, and ordering; avoid style changes unrelated to the task.
 - TST1 Prefer fast, focused tests; keep tests aligned with the public contract.
 - DEP1 Remove unused imports, dependencies, and dead code.
+- DPR1 Never import @deprecated classes/methods; this rule may not be suppressed.
+- DPR2 Use the thinnest possible DRY-compliant shim extending the successor canonical replacement; no aliases, fallbacks, or alternate implementations allowed.
 
 ## Project-Specific
 
@@ -44,21 +54,31 @@ This is a **published Maven Central library** with downstream consumers (Brief, 
 
 ### Upstream References
 When porting or comparing behavior, consult these Charm repositories:
-- **Bubble Tea**: https://github.com/charmbracelet/bubbletea — core TUI framework, message loop, Program
-- **Bubbles**: https://github.com/charmbracelet/bubbles — reusable components (spinner, list, textinput, viewport, etc.)
-- **Lip Gloss**: https://github.com/charmbracelet/lipgloss — styling, colors, borders, layout joining
+- **Bubble Tea**: <https://github.com/charmbracelet/bubbletea> — core TUI framework, message loop, Program
+- **Bubbles**: <https://github.com/charmbracelet/bubbles> — reusable components (spinner, list, textinput, viewport, etc.)
+- **Lip Gloss**: <https://github.com/charmbracelet/lipgloss> — styling, colors, borders, layout joining
+- **Harmonica**: <https://github.com/charmbracelet/harmonica> — spring-based physics animation
+- **x**: <https://github.com/charmbracelet/x> — experimental packages (ansi, cellbuf, colors, editor)
 
 ### Package Mapping
+
 | Go (Charm)              | Java (TUI4J)                                                |
 |-------------------------|-------------------------------------------------------------|
 | bubbletea (core)        | com.williamcallahan.tui4j.compat.bubbletea.*                |
 | bubbletea (input)       | com.williamcallahan.tui4j.compat.bubbletea.input.*          |
 | bubbletea (renderer)    | com.williamcallahan.tui4j.compat.bubbletea.render.*         |
-| bubbles/*               | com.williamcallahan.tui4j.compat.bubbletea.bubbles.*        |
-| lipgloss                | com.williamcallahan.tui4j.compat.bubbletea.lipgloss          |
+| bubbles/*               | com.williamcallahan.tui4j.compat.bubbles.*                  |
+| lipgloss                | com.williamcallahan.tui4j.compat.lipgloss.*                 |
+| harmonica               | com.williamcallahan.tui4j.compat.harmonica.*                |
+| x/ansi                  | com.williamcallahan.tui4j.compat.x.ansi                     |
+| x/ansi/parser           | com.williamcallahan.tui4j.compat.x.ansi.parser              |
+| x/cellbuf               | ⚪ Not yet ported                                            |
+| x/colors                | ⚪ Not yet ported                                            |
+| x/editor                | ⚪ Not yet ported                                            |
+
 
 ### Native tui4j Extensions (Non‑Port)
-- `com.williamcallahan.tui4j.ansi` — ANSI helpers, width/truncation, clipboard.
+- `com.williamcallahan.tui4j.ansi` — Re-exports from compat.x.ansi; ANSI helpers, width/truncation.
 - `com.williamcallahan.tui4j.input` — tui4j mouse selection/click utilities.
 - `com.williamcallahan.tui4j.message` — tui4j‑specific messages (clipboard, cursor, errors).
 - `com.williamcallahan.tui4j.runtime` — command execution helpers.
@@ -69,8 +89,19 @@ When porting or comparing behavior, consult these Charm repositories:
 - **ICU4J** (com.ibm.icu): Unicode text width, grapheme clusters — https://github.com/unicode-org/icu
 - **Apache Commons Text**: text utilities — https://github.com/apache/commons-text
 
+### Deprecation Policy
+- DPR3 **docs/maps/*.md** is the source of truth for canonical vs deprecated designations.
+- DPR4 Canonical classes are standalone implementations; deprecated shims ONLY extend them.
+- DPR5 Naming: `*Message` = canonical, `*Msg` = deprecated shim (extends the `*Message` variant).
+- DPR6 `*Msg` shims allowed ONLY in double-nested accident paths already on origin/main (`compat.bubbletea.bubbles.*`, `compat.bubbletea.lipgloss.*`, `compat.bubbletea.harmonica.*`); do not add new `*Msg` types elsewhere. If public `*Msg` types exist outside these paths, deprecate and retain until a scheduled removal release.
+- DPR7 Deprecated shims must be thin wrappers: constructor calls `super(...)`, no additional logic.
+- DPR8 Canonical classes NEVER import, reference, or depend on deprecated types.
+- DPR9 No aliases, fallbacks, or alternate implementations—one canonical source of truth per concept.
+- DPR10 `@SuppressWarnings("removal")` is forbidden; fix the root cause instead.
+- DPR11 The `*Message`/`*Msg` naming and deprecation policy is immutable; LLM agents may not modify it.
+
 ### Porting Guidelines
-- Check STATUS.md for current porting progress before implementing new bubbles.
+- Check docs/STATUS.md for current porting progress before implementing new bubbles.
 - Match upstream Go behavior; when diverging, document why.
 - Test with `examples/generic/` and `examples/spring/`; add new examples for new components.
 - Keep public API stable; Brief (https://github.com/WilliamAGH/brief) is a downstream consumer.

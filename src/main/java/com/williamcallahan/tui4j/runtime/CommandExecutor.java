@@ -16,10 +16,27 @@ public class CommandExecutor {
 
     private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
 
+    /**
+     * Creates a command executor.
+     */
+    public CommandExecutor() {
+    }
+
+    /**
+     * Shuts down the executor service.
+     */
     public void shutdown() {
         executorService.shutdown();
     }
 
+    /**
+     * Executes a command if present and routes its message.
+     *
+     * @param command command to execute
+     * @param messageConsumer message consumer
+     * @param errorConsumer error consumer
+     * @return future for completion
+     */
     public CompletableFuture<Void> executeIfPresent(Command command,
                                                     Consumer<Message> messageConsumer,
                                                     Consumer<Throwable> errorConsumer) {
@@ -33,5 +50,14 @@ public class CommandExecutor {
                     });
         }
         return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * Executes a runnable task on the executor.
+     *
+     * @param task task to run
+     */
+    public void execute(Runnable task) {
+        executorService.submit(task);
     }
 }

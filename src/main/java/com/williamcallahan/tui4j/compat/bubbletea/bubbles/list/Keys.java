@@ -5,7 +5,11 @@ import com.williamcallahan.tui4j.compat.bubbletea.bubbles.key.Binding;
 /**
  * Port of Bubbles keys.
  * Bubble Tea: bubbletea/examples/list-simple/main.go
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.bubbles.list.KeyMap} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public class Keys {
 
     private final Binding cursorUp;
@@ -23,6 +27,9 @@ public class Keys {
     private final Binding quit;
     private final Binding forceQuit;
 
+    /**
+     * Creates the default list key bindings.
+     */
     public Keys() {
         // Browsing
         this.cursorUp = new Binding(Binding.withKeys("up", "k"), Binding.withHelp("↑/k", "up"));
@@ -48,58 +55,128 @@ public class Keys {
         this.forceQuit = new Binding(Binding.withKeys("ctrl+c"));
     }
 
+    /**
+     * Returns the binding for moving the cursor up.
+     *
+     * @return cursor up binding
+     */
     public Binding cursorUp() {
         return cursorUp;
     }
 
+    /**
+     * Returns the binding for moving the cursor down.
+     *
+     * @return cursor down binding
+     */
     public Binding cursorDown() {
         return cursorDown;
     }
 
+    /**
+     * Returns the binding for moving to the next page.
+     *
+     * @return next page binding
+     */
     public Binding nextPage() {
         return nextPage;
     }
 
+    /**
+     * Returns the binding for moving to the previous page.
+     *
+     * @return previous page binding
+     */
     public Binding prevPage() {
         return prevPage;
     }
 
+    /**
+     * Returns the binding for jumping to the start of the list.
+     *
+     * @return go to start binding
+     */
     public Binding goToStart() {
         return goToStart;
     }
 
+    /**
+     * Returns the binding for jumping to the end of the list.
+     *
+     * @return go to end binding
+     */
     public Binding goToEnd() {
         return goToEnd;
     }
 
+    /**
+     * Returns the binding for opening the filter prompt.
+     *
+     * @return filter binding
+     */
     public Binding filter() {
         return filter;
     }
 
+    /**
+     * Returns the binding for clearing the filter.
+     *
+     * @return clear filter binding
+     */
     public Binding clearFilter() {
         return clearFilter;
     }
 
+    /**
+     * Returns the binding for canceling filtering.
+     *
+     * @return cancel while filtering binding
+     */
     public Binding cancelWhileFiltering() {
         return cancelWhileFiltering;
     }
 
+    /**
+     * Returns the binding for accepting a filter while filtering.
+     *
+     * @return accept while filtering binding
+     */
     public Binding acceptWhileFiltering() {
         return acceptWhileFiltering;
     }
 
+    /**
+     * Returns the binding for showing full help.
+     *
+     * @return show full help binding
+     */
     public Binding showFullHelp() {
         return showFullHelp;
     }
 
+    /**
+     * Returns the binding for closing full help.
+     *
+     * @return close full help binding
+     */
     public Binding closeFullHelp() {
         return closeFullHelp;
     }
 
+    /**
+     * Returns the binding for quitting the list.
+     *
+     * @return quit binding
+     */
     public Binding quit() {
         return quit;
     }
 
+    /**
+     * Returns the binding for forcing a quit.
+     *
+     * @return force quit binding
+     */
     public Binding forceQuit() {
         return forceQuit;
     }

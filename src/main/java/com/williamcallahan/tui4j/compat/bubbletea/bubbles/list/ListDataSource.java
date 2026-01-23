@@ -1,9 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbletea.bubbles.list;
 
 /**
- * Port of Bubbles list data source.
- * Bubble Tea: bubbletea/examples/list-simple/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
-public interface ListDataSource {
-    FetchedItems fetchItems(int page, int perPage, String filterValue);
+@Deprecated(since = "0.3.0")
+public interface ListDataSource extends com.williamcallahan.tui4j.compat.bubbles.list.ListDataSource {
 }

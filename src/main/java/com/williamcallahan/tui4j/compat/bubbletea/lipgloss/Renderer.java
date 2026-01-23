@@ -1,172 +1,174 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.ansi.TextWidth;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term.Output;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.List;
 
 /**
- * Abstraction for rendering and terminal mode control.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Rendering and terminal mode control for Bubble Tea-compatible APIs.
+ * <p>
+ * Lipgloss: renderer.go.
+ *
+ * @since 0.3.0
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved to the canonical TUI4J path; use {@link com.williamcallahan.tui4j.compat.lipgloss.Renderer} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
  */
+@Deprecated(since = "0.3.0")
 public class Renderer {
 
-    static Renderer defaultRenderer = new Renderer(Output.defaultOutput());
+    private static final Renderer DEFAULT_RENDERER =
+        new Renderer(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term.Output.defaultOutput());
 
+    private final com.williamcallahan.tui4j.compat.lipgloss.Renderer delegate;
+
+    /**
+     * Returns the default renderer instance.
+     *
+     * @return default renderer
+     */
     public static Renderer defaultRenderer() {
-        return defaultRenderer;
+        return DEFAULT_RENDERER;
     }
 
-    private final Lock renderLock = new ReentrantLock();
-    private Output output;
-    private ColorProfile colorProfile;
-    private boolean explicitColorProfile;
-
-    private boolean hasDarkBackground;
-    private boolean hasDarkBackgroundSet;
-    private boolean explicitBackgroundColor;
-
-    public Renderer(Output output) {
-        this.output = output;
+    /**
+     * Creates a renderer with the provided output.
+     *
+     * @param output output destination
+     */
+    public Renderer(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.term.Output output) {
+        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.Renderer(output.toCanonical());
     }
 
+    private Renderer(com.williamcallahan.tui4j.compat.lipgloss.Renderer delegate) {
+        this.delegate = delegate;
+    }
+
+    /**
+     * Wraps a canonical renderer for legacy compatibility.
+     *
+     * @param renderer canonical renderer
+     * @return bubbletea renderer wrapper
+     */
+    public static Renderer fromCanonical(com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        if (renderer == null) {
+            return null;
+        }
+        return new Renderer(renderer);
+    }
+
+    /**
+     * Returns the canonical renderer delegate.
+     *
+     * @return canonical renderer
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.Renderer toCanonical() {
+        return delegate;
+    }
+
+    /**
+     * Sets a custom environment for terminal capability detection.
+     * <p>
+     * Note: This method is a no-op as the canonical Renderer does not support custom environments.
+     *
+     * @param environment list of environment variables in "KEY=VALUE" format
+     */
+    public void setEnvironment(List<String> environment) {
+        // No-op: canonical Renderer does not support setEnvironment
+    }
+
+    /**
+     * Creates a new Bubble Tea-compatible style.
+     *
+     * @return new style
+     */
     public Style newStyle() {
         return new Style(this);
     }
 
+    /**
+     * Reports whether the terminal background is dark.
+     *
+     * @return true when the background is dark
+     */
     public boolean hasDarkBackground() {
-        if (hasDarkBackgroundSet || explicitBackgroundColor) {
-            return hasDarkBackground;
-        }
-
-        renderLock.lock();
-        try {
-            hasDarkBackground = output.hasDarkBackground();
-            hasDarkBackgroundSet = true;
-            return hasDarkBackground;
-        } finally {
-            renderLock.unlock();
-        }
+        return delegate.hasDarkBackground();
     }
 
-    public ColorProfile colorProfile() {
-        if (!explicitColorProfile && colorProfile == null) {
-            renderLock.lock();
-            try {
-                colorProfile = output.envColorProfile();
-            } finally {
-                renderLock.unlock();
-            }
-        }
-        return colorProfile;
+    /**
+     * Returns the active color profile for this renderer.
+     *
+     * @return color profile
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile colorProfile() {
+        return delegate.colorProfile();
     }
 
-    public void setColorProfile(ColorProfile colorProfile) {
-        renderLock.lock();
-        try {
-            this.colorProfile = colorProfile;
-            this.explicitColorProfile = true;
-        } finally {
-            renderLock.unlock();
-        }
+    /**
+     * Sets the renderer's color profile.
+     *
+     * @param colorProfile color profile
+     */
+    public void setColorProfile(
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile colorProfile
+    ) {
+        delegate.setColorProfile(toCanonical(colorProfile));
     }
 
+    /**
+     * Overrides the background darkness detection.
+     *
+     * @param hasDarkBackground whether the background is dark
+     */
     public void setHasDarkBackground(boolean hasDarkBackground) {
-        renderLock.lock();
-        try {
-            this.hasDarkBackground = hasDarkBackground;
-            hasDarkBackgroundSet = true;
-            explicitBackgroundColor = true;
-        } finally {
-            renderLock.unlock();
-        }
+        delegate.setHasDarkBackground(hasDarkBackground);
     }
 
-    public String place(int width, int height, Position hPos, Position vPos, String input, Whitespace.WhitespaceOption... options) {
-        return placeVertical(height, vPos, placeHorizontal(width, hPos, input, options), options);
+    /**
+     * Places text within a given width and height with specified alignment.
+     *
+     * @param width width
+     * @param height height
+     * @param hPos horizontal position
+     * @param vPos vertical position
+     * @param input input text
+     * @param options whitespace options
+     * @return placed text
+     */
+    public String place(int width, int height, com.williamcallahan.tui4j.compat.lipgloss.Position hPos, com.williamcallahan.tui4j.compat.lipgloss.Position vPos, String input, Whitespace.WhitespaceOption... options) {
+        return delegate.place(width, height, hPos, vPos, input, Whitespace.toCanonicalOptions(options));
     }
 
-    public String placeVertical(int height, Position position, String input, Whitespace.WhitespaceOption... options) {
-        int contentHeight = (int) (input.chars().filter(ch -> ch == '\n').count() + 1);
-        int gap = height - contentHeight;
-
-        if (gap <= 0) {
-            return input;
-        }
-
-        Whitespace whitespace = Whitespace.newWhiteSpace(this, options);
-        TextLines textLines = TextLines.fromText(input);
-        String emptyLine = whitespace.render(textLines.widestLineLength());
-
-        StringBuilder builder = new StringBuilder();
-        if (position.equals(Position.Top)) {
-            builder.append(input).append('\n');
-
-            for (int i = 0; i < gap; i++) {
-                builder.append(emptyLine);
-                if (i < gap - 1) {
-                    builder.append('\n');
-                }
-            }
-
-        } else if (position.equals(Position.Bottom)) {
-            builder.append((emptyLine + "\n").repeat(gap)).append(input);
-        } else {
-            int split = (int) Math.round(gap * position.value());
-            int top = gap - split;
-            int bottom = gap - top;
-
-            builder.append((emptyLine + "\n").repeat(gap)).append(input);
-
-            for (int i = 0; i < bottom; i++) {
-                builder.append('\n').append(emptyLine);
-            }
-        }
-        return builder.toString();
+    /**
+     * Places text vertically within a given height.
+     *
+     * @param height height
+     * @param position vertical position
+     * @param input input text
+     * @param options whitespace options
+     * @return placed text
+     */
+    public String placeVertical(int height, com.williamcallahan.tui4j.compat.lipgloss.Position position, String input, Whitespace.WhitespaceOption... options) {
+        return delegate.placeVertical(height, position, input, Whitespace.toCanonicalOptions(options));
     }
 
-    public String placeHorizontal(int width, Position position, String input, Whitespace.WhitespaceOption... options) {
-        TextLines textLines = TextLines.fromText(input);
-        int contentWidth = textLines.widestLineLength();
-        int gap = width - contentWidth;
+    /**
+     * Places text horizontally within a given width.
+     *
+     * @param width width
+     * @param position horizontal position
+     * @param input input text
+     * @param options whitespace options
+     * @return placed text
+     */
+    public String placeHorizontal(int width, com.williamcallahan.tui4j.compat.lipgloss.Position position, String input, Whitespace.WhitespaceOption... options) {
+        return delegate.placeHorizontal(width, position, input, Whitespace.toCanonicalOptions(options));
+    }
 
-        if (gap <= 0) {
-            return input;
+    private static com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile toCanonical(
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile profile
+    ) {
+        if (profile == null) {
+            return null;
         }
-
-        Whitespace whitespace = Whitespace.newWhiteSpace(this, options);
-        StringBuilder builder = new StringBuilder();
-
-        String[] lines = textLines.lines();
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-
-            int shorty = Math.max(0, contentWidth - TextWidth.measureCellWidth(line));
-
-            if (position.equals(Position.Left)) {
-                builder.append(line).append(whitespace.render(gap + shorty));
-            } else if (position.equals(Position.Right)) {
-                builder.append(whitespace.render(gap + shorty)).append(line);
-            } else {
-                int totalGap = gap + shorty;
-
-                int split = (int) Math.round(totalGap * position.value());
-                int left = totalGap - split;
-                int right = totalGap - left;
-
-                builder
-                        .append(whitespace.render(left))
-                        .append(line)
-                        .append(whitespace.render(right));
-            }
-
-            if (i < lines.length - 1) {
-                builder.append('\n');
-            }
-        }
-
-        return builder.toString();
+        return com.williamcallahan.tui4j.compat.lipgloss.color.ColorProfile.valueOf(profile.name());
     }
 }

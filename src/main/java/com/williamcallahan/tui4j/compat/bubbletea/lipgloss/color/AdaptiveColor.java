@@ -1,35 +1,49 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
- * Port of Lip Gloss adaptive color.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Adaptive color that switches between light and dark variants.
+ * <p>
+ * Lipgloss: color.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * @since 0.3.0
  */
+@Deprecated(since = "0.3.0")
 public final class AdaptiveColor implements TerminalColor {
+    private final com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor delegate;
 
-    private final Color light;
-    private final Color dark;
-
+    /**
+     * Creates an adaptive color with light and dark values.
+     *
+     * @param light light color string
+     * @param dark dark color string
+     */
+    @Deprecated(since = "0.3.0")
     public AdaptiveColor(String light, String dark) {
-        this.light = Color.color(light);
-        this.dark = Color.color(dark);
+        this.delegate = new com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor(light, dark);
     }
 
     @Override
-    public AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
-        if (renderer.hasDarkBackground()) {
-            return dark.applyAsBackground(style, renderer);
-        }
-        return light.applyAsBackground(style, renderer);
+    public AttributedStyle applyAsBackground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsBackground(style, renderer);
     }
 
     @Override
-    public AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
-        if (renderer.hasDarkBackground()) {
-            return dark.applyAsForeground(style, renderer);
-        }
-        return light.applyAsForeground(style, renderer);
+    public AttributedStyle applyAsForeground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsForeground(style, renderer);
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical AdaptiveColor
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.color.AdaptiveColor toCanonical() {
+        return delegate;
     }
 }

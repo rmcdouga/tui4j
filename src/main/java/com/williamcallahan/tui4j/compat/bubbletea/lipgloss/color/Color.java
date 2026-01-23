@@ -1,37 +1,52 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
 import org.jline.utils.AttributedStyle;
 
 /**
- * Port of Lip Gloss color.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Simple color wrapper for Bubble Tea-compatible rendering.
+ * <p>
+ * Lipgloss: color.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.color.Color}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * @since 0.3.0
  */
+@Deprecated(since = "0.3.0")
 public final class Color implements TerminalColor {
+    private final com.williamcallahan.tui4j.compat.lipgloss.color.Color delegate;
 
+    /**
+     * Creates a color from a string representation.
+     *
+     * @param color color string
+     * @return color instance
+     */
     public static Color color(String color) {
         return new Color(color);
     }
 
-    private final String color;
-
     private Color(String color) {
-        this.color = color;
+        this.delegate = com.williamcallahan.tui4j.compat.lipgloss.color.Color.color(color);
     }
 
     @Override
-    public AttributedStyle applyAsBackground(AttributedStyle style, Renderer renderer) {
-        return renderer
-                .colorProfile()
-                .color(color)
-                .applyAsBackground(style, renderer);
+    public AttributedStyle applyAsBackground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsBackground(style, renderer);
     }
 
     @Override
-    public AttributedStyle applyAsForeground(AttributedStyle style, Renderer renderer) {
-        return renderer
-                .colorProfile()
-                .color(color)
-                .applyAsForeground(style, renderer);
+    public AttributedStyle applyAsForeground(AttributedStyle style,
+            com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer) {
+        return delegate.applyAsForeground(style, renderer);
+    }
+
+    /**
+     * Returns the canonical delegate.
+     *
+     * @return canonical Color
+     */
+    public com.williamcallahan.tui4j.compat.lipgloss.color.Color toCanonical() {
+        return delegate;
     }
 }

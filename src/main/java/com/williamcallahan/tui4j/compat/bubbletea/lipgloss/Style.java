@@ -1,603 +1,862 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss;
 
-import com.williamcallahan.tui4j.ansi.TextWrapper;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.align.AlignmentDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.ColorProfile;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.NoColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.margin.MarginDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.padding.PaddingDecorator;
-import org.jline.utils.AttributedCharSequence.ForceMode;
-import org.jline.utils.AttributedString;
-import org.jline.utils.AttributedStyle;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.IntStream;
-
-import static com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer.defaultRenderer;
 
 /**
- * Port of Lip Gloss style.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * Style wrapper for Bubble Tea-compatible APIs.
+ * <p>
+ * Lipgloss: style.go.
+ *
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.Style}.
+ * This transitional shim preserves the legacy Bubble Tea fluent API and will be removed
+ * in a future release.
  */
-public class Style implements Cloneable {
+@Deprecated(since = "0.3.0")
+public class Style extends com.williamcallahan.tui4j.compat.lipgloss.Style {
 
+    /**
+     * Creates a new Style with the default renderer.
+     *
+     * @return new style
+     */
     public static Style newStyle() {
-        return defaultRenderer.newStyle();
+        return new Style(Renderer.defaultRenderer());
     }
 
-    private final Renderer renderer;
+    /**
+     * Wraps a canonical style with the legacy Bubble Tea shim.
+     *
+     * @param canonical canonical style
+     * @return legacy style shim
+     */
+    public static Style fromCanonical(com.williamcallahan.tui4j.compat.lipgloss.Style canonical) {
+        if (canonical instanceof Style legacy) {
+            return legacy;
+        }
+        Style legacy = new Style(Renderer.defaultRenderer());
+        if (canonical != null) {
+            legacy.inherit(canonical);
+        }
+        return legacy;
+    }
 
-    private String value;
-    private Function<String, String> transformFunction;
-    private TerminalColor background = new NoColor();
-    private TerminalColor foreground = new NoColor();
-    private boolean bold;
-    private boolean italic;
-    private boolean underline;
-    private boolean blink;
-    private boolean faint;
-    private boolean reverse;
-    private boolean inline;
-    private int width;
-    private int height;
-    private Position horizontalAlign = Position.Left;
-    private Position verticalAlign = Position.Top;
-
-    private int topPadding;
-    private int rightPadding;
-    private int bottomPadding;
-    private int leftPadding;
-
-    private TerminalColor marginBackgroundColor = new NoColor();
-    private int topMargin;
-    private int rightMargin;
-    private int bottomMargin;
-    private int leftMargin;
-
-    private Border borderDecoration;
-    private boolean borderTop;
-    private boolean borderRight;
-    private boolean borderBottom;
-    private boolean borderLeft;
-    private boolean borderTopSet;
-    private boolean borderRightSet;
-    private boolean borderBottomSet;
-    private boolean borderLeftSet;
-    private TerminalColor borderTopForeground = new NoColor();
-    private TerminalColor borderRightForeground = new NoColor();
-    private TerminalColor borderBottomForeground = new NoColor();
-    private TerminalColor borderLeftForeground = new NoColor();
-    private TerminalColor borderTopBackground = new NoColor();
-    private TerminalColor borderRightBackground = new NoColor();
-    private TerminalColor borderBottomBackground = new NoColor();
-    private TerminalColor borderLeftBackground = new NoColor();
-
+    /**
+     * Creates a Style with the given renderer.
+     *
+     * @param renderer renderer
+     */
     public Style(Renderer renderer) {
-        this.renderer = renderer;
-    }
-
-    public Style setString(String... strings) {
-        this.value = String.join(" ", strings);
-        return this;
-    }
-
-    public Style foreground(TerminalColor color) {
-        this.foreground = color;
-        return this;
-    }
-
-    public Style background(TerminalColor color) {
-        this.background = color;
-        return this;
-    }
-
-    public Style bold(boolean bold) {
-        this.bold = bold;
-        return this;
-    }
-
-    public Style italic(boolean italic) {
-        this.italic = italic;
-        return this;
-    }
-
-    public Style underline(boolean underline) {
-        this.underline = underline;
-        return this;
-    }
-
-    public Style reverse(boolean reverse) {
-        this.reverse = reverse;
-        return this;
-    }
-
-    public Style blink(boolean blink) {
-        this.blink = blink;
-        return this;
-    }
-
-    public Style faint(boolean faint) {
-        this.faint = faint;
-        return this;
-    }
-
-    public Style inline(boolean inline) {
-        this.inline = inline;
-        return this;
-    }
-
-    public Style width(int width) {
-        this.width = width;
-        return this;
-    }
-
-    public Style height(int height) {
-        this.height = height;
-        return this;
-    }
-
-    public Style align(Position... positions) {
-        if (positions.length > 0) {
-            this.horizontalAlign = positions[0];
-        }
-        if (positions.length > 1) {
-            this.verticalAlign = positions[1];
-        }
-        return this;
-    }
-
-    public Style alignHorizontal(Position position) {
-        this.horizontalAlign = position;
-        return this;
-    }
-
-    public Style alignVertical(Position position) {
-        this.verticalAlign = position;
-        return this;
-    }
-
-    public Style padding(int... values) {
-        int[] boxValues = expandBoxValues(IntStream.range(0, values.length).toArray());
-        this.topPadding = values[boxValues[0]];
-        this.rightPadding = values[boxValues[1]];
-        this.bottomPadding = values[boxValues[2]];
-        this.leftPadding = values[boxValues[3]];
-        return this;
-    }
-
-    public Style paddingTop(int topPadding) {
-        this.topPadding = topPadding;
-        return this;
-    }
-
-    public Style paddingRight(int rightPadding) {
-        this.rightPadding = rightPadding;
-        return this;
-    }
-
-    public int rightPadding() {
-        return rightPadding;
-    }
-
-    public Style paddingBottom(int bottomPadding) {
-        this.bottomPadding = bottomPadding;
-        return this;
-    }
-
-    public Style paddingLeft(int leftPadding) {
-        this.leftPadding = leftPadding;
-        return this;
-    }
-
-    public int leftPadding() {
-        return leftPadding;
-    }
-
-    public Style margin(int... values) {
-        int[] boxValues = expandBoxValues(IntStream.range(0, values.length).toArray());
-        this.topMargin = values[boxValues[0]];
-        this.rightMargin = values[boxValues[1]];
-        this.bottomMargin = values[boxValues[2]];
-        this.leftMargin = values[boxValues[3]];
-        return this;
-    }
-
-    public Style marginTop(int topMargin) {
-        this.topMargin = topMargin;
-        return this;
-    }
-
-    public Style marginRight(int rightMargin) {
-        this.rightMargin = rightMargin;
-        return this;
-    }
-
-    public Style marginBottom(int bottomMargin) {
-        this.bottomMargin = bottomMargin;
-        return this;
-    }
-
-    public Style marginLeft(int leftMargin) {
-        this.leftMargin = leftMargin;
-        return this;
-    }
-
-    public Style marginBackgroundColor(TerminalColor marginBackgroundColor) {
-        this.marginBackgroundColor = marginBackgroundColor;
-        return this;
-    }
-
-    public int topMargin() {
-        return topMargin;
-    }
-
-    public Style border(Border border, boolean... sides) {
-        if (sides.length == 0) {
-            return border(border, true);
-        }
-
-        borderDecoration(border);
-
-        int[] boxValues = expandBoxValues(
-                IntStream.range(0, sides.length)
-                        .map(i -> Boolean.compare(sides[i], true))
-                        .toArray()
-        );
-
-        return borderTop(sides[boxValues[0]])
-                .borderRight(sides[boxValues[1]])
-                .borderBottom(sides[boxValues[2]])
-                .borderLeft(sides[boxValues[3]]);
-    }
-
-    public Style borderDecoration(Border borderDecoration) {
-        this.borderDecoration = borderDecoration;
-        return this;
-    }
-
-    public Style borderTop(boolean borderTop) {
-        this.borderTop = borderTop;
-        this.borderTopSet = true;
-        return this;
-    }
-
-    public Style borderRight(boolean borderRight) {
-        this.borderRight = borderRight;
-        this.borderRightSet = true;
-        return this;
-    }
-
-    public Style borderBottom(boolean borderBottom) {
-        this.borderBottom = borderBottom;
-        this.borderBottomSet = true;
-        return this;
-    }
-
-    public Style borderLeft(boolean borderLeft) {
-        this.borderLeft = borderLeft;
-        this.borderLeftSet = true;
-        return this;
-    }
-
-    public Style borderBackground(TerminalColor... colors) {
-        int[] boxValues = expandBoxValues(
-                IntStream.range(0, colors.length).toArray()
-        );
-        this.borderTopBackground = colors[boxValues[0]];
-        this.borderRightBackground = colors[boxValues[1]];
-        this.borderBottomBackground = colors[boxValues[2]];
-        this.borderLeftBackground = colors[boxValues[3]];
-
-        return this;
-    }
-
-    public Style borderTopBackground(TerminalColor color) {
-        this.borderTopBackground = color;
-        return this;
-    }
-
-    public Style borderRightBackground(TerminalColor color) {
-        this.borderRightBackground = color;
-        return this;
-    }
-
-    public Style borderBottomBackground(TerminalColor color) {
-        this.borderBottomBackground = color;
-        return this;
-    }
-
-    public Style borderLeftBackground(TerminalColor color) {
-        this.borderLeftBackground = color;
-        return this;
-    }
-
-    public Style borderForeground(TerminalColor... colors) {
-        int[] boxValues = expandBoxValues(
-                IntStream.range(0, colors.length).toArray()
-        );
-        this.borderTopForeground = colors[boxValues[0]];
-        this.borderRightForeground = colors[boxValues[1]];
-        this.borderBottomForeground = colors[boxValues[2]];
-        this.borderLeftForeground = colors[boxValues[3]];
-
-        return this;
-    }
-
-    public Style borderTopForeground(TerminalColor color) {
-        this.borderTopForeground = color;
-        return this;
-    }
-
-    public Style borderRightForeground(TerminalColor color) {
-        this.borderRightForeground = color;
-        return this;
-    }
-
-    public Style borderBottomForeground(TerminalColor color) {
-        this.borderBottomForeground = color;
-        return this;
-    }
-
-    public Style borderLeftForeground(TerminalColor color) {
-        this.borderLeftForeground = color;
-        return this;
-    }
-
-    public Style transform(Function<String, String> transformFunction) {
-        this.transformFunction = transformFunction;
-        return this;
-    }
-
-    public String render(String... strings) {
-        AttributedStyle style = new AttributedStyle();
-        if (foreground != null) {
-            style = foreground.applyAsForeground(style, renderer);
-        }
-        if (background != null) {
-            style = background.applyAsBackground(style, renderer);
-        }
-        if (bold) {
-            style = style.bold();
-        }
-        if (italic) {
-            style = style.italic();
-        }
-        if (underline) {
-            style = style.underline();
-        }
-        if (faint) {
-            style = style.faint();
-        }
-        if (blink) {
-            style = style.blink();
-        }
-        if (reverse) {
-            style = style.inverse();
-        }
-
-        List<String> strs = new ArrayList<>(List.of(strings));
-        if (value != null && !value.isEmpty()) {
-            strs.addFirst(value);
-        }
-        String string = String.join(" ", strs);
-
-        if (this.transformFunction != null) {
-            string = transformFunction.apply(string);
-        }
-
-        string = string.replaceAll("\r\n", "\n");
-
-        if (inline) {
-            string = string.replaceAll("\n", "");
-        }
-
-        if (!inline && width > 0) {
-            int wrapAt = width - leftPadding - rightPadding;
-            string = new TextWrapper().wrap(string, wrapAt);
-        }
-
-        // core rendering
-        ColorProfile colorProfile = renderer.colorProfile();
-        renderer.newStyle();
-        String[] lines = string.split("\n");
-
-        StringBuilder buffer = new StringBuilder();
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            if (colorProfile != ColorProfile.Ascii) {
-                buffer.append(new AttributedString(line, style).toAnsi(colorProfile.colorsCount(), ForceMode.None));
-            } else {
-                buffer.append(line);
-            }
-            if (i < lines.length - 1) {
-                buffer.append('\n');
-            }
-        }
-        string = buffer.toString();
-
-        if (!inline) {
-            AttributedStyle st = new AttributedStyle();
-            if (background != null) {
-                st = background.applyAsBackground(st, renderer);
-            }
-            string = PaddingDecorator.applyPadding(string, topPadding, rightPadding, bottomPadding, leftPadding, st, renderer);
-        }
-        if (height > 0) {
-            string = AlignmentDecorator.alignTextVertical(string, verticalAlign, height);
-        }
-
-        int numLines = string.split("\n", 0).length;
-        if (!(numLines == 0 && width == 0)) {
-            AttributedStyle st = new AttributedStyle();
-            if (background != null) {
-                st = background.applyAsBackground(st, renderer);
-            }
-            string = AlignmentDecorator.alignTextHorizontal(string, horizontalAlign, width, st);
-        }
-        if (!inline) {
-            string = applyBorders(string);
-
-            AttributedStyle st = new AttributedStyle();
-            st = marginBackgroundColor.applyAsBackground(st, renderer);
-
-            string = MarginDecorator.applyMargins(string, topMargin, rightMargin, bottomMargin, leftMargin, st, renderer);
-        }
-        return string;
-    }
-
-    private String applyBorders(String string) {
-        boolean hasTop = this.borderTop;
-        boolean hasRight = this.borderRight;
-        boolean hasBottom = this.borderBottom;
-        boolean hasLeft = this.borderLeft;
-
-        if (implicitBorders()) {
-            hasTop = true;
-            hasRight = true;
-            hasBottom = true;
-            hasLeft = true;
-        }
-
-        if (borderDecoration == null || (!hasTop && !hasRight && !hasBottom && !hasLeft)) {
-            return string;
-        }
-
-        return borderDecoration.applyBorders(string,
-                hasTop,
-                hasRight,
-                hasBottom,
-                hasLeft,
-                borderTopForeground,
-                borderRightForeground,
-                borderBottomForeground,
-                borderLeftForeground,
-                borderTopBackground,
-                borderRightBackground,
-                borderBottomBackground,
-                borderLeftBackground,
-                renderer);
-    }
-
-    private boolean implicitBorders() {
-        return borderDecoration != null && !(borderTopSet || borderRightSet || borderBottomSet || borderLeftSet);
-    }
-
-    public static int[] expandBoxValues(int... values) {
-        int[] result = new int[4];  // top, right, bottom, left
-
-        switch (values.length) {
-            case 1:
-                Arrays.fill(result, values[0]);
-                break;
-            case 2:
-                result[0] = 0;  // top
-                result[1] = 1;  // right
-                result[2] = 0;  // bottom
-                result[3] = 1;  // left
-                break;
-            case 3:
-                result[0] = 0;  // top
-                result[1] = 1;  // right
-                result[2] = 2;  // bottom
-                result[3] = 1;  // left
-                break;
-            case 4:
-                result[0] = 0;  // top
-                result[1] = 1;  // right
-                result[2] = 2;  // bottom
-                result[3] = 3;
-                break;// left                break;
-            default:
-                throw new IllegalArgumentException("Expected 1-4 values, got " + values.length);
-        }
-        return result;
-    }
-
-    public Dimensions frameSize() {
-        return new Dimensions(getHorizontalFrameSize(), getVerticalFrameSize());
-    }
-
-    public int getVerticalFrameSize() {
-        return getVerticalMargins() + getVerticalPadding() + getVerticalBorderSize();
-    }
-
-    public int getVerticalMargins() {
-        return topMargin + bottomMargin;
-    }
-
-    public int getVerticalPadding() {
-        return topPadding + bottomPadding;
-    }
-
-    public int getVerticalBorderSize() {
-        return getBorderTopSize() + getBorderBottomSize();
-    }
-
-    public int getBorderTopSize() {
-        if (!borderTop && !implicitBorders()) {
-            return 0;
-        }
-        return borderDecoration.getTopSize();
-    }
-
-    public int getBorderBottomSize() {
-        if (!borderBottom && !implicitBorders()) {
-            return 0;
-        }
-        return borderDecoration.getBottomSize();
-    }
-
-    public int getHorizontalFrameSize() {
-        return getHorizontalMargins() + getHorizontalPadding() + getHorizontalBorderSize();
-    }
-
-    public int getHorizontalMargins() {
-        return rightMargin + leftMargin;
-    }
-
-    public int getHorizontalPadding() {
-        return rightPadding + leftPadding;
-    }
-
-    public int getHorizontalBorderSize() {
-        return getBorderLeftSize() + getBorderRightSize();
-    }
-
-    public int getBorderLeftSize() {
-        if (!borderLeft && !implicitBorders()) {
-            return 0;
-        }
-        return borderDecoration.getLeftSize();
-    }
-
-    public int getBorderRightSize() {
-        if (!borderRight && !implicitBorders()) {
-            return 0;
-        }
-        return borderDecoration.getRightSize();
-    }
-
+        super(renderer.toCanonical());
+    }
+
+    /**
+     * Sets the string value for this style.
+     *
+     * @param strings strings to render
+     * @return this style
+     */
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    public Style copy() {
-        try {
-            return (Style) clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Style inherit(Style style) {
-        // TODO copy the rest of the inherited properties
-        this.underline = style.underline;
+    public Style setString(String... strings) {
+        super.setString(strings);
         return this;
+    }
+
+    /**
+     * Sets the foreground color using the canonical terminal color.
+     *
+     * @param color canonical terminal color
+     * @return this style
+     */
+    @Override
+    public Style foreground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.foreground(color);
+        return this;
+    }
+
+    /**
+     * Sets the foreground color using the Bubble Tea terminal color.
+     *
+     * @param color bubbletea terminal color
+     * @return this style
+     */
+    public Style foreground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.foreground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the background color using the canonical terminal color.
+     *
+     * @param color canonical terminal color
+     * @return this style
+     */
+    @Override
+    public Style background(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.background(color);
+        return this;
+    }
+
+    /**
+     * Sets the background color using the Bubble Tea terminal color.
+     *
+     * @param color bubbletea terminal color
+     * @return this style
+     */
+    public Style background(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.background(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets bold styling.
+     *
+     * @param bold bold flag
+     * @return this style
+     */
+    @Override
+    public Style bold(boolean bold) {
+        super.bold(bold);
+        return this;
+    }
+
+    /**
+     * Sets italic styling.
+     *
+     * @param italic italic flag
+     * @return this style
+     */
+    @Override
+    public Style italic(boolean italic) {
+        super.italic(italic);
+        return this;
+    }
+
+    /**
+     * Sets underline styling.
+     *
+     * @param underline underline flag
+     * @return this style
+     */
+    @Override
+    public Style underline(boolean underline) {
+        super.underline(underline);
+        return this;
+    }
+
+    /**
+     * Sets reverse styling.
+     *
+     * @param reverse reverse flag
+     * @return this style
+     */
+    @Override
+    public Style reverse(boolean reverse) {
+        super.reverse(reverse);
+        return this;
+    }
+
+    /**
+     * Sets blink styling.
+     *
+     * @param blink blink flag
+     * @return this style
+     */
+    @Override
+    public Style blink(boolean blink) {
+        super.blink(blink);
+        return this;
+    }
+
+    /**
+     * Sets faint styling.
+     *
+     * @param faint faint flag
+     * @return this style
+     */
+    @Override
+    public Style faint(boolean faint) {
+        super.faint(faint);
+        return this;
+    }
+
+    /**
+     * Sets inline rendering.
+     *
+     * @param inline inline flag
+     * @return this style
+     */
+    @Override
+    public Style inline(boolean inline) {
+        super.inline(inline);
+        return this;
+    }
+
+    /**
+     * Sets the width.
+     *
+     * @param width width
+     * @return this style
+     */
+    @Override
+    public Style width(int width) {
+        super.width(width);
+        return this;
+    }
+
+    /**
+     * Sets the height.
+     *
+     * @param height height
+     * @return this style
+     */
+    @Override
+    public Style height(int height) {
+        super.height(height);
+        return this;
+    }
+
+    /**
+     * Sets the maximum width.
+     *
+     * @param maxWidth max width
+     * @return this style
+     */
+    @Override
+    public Style maxWidth(int maxWidth) {
+        super.maxWidth(maxWidth);
+        return this;
+    }
+
+    /**
+     * Sets the maximum height.
+     *
+     * @param maxHeight max height
+     * @return this style
+     */
+    @Override
+    public Style maxHeight(int maxHeight) {
+        super.maxHeight(maxHeight);
+        return this;
+    }
+
+    /**
+     * Sets the ellipsis string used for truncation.
+     *
+     * @param ellipsis ellipsis string
+     * @return this style
+     */
+    @Override
+    public Style ellipsis(String ellipsis) {
+        super.ellipsis(ellipsis);
+        return this;
+    }
+
+    /**
+     * Sets alignment using canonical positions.
+     *
+     * @param positions positions
+     * @return this style
+     */
+    @Override
+    public Style align(com.williamcallahan.tui4j.compat.lipgloss.Position... positions) {
+        super.align(positions);
+        return this;
+    }
+
+    /**
+     * Sets horizontal alignment using canonical position.
+     *
+     * @param position horizontal position
+     * @return this style
+     */
+    @Override
+    public Style alignHorizontal(com.williamcallahan.tui4j.compat.lipgloss.Position position) {
+        super.alignHorizontal(position);
+        return this;
+    }
+
+    /**
+     * Sets vertical alignment using canonical position.
+     *
+     * @param position vertical position
+     * @return this style
+     */
+    @Override
+    public Style alignVertical(com.williamcallahan.tui4j.compat.lipgloss.Position position) {
+        super.alignVertical(position);
+        return this;
+    }
+
+    /**
+     * Clears the max width.
+     *
+     * @return this style
+     */
+    @Override
+    public Style unsetMaxWidth() {
+        super.unsetMaxWidth();
+        return this;
+    }
+
+    /**
+     * Clears the max height.
+     *
+     * @return this style
+     */
+    @Override
+    public Style unsetMaxHeight() {
+        super.unsetMaxHeight();
+        return this;
+    }
+
+    /**
+     * Sets padding using the provided values.
+     *
+     * @param values padding values
+     * @return this style
+     */
+    @Override
+    public Style padding(int... values) {
+        super.padding(values);
+        return this;
+    }
+
+    /**
+     * Sets top padding.
+     *
+     * @param topPadding top padding
+     * @return this style
+     */
+    @Override
+    public Style paddingTop(int topPadding) {
+        super.paddingTop(topPadding);
+        return this;
+    }
+
+    /**
+     * Sets right padding.
+     *
+     * @param rightPadding right padding
+     * @return this style
+     */
+    @Override
+    public Style paddingRight(int rightPadding) {
+        super.paddingRight(rightPadding);
+        return this;
+    }
+
+    /**
+     * Sets bottom padding.
+     *
+     * @param bottomPadding bottom padding
+     * @return this style
+     */
+    @Override
+    public Style paddingBottom(int bottomPadding) {
+        super.paddingBottom(bottomPadding);
+        return this;
+    }
+
+    /**
+     * Sets left padding.
+     *
+     * @param leftPadding left padding
+     * @return this style
+     */
+    @Override
+    public Style paddingLeft(int leftPadding) {
+        super.paddingLeft(leftPadding);
+        return this;
+    }
+
+    /**
+     * Sets margin using the provided values.
+     *
+     * @param values margin values
+     * @return this style
+     */
+    @Override
+    public Style margin(int... values) {
+        super.margin(values);
+        return this;
+    }
+
+    /**
+     * Sets top margin.
+     *
+     * @param topMargin top margin
+     * @return this style
+     */
+    @Override
+    public Style marginTop(int topMargin) {
+        super.marginTop(topMargin);
+        return this;
+    }
+
+    /**
+     * Sets right margin.
+     *
+     * @param rightMargin right margin
+     * @return this style
+     */
+    @Override
+    public Style marginRight(int rightMargin) {
+        super.marginRight(rightMargin);
+        return this;
+    }
+
+    /**
+     * Sets bottom margin.
+     *
+     * @param bottomMargin bottom margin
+     * @return this style
+     */
+    @Override
+    public Style marginBottom(int bottomMargin) {
+        super.marginBottom(bottomMargin);
+        return this;
+    }
+
+    /**
+     * Sets left margin.
+     *
+     * @param leftMargin left margin
+     * @return this style
+     */
+    @Override
+    public Style marginLeft(int leftMargin) {
+        super.marginLeft(leftMargin);
+        return this;
+    }
+
+    /**
+     * Sets the margin background color using the canonical terminal color.
+     *
+     * @param marginBackgroundColor canonical terminal color
+     * @return this style
+     */
+    @Override
+    public Style marginBackgroundColor(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor marginBackgroundColor) {
+        super.marginBackgroundColor(marginBackgroundColor);
+        return this;
+    }
+
+    /**
+     * Sets the margin background color using the Bubble Tea terminal color.
+     *
+     * @param marginBackgroundColor bubbletea terminal color
+     * @return this style
+     */
+    public Style marginBackgroundColor(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor marginBackgroundColor) {
+        super.marginBackgroundColor(adaptColor(marginBackgroundColor));
+        return this;
+    }
+
+    /**
+     * Sets the border using the canonical border type.
+     *
+     * @param border canonical border
+     * @param sides sides to apply
+     * @return this style
+     */
+    @Override
+    public Style border(com.williamcallahan.tui4j.compat.lipgloss.border.Border border, boolean... sides) {
+        super.border(border, sides);
+        return this;
+    }
+
+    /**
+     * Sets the border using the Bubble Tea border type.
+     *
+     * @param border bubbletea border
+     * @param sides sides to apply
+     * @return this style
+     */
+    public Style border(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border border, boolean... sides) {
+        return border(border == null ? null : border.toNew(), sides);
+    }
+
+    /**
+     * Sets the border decoration using the canonical border type.
+     *
+     * @param borderDecoration canonical border decoration
+     * @return this style
+     */
+    @Override
+    public Style borderDecoration(com.williamcallahan.tui4j.compat.lipgloss.border.Border borderDecoration) {
+        super.borderDecoration(borderDecoration);
+        return this;
+    }
+
+    /**
+     * Sets the border decoration using the Bubble Tea border type.
+     *
+     * @param borderDecoration bubbletea border decoration
+     * @return this style
+     */
+    public Style borderDecoration(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.border.Border borderDecoration) {
+        super.borderDecoration(borderDecoration == null ? null : borderDecoration.toNew());
+        return this;
+    }
+
+    /**
+     * Enables or disables the top border.
+     *
+     * @param borderTop top border flag
+     * @return this style
+     */
+    @Override
+    public Style borderTop(boolean borderTop) {
+        super.borderTop(borderTop);
+        return this;
+    }
+
+    /**
+     * Enables or disables the right border.
+     *
+     * @param borderRight right border flag
+     * @return this style
+     */
+    @Override
+    public Style borderRight(boolean borderRight) {
+        super.borderRight(borderRight);
+        return this;
+    }
+
+    /**
+     * Enables or disables the bottom border.
+     *
+     * @param borderBottom bottom border flag
+     * @return this style
+     */
+    @Override
+    public Style borderBottom(boolean borderBottom) {
+        super.borderBottom(borderBottom);
+        return this;
+    }
+
+    /**
+     * Enables or disables the left border.
+     *
+     * @param borderLeft left border flag
+     * @return this style
+     */
+    @Override
+    public Style borderLeft(boolean borderLeft) {
+        super.borderLeft(borderLeft);
+        return this;
+    }
+
+    /**
+     * Sets border background colors using canonical terminal colors.
+     *
+     * @param colors canonical colors
+     * @return this style
+     */
+    @Override
+    public Style borderBackground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor... colors) {
+        super.borderBackground(colors);
+        return this;
+    }
+
+    /**
+     * Sets border background colors using Bubble Tea terminal colors.
+     *
+     * @param colors bubbletea colors
+     * @return this style
+     */
+    public Style borderBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor... colors) {
+        super.borderBackground(adaptColors(colors));
+        return this;
+    }
+
+    /**
+     * Sets the top border background color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderTopBackground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderTopBackground(color);
+        return this;
+    }
+
+    /**
+     * Sets the top border background color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderTopBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderTopBackground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the right border background color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderRightBackground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderRightBackground(color);
+        return this;
+    }
+
+    /**
+     * Sets the right border background color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderRightBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderRightBackground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the bottom border background color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderBottomBackground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderBottomBackground(color);
+        return this;
+    }
+
+    /**
+     * Sets the bottom border background color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderBottomBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderBottomBackground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the left border background color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderLeftBackground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderLeftBackground(color);
+        return this;
+    }
+
+    /**
+     * Sets the left border background color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderLeftBackground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderLeftBackground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets border foreground colors using canonical terminal colors.
+     *
+     * @param colors canonical colors
+     * @return this style
+     */
+    @Override
+    public Style borderForeground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor... colors) {
+        super.borderForeground(colors);
+        return this;
+    }
+
+    /**
+     * Sets border foreground colors using Bubble Tea terminal colors.
+     *
+     * @param colors bubbletea colors
+     * @return this style
+     */
+    public Style borderForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor... colors) {
+        super.borderForeground(adaptColors(colors));
+        return this;
+    }
+
+    /**
+     * Sets the top border foreground color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderTopForeground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderTopForeground(color);
+        return this;
+    }
+
+    /**
+     * Sets the top border foreground color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderTopForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderTopForeground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the right border foreground color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderRightForeground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderRightForeground(color);
+        return this;
+    }
+
+    /**
+     * Sets the right border foreground color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderRightForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderRightForeground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the bottom border foreground color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderBottomForeground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderBottomForeground(color);
+        return this;
+    }
+
+    /**
+     * Sets the bottom border foreground color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderBottomForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderBottomForeground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the left border foreground color using canonical terminal colors.
+     *
+     * @param color canonical color
+     * @return this style
+     */
+    @Override
+    public Style borderLeftForeground(com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor color) {
+        super.borderLeftForeground(color);
+        return this;
+    }
+
+    /**
+     * Sets the left border foreground color using Bubble Tea terminal colors.
+     *
+     * @param color bubbletea color
+     * @return this style
+     */
+    public Style borderLeftForeground(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        super.borderLeftForeground(adaptColor(color));
+        return this;
+    }
+
+    /**
+     * Sets the transform function.
+     *
+     * @param transformFunction transform function
+     * @return this style
+     */
+    @Override
+    public Style transform(Function<String, String> transformFunction) {
+        super.transform(transformFunction);
+        return this;
+    }
+
+    /**
+     * Returns a copy of this style.
+     *
+     * @return copied style
+     */
+    @Override
+    public Style copy() {
+        return (Style) super.copy();
+    }
+
+    /**
+     * Inherits unset values from another style.
+     *
+     * @param style style to inherit from
+     * @return this style
+     */
+    @Override
+    public Style inherit(com.williamcallahan.tui4j.compat.lipgloss.Style style) {
+        super.inherit(style);
+        return this;
+    }
+
+    /**
+     * Adapts a Bubble Tea terminal color to the canonical lipgloss terminal color interface.
+     *
+     * @param color bubbletea terminal color
+     * @return canonical terminal color
+     */
+    private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor adaptColor(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor color) {
+        if (color == null) {
+            return null;
+        }
+        return new com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor() {
+            /** {@inheritDoc} */
+            @Override
+            public org.jline.utils.AttributedStyle applyAsBackground(
+                org.jline.utils.AttributedStyle style,
+                com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
+            ) {
+                return color.applyAsBackground(style, renderer);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public org.jline.utils.AttributedStyle applyAsForeground(
+                org.jline.utils.AttributedStyle style,
+                com.williamcallahan.tui4j.compat.lipgloss.Renderer renderer
+            ) {
+                return color.applyAsForeground(style, renderer);
+            }
+        };
+    }
+
+    /**
+     * Adapts Bubble Tea terminal colors to canonical terminal colors.
+     *
+     * @param colors bubbletea colors
+     * @return canonical colors
+     */
+    private com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor[] adaptColors(com.williamcallahan.tui4j.compat.bubbletea.lipgloss.color.TerminalColor... colors) {
+        if (colors == null) {
+            return null;
+        }
+        com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor[] adapted =
+            new com.williamcallahan.tui4j.compat.lipgloss.color.TerminalColor[colors.length];
+        for (int i = 0; i < colors.length; i++) {
+            adapted[i] = adaptColor(colors[i]);
+        }
+        return adapted;
     }
 }

@@ -1,129 +1,81 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Position;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Size;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Style;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.HorizontalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.join.VerticalJoinDecorator;
-
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * Abstraction for rendering and terminal mode control.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.Renderer} instead.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lip Gloss: tree/renderer.go.
  */
-public class Renderer {
-    private TreeStyle style;
-    private TreeEnumerator enumerator;
-    private TreeIndenter indenter;
+@Deprecated(since = "0.3.0")
+public class Renderer extends com.williamcallahan.tui4j.compat.lipgloss.tree.Renderer {
 
+    private final TreeStyle styleShim;
+
+    /**
+     * Creates Renderer to keep this component ready for use.
+     */
     public Renderer() {
-        this.style = new TreeStyle();
-        this.enumerator = new TreeEnumerator.DefaultEnumerator();
-        this.indenter = new TreeIndenter.DefaultIndenter();
+        super();
+        this.styleShim = new TreeStyle(super.style());
     }
 
+    /**
+     * Handles render for this component.
+     *
+     * @param node node
+     * @param root root
+     * @param prefix prefix
+     * @return result
+     */
     public String render(Node node, boolean root, String prefix) {
-        if (node.isHidden()) {
-            return "";
-        }
-
-        List<String> strings = new LinkedList<>();
-        int maxLength = 0;
-
-        Children children = node.children();
-        String name = node.value();
-
-        // Print root node name if not empty
-        if (name != null && !name.isEmpty() && root) {
-            strings.add(style.rootStyle().render(name));
-        }
-
-        // First pass: calculate max prefix length
-        for (int i = 0; i < children.length(); i++) {
-            String currentPrefix = enumerator.enumerate(children, i);
-            currentPrefix = style.enumeratorFunction().apply(children, i).render(currentPrefix);
-            maxLength = Math.max(Size.width(currentPrefix), maxLength);
-        }
-
-        // Second pass: render nodes
-        for (int i = 0; i < children.length(); i++) {
-            Node child = children.at(i);
-            if (child.isHidden()) {
-                continue;
-            }
-
-            String indent = indenter.indent(children, i);
-            String nodePrefix = enumerator.enumerate(children, i);
-            Style enumStyle = style.enumeratorFunction().apply(children, i);
-            Style itemStyle = style.itemFunction().apply(children, i);
-
-            nodePrefix = enumStyle.render(nodePrefix);
-            int l = maxLength - Size.width(nodePrefix);
-            if (l > 0) {
-                nodePrefix = " ".repeat(l) + nodePrefix;
-            }
-
-            String item = itemStyle.render(child.value());
-            String multiLinePrefix = prefix;
-
-            // Handle multiline items
-            while (Size.height(item) > Size.height(nodePrefix)) {
-                nodePrefix = VerticalJoinDecorator.joinVertical(
-                        Position.Left,
-                        nodePrefix,
-                        enumStyle.render(indent)
-                );
-            }
-
-            // Ensure prefix heights match
-            while (Size.height(nodePrefix) > Size.height(multiLinePrefix)) {
-                multiLinePrefix = VerticalJoinDecorator.joinVertical(
-                        Position.Left,
-                        multiLinePrefix,
-                        prefix
-                );
-            }
-
-            // Join all parts horizontally
-            strings.add(HorizontalJoinDecorator.joinHorizontal(
-                    Position.Top,
-                    multiLinePrefix,
-                    nodePrefix,
-                    item
-            ));
-
-            // Render children
-            if (children.length() > 0) {
-                Renderer newRenderer = this;
-                if (child instanceof Tree tree && tree.renderer() != null) {
-                    newRenderer = tree.renderer();
-                }
-
-                String rendered = newRenderer.render(
-                        child,
-                        false,
-                        prefix + enumStyle.render(indent)
-                );
-
-                if (!rendered.isEmpty()) {
-                    strings.add(rendered);
-                }
-            }
-        }
-        return String.join("\n", strings);
+        return super.render(node, root, prefix);
     }
 
+    /**
+     * Handles style for this component.
+     *
+     * @return result
+     */
+    @Override
     public TreeStyle style() {
-        return style;
+        return styleShim;
     }
 
+    /**
+     * Updates the enumerator.
+     *
+     * @param enumerator enumerator
+     */
     public void setEnumerator(TreeEnumerator enumerator) {
-        this.enumerator = enumerator;
+        super.setEnumerator(enumerator);
     }
 
+    /**
+     * Updates the indenter.
+     *
+     * @param indenter indenter
+     */
     public void setIndenter(TreeIndenter indenter) {
-        this.indenter = indenter;
+        super.setIndenter(indenter);
+    }
+
+    /**
+     * Updates the enumerator.
+     *
+     * @param enumerator enumerator
+     */
+    @Override
+    public void setEnumerator(com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator enumerator) {
+        super.setEnumerator(enumerator);
+    }
+
+    /**
+     * Updates the indenter.
+     *
+     * @param indenter indenter
+     */
+    @Override
+    public void setIndenter(com.williamcallahan.tui4j.compat.lipgloss.tree.TreeIndenter indenter) {
+        super.setIndenter(indenter);
     }
 }

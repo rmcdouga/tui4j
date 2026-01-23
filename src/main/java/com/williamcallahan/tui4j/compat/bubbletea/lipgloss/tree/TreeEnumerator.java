@@ -1,33 +1,50 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.tree;
 
 /**
- * Port of Lip Gloss tree enumerator.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+ *             {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator} instead.
+ *             This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lipgloss: tree/enumerator.go.
  */
+@Deprecated(since = "0.3.0")
 @FunctionalInterface
-public interface TreeEnumerator {
+public interface TreeEnumerator
+    extends com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator {
 
-    class DefaultEnumerator implements TreeEnumerator {
+    /**
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator.DefaultEnumerator} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
+     */
+    @Deprecated(since = "0.3.0")
+    class DefaultEnumerator extends com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator.DefaultEnumerator {
 
-        @Override
-        public String enumerate(Children children, int index) {
-            if (children.length() - 1 == index) {
-                return "└──";
-            }
-            return "├──";
+        /**
+         * Creates a legacy default enumerator.
+         *
+         * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+         * {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator.DefaultEnumerator} instead.
+         */
+        @Deprecated(since = "0.3.0")
+        public DefaultEnumerator() {
         }
     }
 
-    class RounderEnumerator implements TreeEnumerator {
+    /**
+     * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator.RounderEnumerator} instead.
+     * This transitional shim is temporary and will be removed in an upcoming release.
+     */
+    @Deprecated(since = "0.3.0")
+    class RounderEnumerator extends com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator.RounderEnumerator {
 
-        @Override
-        public String enumerate(Children children, int index) {
-            if (children.length() - 1 == index) {
-                return "╰──";
-            }
-            return "├──";
+        /**
+         * Creates a legacy rounded enumerator.
+         *
+         * @deprecated Deprecated in tui4j as of 0.3.0 because this is a compatibility shim for a relocated type; use
+         * {@link com.williamcallahan.tui4j.compat.lipgloss.tree.TreeEnumerator.RounderEnumerator} instead.
+         */
+        @Deprecated(since = "0.3.0")
+        public RounderEnumerator() {
         }
     }
-
-    String enumerate(Children children, int index);
 }

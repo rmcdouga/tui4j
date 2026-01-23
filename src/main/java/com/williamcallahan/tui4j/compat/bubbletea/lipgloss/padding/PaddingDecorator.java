@@ -1,75 +1,120 @@
 package com.williamcallahan.tui4j.compat.bubbletea.lipgloss.padding;
 
-import com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer;
-import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
 /**
- * Port of Lip Gloss padding decorator.
- * Bubble Tea: bubbletea/examples/list-fancy/main.go
+ * @deprecated Deprecated in tui4j as of 0.3.0 because this compatibility type moved; use {@link com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator}.
+ * This transitional shim is temporary and will be removed in an upcoming release.
+ * <p>
+ * Lip Gloss: style.go.
  */
-public class PaddingDecorator {
+@Deprecated(since = "0.3.0")
+public class PaddingDecorator extends com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator {
 
-    public static String applyPadding(String input,
-                                      int topPadding,
-                                      int rightPadding,
-                                      int bottomPadding,
-                                      int leftPadding,
-                                      AttributedStyle attributedStyle,
-                                      Renderer renderer) {
-        String padded = input;
-        if (leftPadding > 0) {
-            padded = padLeft(padded, leftPadding, attributedStyle, renderer);
-        }
-        if (rightPadding > 0) {
-            padded = padRight(padded, rightPadding, attributedStyle, renderer);
-        }
-        if (topPadding > 0) {
-            padded = "\n".repeat(topPadding) + padded;
-        }
-        if (bottomPadding > 0) {
-            padded += "\n".repeat(bottomPadding);
-        }
-        return padded;
+    /**
+     * Creates a padding decorator instance for legacy compatibility.
+     */
+    public PaddingDecorator() {
     }
 
-    public static String padLeft(String input, int leftPadding, AttributedStyle attributedStyle, Renderer renderer) {
-        return pad(input, -leftPadding, attributedStyle, renderer);
+    /**
+     * Applies padding to all sides.
+     *
+     * @param input           input string
+     * @param topPadding      top padding
+     * @param rightPadding    right padding
+     * @param bottomPadding   bottom padding
+     * @param leftPadding     left padding
+     * @param attributedStyle style to preserve for padding
+     * @param renderer        renderer to use
+     * @return padded string
+     */
+    public static String applyPadding(
+        String input,
+        int topPadding,
+        int rightPadding,
+        int bottomPadding,
+        int leftPadding,
+        AttributedStyle attributedStyle,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
+    ) {
+        return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.applyPadding(
+            input,
+            topPadding,
+            rightPadding,
+            bottomPadding,
+            leftPadding,
+            attributedStyle,
+            renderer == null ? null : renderer.toCanonical()
+        );
     }
 
-    public static String padRight(String input, int rightPadding, AttributedStyle attributedStyle, Renderer renderer) {
-        return pad(input, rightPadding, attributedStyle, renderer);
+    /**
+     * Applies left padding.
+     *
+     * @param input           input string
+     * @param leftPadding     left padding
+     * @param attributedStyle style to preserve for padding
+     * @param renderer        renderer to use
+     * @return padded string
+     */
+    public static String padLeft(
+        String input,
+        int leftPadding,
+        AttributedStyle attributedStyle,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
+    ) {
+        return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padLeft(
+            input,
+            leftPadding,
+            attributedStyle,
+            renderer == null ? null : renderer.toCanonical()
+        );
     }
 
-    public static String pad(String str, int n, AttributedStyle attributedStyle, Renderer renderer) {
-        if (n == 0) {
-            return str;
-        }
-        String padding = " ".repeat(Math.abs(n));
+    /**
+     * Applies right padding.
+     *
+     * @param input           input string
+     * @param rightPadding    right padding
+     * @param attributedStyle style to preserve for padding
+     * @param renderer        renderer to use
+     * @return padded string
+     */
+    public static String padRight(
+        String input,
+        int rightPadding,
+        AttributedStyle attributedStyle,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
+    ) {
+        return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.padRight(
+            input,
+            rightPadding,
+            attributedStyle,
+            renderer == null ? null : renderer.toCanonical()
+        );
+    }
 
-        if (attributedStyle != null) {
-            padding = new AttributedString(padding, attributedStyle).toAnsi();
-        }
-
-        StringBuilder b = new StringBuilder();
-        String[] lines = str.split("\n");
-
-        for (int i = 0; i < lines.length; i++) {
-            // pad right
-            if (n > 0) {
-                b.append(lines[i]);
-                b.append(padding);
-            }
-            // pad left
-            else {
-                b.append(padding);
-                b.append(lines[i]);
-            }
-
-            if (i != lines.length - 1) {
-                b.append('\n');
-            }
-        }
-        return b.toString();
+    /**
+     * Applies equal padding on both sides.
+     *
+     * @param str             input string
+     * @param n               padding size
+     * @param attributedStyle style to preserve for padding
+     * @param renderer        renderer to use
+     * @return padded string
+     */
+    public static String pad(
+        String str,
+        int n,
+        AttributedStyle attributedStyle,
+        com.williamcallahan.tui4j.compat.bubbletea.lipgloss.Renderer renderer
+    ) {
+        return com.williamcallahan.tui4j.compat.lipgloss.PaddingDecorator.pad(
+            str,
+            n,
+            attributedStyle,
+            renderer == null ? null : renderer.toCanonical()
+        );
     }
 }
