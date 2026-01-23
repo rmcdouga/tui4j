@@ -641,13 +641,15 @@ public class Program {
                     continue;
                 }
                 Message internalMsg = normalizeMessage(msg);
+                Message updateMsg = internalMsg;
 
                 if (internalMsg instanceof SequencedMessage seqMsg) {
                     if (seqMsg.sequenceId() < lastHandledSequenceId) {
                         continue;
                     }
                     lastHandledSequenceId = seqMsg.sequenceId();
-                    internalMsg = normalizeMessage(seqMsg.message());
+                    updateMsg = normalizeMessage(seqMsg.message());
+                    internalMsg = updateMsg;
                 }
 
                 if (handleSystemMessage(internalMsg)) {
@@ -674,7 +676,7 @@ public class Program {
                 renderer.handleMessage(internalMsg);
 
                 UpdateResult<? extends Model> updateResult =
-                    currentModel.update(msg);
+                    currentModel.update(updateMsg);
 
                 currentModel = updateResult.model();
                 renderer.notifyModelChanged();
