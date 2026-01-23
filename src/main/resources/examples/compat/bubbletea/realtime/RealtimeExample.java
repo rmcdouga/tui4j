@@ -108,7 +108,7 @@ public class RealtimeExample implements Model {
         if (quitting) {
             return content + "\n\n";
         }
-        return content + "\n\n  Press any key to exit\n\n";
+        return content + "\n\n  Press q to exit\n\n";
     }
 
     /**
