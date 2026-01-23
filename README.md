@@ -91,3 +91,4 @@ This project began as a fork of the original [Latte](https://github.com/activey/
 ## Other Java Projects
 
 - **[Apple Maps Java](https://github.com/WilliamAGH/apple-maps-java)** - Java SDK for Apple Maps Server API
+- **[Other projects](https://williamcallahan.com/projects)** - More from the author
