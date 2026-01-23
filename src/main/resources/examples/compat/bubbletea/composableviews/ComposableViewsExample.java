@@ -48,7 +48,8 @@ public class ComposableViewsExample implements Model {
 
     private static final Style FOCUSED_MODEL_STYLE = Style.newStyle()
             .width(15)
-            .height(5);
+            .height(5)
+            .bold(true);
 
     private static final Style SPINNER_STYLE = Style.newStyle();
 
