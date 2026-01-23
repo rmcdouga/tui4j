@@ -13,7 +13,6 @@ import com.williamcallahan.tui4j.compat.bubbles.cursor.Cursor;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import com.williamcallahan.tui4j.compat.lipgloss.border.StandardBorder;
 import com.williamcallahan.tui4j.compat.lipgloss.color.Color;
-import com.williamcallahan.tui4j.compat.bubbletea.input.key.KeyType;
 import com.williamcallahan.tui4j.compat.bubbletea.KeyPressMessage;
 import com.williamcallahan.tui4j.compat.bubbletea.QuitMessage;
 
@@ -101,13 +100,13 @@ public class PreventQuitExample implements Model {
                 }
                 return UpdateResult.from(this, QuitMessage::new);
             }
-
-            if (keyPressMessage.type() == KeyType.KeyRunes) {
-                hasChanges = true;
-            }
         }
 
+        String beforeValue = textarea.value();
         UpdateResult<? extends Model> taResult = textarea.update(msg);
+        if (!beforeValue.equals(textarea.value())) {
+            hasChanges = true;
+        }
         return UpdateResult.from(this, taResult.command());
     }
 
