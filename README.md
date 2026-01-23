@@ -19,14 +19,14 @@
 <dependency>
     <groupId>com.williamcallahan</groupId>
     <artifactId>tui4j</artifactId>
-    <version>0.3.0-preview</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.williamcallahan:tui4j:0.3.0-preview'
+implementation 'com.williamcallahan:tui4j:0.3.0'
 ```
 
 ## Quick Start
