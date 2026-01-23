@@ -265,6 +265,11 @@ public class FilePicker implements Model {
             return UpdateResult.from(this, readDir(this.currentDirectory, this.showHidden));
         } else if (Binding.matches(keyMsg, keyMap.open())) {
             return handleOpen(keyMsg);
+        } else if (
+            Binding.matches(keyMsg, keyMap.select()) &&
+            !Binding.matches(keyMsg, keyMap.open())
+        ) {
+            return handleSelect(keyMsg);
         }
         return UpdateResult.from(this);
     }
@@ -389,6 +394,17 @@ public class FilePicker implements Model {
         this.min = 0;
         this.max = this.height - 1;
         return UpdateResult.from(this, readDir(this.currentDirectory, this.showHidden));
+    }
+
+    /**
+     * Handles select behavior for the current entry.
+     *
+     * @param keyMsg key press message
+     * @return updated model
+     */
+    private UpdateResult<FilePicker> handleSelect(KeyPressMessage keyMsg) {
+        didSelectFile(keyMsg);
+        return UpdateResult.from(this);
     }
 
     /**
