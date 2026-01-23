@@ -185,7 +185,10 @@ public class TabsExample implements Model {
         String row = HorizontalJoinDecorator.joinHorizontal(Position.Top, renderedTabs);
         doc.append(row).append("\n");
 
-        int windowWidth = measureWidth(row) - windowStyle.getHorizontalFrameSize();
+        int windowWidth = Math.max(
+                0,
+                measureWidth(row) - windowStyle.getHorizontalFrameSize()
+        );
         String content = windowStyle.width(windowWidth).render(tabContent.get(activeTab));
         doc.append(content);
 
