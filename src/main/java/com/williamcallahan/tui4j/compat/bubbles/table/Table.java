@@ -12,6 +12,7 @@ import com.williamcallahan.tui4j.compat.bubbletea.UpdateResult;
 import com.williamcallahan.tui4j.compat.lipgloss.Style;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Port of Bubbles table.
@@ -330,11 +331,11 @@ public class Table implements Model, KeyMap {
         int viewportHeight = Math.max(0, height - headerHeight());
 
         if (cursor >= 0) {
-            start = clamp(cursor - viewportHeight, 0, cursor);
+            start = clamp(cursor - viewportHeight + 1, 0, cursor);
         } else {
             start = 0;
         }
-        end = clamp(cursor + viewportHeight, cursor, rows.size());
+        end = clamp(start + viewportHeight, start, rows.size());
     }
 
     private int clamp(int value, int low, int high) {
@@ -550,7 +551,7 @@ public class Table implements Model, KeyMap {
         List<Row> rows = new ArrayList<>();
         String[] lines = value.split("\n");
         for (String line : lines) {
-            String[] fields = line.split(separator);
+            String[] fields = line.split(Pattern.quote(separator), -1);
             rows.add(new Row(fields));
         }
         setRows(rows);
