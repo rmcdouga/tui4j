@@ -412,7 +412,7 @@ public class Table implements Model, KeyMap {
     public void setRows(List<Row> rows) {
         this.rows = rows;
         if (cursor > rows.size() - 1) {
-            cursor = rows.size() - 1;
+            cursor = Math.max(0, rows.size() - 1);
         }
         updateViewport();
     }
