@@ -30,9 +30,8 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Future;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -78,7 +77,7 @@ public class List
     private Duration statusMessageLifetime;
     private String statusMessage;
     private Timer statusMessageTimer;
-    private Future<? extends Message> statusMessageFuture;
+    private CompletableFuture<Message> statusMessageFuture;
 
     private ListDataSource dataSource;
     private boolean fetchingItems;
@@ -477,11 +476,7 @@ public class List
         int i = index();
         java.util.List<FilteredItem> visibleItems = visibleItems();
 
-        if (
-            i < 0 ||
-            visibleItems.isEmpty() ||
-            visibleItems.size() <= i
-        ) {
+        if (i < 0 || visibleItems.isEmpty() || visibleItems.size() <= i) {
             return null;
         }
         return visibleItems.get(i).item();
@@ -496,8 +491,13 @@ public class List
      * @return all visible items
      */
     public java.util.List<FilteredItem> visibleItems() {
-        String filterValue = filterState == FilterState.Unfiltered ? "" : filterInput.value();
-        FetchedItems all = dataSource.fetchItems(0, Integer.MAX_VALUE, filterValue);
+        String filterValue =
+            filterState == FilterState.Unfiltered ? "" : filterInput.value();
+        FetchedItems all = dataSource.fetchItems(
+            0,
+            Integer.MAX_VALUE,
+            filterValue
+        );
         return all.items();
     }
 
@@ -645,29 +645,34 @@ public class List
     public Command newStatusMessage(String status) {
         this.statusMessage = status;
 
+        // Cancel any pending status message future and timer
+        if (statusMessageFuture != null && !statusMessageFuture.isDone()) {
+            statusMessageFuture.cancel(true);
+        }
         if (statusMessageTimer != null) {
             statusMessageTimer.cancel();
         }
 
         statusMessageTimer = new Timer();
+        CompletableFuture<Message> future = new CompletableFuture<>();
+        statusMessageFuture = future;
+
         return () -> {
-            BlockingQueue<StatusMessageTimeoutMessage> queue =
-                new ArrayBlockingQueue<>(1);
             statusMessageTimer.schedule(
                 new TimerTask() {
                     @Override
                     public void run() {
-                        queue.offer(new StatusMessageTimeoutMessage());
+                        future.complete(new StatusMessageTimeoutMessage());
                     }
                 },
                 statusMessageLifetime.toMillis()
             );
 
             try {
-                return queue.take();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return new StatusMessageTimeoutMessage();
+                return future.join();
+            } catch (CancellationException e) {
+                // Future was cancelled by a new status message or hideStatusMessage
+                return null;
             } finally {
                 statusMessageTimer.cancel();
                 statusMessageTimer = null;
