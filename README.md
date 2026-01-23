@@ -33,15 +33,15 @@ new Program(new MyModel()).run();
 
 ## Examples
 
+![Pulse TUI4J](src/main/resources/static/img/Pulse_TUI4J_Screenshot.png)
+
+**[Pulse](src/main/resources/examples/showcases/README.md)** - Terminal implementation example. See [PulseExample.java](src/main/resources/examples/showcases/PulseExample.java).
+
 [![Brief screenshot](assets/brief-screenshot.png)](https://github.com/WilliamAGH/brief)
 
 **[Brief](https://github.com/WilliamAGH/brief)** - Terminal AI chat client built with TUI4J. Available via Homebrew.
 
-![Demo](assets/demo-tape.gif)
-
 See the [examples](src/main/resources/examples) including lists, text inputs, spinners, and more. For Spring Boot integration, see the [Spring examples](src/main/resources/examples/spring).
-
-![Conway's Game of Life](assets/conway-tape.gif)
 
 ## Documentation
 
