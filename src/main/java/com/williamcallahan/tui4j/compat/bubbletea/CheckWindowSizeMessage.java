@@ -7,11 +7,14 @@ package com.williamcallahan.tui4j.compat.bubbletea;
  * <p>
  * Bubble Tea: screen.go.
  */
-public class CheckWindowSizeMessage implements Message {
+@Deprecated(since = "0.3.0", forRemoval = true)
+public class CheckWindowSizeMessage
+        extends com.williamcallahan.tui4j.message.CheckWindowSizeMessage {
 
     /**
      * Creates a check window size message.
      */
     public CheckWindowSizeMessage() {
+        super();
     }
 }

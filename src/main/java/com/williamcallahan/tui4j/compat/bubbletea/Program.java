@@ -606,13 +606,13 @@ public class Program {
     private void handleTerminalResize() {
         Signals.register("WINCH", () ->
             commandExecutor.executeIfPresent(
-                CheckWindowSizeMessage::new,
+                com.williamcallahan.tui4j.message.CheckWindowSizeMessage::new,
                 this::send,
                 this::sendError
             )
         );
         commandExecutor.executeIfPresent(
-            CheckWindowSizeMessage::new,
+            com.williamcallahan.tui4j.message.CheckWindowSizeMessage::new,
             this::send,
             this::sendError
         );
@@ -718,7 +718,7 @@ public class Program {
                 handleSequence(sequenceMessage.commands());
                 yield true;
             }
-            case CheckWindowSizeMessage ignored -> {
+            case com.williamcallahan.tui4j.message.CheckWindowSizeMessage ignored -> {
                 commandExecutor.executeIfPresent(
                     this::checkSize,
                     this::send,

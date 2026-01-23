@@ -238,7 +238,7 @@ public interface Command {
      * @return check window size command
      */
     static Command checkWindowSize() {
-        return CheckWindowSizeMessage::new;
+        return com.williamcallahan.tui4j.message.CheckWindowSizeMessage::new;
     }
 
     /**
