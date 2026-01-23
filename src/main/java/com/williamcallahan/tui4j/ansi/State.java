@@ -43,6 +43,12 @@ public enum State {
      * @return corresponding state
      */
     public static State fromOrdinal(int ordinal) {
-        return values()[ordinal];
+        State[] values = values();
+        if (ordinal < 0 || ordinal >= values.length) {
+            throw new IllegalArgumentException(
+                "Invalid State ordinal: " + ordinal
+            );
+        }
+        return values[ordinal];
     }
 }
