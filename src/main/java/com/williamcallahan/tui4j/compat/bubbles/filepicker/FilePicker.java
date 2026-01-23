@@ -359,9 +359,10 @@ public class FilePicker implements Model {
             this.max = computeMaxIndex();
             return true;
         } else if (Binding.matches(keyMsg, keyMap.goToLast())) {
-            this.selected = Math.max(0, this.files.size() - 1);
-            this.min = Math.max(0, this.files.size() - this.height);
-            this.max = Math.max(0, this.files.size() - 1);
+            int lastIndex = Math.max(0, this.files.size() - 1);
+            this.selected = lastIndex;
+            this.max = lastIndex;
+            this.min = Math.min(Math.max(0, this.files.size() - this.height), this.max);
             return true;
         } else if (Binding.matches(keyMsg, keyMap.down())) {
             if (this.files.isEmpty()) {
@@ -399,7 +400,7 @@ public class FilePicker implements Model {
 
             if (this.max >= this.files.size()) {
                 this.max = Math.max(0, this.files.size() - 1);
-                this.min = Math.max(0, this.max - this.height + 1);
+                this.min = Math.min(Math.max(0, this.max - this.height + 1), this.max);
             }
             return true;
         } else if (Binding.matches(keyMsg, keyMap.pageUp())) {
