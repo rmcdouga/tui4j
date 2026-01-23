@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 /**
  * Port of Bubbles sanitizer.
- * Bubble Tea: bubbletea/examples/textinput/main.go
+ * Bubbles: bubbles/runeutil/sanitizer.go
  */
 public class Sanitizer {
 
