@@ -870,9 +870,10 @@ public class TextInput implements Model {
      * Accepts the current suggestion and sets it as the input value.
      */
     public void acceptSuggestion() {
-        if (currentSuggestionIndex < matchedSuggestions.length) {
-            setValue(new String(matchedSuggestions[currentSuggestionIndex]));
+        if (!canAcceptSuggestion()) {
+            return;
         }
+        setValue(new String(matchedSuggestions[currentSuggestionIndex]));
     }
 
     /**
