@@ -79,10 +79,18 @@ public class ProgressDownloadExample implements Model {
             } else if (" ".equals(key)) {
                 downloads.get(selectedIndex).togglePause();
             } else if ("r".equals(key)) {
+                boolean wasComplete = allComplete;
                 for (DownloadFile download : downloads) {
                     download.reset();
                 }
                 selectedIndex = 0;
+                allComplete = false;
+                if (wasComplete) {
+                    return UpdateResult.from(
+                            this,
+                            Command.tick(TICK_INTERVAL, time -> new DownloadTickMessage())
+                    );
+                }
             }
         }
 
