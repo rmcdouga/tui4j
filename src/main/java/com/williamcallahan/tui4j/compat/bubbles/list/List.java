@@ -699,9 +699,11 @@ public class List
         this.width = width;
         this.height = height;
         this.help.setWidth(width);
-        this.filterInput.setWidth(
+        int inputWidth = Math.max(
+            0,
             width - promptWidth - Size.width(spinnerView())
         );
+        this.filterInput.setWidth(inputWidth);
         updatePagination();
 
         return fetchCurrentPageItems();
@@ -822,13 +824,12 @@ public class List
             availHeight -= Size.height(helpView());
         }
 
-        this.cursor = index % paginator.perPage();
-        paginator.setPerPage(
-            Math.max(
-                1,
-                availHeight / (itemDelegate.height() + itemDelegate.spacing())
-            )
+        int perPage = Math.max(
+            1,
+            availHeight / (itemDelegate.height() + itemDelegate.spacing())
         );
+        paginator.setPerPage(perPage);
+        this.cursor = index % perPage;
 
         if (paginator.page() >= paginator.totalPages()) {
             paginator.setPage(Math.max(0, paginator.totalPages() - 1));
