@@ -22,7 +22,9 @@ import com.williamcallahan.tui4j.compat.lipgloss.join.VerticalJoinDecorator;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A high-fidelity replica of the Pulse AI coding assistant UI.
@@ -162,20 +164,61 @@ public class PulseExample implements Model {
             .foreground(TEXT_DIM);
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // LAYOUT CONSTANTS
+    // LAYOUT CONFIG - Centralized dimension constants
     // ═══════════════════════════════════════════════════════════════════════════
 
-    private static final int SIDEBAR_WIDTH = 28;
-    private static final int TAB_BAR_HEIGHT = 1;
-    private static final int STATUS_BAR_HEIGHT = 1;
-    private static final int MIN_CONTENT_HEIGHT = 10;
+    /**
+     * Layout dimensions for the Pulse UI.
+     */
+    private record LayoutConfig(
+            int sidebarWidth,
+            int tabBarHeight,
+            int statusBarHeight,
+            int minContentHeight,
+            int paletteWidth,
+            int paletteVerticalPadding
+    ) {
+        private static final LayoutConfig DEFAULT = new LayoutConfig(28, 1, 1, 10, 40, 6);
+    }
+
+    private static final LayoutConfig LAYOUT = LayoutConfig.DEFAULT;
 
     // ═══════════════════════════════════════════════════════════════════════════
     // STATE
     // ═══════════════════════════════════════════════════════════════════════════
 
-    private enum Tab { CODE, DIFF, PLAN, CHAT }
+    /**
+     * Tab identifiers with their display labels.
+     */
+    private enum Tab {
+        CODE("󰈮 Code"),
+        DIFF("󰦒 Diff"),
+        PLAN("󰔚 Plan"),
+        CHAT("󰭻 Chat");
+
+        private final String label;
+
+        Tab(String label) {
+            this.label = label;
+        }
+
+        String label() {
+            return label;
+        }
+    }
+
     private enum Focus { SIDEBAR, CONTENT }
+
+    /**
+     * Bundled state for immutable model transitions.
+     */
+    private record ViewState(
+            Tab activeTab,
+            int width,
+            int height,
+            Model spinner,
+            Map<Tab, Viewport> viewports
+    ) {}
 
     private final List<Tab> tabs = List.of(Tab.CODE, Tab.DIFF, Tab.PLAN, Tab.CHAT);
     private Tab activeTab;
@@ -185,9 +228,7 @@ public class PulseExample implements Model {
 
     // Sub-models
     private Model spinner;
-    private Viewport chatViewport;
-    private Viewport codeViewport;
-    private Viewport diffViewport;
+    private final Map<Tab, Viewport> viewports = new EnumMap<>(Tab.class);
 
     // Command palette state
     private boolean paletteOpen;
@@ -227,33 +268,29 @@ public class PulseExample implements Model {
     }
 
     private void initializeViewports() {
-        // Chat viewport with conversation
-        this.chatViewport = new Viewport();
-
-        // Code viewport with sample code
-        this.codeViewport = new Viewport();
-
-        // Diff viewport with sample diff
-        this.diffViewport = new Viewport();
+        viewports.put(Tab.CODE, new Viewport());
+        viewports.put(Tab.DIFF, new Viewport());
+        viewports.put(Tab.CHAT, new Viewport());
     }
 
-    private PulseExample(List<Tab> tabs, Tab activeTab, int width, int height, Model spinner, Viewport chatViewport, Viewport codeViewport, Viewport diffViewport) {
-        this.activeTab = activeTab;
-        this.width = width;
-        this.height = height;
-        this.spinner = spinner;
-        this.chatViewport = chatViewport;
-        this.codeViewport = codeViewport;
-        this.diffViewport = diffViewport;
+    private PulseExample(ViewState state) {
+        this.activeTab = state.activeTab();
+        this.width = state.width();
+        this.height = state.height();
+        this.spinner = state.spinner();
+        this.viewports.putAll(state.viewports());
     }
 
     @Override
     public Command init() {
         // Defer content generation until after program start (when TerminalInfo is ready)
-        this.chatViewport.setContent(generateChatContent());
-        this.codeViewport.setContent(generateCodeContent());
-        this.diffViewport.setContent(generateDiffContent());
-        return spinner.init();
+        viewports.get(Tab.CHAT).setContent(generateChatContent());
+        viewports.get(Tab.CODE).setContent(generateCodeContent());
+        viewports.get(Tab.DIFF).setContent(generateDiffContent());
+        return Command.batch(
+            spinner.init(),
+            Command.setWindowTitle("Pulse")
+        );
     }
 
     @Override
@@ -284,11 +321,11 @@ public class PulseExample implements Model {
 
                 case "tab", "l":
                     activeTab = nextTab();
-                    return UpdateResult.from(new PulseExample(tabs, activeTab, width, height, spinner, chatViewport, codeViewport, diffViewport));
+                    return UpdateResult.from(new PulseExample(new ViewState(activeTab, width, height, spinner, viewports)));
 
                 case "shift+tab", "h":
                     activeTab = prevTab();
-                    return UpdateResult.from(new PulseExample(tabs, activeTab, width, height, spinner, chatViewport, codeViewport, diffViewport));
+                    return UpdateResult.from(new PulseExample(new ViewState(activeTab, width, height, spinner, viewports)));
 
                 case "1":
                     activeTab = Tab.CODE;
@@ -392,16 +429,10 @@ public class PulseExample implements Model {
         sb.append(LOGO_STYLE.render(" ⚡ PULSE "));
         sb.append(TAB_SEPARATOR.render("│"));
 
-        // Tabs
+        // Tabs - labels defined in Tab enum
         for (Tab tab : tabs) {
             Style style = (tab == activeTab) ? TAB_ACTIVE : TAB_INACTIVE;
-            String label = switch (tab) {
-                case CODE -> "󰈮 Code";
-                case DIFF -> "󰦒 Diff";
-                case PLAN -> "󰔚 Plan";
-                case CHAT -> "󰭻 Chat";
-            };
-            sb.append(style.render(label));
+            sb.append(style.render(tab.label()));
         }
 
         // Fill remaining width
@@ -416,7 +447,7 @@ public class PulseExample implements Model {
     }
 
     private String renderMainContent() {
-        int contentHeight = Math.max(MIN_CONTENT_HEIGHT, height - TAB_BAR_HEIGHT - STATUS_BAR_HEIGHT - 2);
+        int contentHeight = Math.max(LAYOUT.minContentHeight(), height - LAYOUT.tabBarHeight() - LAYOUT.statusBarHeight() - 2);
 
         String sidebar = renderSidebar(contentHeight);
         String content = renderContentPane(contentHeight);
@@ -426,10 +457,11 @@ public class PulseExample implements Model {
 
     private String renderSidebar(int height) {
         StringBuilder sb = new StringBuilder();
+        int sidebarWidth = LAYOUT.sidebarWidth();
 
         // Header
         sb.append(PANEL_HEADER.render("  FILES")).append("\n");
-        sb.append(Style.newStyle().foreground(BORDER_DIM).render("─".repeat(SIDEBAR_WIDTH - 4))).append("\n");
+        sb.append(Style.newStyle().foreground(BORDER_DIM).render("─".repeat(sidebarWidth - 4))).append("\n");
 
         // File tree
         sb.append(renderFileTree());
@@ -437,12 +469,12 @@ public class PulseExample implements Model {
         // Changes section
         sb.append("\n");
         sb.append(PANEL_HEADER.render("  CHANGES")).append("\n");
-        sb.append(Style.newStyle().foreground(BORDER_DIM).render("─".repeat(SIDEBAR_WIDTH - 4))).append("\n");
+        sb.append(Style.newStyle().foreground(BORDER_DIM).render("─".repeat(sidebarWidth - 4))).append("\n");
         sb.append(renderChanges());
 
         Style sidebarStyle = (focus == Focus.SIDEBAR) ? PANEL_FOCUSED : PANEL_STYLE;
         return sidebarStyle
-                .width(SIDEBAR_WIDTH)
+                .width(sidebarWidth)
                 .height(height)
                 .render(sb.toString());
     }
@@ -472,14 +504,11 @@ public class PulseExample implements Model {
     }
 
     private String renderContentPane(int height) {
-        int contentWidth = Math.max(20, width - SIDEBAR_WIDTH - 4);
+        int contentWidth = Math.max(20, width - LAYOUT.sidebarWidth() - 4);
 
-        String content = switch (activeTab) {
-            case CODE -> codeViewport.view();
-            case DIFF -> diffViewport.view();
-            case PLAN -> renderPlanView();
-            case CHAT -> chatViewport.view();
-        };
+        // PLAN tab has custom rendering; others use viewports map
+        Viewport viewport = viewports.get(activeTab);
+        String content = (viewport != null) ? viewport.view() : renderPlanView();
 
         Style paneStyle = (focus == Focus.CONTENT) ? PANEL_FOCUSED : PANEL_STYLE;
         return paneStyle
@@ -561,8 +590,8 @@ public class PulseExample implements Model {
         sb.append("\n");
         sb.append(PALETTE_KEY.render("  ↑↓ navigate  ⏎ select  esc close"));
 
-        int paletteWidth = 40;
-        int paletteHeight = paletteCommands.size() + 6;
+        int paletteWidth = LAYOUT.paletteWidth();
+        int paletteHeight = paletteCommands.size() + LAYOUT.paletteVerticalPadding();
         String palette = PALETTE_BG
                 .width(paletteWidth)
                 .height(paletteHeight)
@@ -691,15 +720,13 @@ public class PulseExample implements Model {
     }
 
     private void resizeViewports() {
-        int vpHeight = Math.max(5, height - TAB_BAR_HEIGHT - STATUS_BAR_HEIGHT - 6);
-        int vpWidth = Math.max(20, width - SIDEBAR_WIDTH - 8);
+        int vpHeight = Math.max(5, height - LAYOUT.tabBarHeight() - LAYOUT.statusBarHeight() - 6);
+        int vpWidth = Math.max(20, width - LAYOUT.sidebarWidth() - 8);
 
-        chatViewport.setWidth(vpWidth);
-        chatViewport.setHeight(vpHeight);
-        codeViewport.setWidth(vpWidth);
-        codeViewport.setHeight(vpHeight);
-        diffViewport.setWidth(vpWidth);
-        diffViewport.setHeight(vpHeight);
+        for (Viewport vp : viewports.values()) {
+            vp.setWidth(vpWidth);
+            vp.setHeight(vpHeight);
+        }
     }
 
     private void scrollActiveViewport(int delta) {
@@ -728,12 +755,7 @@ public class PulseExample implements Model {
     }
 
     private Viewport getActiveViewport() {
-        return switch (activeTab) {
-            case CODE -> codeViewport;
-            case DIFF -> diffViewport;
-            case CHAT -> chatViewport;
-            default -> null;
-        };
+        return viewports.get(activeTab);
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
