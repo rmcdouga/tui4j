@@ -1,10 +1,9 @@
 package com.williamcallahan.tui4j.compat.bubbles.help;
 
+import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
 import com.williamcallahan.tui4j.compat.lipgloss.Position;
 import com.williamcallahan.tui4j.compat.lipgloss.Size;
 import com.williamcallahan.tui4j.compat.lipgloss.join.HorizontalJoinDecorator;
-import com.williamcallahan.tui4j.compat.bubbles.key.Binding;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,7 +67,11 @@ public class Help {
 
         List<String> out = new LinkedList<>();
         int totalWidth = 0;
-        String separator = styles.getShortSeparator().copy().inline(true).render(fullSeparator);
+        String separator = styles
+            .getFullSeparator()
+            .copy()
+            .inline(true)
+            .render(fullSeparator);
 
         for (int i = 0; i < groups.length; i++) {
             Binding[] group = groups[i];
@@ -95,11 +98,11 @@ public class Help {
 
             // Column
             String col = HorizontalJoinDecorator.joinHorizontal(
-                    Position.Top,
-                    sep,
-                    styles.getFullKey().render(String.join("\n", keys)),
-                    " ",
-                    styles.getFullDesc().render(String.join("\n", descriptions))
+                Position.Top,
+                sep,
+                styles.getFullKey().render(String.join("\n", keys)),
+                " ",
+                styles.getFullDesc().render(String.join("\n", descriptions))
             );
             int w = Size.width(col);
 
@@ -115,8 +118,8 @@ public class Help {
             out.add(col);
         }
         return HorizontalJoinDecorator.joinHorizontal(
-                Position.Top,
-                out.toArray(new String[0])
+            Position.Top,
+            out.toArray(new String[0])
         );
     }
 
@@ -148,7 +151,11 @@ public class Help {
 
         StringBuilder b = new StringBuilder();
         int totalWidth = 0;
-        String separator = styles.getShortSeparator().copy().inline(true).render(shortSeparator);
+        String separator = styles
+            .getShortSeparator()
+            .copy()
+            .inline(true)
+            .render(shortSeparator);
 
         for (int i = 0; i < bindings.length; i++) {
             Binding kb = bindings[i];
@@ -163,9 +170,19 @@ public class Help {
             }
 
             // Item
-            String str = sep +
-                    styles.getShortKey().copy().inline(true).render(kb.help().key()) + " " +
-                    styles.getShortDesc().copy().inline(true).render(kb.help().desc());
+            String str =
+                sep +
+                styles
+                    .getShortKey()
+                    .copy()
+                    .inline(true)
+                    .render(kb.help().key()) +
+                " " +
+                styles
+                    .getShortDesc()
+                    .copy()
+                    .inline(true)
+                    .render(kb.help().desc());
             int w = Size.width(str);
 
             // Tail
@@ -194,7 +211,9 @@ public class Help {
     private Result shouldAddItem(int totalWidth, int width) {
         String tail = "";
         if (this.width > 0 && totalWidth + width > this.width) {
-            tail = " " + styles.getEllipsis().copy().inline(true).render(this.ellipsis);
+            tail =
+                " " +
+                styles.getEllipsis().copy().inline(true).render(this.ellipsis);
             if (totalWidth + Size.width(tail) < this.width) {
                 return new Result(false, tail);
             }
@@ -236,6 +255,5 @@ public class Help {
      * @param ok whether the item fits
      * @param tail rendered tail content
      */
-    record Result(boolean ok, String tail) {
-    }
+    record Result(boolean ok, String tail) {}
 }
