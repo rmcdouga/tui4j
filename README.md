@@ -60,7 +60,7 @@ See the [examples](src/main/resources/examples) including lists, text inputs, sp
 
 **Using TUI4J in your project?** We'd love to feature it! [Open an issue](https://github.com/WilliamAGH/tui4j/issues/new?title=Add%20project%20to%20Built%20with%20TUI4J&labels=showcase) or submit a PR.
 
-## Compatibility with Charm Bracelet
+## Compatibility with Charmbracelet
 
 TUI4J ports the [charmbracelet](https://github.com/charmbracelet) ecosystem to Java:
 
