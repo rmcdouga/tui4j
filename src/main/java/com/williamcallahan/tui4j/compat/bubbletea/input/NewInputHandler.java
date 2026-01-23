@@ -184,19 +184,22 @@ public class NewInputHandler implements InputHandler {
                 return processControlSequence(input);
             }
 
+            // Try to match the full input as an extended sequence first
             Key key = ExtendedSequences.getKey(new String(input));
             if (key != null) {
                 messageConsumer.accept(new KeyPressMessage(key));
                 return input.length;
             }
 
-            // If there's no control sequence, treat ESC as Alt modifier
-            if (input.length == 2) {
-                messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[] { input[1] }, true)));
+            // ESC followed by a printable character is Alt+char, regardless of buffer length
+            // This handles cases where additional input is buffered after the Alt sequence
+            char altChar = input[1];
+            if (altChar >= 0x20 && altChar < 0x7F) {
+                messageConsumer.accept(new KeyPressMessage(new Key(KeyType.KeyRunes, new char[] { altChar }, true)));
                 return 2;
             }
 
-            // If it's just ESC with no following characters, treat it as standalone ESC
+            // Unknown sequence starting with ESC - treat ESC as standalone
             messageConsumer.accept(new KeyPressMessage(new Key(KeyAliases.getKeyType(KeyAliases.KeyAlias.KeyEscape))));
             return 1;
         }
