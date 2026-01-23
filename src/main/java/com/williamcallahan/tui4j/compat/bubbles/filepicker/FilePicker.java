@@ -250,6 +250,7 @@ public class FilePicker implements Model {
 
     /**
      * Sets terminal size for layout calculations.
+     * Clamps selection indices to prevent desync after resize.
      *
      * @param width terminal width in columns
      * @param height terminal height in rows
@@ -258,7 +259,11 @@ public class FilePicker implements Model {
         if (this.autoHeight) {
             this.height = Math.max(0, height - MARGIN_BOTTOM);
         }
-        this.max = computeMaxIndex();
+        int lastIndex = Math.max(0, this.files.size() - 1);
+        this.selected = Math.min(this.selected, lastIndex);
+        this.min = Math.min(this.min, this.selected);
+        int updatedMax = Math.max(this.min, this.min + this.height - 1);
+        this.max = Math.min(lastIndex, Math.max(0, updatedMax));
     }
 
     /**
@@ -308,10 +313,15 @@ public class FilePicker implements Model {
         if (handleNavigation(keyMsg)) {
             return UpdateResult.from(this);
         } else if (Binding.matches(keyMsg, keyMap.back())) {
-            this.currentDirectory =
-                Path.of(this.currentDirectory).getParent() != null
-                    ? Path.of(this.currentDirectory).getParent().toString()
-                    : ".";
+            Path current = Path.of(this.currentDirectory);
+            Path parent = current.getParent();
+            if (parent != null) {
+                this.currentDirectory = parent.toString();
+            } else if (current.isAbsolute() && current.getRoot() != null) {
+                // At filesystem root; stay put (matches Go filepath.Dir behavior)
+                this.currentDirectory = current.getRoot().toString();
+            }
+            // Relative path with no parent stays unchanged
             if (this.selectedStack.length() > 0) {
                 this.selected = this.selectedStack.pop();
                 this.min = this.minStack.pop();
